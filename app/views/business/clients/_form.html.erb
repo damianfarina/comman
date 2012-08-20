@@ -1,0 +1,12 @@
+<%= simple_form_for [:business, @client] do |f| %>
+  <%= f.error_notification %>
+
+  <div class="inputs">
+    <%= f.input :full_name %>
+    <%= f.input :address %>
+  </div>
+
+  <div class="actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+  </div>
+<% end %>

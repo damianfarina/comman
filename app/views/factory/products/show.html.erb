@@ -1,0 +1,30 @@
+<% content_for :secondary_navigation do %>
+  <li><%= link_to t(:index, :scope => [:menu]), factory_products_path %></li>
+  <li><%= link_to t(:new, :scope => [:menu]), new_factory_product_path %></li>
+  <li class="active"><a href="#"><%= t(:show, :scope => [:menu]) %></a></li>
+  <li><%= link_to t(:edit, :scope => [:menu]), edit_factory_product_path(@product) %></li>
+<% end %>
+
+<div class="row">
+  <div class="span3">
+    <label class="label"><%= Product.human_attribute_name :name %>:</label>
+    <p><%= @product.name %></p>
+
+    <label class="label"><%= Product.human_attribute_name :price %>:</label>
+    <p><%= number_to_currency @product.price %></p>
+
+    <label class="label"><%= Product.human_attribute_name :formula %>:</label>
+    <p><%= @product.formula_name %></p>
+
+  </div>
+  <div class="span3">
+    <label class="label"><%= Product.human_attribute_name :weight %>:</label>
+    <p><%= @product.weight %></p>
+
+    <label class="label"><%= Product.human_attribute_name :size %>:</label>
+    <p><%= @product.size %></p>
+
+    <label class="label"><%= Product.human_attribute_name :pressure %>:</label>
+    <p><%= @product.pressure %></p>
+  </div>
+</div>

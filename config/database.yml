@@ -1,0 +1,13 @@
+development:
+  adapter: postgresql
+  database: comman_damian
+  host: localhost
+  username: postgres
+  password: postgres
+
+production:
+  adapter: postgresql
+  database: comman
+  host: localhost
+  username: postgres
+  password: postgres

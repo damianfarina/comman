@@ -1,0 +1,59 @@
+<%= simple_form_for [:factory, @formula], :html => {:novalidate => true, :class => 'form-inline'} do |f| %>
+  <% if @formula.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% @formula.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="span4">
+      <%= f.input :abrasive, input_html: { class: 'span4' } %>
+      <%= f.input :grain, input_html: { class: 'span4' } %>
+      <%= f.input :hardness, input_html: { class: 'span4' } %>
+      <%= f.input :porosity, input_html: { class: 'span4' } %>
+      <%= f.input :alloy, input_html: { class: 'span4' } %>
+    </div>
+    <div class="span5">
+      <table id="formula_items_list" class="table">
+        <thead>
+          <tr>
+            <th class="span4"><%= FormulaItem.human_attribute_name :formula_element_id %></th>
+            <th class="span1"><%= FormulaItem.human_attribute_name :proportion %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th><%= link_to_add_fields t("actions.add"), f, :formula_items %></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </tfoot>
+        <tbody class="new-fields-container">
+          <% @formula.formula_items.order('proportion DESC').each do |fi| %>
+            <%= f.simple_fields_for :formula_items, fi do |builder| %>
+              <%= render 'formula_item_fields', f: builder %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t(:delete, :scope => [:actions]), factory_formula_path(@formula), :method => :delete, :confirm => t("messages.are_you_sure"), :class => 'btn btn-danger pull-right' unless @formula.new_record? %>
+  </div>
+<% end %>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('select.proportion').chosen();
+    });
+  </script>
+<% end %>

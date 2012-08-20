@@ -1,0 +1,98 @@
+@media print {
+  html {
+    font-family: helvetica, sans-serif;
+
+    body.printing {
+      .separator {
+        border: 2px dashed black;
+        margin:10px;
+        clear: both;
+      }
+      .amount {
+        text-align: right;
+      }
+      .comments pre {
+        border: 0;
+        font-weight: normal;
+        font-size: 80%;
+        min-height: 30px;
+      }
+      .comments pre.vertical {
+        min-height: 120px;
+      }
+      span.highlight {
+        font-size: 150%;
+      }
+      table.small {
+        max-width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin-bottom:5px;
+      }
+      table.full {
+        max-width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        margin-bottom:5px;
+      }
+      table.layout {
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin:0;
+        padding:0;
+        border:0;
+      }
+      table.layout > tbody > tr > td, table.layout > tbody > tr > th {
+        border:0;
+        vertical-align: top;
+        padding-left: 10px;
+      }
+      table.layout > tbody > tr > td:first-child, table.layout > tbody > tr > th:first-child {
+        padding-left: 0px;
+      }
+      table.layout.full {
+        width: 100%;
+      }
+      table.layout.full > tbody > tr > td.smaller-as-it-can {
+        width: 1px;
+      }
+      table th.title {
+        width:100%;
+        text-align: left;
+      }
+      table th.amount {
+        text-align: right;
+      }
+      table th {
+        white-space: nowrap;
+        border: 2px solid black;
+        padding: 0 5px 0 5px;
+      }
+      table td {
+        border: 2px solid black;
+        vertical-align: top;
+      }
+      .note {
+        font-size: 10px;
+        font-style: italic;
+      }
+      .block {
+        min-height: 650px;
+        &.last {
+          min-height: 0;
+        }
+      }
+      pre {
+        white-space: pre-wrap;       /* css-3 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+      }
+      .nowrap {
+        white-space: nowrap;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<%= simple_form_for [:factory, @product] do |f| %>
+  <%= f.error_notification %>
+
+  <div class="inputs">
+    <%= content_tag :h4, @product.name unless @product.new_record? -%>
+    <%= f.input :formula_id, :collection => formulas_for_select, :input_html => { :class =>  'span4' } %>
+    <%= f.input :shape, :input_html => { :class =>  'span4' } %>
+    <%= f.input :size, :input_html => { :class =>  'span4' } %>
+    <%= f.input :weight, :input_html => { :class =>  'span4' } %>
+    <%= f.input :pressure, :input_html => { :class =>  'span4' } %>
+    <%= f.input :price, :input_html => { :class =>  'span4' } %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t(:delete, :scope => [:actions]), factory_product_path(@product), :method => :delete, :confirm => t("messages.are_you_sure"), :class => 'btn btn-danger pull-right' unless @product.new_record? %>
+  </div>
+<% end %>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    $(function(){
+      $('#product_formula_id').chosen();
+    })
+  </script>
+<% end %>

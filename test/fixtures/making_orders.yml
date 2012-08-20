@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  formula_id: 1
+  total_weight: 9.99
+  weight_per_round: 9.99
+  rounds_count: 1
+  comments: MyText
+
+two:
+  formula_id: 1
+  total_weight: 9.99
+  weight_per_round: 9.99
+  rounds_count: 1
+  comments: MyText

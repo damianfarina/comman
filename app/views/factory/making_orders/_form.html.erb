@@ -1,0 +1,51 @@
+<%= simple_form_for [:factory, @making_order] do |f| %>
+  <% if @making_order.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% @making_order.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="span5">
+      <%= f.input :mixer_capacity, :as => :decimal, :input_html => { :value => 60, :class => 'span1' } %>
+      <table id="formula_items_list" class="table">
+        <thead>
+          <tr>
+            <th class="span4"><%= MakingOrderItem.human_attribute_name :name %></th>
+            <th class="span1"><%= MakingOrderItem.human_attribute_name :quantity %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th colspan="3"><%= link_to_add_fields t(:add, :scope => [:actions]), f, :making_order_items %></th>
+          </tr>
+        </tfoot>
+        <tbody class="new-fields-container">
+          <% @making_order.making_order_items.each do |fi| %>
+            <%= f.simple_fields_for :making_order_items, fi do |builder|%>
+              <%= render 'making_order_item_fields', :f => builder %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="span5">
+      <%= f.input :comments, input_html: { :class => 'span5' } %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+  </div>
+<% end %>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    Comman.factory_making_orders.options.source = '<%= autocomplete_factory_products_path %>';
+  </script>
+<% end %>

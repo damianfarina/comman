@@ -1,0 +1,10 @@
+<tr>
+  <td><%= f.input :formula_element_id, label: false, collection: formula_elements_for_select, input_html: { class: 'span4 proportion' } %></td>
+  <td><%= f.input :proportion, label: false, input_html: { class: 'span1' } %></td>
+  <td>
+    <%= link_to_remove_field "&times".html_safe, f,  class: 'close' %>
+  </td>
+</tr>
+<script type="text/javascript">
+  $('select.proportion').chosen();
+</script>

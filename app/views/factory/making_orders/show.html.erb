@@ -1,0 +1,82 @@
+<% content_for :secondary_navigation do %>
+  <li><%= link_to t(:index, :scope => [:menu]), factory_making_orders_path %></li>
+  <li><%= link_to t(:new, :scope => [:menu]), new_factory_making_order_path %></li>
+  <li class="active"><a href="#"><%= t(:show, :scope => [:menu]) %></a></li>
+  <li><%= link_to t(:edit, :scope => [:menu]), edit_factory_making_order_path(@making_order) %></li>
+<% end %>
+
+<div class="row">
+  <div class="span2">
+    <p>
+      <label class="label"><%= MakingOrder.human_attribute_name :formula %></label>
+      <%= link_to @making_order.making_order_formula.formula_name, factory_formula_path(@making_order.making_order_formula) %>
+    </p>
+
+    <p>
+      <label class="label"><%= MakingOrder.human_attribute_name :total_weight %></label>
+      <%= number_with_precision @making_order.total_weight %>
+    </p>
+
+    <p>
+      <label class="label"><%= MakingOrder.human_attribute_name :weight_per_round %></label>
+      <%= number_with_precision @making_order.weight_per_round %>
+    </p>
+
+    <p>
+      <label class="label"><%= MakingOrder.human_attribute_name :rounds_count %></label>
+      <%= @making_order.rounds_count %>
+    </p>
+  </div>
+
+  <div class="span8">
+    <p>
+      <label class="label"><%= MakingOrder.human_attribute_name :comments %></label>
+      <%= @making_order.comments %>
+    </p>
+  </div>
+</div>
+<hr>
+<div class="row">
+
+  <div class="span5">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @making_order.making_order_items.each do |item| %>
+          <tr>
+            <td><%= link_to item.product_name, factory_product_path(item.product) %></td>
+            <td class="span1 amount"><%= item.quantity %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="span5">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Tipo y grano</th>
+          <th class="amount">Peso (kg)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @making_order.making_order_formula.making_order_formula_items.each do |item| %>
+          <tr>
+            <td><%= item.formula_element_name %></td>
+            <td class="amount"><%= formula_item_weight_per_round(item.proportion, @making_order.weight_per_round) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="well">
+  <%= link_to t(:print, :scope => :actions), factory_making_order_path(:format => :pdf), :class => 'btn btn-large btn-success' %>
+</div>

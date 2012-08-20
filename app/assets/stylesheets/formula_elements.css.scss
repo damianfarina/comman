@@ -1,0 +1,8 @@
+@import "mixins";
+
+.formula-element-chart {
+	display: inline-block;
+  height: 25px;
+  width: 100%;
+  @include all_rounded(50px);
+}

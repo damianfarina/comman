@@ -1,0 +1,2 @@
+module Factory::ProductsHelper
+end

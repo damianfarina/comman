@@ -1,0 +1,62 @@
+@import "mixins";
+
+$greenDarker: #0F6128;
+$greenDark: #0D784C;
+$greenLight: #DDEED6;
+$linkColor: $greenDark;
+$navbarBackground: $greenDarker;
+$navbarBackgroundHighlight: $greenDark;
+$btnPrimaryBackground: #08c;
+$btnPrimaryBackgroundHighlight: #05c;
+$baseFontSize: 15px;
+$baseLineHeight: 20px;
+
+html {
+  body#comman {
+    padding-top: 40px;
+    .navbar {
+      .nav > li > a {
+        text-transform: uppercase;
+        color: white;
+      }
+    }
+
+    .sidebar {
+      padding-top: 20px;
+      position: fixed;
+      .nav-list {
+        padding-left: 0;
+        a {
+          @include all_rounded(5px);
+        }
+        li + .nav-header {
+          margin-top: 0px;
+        }
+      }
+    }
+    .content {
+      #secondary_navigation {
+        z-index: 1;
+        padding-top: 20px;
+        position: fixed;
+        background-color: white;
+        border-bottom: 1px solid $greenLight;
+      }
+      .main {
+        padding-top: 20px;
+        min-height: 500px;
+        &.content-with-secondary-toolbar {
+          padding-top: 90px;
+        }
+      }
+    }
+    .amount {
+      text-align: right;
+    }
+    footer {
+      border-top: 1px solid #2C2C2C;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+  }
+}

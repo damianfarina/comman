@@ -1,0 +1,31 @@
+<% content_for :secondary_navigation do %>
+  <li class="active"><a href="#"><%= t :index, :scope => [:menu] %></a></li>
+  <li><%= link_to t(:new, :scope => [:menu]), new_factory_formula_element_path %></li>
+  <li style="display: none;"><%= link_to t(:join, :scope => [:menu]), join_factory_formula_elements_path, :id => "join_formula_elements_button" %></li>
+<% end %>
+
+<table id="formula_elements_list" class="table">
+  <thead>
+    <tr>
+      <th class="span1"></th>
+      <th><%= FormulaElement.human_attribute_name :name %></th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @formula_elements.each do |formula_element| %>
+      <tr>
+        <td>
+          <label class="checkbox inline">
+            <%= check_box_tag "element_ids[#{formula_element.id}]", 1, false, :data => { :element_id => formula_element.id} %>
+            <%= formula_element.id %>
+          </label>
+        </td>
+        <td><%= link_to formula_element.name, factory_formula_element_path(formula_element) %></td>
+        <td style="width: 100%">
+          <a href="<%= factory_formula_element_path formula_element %>" rel="tooltip" title="<%= number_with_precision formula_element.current_stock %>" style="background-color: <%= calculate_percentage_color(formula_element) %>; width: <%= calculate_percentage_width(formula_element) %>%" class="formula-element-chart"></a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

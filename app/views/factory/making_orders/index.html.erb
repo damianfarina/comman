@@ -1,0 +1,29 @@
+<% content_for :secondary_navigation do %>
+  <li class="active"><a href="#"><%= t :index, :scope => [:menu] %></a></li>
+  <li><%= link_to t(:new, :scope => [:menu]), new_factory_making_order_path %></li>
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="span1"></th>
+      <th><%= MakingOrder.human_attribute_name :formula %></th>
+      <th><%= MakingOrder.human_attribute_name :total_weight %></th>
+      <th>Weight per round</th>
+      <th>Rounds count</th>
+      <th class="span5">Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @making_orders.each do |making_order| %>
+    <tr>
+      <td><%= link_to "##{making_order.id}", factory_making_order_path(making_order) %></td>
+      <td class="amount"><%= making_order.formula_name %></td>
+      <td class="amount"><%= number_with_precision making_order.total_weight %></td>
+      <td class="amount"><%= number_with_precision making_order.weight_per_round %></td>
+      <td class="amount"><%= making_order.rounds_count %></td>
+      <td><%= truncate making_order.comments, :length => 55 %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,8 @@
+<tr>
+  <td><%= f.input :autocomplete_product_name, :label => false, :as => 'string', :input_html => { :class => 'autocomplete' } %>
+    <%= f.input :product_id, :as => 'hidden' %></td>
+  <td><%= f.input :quantity, :label => false, :input_html => { :class => 'input-mini' } %></td>
+  <td>
+    <%= link_to_remove_field "&times".html_safe, f,  :class => 'close' %>
+  </td>
+</tr>
