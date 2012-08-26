@@ -5,13 +5,11 @@ class MakingOrder < ActiveRecord::Base
   accepts_nested_attributes_for :making_order_items,
     :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }
 
-  attr_accessor :mixer_capacity
-
   validates :making_order_formula,
     :making_order_items,
     :mixer_capacity,
     :presence => true
-
+  validates :mixer_capacity, :numericality => { :greater_than => 1}, :if => 'mixer_capacity.present?'
   validate :products_belongs_to_the_same_formula, :if => :are_there_valid_products?
 
   before_validation :build_making_order_formula_if_needed
@@ -44,11 +42,11 @@ private
   end
 
   def calculate_rounds_count
-    self.rounds_count = (total_weight / mixer_capacity.to_f).ceil
+    self.rounds_count = (self.total_weight / self.mixer_capacity).ceil
   end
 
   def calculate_weight_per_round
-    self.weight_per_round = total_weight / rounds_count
+    self.weight_per_round = self.total_weight / self.rounds_count
   end
 
   def need_formula_and_is_available?
