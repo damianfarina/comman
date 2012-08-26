@@ -105,4 +105,11 @@ class Factory::FormulaElementsController < Factory::FactoryController
       end
     end
   end
+
+  def autocomplete
+    @elements = FormulaElement.name_or_id_contains(params['term']).select("id, name").limit(10)
+    respond_to do |format|
+      format.json { render :json => @elements.map { |item| {:id => item.id, :value => item.name} } }
+    end
+  end
 end

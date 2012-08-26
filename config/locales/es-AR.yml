@@ -202,7 +202,7 @@ es-AR:
         making_order:
           products_formula_is_different: Algunos productos no tienen la misma fórmula
         formula:
-          items_proportion_should_be_100: La suma de las proporciones debe ser 100. La diferencia es %{difference}
+          items_proportion_should_be_100: La suma de los porcentajes debe ser 100. La diferencia es %{difference}
     models:
       client:
         one: Cliente

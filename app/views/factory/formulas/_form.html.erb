@@ -34,10 +34,8 @@
           </tr>
         </tfoot>
         <tbody class="new-fields-container">
-          <% @formula.formula_items.order('proportion DESC').each do |fi| %>
-            <%= f.simple_fields_for :formula_items, fi do |builder| %>
-              <%= render 'formula_item_fields', f: builder %>
-            <% end %>
+            <%= f.simple_fields_for :formula_items, @formula.formula_items do |builder| %>
+              <%= render 'formula_item_fields', :f => builder %>
           <% end %>
         </tbody>
       </table>
@@ -52,8 +50,6 @@
 
 <% content_for :javascript do %>
   <script type="text/javascript">
-    $(document).ready(function(){
-      $('select.proportion').chosen();
-    });
+    Comman.factory_formulas.options.source = '<%= autocomplete_factory_formula_elements_path %>';
   </script>
 <% end %>

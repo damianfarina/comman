@@ -1,12 +1,20 @@
 class FormulaItem < ActiveRecord::Base
   belongs_to :formula
   belongs_to :formula_element
+  delegate :name, :to => :formula_element, :allow_nil => true, :prefix => true
   has_many :making_order_formula_items
 
   validates :proportion, :presence => true
   validates :formula_element_id, :presence => true
 
-  def formula_element_name
-    self.formula_element.try(:name)
+  attr_accessor :autocomplete_formula_element_name
+
+  def autocomplete_formula_element_name
+    self.formula_element_name
   end
+
+  def autocomplete_formula_element_name=(value)
+    @autocomplete_formula_element_name = value
+  end
+
 end

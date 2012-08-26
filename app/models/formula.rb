@@ -1,6 +1,6 @@
 class Formula < ActiveRecord::Base
   has_many :products, :dependent => :destroy
-  has_many :formula_items, :dependent => :destroy
+  has_many :formula_items, :order => "proportion DESC", :dependent => :destroy
   has_many :formula_elements, :through => :formula_items
 
   accepts_nested_attributes_for :formula_items,
@@ -18,7 +18,7 @@ class Formula < ActiveRecord::Base
   def items_proportion_is_one_hundred
     difference = 100.0
     difference = self.formula_items.inject(difference) { |result, item| result -= (item.proportion || 0)  }
-    errors[:base] << I18n.t(:items_proportion_should_be_100, :scope => [:activerecord, :errors, :models, :formula], :difference => difference) unless (difference.abs < 0.0001)
+    errors[:base] << I18n.t(:items_proportion_should_be_100, :scope => [:activerecord, :errors, :models, :formula], :difference => difference.round(3)) unless (difference.abs < 0.01)
   end
 
   def set_name

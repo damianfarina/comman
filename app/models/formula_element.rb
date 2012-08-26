@@ -8,6 +8,7 @@ class FormulaElement < ActiveRecord::Base
   validates :current_stock, :numericality => true, :if => 'self.current_stock.blank? and !self.infinite?'
 
   scope :missing_first, order('current_stock / min_stock')
+  scope :name_or_id_contains, lambda {|part| where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
 
   def join_with(elements)
     elements.each do |element|
@@ -31,5 +32,13 @@ class FormulaElement < ActiveRecord::Base
     result = 0 if result < 0
     result = 100 if result > 100
     result
+  end
+  
+private
+  def self.get_id_from_search(search)
+    return 0 if search.blank?
+    search = search.strip
+    return 0 if search[0] != '#'
+    return search.gsub('#', '').to_i
   end
 end
