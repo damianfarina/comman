@@ -4,25 +4,28 @@
 <% end %>
 
 <table class="table table-striped">
-  <tr>
-    <th class="amount span1"></th>
-    <th><%= Formula.human_attribute_name :name %></th>
-    <th><%= Formula.human_attribute_name :abrasive %></th>
-    <th><%= Formula.human_attribute_name :grain %></th>
-    <th><%= Formula.human_attribute_name :hardness %></th>
-    <th><%= Formula.human_attribute_name :porosity %></th>
-    <th><%= Formula.human_attribute_name :alloy %></th>
-  </tr>
-
-<% @formulas.each do |formula| %>
-  <tr>
-    <td class="amount"><%= formula.id %></td>
-    <td><%= link_to formula.name, factory_formula_path(formula) %></td>
-    <td><%= formula.abrasive %></td>
-    <td><%= formula.grain %></td>
-    <td><%= formula.hardness %></td>
-    <td><%= formula.porosity %></td>
-    <td><%= formula.alloy %></td>
-  </tr>
-<% end %>
+  <thead>
+    <tr>
+      <th class="amount span1"></th>
+      <th><%= Formula.human_attribute_name :name %></th>
+      <th><%= Formula.human_attribute_name :abrasive %></th>
+      <th><%= Formula.human_attribute_name :grain %></th>
+      <th><%= Formula.human_attribute_name :hardness %></th>
+      <th><%= Formula.human_attribute_name :porosity %></th>
+      <th><%= Formula.human_attribute_name :alloy %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @formulas.each do |formula| %>
+      <tr>
+        <td class="amount"><%= formula.id %></td>
+        <td><%= link_to formula.name, factory_formula_path(formula) %></td>
+        <td><%= formula.abrasive %></td>
+        <td><%= formula.grain %></td>
+        <td><%= formula.hardness %></td>
+        <td><%= formula.porosity %></td>
+        <td><%= formula.alloy %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
