@@ -18,7 +18,7 @@ Comman.factory_making_orders = function() {
     options: options,
     setupAutocomplete: setupAutocomplete
   }
-}()
+}();
 
 Comman.factory_making_orders.edit = function() {
   var init = function() {
@@ -29,7 +29,7 @@ Comman.factory_making_orders.edit = function() {
   return {
     init: init
   }
-}()
+}();
 
 Comman.factory_making_orders.create = Comman.factory_making_orders.edit;
 Comman.factory_making_orders.update = Comman.factory_making_orders.edit;
