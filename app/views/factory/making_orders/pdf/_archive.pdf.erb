@@ -78,11 +78,11 @@
           <% end %>
           <tr>
             <th><%= @making_order.rounds_count %> mezclas de</th>
-            <th><%= number_with_precision @making_order.weight_per_round %> kg</th>
+            <th class="amount"><%= number_with_precision @making_order.weight_per_round %> kg</th>
           </tr>
           <tr>
             <th>Total</th>
-            <th><%= number_with_precision @making_order.total_weight %> kg</th>
+            <th class="amount"><%= number_with_precision @making_order.total_weight %> kg</th>
           </tr>
         </tbody>
       </table>

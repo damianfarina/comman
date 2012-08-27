@@ -18,13 +18,9 @@ class Factory::MakingOrdersController < Factory::FactoryController
     @making_order = MakingOrder.find(params[:id])
 
     respond_to do |format|
-      format.html do
-        render 'show.html', :layout => true
-      end
+      format.html
       format.json { render :json => @making_order }
-      format.pdf do
-        render :pdf => "making_order_#{@making_order.id}"
-      end
+      format.pdf  { render :pdf  => "Orden_de_fabricacion_##{@making_order.id}" }
     end
   end
 

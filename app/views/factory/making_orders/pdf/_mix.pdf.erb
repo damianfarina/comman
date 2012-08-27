@@ -46,11 +46,11 @@
           <% end %>
           <tr>
             <th><%= @making_order.rounds_count %> mezclas de</th>
-            <th><%= number_with_precision @making_order.weight_per_round %> kg</th>
+            <th class="amount"><%= number_with_precision @making_order.weight_per_round %> kg</th>
           </tr>
           <tr>
             <th>Total</th>
-            <th><%= number_with_precision @making_order.total_weight %> kg</th>
+            <th class="amount"><%= number_with_precision @making_order.total_weight %> kg</th>
           </tr>
         </tbody>
       </table>
@@ -100,7 +100,9 @@
         <tbody>
           <tr>
             <th style="width: 1px">Observaciones</th>
-            <td class="comments"><pre><%= @making_order.comments %></pre></td>
+            <td class="comments">
+              <pre><%= @making_order.comments %></pre>
+            </td>
           </tr>
         </tbody>
       </table>
