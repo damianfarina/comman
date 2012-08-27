@@ -68,7 +68,7 @@
             type: 'pie',
             data: [
               <% @formula.formula_items.each do |item| %>
-                ['<%= item.formula_element_name %>', <%= number_with_precision item.proportion %> ],
+                ['<%= item.formula_element_name %>', <%= item.proportion %> ],
               <% end %>
             ]
           }]

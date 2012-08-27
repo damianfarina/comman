@@ -22,6 +22,9 @@ private
   end
 
   def set_name
-    self.name = (self.shape + self.size + self.formula_name + self.pressure).gsub(' ', '')
+    self.name = (self.shape + self.size + self.formula_name + self.pressure).gsub(' ', '') if self.shape.present? and
+      self.size.present? and
+      self.formula_name.present? and
+      self.pressure.present?
   end
 end
