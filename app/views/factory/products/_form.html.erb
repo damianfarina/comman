@@ -6,9 +6,9 @@
     <%= f.input :formula_id, :collection => formulas_for_select, :input_html => { :class =>  'span4' } %>
     <%= f.input :shape, :input_html => { :class =>  'span4' } %>
     <%= f.input :size, :input_html => { :class =>  'span4' } %>
-    <%= f.input :weight, :input_html => { :class =>  'span4' } %>
+    <%= f.input :weight, :as => :string, :input_html => { :class =>  'span4' } %>
     <%= f.input :pressure, :input_html => { :class =>  'span4' } %>
-    <%= f.input :price, :input_html => { :class =>  'span4' } %>
+    <%= f.input :price, :as => :string, :input_html => { :class =>  'span4' } %>
   </div>
 
   <div class="form-actions">
