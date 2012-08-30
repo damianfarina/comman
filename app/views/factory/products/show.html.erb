@@ -14,7 +14,7 @@
     <p><%= number_to_currency @product.price %></p>
 
     <label class="label"><%= Product.human_attribute_name :formula %>:</label>
-    <p><%= @product.formula_name %></p>
+    <p><b>#<%= @product.formula_id %></b> <%= link_to @product.formula_name, factory_formula_path(@product.formula) %></p>
 
   </div>
   <div class="span3">
