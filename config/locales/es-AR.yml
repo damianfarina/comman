@@ -270,6 +270,7 @@ es-AR:
         quantity: Cantidad
         name: Nombre del producto
       product:
+        id: ID
         formula_id: Fórmula
         shape: Forma
         size: Dimensiones

@@ -7,24 +7,32 @@
 
 <div class="row">
   <div class="span3">
+    <label class="label"><%= Product.human_attribute_name :id %>:</label>
+    <p>#<%= @product.id %></p>
+
     <label class="label"><%= Product.human_attribute_name :name %>:</label>
     <p><%= @product.name %></p>
 
-    <label class="label"><%= Product.human_attribute_name :price %>:</label>
-    <p><%= number_to_currency @product.price %></p>
-
     <label class="label"><%= Product.human_attribute_name :formula %>:</label>
-    <p><b>#<%= @product.formula_id %></b> <%= link_to @product.formula_name, factory_formula_path(@product.formula) %></p>
+    <p>
+      <%= link_to factory_formula_path(@product.formula) do %>
+        <b>#<%= @product.formula_id %></b>
+        <%= @product.formula_name %>
+      <% end %>
+    </p>
 
   </div>
   <div class="span3">
-    <label class="label"><%= Product.human_attribute_name :weight %>:</label>
-    <p><%= @product.weight %></p>
-
     <label class="label"><%= Product.human_attribute_name :size %>:</label>
     <p><%= @product.size %></p>
+    
+    <label class="label"><%= Product.human_attribute_name :weight %>:</label>
+    <p><%= number_with_precision @product.weight %>kg</p>
 
     <label class="label"><%= Product.human_attribute_name :pressure %>:</label>
     <p><%= @product.pressure %></p>
+
+    <label class="label"><%= Product.human_attribute_name :price %>:</label>
+    <p><%= number_to_currency @product.price %></p>
   </div>
 </div>
