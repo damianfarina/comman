@@ -8,7 +8,7 @@ class Product < ActiveRecord::Base
   scope :name_or_id_contains, lambda {|part| where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
 
   validates :shape, :size, :pressure, :weight, :formula_id, :presence => true
-  validates :name, :uniqueness => true
+  validate :name_is_unique, :unless => 'self.name.nil?'
 
   before_validation :set_name
 
@@ -26,5 +26,10 @@ private
       self.size.present? and
       self.formula_name.present? and
       self.pressure.present?
+  end
+
+  def name_is_unique
+    other_product = Product.find_by_name(self.name)
+    errors[:base] << I18n.t(:name_must_be_unique, :scope => [:activerecord, :errors, :models, :product], :other_product_id => other_product.id, :other_product_name => other_product.name) if other_product and other_product.id != self.id
   end
 end

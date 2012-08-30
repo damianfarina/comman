@@ -1,5 +1,13 @@
 <%= simple_form_for [:factory, @product] do |f| %>
-  <%= f.error_notification %>
+  <% if @product.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% @product.errors.full_messages.each do |msg| %>
+          <li><%= raw msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="inputs">
     <%= content_tag :h4, @product.name unless @product.new_record? -%>

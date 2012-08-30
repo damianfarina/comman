@@ -225,6 +225,8 @@ es-AR:
           products_formula_is_different: Algunos productos no tienen la misma fórmula
         formula:
           items_proportion_should_be_100: La suma de los porcentajes debe ser 100. La diferencia es %{difference}
+        product:
+          name_must_be_unique: Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>
     models:
       client:
         one: Cliente
@@ -249,6 +251,7 @@ es-AR:
         proportion: Porcentaje
         formula_element_id: Materia prima
       formula:
+        id: ID
         name: Nombre
         abrasive: Abrasivo
         grain: Grano
