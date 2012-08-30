@@ -1,6 +1,6 @@
 class Formula < ActiveRecord::Base
   has_many :products, :dependent => :destroy
-  has_many :formula_items, :order => "proportion DESC", :dependent => :destroy
+  has_many :formula_items, :order => "id", :dependent => :destroy
   has_many :formula_elements, :through => :formula_items
 
   accepts_nested_attributes_for :formula_items,
