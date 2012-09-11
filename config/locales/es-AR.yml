@@ -227,6 +227,8 @@ es-AR:
           items_proportion_should_be_100: La suma de los porcentajes debe ser 100. La diferencia es %{difference}
         product:
           name_must_be_unique: Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>
+        formula:
+          name_must_be_unique: Ya existe una formula con la misma descripcion, es la <a href="/factory/formulas/%{other_formula_id}" target="_blank">%{other_formula_name}</a>
     models:
       client:
         one: Cliente

@@ -3,7 +3,7 @@
     <div class="alert alert-error">
       <ul>
         <% @formula.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
+          <li><%=raw msg %></li>
         <% end %>
       </ul>
     </div>
