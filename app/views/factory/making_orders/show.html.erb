@@ -7,6 +7,12 @@
 
 <div class="row">
   <div class="span3">
+
+    <p class="amount">
+      <label class="label"><%= MakingOrder.human_attribute_name :id %></label>
+      #<%= @making_order.id %>
+    </p>
+
     <p class="amount">
       <label class="label"><%= MakingOrder.human_attribute_name :formula %></label>
       <%= link_to @making_order.making_order_formula.formula_name, factory_formula_path(@making_order.making_order_formula) %>

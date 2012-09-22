@@ -7,26 +7,40 @@
 
 <div class="row">
   <div class="span4">
-    <label class="label"><%= Formula.human_attribute_name :id %></label>
-    <p><%= @formula.id %></p>
+    <p>
+      <label class="label"><%= Formula.human_attribute_name :id %></label>
+      #<%= @formula.id %>
+    </p>
 
-    <label class="label"><%= Formula.human_attribute_name :name %></label>
-    <p><%= @formula.name %></p>
+    <p>
+      <label class="label"><%= Formula.human_attribute_name :name %></label>
+      <%= @formula.name %>
+    </p>
 
-    <label class="label"><%= Formula.human_attribute_name :abrasive %></label>
-    <p><%= @formula.abrasive %></p>
+    <p>
+      <label class="label"><%= Formula.human_attribute_name :abrasive %></label>
+      <%= @formula.abrasive %>
+    </p>
 
-    <label class="label"><%= Formula.human_attribute_name :grain %></label>
-    <p><%= @formula.grain %></p>
+    <p>
+      <label class="label"><%= Formula.human_attribute_name :grain %></label>
+      <%= @formula.grain %>
+    </p>
 
-    <label class="label"><%= Formula.human_attribute_name :hardness %></label>
-    <p><%= @formula.hardness %></p>
+    <p>
+      <label class="label"><%= Formula.human_attribute_name :hardness %></label>
+      <%= @formula.hardness %>
+    </p>
 
-    <label class="label"><%= Formula.human_attribute_name :porosity %></label>
-    <p><%= @formula.porosity %></p>
+    <p>
+      <label class="label"><%= Formula.human_attribute_name :porosity %></label>
+      <%= @formula.porosity %>
+    </p>
 
-    <label class="label"><%= Formula.human_attribute_name :alloy %></label>
-    <p><%= @formula.alloy %></p>
+    <p>
+      <label class="label"><%= Formula.human_attribute_name :alloy %></label>
+      <%= @formula.alloy %>
+    </p>
   </div>
   <div class="span5">
     <label class="label"><%= Formula.human_attribute_name :formula_items %></label>

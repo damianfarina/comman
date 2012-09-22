@@ -7,20 +7,28 @@
 
 <div class="row">
   <div class="span4">
-    <label class="label"><%= FormulaElement.human_attribute_name :name %></label>
-    <p><%= @formula_element.name %></p>
+    <p>
+      <label class="label"><%= FormulaElement.human_attribute_name :id %></label>
+      #<%= @formula_element.id %>
+    </p>
+    <p>
+      <label class="label"><%= FormulaElement.human_attribute_name :name %></label>
+      <%= @formula_element.name %>
+    </p>
 
     <% if @formula_element.infinite? %>
-	    
 	    <label class="label label-success"><%= FormulaElement.human_attribute_name :infinite %></label>
-
     <% else %>
 
-	    <label class="label"><%= FormulaElement.human_attribute_name :min_stock %></label>
-	    <p><%= @formula_element.min_stock %></p>
+	    <p>
+        <label class="label"><%= FormulaElement.human_attribute_name :min_stock %></label>
+        <%= @formula_element.min_stock %>
+      </p>
 
-	    <label class="label"><%= FormulaElement.human_attribute_name :current_stock %></label>
-	    <p><%= number_with_precision @formula_element.current_stock %></p>
+	    <p>
+        <label class="label"><%= FormulaElement.human_attribute_name :current_stock %></label>
+        <%= number_with_precision @formula_element.current_stock %>
+      </p>
 
 	    <div class="formula-element-chart" style="background-color: <%= calculate_percentage_color(@formula_element) %>; width: <%= calculate_percentage_width(@formula_element) %>%"></div>
 
