@@ -75,11 +75,15 @@ class Factory::FormulaElementsController < Factory::FactoryController
   # DELETE /formula_elements/1.json
   def destroy
     @formula_element = FormulaElement.find(params[:id])
-    @formula_element.destroy
 
     respond_to do |format|
-      format.html { redirect_to factory_formula_elements_url }
-      format.json { head :no_content }
+      if @formula_element.destroy
+        format.html { redirect_to factory_formula_elements_url }
+        format.json { head :no_content }
+      else
+        format.html { render :action => "edit" }
+        format.json { render :json => @formula_element.errors, :status => :unprocessable_entity }
+      end
     end
   end
 

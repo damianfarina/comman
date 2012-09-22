@@ -1,5 +1,13 @@
 <%= simple_form_for [:factory, @formula_element] do |f| %>
-  <%= f.error_notification %>
+  <% if @formula_element.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% @formula_element.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="inputs">
     <%= f.input :name, input_html: { :class => 'span4' } %>
@@ -16,5 +24,6 @@
   <br />
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t(:delete, :scope => [:actions]), factory_formula_element_path(@formula_element), :method => :delete, :data => {:confirm => t("messages.are_you_sure")}, :class => 'btn btn-danger pull-right' %>
   </div>
 <% end %>

@@ -1,6 +1,6 @@
 class FormulaElement < ActiveRecord::Base
-  has_many :formula_items, :dependent => :destroy
-  has_many :fomulas, :through => :formula_items
+  has_many :formula_items
+  has_many :formulas, :through => :formula_items
 
   validates :min_stock, :current_stock, :presence => true, :unless => 'self.infinite?'
   validates :name, :presence => true, :uniqueness => true
@@ -9,6 +9,8 @@ class FormulaElement < ActiveRecord::Base
 
   scope :missing_first, order('current_stock / min_stock')
   scope :name_or_id_contains, lambda {|part| where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
+
+  before_destroy :confirm_no_formula_is_associated
 
   def join_with(elements)
     elements.each do |element|
@@ -35,10 +37,18 @@ class FormulaElement < ActiveRecord::Base
   end
   
 private
+
   def self.get_id_from_search(search)
     return 0 if search.blank?
     search = search.strip
     return 0 if search[0] != '#'
     return search.gsub('#', '').to_i
+  end
+
+  def confirm_no_formula_is_associated
+    if self.formulas.any?
+      errors[:base] << I18n.t(:formula_exists, :scope => [:activerecord, :errors, :models, :formula_element])
+      return false
+    end
   end
 end

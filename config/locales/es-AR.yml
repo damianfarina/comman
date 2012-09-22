@@ -229,6 +229,8 @@ es-AR:
           name_must_be_unique: Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>
         formula:
           name_must_be_unique: Ya existe una formula con la misma descripcion, es la <a href="/factory/formulas/%{other_formula_id}" target="_blank">%{other_formula_name}</a>
+        formula_element:
+          formula_exists: No se puede eliminar porque al menos una fórmula depende de esta materia prima
     models:
       client:
         one: Cliente
