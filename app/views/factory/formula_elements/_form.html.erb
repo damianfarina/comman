@@ -24,6 +24,6 @@
   <br />
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t(:delete, :scope => [:actions]), factory_formula_element_path(@formula_element), :method => :delete, :data => {:confirm => t("messages.are_you_sure")}, :class => 'btn btn-danger pull-right' %>
+    <%= link_to t(:delete, :scope => [:actions]), factory_formula_element_path(@formula_element), :method => :delete, :data => {:confirm => t("messages.are_you_sure")}, :class => 'btn btn-danger pull-right' unless @formula_element.new_record? -%>
   </div>
 <% end %>
