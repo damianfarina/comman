@@ -10,6 +10,8 @@ class MakingOrderItem < ActiveRecord::Base
 
   attr_accessor :autocomplete_product_name
 
+  attr_accessible :autocomplete_product_name, :product_id, :quantity
+
   def autocomplete_product_name
     self.product_name
   end

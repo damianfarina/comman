@@ -12,6 +12,8 @@ class FormulaElement < ActiveRecord::Base
 
   before_destroy :confirm_no_formula_is_associated
 
+  attr_accessible :name, :min_stock, :current_stock, :infinite
+
   def join_with(elements)
     elements.each do |element|
       element.formula_items.each { |item| item.update_attributes :formula_element_id => self.id}

@@ -17,6 +17,8 @@ class MakingOrder < ActiveRecord::Base
   before_save :calculate_rounds_count
   before_save :calculate_weight_per_round
 
+  attr_accessible :mixer_capacity, :making_order_items_attributes, :comments
+
   def formula_name
     making_order_formula.try :formula_name
   end

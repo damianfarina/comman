@@ -12,6 +12,8 @@ class Product < ActiveRecord::Base
 
   before_validation :set_name
 
+  attr_accessible :formula_id, :shape, :size, :weight, :pressure, :price
+
 private
 
   def self.get_id_from_search(search)

@@ -13,6 +13,8 @@ class Formula < ActiveRecord::Base
 
   before_validation :set_name
 
+  attr_accessible :abrasive, :grain, :hardness, :porosity, :alloy, :formula_items_attributes
+
 private
 
   def items_proportion_is_one_hundred
