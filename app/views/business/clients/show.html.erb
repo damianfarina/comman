@@ -1,11 +1,24 @@
-<label class="label"><%= Client.human_attribute_name :full_name %>:</label>
-<p><%= @client.full_name %></p>
+<div class="page-header">
+  <h1><%=t '.title', :default => Client.model_name.human %></h1>
+</div>
 
-<label class="label"><%= Client.human_attribute_name :address %>:</label>
-<p><%= @client.address %></p>
+<dl class="dl-horizontal">
+  <dt><strong><%= Client.human_attribute_name(:id) %>:</strong></dt>
+  <dd><%= @client.id %></dd>
+  <dt><strong><%= Client.human_attribute_name(:full_name) %>:</strong></dt>
+  <dd><%= @client.full_name %></dd>
+  <dt><strong><%= Client.human_attribute_name(:address) %>:</strong></dt>
+  <dd><%= @client.address %></dd>
+</dl>
 
 <div class="form-actions">
-<%= link_to t("actions.back"), business_clients_path, :class => 'btn'  %>
-<%= link_to t("actions.edit"), edit_business_client_path(@client), :class => 'btn' %>
-<%= link_to t("actions.delete"), business_client_path(@client), :method => "delete", :confirm => "Are you sure?", :class => 'btn btn-danger' %>
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              business_clients_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_business_client_path(@client), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              business_client_path(@client),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
 </div>
