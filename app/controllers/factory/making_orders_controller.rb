@@ -4,7 +4,7 @@ class Factory::MakingOrdersController < Factory::FactoryController
   # GET /making_orders
   # GET /making_orders.json
   def index
-    @making_orders = MakingOrder.all
+    @making_orders = MakingOrder.order('id DESC')
 
     respond_to do |format|
       format.html # index.html.erb
