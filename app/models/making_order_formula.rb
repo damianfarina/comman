@@ -10,6 +10,8 @@ class MakingOrderFormula < ActiveRecord::Base
   before_validation :build_making_order_formula_items_if_needed
   before_save :fill_formula_fields
 
+  attr_accessible :formula_id
+
   def formula_items
     formula.try(:formula_items) || []
   end
