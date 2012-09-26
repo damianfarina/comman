@@ -9,7 +9,14 @@ class MakingOrderFormulaItem < ActiveRecord::Base
     :proportion,
     :presence => true
 
-  after_save :update_formula_element_stock
+  # after_create :take_formula_element_stock, :if => 'self.callbacks_enabled'
+  # after_update :update_formula_element_stock, :if => 'self.callbacks_enabled'
+  # after_destroy :give_back_formula_element_stock, :if => 'self.callbacks_enabled'
+
+
+
+
+  attr_accessible :formula_item_id, :formula_element_id, :formula_element_name, :proportion
 
   def making_order
   	self.making_order_formula.making_order
