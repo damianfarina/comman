@@ -1,5 +1,7 @@
 class MakingOrder < ActiveRecord::Base
   has_one :making_order_formula, :dependent => :destroy
+  delegate :formula, :formula_id, :formula_name, :to => :making_order_formula,
+    :allow_nil => true
   has_many :making_order_items, :dependent => :destroy
 
   accepts_nested_attributes_for :making_order_items,
@@ -18,14 +20,6 @@ class MakingOrder < ActiveRecord::Base
   before_save :calculate_weight_per_round
 
   attr_accessible :mixer_capacity, :making_order_items_attributes, :comments
-
-  def formula_name
-    making_order_formula.try :formula_name
-  end
-
-  def formula
-    making_order_formula.try :formula
-  end
 
 private
 

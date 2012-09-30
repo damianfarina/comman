@@ -5,7 +5,8 @@ class Product < ActiveRecord::Base
 
   delegate :name, :to => :formula, :prefix => true, :allow_nil => true
 
-  scope :name_or_id_contains, lambda {|part| where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
+  scope :name_or_id_contains, lambda { |part| where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
+  scope :with_formula, lambda { |formula_id| where('formula_id = ?', formula_id) unless formula_id.blank? }
 
   validates :shape, :size, :pressure, :weight, :formula_id, :presence => true
   validate :name_is_unique, :unless => 'self.name.nil?'

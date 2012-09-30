@@ -79,7 +79,7 @@
       <tbody>
         <% @making_order.making_order_formula.making_order_formula_items.each do |item| %>
           <tr>
-            <td><%= item.formula_element_name %></td>
+            <td><%= link_to item.formula_element_name, factory_formula_element_path(item.formula_element), :target => :blank %></td>
             <td class="amount"><%= formula_item_weight_per_round(item.proportion, @making_order.weight_per_round) %></td>
           </tr>
         <% end %>

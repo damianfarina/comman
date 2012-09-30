@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120729212519) do
+ActiveRecord::Schema.define(:version => 20120826160927) do
 
   create_table "clients", :force => true do |t|
     t.string   "full_name"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(:version => 20120729212519) do
     t.string   "name"
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
-    t.float    "min_stock",     :default => 0.0
+    t.float    "min_stock",     :default => 1.0
     t.float    "current_stock", :default => 0.0
     t.boolean  "infinite"
   end
@@ -89,8 +89,9 @@ ActiveRecord::Schema.define(:version => 20120729212519) do
     t.decimal  "weight_per_round"
     t.integer  "rounds_count"
     t.text     "comments"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.float    "mixer_capacity",   :default => 60.0
   end
 
   create_table "products", :force => true do |t|

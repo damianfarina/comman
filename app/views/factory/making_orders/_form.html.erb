@@ -41,11 +41,13 @@
 
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t(:delete, :scope => [:actions]), factory_making_order_path(@making_order), :method => :delete, :data => {:confirm => t("messages.are_you_sure")}, :class => 'btn btn-danger pull-right' unless @making_order.new_record? -%>
   </div>
 <% end %>
 
 <% content_for :javascript do %>
   <script type="text/javascript">
     Comman.factory_making_orders.options.source = '<%= autocomplete_factory_products_path %>';
+    Comman.factory_making_orders.options.formula_id = '<%= @making_order.formula_id %>';
   </script>
 <% end %>
