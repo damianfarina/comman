@@ -14,7 +14,7 @@ class MakingOrderFormulaItem < ActiveRecord::Base
   # after_update :update_formula_element_stock
   after_destroy :give_back_formula_element_stock
 
-  attr_accessible :formula_item_id, :formula_element_id, :formula_element_name, :proportion
+  attr_accessible :formula_item_id, :formula_element_id, :formula_element_name, :proportion, :consumed_stock
 
   def making_order
   	self.making_order_formula.making_order
@@ -24,10 +24,10 @@ class MakingOrderFormulaItem < ActiveRecord::Base
   	self.making_order_formula.formula
   end
 
-  private
+private
   
   def give_back_formula_element_stock
-    used_stock = self.making_order.total_weight * self.proportion / 100.0
+    used_stock = self.making_order_formula.making_order.total_weight * self.proportion / 100.0
     current_stock = self.formula_item.formula_element.current_stock + used_stock
     self.formula_item.formula_element.update_attributes :current_stock => current_stock
   end
