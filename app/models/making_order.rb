@@ -3,6 +3,7 @@ class MakingOrder < ActiveRecord::Base
   delegate :formula, :formula_id, :formula_name, :to => :making_order_formula,
     :allow_nil => true
   has_many :making_order_items, :dependent => :destroy
+  has_many :making_order_formula_items, :through => :making_order_formula, :autosave => true
 
   accepts_nested_attributes_for :making_order_items,
     :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }
@@ -11,17 +12,22 @@ class MakingOrder < ActiveRecord::Base
     :making_order_items,
     :mixer_capacity,
     :presence => true
-  validates :mixer_capacity, :numericality => { :greater_than => 1}, :if => 'mixer_capacity.present?'
+  validates :mixer_capacity, :numericality => { :greater_than => 1}, :if => 'self.mixer_capacity.present?'
   validate :products_belongs_to_the_same_formula, :if => :are_there_valid_products?
 
   before_validation :build_making_order_formula_if_needed
   before_save :calculate_total_weight
   before_save :calculate_rounds_count
   before_save :calculate_weight_per_round
+  before_update :set_formula_dirty, :if => 'self.total_weight_changed?'
 
   attr_accessible :mixer_capacity, :making_order_items_attributes, :comments
 
 private
+
+  def set_formula_dirty
+    self.making_order_formula_items.each {|i| i.consumed_stock_will_change!}
+  end
 
   def products_belongs_to_the_same_formula
     self.making_order_items.each do |item|

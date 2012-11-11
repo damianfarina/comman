@@ -39,6 +39,7 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 group :development do
+  gem 'thin'
   gem 'railroady'
   gem 'debugger'
   gem 'quiet_assets'
