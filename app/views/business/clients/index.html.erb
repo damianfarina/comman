@@ -5,7 +5,7 @@
   <thead>
     <tr>
       <th><%= Client.human_attribute_name(:id) %></th>
-      <th><%= Client.human_attribute_name(:full_name) %></th>
+      <th><%= Client.human_attribute_name(:name) %></th>
       <th><%= Client.human_attribute_name(:address) %></th>
       <th><%= Client.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -15,17 +15,17 @@
     <% @clients.each do |client| %>
       <tr>
         <td><%= link_to client.id, business_client_path(client) %></td>
-        <td><%= client.full_name %></td>
+        <td><%= client.name %></td>
         <td><%= client.address %></td>
         <td><%=l client.created_at, :format => :short %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_business_client_path(client), :class => 'btn btn-mini' %>
+            edit_business_client_path(client), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      business_client_path(client),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+            business_client_path(client),
+            :method => :delete,
+            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+            :class => 'btn btn-mini btn-danger' %>
         </td>
       </tr>
     <% end %>
@@ -33,5 +33,5 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_business_client_path,
-            :class => 'btn btn-primary' %>
+  new_business_client_path,
+  :class => 'btn btn-primary' %>

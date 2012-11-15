@@ -235,6 +235,9 @@ es-AR:
       client:
         one: Cliente
         other: Clientes
+      delivery_note:
+        one: Remito
+        other: Remitos
       product:
         one: Producto
         other: Productos
@@ -285,6 +288,13 @@ es-AR:
         pressure: Presión
         price: Precio
         name: Nombre
+      delivery_note:
+        client: Cliente
+        client_id: Cliente
+        comments: Observaciones
+        created_at: Creado el
+        id: ID
+        state: Estado
   namespace:
     business: Administración
     factory: Fábrica

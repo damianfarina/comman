@@ -1,0 +1,27 @@
+<div class="page-header">
+  <h1><%=t '.title', :default => DeliveryNote.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= DeliveryNote.human_attribute_name(:id) %></th>
+      <th><%= DeliveryNote.human_attribute_name(:client_id) %></th>
+      <th><%= DeliveryNote.human_attribute_name(:comments) %></th>
+      <th><%= DeliveryNote.human_attribute_name(:created_at) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @delivery_notes.each do |delivery_note| %>
+      <tr>
+        <td><%= link_to delivery_note.id, business_delivery_note_path(delivery_note) %></td>
+        <td><%= delivery_note.client_name %></td>
+        <td><%= delivery_note.comments %></td>
+        <td><%=l delivery_note.created_at %></td>
+       </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+  new_business_delivery_note_path,
+  :class => 'btn btn-primary' %>

@@ -1,0 +1,24 @@
+<div class="page-header">
+  <h1><%=t '.title', :default => DeliveryNote.model_name.human %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= DeliveryNote.human_attribute_name(:client) %>:</strong></dt>
+  <dd><%= @delivery_note.client_name %></dd>
+  <dt><strong><%= DeliveryNote.human_attribute_name(:comments) %>:</strong></dt>
+  <dd><%= @delivery_note.comments %></dd>
+  <dt><strong><%= DeliveryNote.human_attribute_name(:state) %>:</strong></dt>
+  <dd><%= delivery_note_state(@delivery_note) %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+    business_delivery_notes_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+    edit_business_delivery_note_path(@delivery_note), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+    business_delivery_note_path(@delivery_note),
+    :method => 'delete',
+    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+    :class => 'btn btn-danger' %>
+</div>

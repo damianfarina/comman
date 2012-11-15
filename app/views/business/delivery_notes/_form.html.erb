@@ -1,0 +1,10 @@
+<%= simple_form_for [:business, @delivery_note], :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :client_id, :collection => Client.all.map {|c| [c.name, c.id]} %>
+  <%= f.input :state, :collection => delivery_states_for_select %>
+  <%= f.input :comments %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+      business_delivery_notes_path, :class => 'btn' %>
+  </div>
+<% end %>
