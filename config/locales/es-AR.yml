@@ -218,19 +218,19 @@ es-AR:
       long: ! '%A, %d de %B de %Y a las %I:%M %p'
       short: ! '%d de %b a las %H:%M hrs'
     pm: pm
+
   activerecord:
     errors:
       models:
         making_order:
-          products_formula_is_different: Algunos productos no tienen la misma fórmula
+          products_formula_is_different: 'Algunos productos no tienen la misma fórmula'
         formula:
-          items_proportion_should_be_100: La suma de los porcentajes debe ser 100. La diferencia es %{difference}
+          items_proportion_should_be_100: 'La suma de los porcentajes debe ser 100. La diferencia es %{difference}'
+          name_must_be_unique: 'Ya existe una formula con la misma descripcion, es la <a href="/factory/formulas/%{other_formula_id}" target="_blank">%{other_formula_name}</a>'
         product:
-          name_must_be_unique: Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>
-        formula:
-          name_must_be_unique: Ya existe una formula con la misma descripcion, es la <a href="/factory/formulas/%{other_formula_id}" target="_blank">%{other_formula_name}</a>
+          name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
         formula_element:
-          formula_exists: No se puede eliminar porque al menos una fórmula depende de esta materia prima
+          formula_exists: 'No se puede eliminar porque al menos una fórmula depende de esta materia prima'
     models:
       client:
         one: Cliente
@@ -267,6 +267,7 @@ es-AR:
         alloy: Liga
         formula_items: Composición
       making_order:
+        id: ID
         making_order_formula: Formula
         mixer_capacity: Capacidad de la mezcladora
         comments: Observaciones
