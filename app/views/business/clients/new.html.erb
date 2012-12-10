@@ -1,6 +1,6 @@
-<%- model_class = Client -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
-                                 :default => "New #{model_class.model_name.human}") %></h1>
-</div>
+<% content_for :secondary_navigation do %>
+  <li><%= link_to t(:index, :scope => [:menu]), business_clients_path %></li>
+  <li class="active"><a href="#"><%= t(:new, :scope => [:menu]) %></a></li>
+<% end %>
+
 <%= render :partial => 'form' %>

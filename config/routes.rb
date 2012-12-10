@@ -3,7 +3,9 @@ Comman::Application.routes.draw do
 
   namespace :business do
     resources :clients
-    resources :delivery_notes
+    resources :delivery_notes do
+      get :delivery_note_item, :on => :collection
+    end
     root :to => 'dashboard#index'
   end
 

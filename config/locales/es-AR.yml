@@ -272,9 +272,10 @@ es-AR:
         mixer_capacity: Mezcladora
         comments: Observaciones
         total_weight: Peso total
-        weight_per_round: Peso por cada mezcla
-        rounds_count: Candidad de mezclas
+        weight_per_round: Peso por mezcla
+        rounds_count: Mezclas
         making_order_items: Productos
+        products: Productos
       making_order/making_order_items:
         product_id: Productos
         quantity: Cantidad
@@ -290,11 +291,17 @@ es-AR:
         pressure: Presión
         price: Precio
         name: Nombre
+        created_at: "Fecha de registro"
+      client:
+        id: ID
+        name: Nombre
+        address: "Dirección"
+        created_at: "Fecha de registro"
       delivery_note:
         client: Cliente
         client_id: Cliente
         comments: Observaciones
-        created_at: Creado el
+        created_at: "Fecha de registro"
         id: ID
         state: Estado
   namespace:

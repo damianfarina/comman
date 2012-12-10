@@ -27,6 +27,7 @@ class Business::DeliveryNotesController < ApplicationController
   # GET /delivery_notes/new.json
   def new
     @delivery_note = DeliveryNote.new
+    @delivery_note.delivery_note_items.build(:product_id => 100)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -80,6 +81,16 @@ class Business::DeliveryNotesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to business_delivery_notes_path }
       format.json { head :no_content }
+    end
+  end
+
+  def delivery_note_item
+    @delivery_note_item = DeliveryNoteItem.new :product_id => params[:product_id]
+    
+    respond_to do |format|
+      format.html { render :partial => 'delivery_note_item', :locals => { :item => @delivery_note_item } }
+      format.json { render :json => @product }
+      format.js
     end
   end
 end

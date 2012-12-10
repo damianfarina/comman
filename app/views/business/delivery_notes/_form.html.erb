@@ -1,10 +1,48 @@
-<%= simple_form_for [:business, @delivery_note], :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :client_id, :collection => Client.all.map {|c| [c.name, c.id]} %>
-  <%= f.input :state, :collection => delivery_states_for_select %>
-  <%= f.input :comments %>
+<%= simple_form_for [:business, @delivery_note] do |f| %>
+  <% if @delivery_note.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% @delivery_note.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="span3">
+      <%= f.input :client_id, :collection => Client.all.map {|c| [c.name, c.id]} %>
+    </div>
+    <div class="span3">
+      <%= f.input :comments, :input_html => { :rows => 2 } %>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="span10">
+      <input type="text" id="search-products" class="autocomplete span10" placeholder="Buscar producto por ID o nombre">
+      <table id="products_list" class="table">
+        <thead>
+          <tr>
+            <th class=""><%= Product.human_attribute_name :id %></th>
+            <th class=""><%= Product.human_attribute_name :formula %></th>
+            <th class=""><%= Product.human_attribute_name :shape %></th>
+            <th class=""><%= Product.human_attribute_name :size %></th>
+            <th class=""><%= Product.human_attribute_name :weight %></th>
+            <th class=""><%= Product.human_attribute_name :pressure %></th>
+            <th class=""><%= MakingOrderItem.human_attribute_name :quantity %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @delivery_note.delivery_note_items.each do |item| %>
+            <%= render :partial => "delivery_note_item", :locals => { :item => item } %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-      business_delivery_notes_path, :class => 'btn' %>
   </div>
 <% end %>

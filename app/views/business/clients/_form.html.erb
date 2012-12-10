@@ -1,9 +1,22 @@
-<%= simple_form_for [:business, @client], :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for [:business, @client] do |f| %>
+  <% if @client.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% @client.errors.full_messages.each do |msg| %>
+          <li><%= raw msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <%= f.input :name %>
   <%= f.input :address %>
+
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                business_clients_path, :class => 'btn' %>
+    <%= link_to t(:delete, :scope => [:actions]), business_client_path(@client),
+      :method => :delete,
+      :confirm => t("messages.are_you_sure"),
+      :class => 'btn btn-danger pull-right' unless @client.new_record? -%>
   </div>
 <% end %>

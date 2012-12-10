@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <li class="nav-header"><%= link_to Client.model_name.human(:count => 2), business_clients_path %></li>
-  <li class="nav-header"><%= link_to DeliveryNote.model_name.human(:count => 2), business_delivery_notes_path %></li>
+  <li class="nav-header <%= "active" if is_clients_active? %>"><%= link_to Client.model_name.human(:count => 2), business_clients_path %></li>
+  <li class="nav-header <%= "active" if is_delivery_notes_active? %>"><%= link_to DeliveryNote.model_name.human(:count => 2), business_delivery_notes_path %></li>
 <% end %>
 <%= render :template => 'layouts/application' %>
