@@ -8,7 +8,7 @@ class ProductionMonth < ActiveRecord::Base
     self.order(:year).group(:year).pluck(:year).each do |year|
       data_month = []
       self.where(:year => year).order(:month).each do |month|
-        data_month << { :year => month.year, :month => month.month, :production => month.production.to_s }
+        data_month << { :year => month.year, :month => month.month, :production => month.production }
       end
       data_year << { :name => year.to_s, :data => data_month }
     end
