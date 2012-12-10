@@ -16,6 +16,7 @@ class ProductionMonth < ActiveRecord::Base
   end
 
   def self.generate_production_levels
+    ProductionMonth.delete_all
     MakingOrderFormulaItem.find_each do |item|
       year = item.created_at.to_date.year
       month = item.created_at.to_date.month
