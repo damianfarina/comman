@@ -2,9 +2,9 @@
   <head>
     <meta charset="utf-8">
     <title>Making Order</title>
-    <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
+    <%= wicked_pdf_stylesheet_link_tag "application" -%>
   </head>
-  <body class="printing">
+  <body class="printing" style="padding-top:0">
     <div class="block">
       <%= render :partial => '/factory/making_orders/pdf/mix', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
     </div>
