@@ -40,7 +40,7 @@ $(function () {
                         name: '<%= year[:name] %>',
                         data: [
                             <% year[:data].each do |month| %>
-                                [Date.UTC(<%= month[:year] %>,  <%= month[:month] - 1 %>, 1), <%= month[:production] %>],
+                                [Date.UTC(<%= month[:year] %>,  <%= month[:month] - 1 %>, 15), <%= month[:production].round %>],
                             <% end %>
                         ],
                     },
