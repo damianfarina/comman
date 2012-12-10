@@ -10,32 +10,36 @@
   <% end %>
 
   <div class="row">
-    <div class="span5">
+    <div class="span2">
       <%= f.input :mixer_capacity, :as => :string, :input_html => { :class => 'span1' } %>
-      <table id="formula_items_list" class="table">
+    </div>
+    <div class="span8">
+      <%= f.input :comments, input_html: { :class => 'span8', :rows => 1 } %>
+    </div>
+    <div class="span10">
+      <hr>
+      <div class="product-autocomplete">
+        <input type="text" id="search-products" class="autocomplete span10" placeholder="Buscar producto por ID o nombre">
+      </div>
+      <table id="products_list" class="table">
         <thead>
           <tr>
-            <th class="span4"><%= MakingOrderItem.human_attribute_name :name %></th>
-            <th class="span1"><%= MakingOrderItem.human_attribute_name :quantity %></th>
+            <th class=""><%= Product.human_attribute_name :id %></th>
+            <th class=""><%= Product.human_attribute_name :formula %></th>
+            <th class=""><%= Product.human_attribute_name :shape %></th>
+            <th class=""><%= Product.human_attribute_name :size %></th>
+            <th class=""><%= Product.human_attribute_name :weight %></th>
+            <th class=""><%= Product.human_attribute_name :pressure %></th>
+            <th class=""><%= MakingOrderItem.human_attribute_name :quantity %></th>
             <th></th>
           </tr>
         </thead>
-        <tfoot>
-          <tr>
-            <th colspan="3"><%= link_to_add_fields t(:add, :scope => [:actions]), f, :making_order_items %></th>
-          </tr>
-        </tfoot>
-        <tbody class="new-fields-container">
-          <% @making_order.making_order_items.each do |fi| %>
-            <%= f.simple_fields_for :making_order_items, fi do |builder|%>
-              <%= render 'making_order_item_fields', :f => builder %>
-            <% end %>
+        <tbody>
+          <% @making_order.making_order_items.each do |item| %>
+            <%= render :partial => 'making_order_item', :locals => { :item => item } %>
           <% end %>
         </tbody>
       </table>
-    </div>
-    <div class="span5">
-      <%= f.input :comments, input_html: { :class => 'span5' } %>
     </div>
   </div>
 

@@ -5,7 +5,7 @@ class MakingOrder < ActiveRecord::Base
   has_many :making_order_items, :dependent => :destroy
   has_many :making_order_formula_items, :through => :making_order_formula, :autosave => true
 
-  accepts_nested_attributes_for :making_order_items,
+  accepts_nested_attributes_for :making_order_items, :allow_destroy => true, 
     :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }
 
   validates :making_order_formula,

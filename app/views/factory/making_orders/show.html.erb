@@ -7,44 +7,34 @@
 
 <div class="row">
   <div class="span3">
+    <dl class="dl-horizontal">
+      <dt><%= MakingOrder.human_attribute_name :id %></dt>
+      <dd class="amount">#<%= @making_order.id %></dd>
 
-    <p class="amount">
-      <label class="label"><%= MakingOrder.human_attribute_name :id %></label>
-      #<%= @making_order.id %>
-    </p>
+      <dt><%= MakingOrder.human_attribute_name :formula %></dt>
+      <dd class="amount"><%= link_to @making_order.making_order_formula.formula_name, factory_formula_path(@making_order.making_order_formula) %></dd>
 
-    <p class="amount">
-      <label class="label"><%= MakingOrder.human_attribute_name :formula %></label>
-      <%= link_to @making_order.making_order_formula.formula_name, factory_formula_path(@making_order.making_order_formula) %>
-    </p>
+      <dt><%= MakingOrder.human_attribute_name :mixer_capacity %></dt>
+      <dd class="amount"><%= number_with_precision @making_order.mixer_capacity %>kg</dd>
 
-    <p class="amount">
-      <label class="label"><%= MakingOrder.human_attribute_name :mixer_capacity %></label>
-      <%= number_with_precision @making_order.mixer_capacity %>kg
-    </p>
-    
-    <p class="amount">
-      <label class="label"><%= MakingOrder.human_attribute_name :total_weight %></label>
-      <%= number_with_precision @making_order.total_weight %>kg
-    </p>
+      <dt><%= MakingOrder.human_attribute_name :total_weight %></dt>
+      <dd class="amount"><%= number_with_precision @making_order.total_weight %>kg</dd>
 
-    <p class="amount">
-      <label class="label"><%= MakingOrder.human_attribute_name :weight_per_round %></label>
-      <%= number_with_precision @making_order.weight_per_round %>kg
-    </p>
+      <dt><%= MakingOrder.human_attribute_name :weight_per_round %></dt>
+      <dd class="amount"><%= number_with_precision @making_order.weight_per_round %>kg</dd>
 
-    <p class="amount">
-      <label class="label"><%= MakingOrder.human_attribute_name :rounds_count %></label>
-      <%= @making_order.rounds_count %>
-    </p>
+      <dt><%= MakingOrder.human_attribute_name :rounds_count %></dt>
+      <dd class="amount"><%= @making_order.rounds_count %></dd>
+    </dl>
   </div>
 
   <div class="span7">
-    <p>
-      <label class="label"><%= MakingOrder.human_attribute_name :comments %></label>
-      <%= @making_order.comments %>
-    </p>
+    <dl class="dl-horizontal">
+      <dt><%= MakingOrder.human_attribute_name :comments %></dt>
+      <dd><%= @making_order.comments %></dd>
+    </dl>
   </div>
+
 </div>
 <hr>
 <div class="row">

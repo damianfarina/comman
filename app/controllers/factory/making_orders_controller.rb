@@ -28,7 +28,6 @@ class Factory::MakingOrdersController < Factory::FactoryController
   # GET /making_orders/new.json
   def new
     @making_order = MakingOrder.new
-    @making_order.making_order_items.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -82,6 +81,16 @@ class Factory::MakingOrdersController < Factory::FactoryController
     respond_to do |format|
       format.html { redirect_to factory_making_orders_path, :flash => { :success => t('controllers.successfully_destroyed') } }
       format.json { head :no_content }
+    end
+  end
+
+  def making_order_item
+    @making_order_item = MakingOrderItem.new :product_id => params[:product_id]
+    
+    respond_to do |format|
+      format.html { render :partial => 'making_order_item', :locals => { :item => @making_order_item } }
+      format.json { render :json => @product }
+      format.js
     end
   end
 end

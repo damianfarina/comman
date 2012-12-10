@@ -32,6 +32,7 @@ Comman.init = function() {
   controller = body.getAttribute( "data-controller" ),
   action = body.getAttribute( "data-action" );
 
+  $('textarea').autoGrow();
   Comman.exec( controller, action );
 }
 

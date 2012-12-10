@@ -9,7 +9,6 @@ Comman.factory_making_orders = function() {
           url: options.source,
           dataType: "json",
           data: {
-            formula_id: options.formula_id,
             term: request.term
           },
           success: function( data ) {
@@ -19,11 +18,19 @@ Comman.factory_making_orders = function() {
       },
       minLength: 2,
       select: function( event, ui ) {
-        var $input = $( this );
-        var $hidden = $( '#' + $input.attr('id').replace('autocomplete_product_name', 'product_id') );
-        $hidden.val(ui.item.id);
-        options.formula_id = ui.item.formula_id;
+        add_order_item(ui.item.id);
       }
+    });
+  }
+
+  var add_order_item = function(product_id) {
+    $.ajax({
+      url: "/factory/making_orders/making_order_item",
+      data: { product_id: product_id },
+      dataType: "html"
+    }).done(function(msg){
+      $('#products_list').find('tbody').append(msg);
+      $('#search-products').val("");
     });
   }
 
@@ -33,10 +40,15 @@ Comman.factory_making_orders = function() {
   }
 }();
 
-Comman.factory_making_orders.edit = function() {
+Comman.factory_making_orders.action_edit = function() {
   var init = function() {
-    $( '.new-fields-container' ).data('afterAppend', Comman.factory_making_orders.setupAutocomplete);
     Comman.factory_making_orders.setupAutocomplete();
+    $('.close.destroy').click(function(){
+      var $tr = $(this).closest('tr');
+      $tr.find('input[type=hidden].destroy').val('1');
+      $tr.hide();
+      return false;
+    });
   }
 
   return {
@@ -44,6 +56,6 @@ Comman.factory_making_orders.edit = function() {
   }
 }();
 
-Comman.factory_making_orders.create = Comman.factory_making_orders.edit;
-Comman.factory_making_orders.update = Comman.factory_making_orders.edit;
-Comman.factory_making_orders.new = Comman.factory_making_orders.edit;
+Comman.factory_making_orders.action_create = Comman.factory_making_orders.action_edit;
+Comman.factory_making_orders.action_update = Comman.factory_making_orders.action_edit;
+Comman.factory_making_orders.action_new = Comman.factory_making_orders.action_edit;

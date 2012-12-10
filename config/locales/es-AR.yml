@@ -269,11 +269,12 @@ es-AR:
       making_order:
         id: ID
         making_order_formula: Formula
-        mixer_capacity: Capacidad de la mezcladora
+        mixer_capacity: Mezcladora
         comments: Observaciones
         total_weight: Peso total
         weight_per_round: Peso por cada mezcla
         rounds_count: Candidad de mezclas
+        making_order_items: Productos
       making_order/making_order_items:
         product_id: Productos
         quantity: Cantidad

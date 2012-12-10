@@ -19,7 +19,9 @@ Comman::Application.routes.draw do
     resources :formulas do
       resources :formula_items
     end
-    resources :making_orders
+    resources :making_orders do
+      get :making_order_item, :on => :collection
+    end
     root :to => 'dashboard#index'
   end
 

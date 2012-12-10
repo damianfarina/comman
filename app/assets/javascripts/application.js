@@ -13,22 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.autogrowtextarea.min
 //= require twitter/bootstrap
 //= require chosen-jquery
 //= require highcharts
 //= require comman
 //= require_tree .
-
-function add_fields(link, association, content) {
-  var new_id = new Date().getTime();
-  var regexp = new RegExp("new_" + association, "g")
-  $( '.new-fields-container' ).append(content.replace(regexp, new_id));
-  var afterAppendCallback = $( '.new-fields-container' ).data('afterAppend');
-  if (afterAppendCallback != null)
-    afterAppendCallback();
-}
-
-function remove_field(link) {
-  $(link).parent().find( "input[type=hidden]" ).val("1");
-  $(link).closest( "tr" ).fadeOut();
-}
