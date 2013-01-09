@@ -279,6 +279,7 @@ es-AR:
         rounds_count: Mezclas
         making_order_items: Productos
         products: Productos
+        created_at: "Fecha"
         state: Estado
         state_values:
           "0": "En producción"

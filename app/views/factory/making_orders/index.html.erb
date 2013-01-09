@@ -7,6 +7,7 @@
   <thead>
     <tr>
       <th class="span1"></th>
+      <th class="amount"><%= MakingOrder.human_attribute_name :created_at %></th>
       <th class="amount"><%= MakingOrder.human_attribute_name :formula %></th>
       <th class="amount"><%= MakingOrder.human_attribute_name :products %></th>
       <th class="amount"><%= MakingOrder.human_attribute_name :total_weight %></th>
@@ -17,6 +18,7 @@
     <% @making_orders.each do |making_order| %>
       <tr>
         <td><%= link_to "##{making_order.id}", factory_making_order_path(making_order) %></td>
+        <td class="amount"><%=l making_order.created_at.to_date %></td>
         <td class="amount"><%= making_order.formula_name %></td>
         <td class="amount"><%= making_order.making_order_items.count %></td>
         <td class="amount"><%= number_with_precision making_order.total_weight %></td>
