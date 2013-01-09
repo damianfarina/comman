@@ -1,4 +1,7 @@
 es-AR:
+  will_paginate:
+    next_label: Siguiente
+    previous_label: Anterior
   simple_form:
     "yes": 'Si'
     "no": 'No'
@@ -276,6 +279,11 @@ es-AR:
         rounds_count: Mezclas
         making_order_items: Productos
         products: Productos
+        state: Estado
+        state_values:
+          "0": "En producción"
+          "1": "Terminada"
+          "2": "Anulada"
       making_order/making_order_items:
         product_id: Productos
         quantity: Cantidad
