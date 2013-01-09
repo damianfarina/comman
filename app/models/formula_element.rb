@@ -14,6 +14,8 @@ class FormulaElement < ActiveRecord::Base
 
   attr_accessible :name, :min_stock, :current_stock, :infinite
 
+  self.per_page = 10
+
   def join_with(elements)
     elements.each do |element|
       element.formula_items.each { |item| item.update_attributes :formula_element_id => self.id}
