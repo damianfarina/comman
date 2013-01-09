@@ -29,6 +29,8 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
+    bootstrap-will_paginate (0.0.9)
+      will_paginate
     builder (3.0.4)
     chosen-rails (0.9.8.3)
       railties (~> 3.0)
@@ -139,11 +141,13 @@ GEM
       raindrops (~> 0.7)
     wicked_pdf (0.8.0)
       rails
+    will_paginate (3.0.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-will_paginate
   chosen-rails
   coffee-rails (~> 3.2.1)
   debugger
@@ -162,3 +166,4 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   wicked_pdf
+  will_paginate

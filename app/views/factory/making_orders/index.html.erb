@@ -10,22 +10,23 @@
       <th class="amount"><%= MakingOrder.human_attribute_name :formula %></th>
       <th class="amount"><%= MakingOrder.human_attribute_name :products %></th>
       <th class="amount"><%= MakingOrder.human_attribute_name :total_weight %></th>
-      <th class="amount"><%= MakingOrder.human_attribute_name :weight_per_round %></th>
-      <th class="amount"><%= MakingOrder.human_attribute_name :rounds_count %></th>
       <th class="span3"><%= MakingOrder.human_attribute_name :comments %></th>
+      <th class="span3"><%= MakingOrder.human_attribute_name :state %></th>
     </tr>
   </thead>
   <tbody>
-  <% @making_orders.each do |making_order| %>
-    <tr>
-      <td><%= link_to "##{making_order.id}", factory_making_order_path(making_order) %></td>
-      <td class="amount"><%= making_order.formula_name %></td>
-      <td class="amount"><%= making_order.making_order_items.count %></td>
-      <td class="amount"><%= number_with_precision making_order.total_weight %></td>
-      <td class="amount"><%= number_with_precision making_order.weight_per_round %></td>
-      <td class="amount"><%= making_order.rounds_count %></td>
-      <td><%= truncate making_order.comments, :length => 55 %></td>
-    </tr>
-  <% end %>
+    <% @making_orders.each do |making_order| %>
+      <tr>
+        <td><%= link_to "##{making_order.id}", factory_making_order_path(making_order) %></td>
+        <td class="amount"><%= making_order.formula_name %></td>
+        <td class="amount"><%= making_order.making_order_items.count %></td>
+        <td class="amount"><%= number_with_precision making_order.total_weight %></td>
+        <td><%= truncate making_order.comments, :length => 55 %></td>
+        <td class="amount"><%=t "#{making_order.state}", :scope => [:activerecord, :attributes, :making_order, :state_values] %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
+<div class="pull-right">
+  <%= will_paginate @making_orders %>
+</div>

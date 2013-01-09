@@ -4,7 +4,9 @@ class Factory::MakingOrdersController < Factory::FactoryController
   # GET /making_orders
   # GET /making_orders.json
   def index
-    @making_orders = MakingOrder.includes(:making_order_formula).order('id DESC')
+    @making_orders = MakingOrder.includes(:making_order_formula)
+      .order('id DESC')
+      .paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
