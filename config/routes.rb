@@ -20,6 +20,7 @@ Comman::Application.routes.draw do
     end
     resources :formulas do
       resources :formula_items
+      get :formula_item, :on => :collection
     end
     resources :making_orders do
       get :making_order_item, :on => :collection

@@ -21,7 +21,12 @@ private
 
   def items_proportion_is_one_hundred
     difference = 100.0
-    difference = self.formula_items.inject(difference) { |result, item| result -= (item.proportion || 0)  }
+    difference = self.formula_items.inject(difference) do |result, item|
+      unless item.marked_for_destruction?
+        result -= (item.proportion || 0)
+      end
+      result
+    end
     errors[:base] << I18n.t(:items_proportion_should_be_100, :scope => [:activerecord, :errors, :models, :formula],
       :difference => difference.round(3)) unless (difference.abs < 0.01)
   end

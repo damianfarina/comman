@@ -28,7 +28,6 @@ class Factory::FormulasController < Factory::FactoryController
   # GET /formulas/new.json
   def new
     @formula = Formula.new
-    @formula.formula_items.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -82,6 +81,16 @@ class Factory::FormulasController < Factory::FactoryController
     respond_to do |format|
       format.html { redirect_to factory_formulas_path, :flash => { :success => t('controllers.successfully_destroyed') } }
       format.json { head :no_content }
+    end
+  end
+
+  def formula_item
+    @formula_item = FormulaItem.new :formula_element_id => params[:formula_element_id]
+    
+    respond_to do |format|
+      format.html { render :partial => 'formula_item', :locals => { :item => @formula_item } }
+      format.json { render :json => @formula_item }
+      format.js
     end
   end
 end

@@ -12,10 +12,10 @@
   <div class="row">
     <div class="span4">
       <%= f.input :abrasive, input_html: { class: 'span4' } %>
-      <%= f.input :grain, input_html: { class: 'span4' } %>
+      <%= f.input :grain,    input_html: { class: 'span4' } %>
       <%= f.input :hardness, input_html: { class: 'span4' } %>
       <%= f.input :porosity, input_html: { class: 'span4' } %>
-      <%= f.input :alloy, input_html: { class: 'span4' } %>
+      <%= f.input :alloy,    input_html: { class: 'span4' } %>
     </div>
     <div class="span5">
       <table id="formula_items_list" class="table">
@@ -26,19 +26,16 @@
             <th></th>
           </tr>
         </thead>
-        <tfoot>
-          <tr>
-            <th><%= link_to_add_fields t("actions.add"), f, :formula_items %></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </tfoot>
-        <tbody class="new-fields-container">
-            <%= f.simple_fields_for :formula_items, @formula.formula_items do |builder| %>
-              <%= render 'formula_item_fields', :f => builder %>
+        <tbody>
+          <% @formula.formula_items.each do |item| %>
+            <%= render :partial => 'formula_item', :locals => { :item => item } %>
           <% end %>
         </tbody>
       </table>
+      <hr>
+      <div class="formula-element-autocomplete">
+        <input type="text" id="search_formula_elements" class="autocomplete span5" placeholder="Buscar materia prima">
+      </div>
     </div>
   </div>
 

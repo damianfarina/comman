@@ -1,0 +1,12 @@
+<tr style="<%= "display:none;" if item.marked_for_destruction? %>" >
+  <td><%= item.formula_element_name %></td>
+  <td>
+    <%= text_field_tag "formula[formula_items_attributes][#{item.formula_element_id}][proportion]", number_with_precision(item.proportion), :class => 'input-small' %>
+    <%= hidden_field_tag "formula[formula_items_attributes][#{item.formula_element_id}][formula_element_id]", item.formula_element_id %>
+    <%= hidden_field_tag "formula[formula_items_attributes][#{item.formula_element_id}][id]", item.id %>
+    <%= hidden_field_tag "formula[formula_items_attributes][#{item.formula_element_id}][_destroy]", (item.marked_for_destruction? ? '1' : '0'), :class => 'destroy' %>
+  </td>
+  <td>
+    <%= link_to raw("&times"), '#', :class => 'close destroy' %>
+  </td>
+</tr>

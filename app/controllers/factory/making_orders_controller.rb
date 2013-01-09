@@ -91,7 +91,7 @@ class Factory::MakingOrdersController < Factory::FactoryController
     
     respond_to do |format|
       format.html { render :partial => 'making_order_item', :locals => { :item => @making_order_item } }
-      format.json { render :json => @product }
+      format.json { render :json => @making_order_item }
       format.js
     end
   end
