@@ -23,6 +23,8 @@ class MakingOrder < ActiveRecord::Base
 
   attr_accessible :mixer_capacity, :making_order_items_attributes, :comments
 
+  self.per_page = 10
+
 private
 
   def set_formula_dirty

@@ -15,6 +15,8 @@ class Product < ActiveRecord::Base
 
   attr_accessible :formula_id, :shape, :size, :weight, :pressure, :price
 
+  self.per_page = 100
+
 private
 
   def self.get_id_from_search(search)
