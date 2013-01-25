@@ -91,7 +91,7 @@ class Factory::FormulasController < Factory::FactoryController
     @formula_item = FormulaItem.new :formula_element_id => params[:formula_element_id]
     
     respond_to do |format|
-      format.html { render :partial => 'formula_item', :locals => { :item => @formula_item } }
+      format.html { render :partial => 'formula_item', :locals => { :item => @formula_item, :i => Time.now.to_i } }
       format.json { render :json => @formula_item }
       format.js
     end

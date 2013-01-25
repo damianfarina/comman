@@ -27,8 +27,10 @@
           </tr>
         </thead>
         <tbody>
+          <% i = 0 %>
           <% @formula.formula_items.each do |item| %>
-            <%= render :partial => 'formula_item', :locals => { :item => item } %>
+            <%= render :partial => 'formula_item', :locals => { :item => item, :i => i } %>
+            <% i = i+1 %>
           <% end %>
         </tbody>
       </table>
