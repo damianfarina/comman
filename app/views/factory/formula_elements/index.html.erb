@@ -4,12 +4,18 @@
   <li style="display: none;"><%= link_to t(:join, :scope => [:menu]), join_factory_formula_elements_path, :id => "join_formula_elements_button" %></li>
 <% end %>
 
+<%= form_for @search, :url => factory_formula_elements_path, :html => { :method => :get, :class => 'form-inline' } do |f| %>
+  <%= f.text_field :id_eq, :placeholder => 'ID' %>
+  <%= f.text_field :name_cont, :placeholder => 'Nombre' %>
+  <%= f.submit t(:search, :scope => [:actions]), :class => 'btn' %>
+<% end %>
+<hr>
 <table id="formula_elements_list" class="table">
   <thead>
     <tr>
-      <th class="span1"></th>
-      <th><%= FormulaElement.human_attribute_name :name %></th>
-      <th>Stock</th>
+      <th class="span1"><%= sort_link(@search, :id, FormulaElement.human_attribute_name(:id)) %></th>
+      <th class="span2"><%= sort_link(@search, :name, FormulaElement.human_attribute_name(:name)) %></th>
+      <th><%= sort_link(@search, :stock, FormulaElement.human_attribute_name(:stock)) %></th>
     </tr>
   </thead>
   <tbody>
@@ -22,7 +28,7 @@
           </label>
         </td>
         <td><%= link_to formula_element.name, factory_formula_element_path(formula_element) %></td>
-        <td style="width: 100%">
+        <td>
           <a href="<%= factory_formula_element_path formula_element %>" rel="tooltip" title="<%= number_with_precision formula_element.current_stock %>" style="background-color: <%= calculate_percentage_color(formula_element) %>; width: <%= calculate_percentage_width(formula_element) %>%" class="formula-element-chart"></a>
         </td>
       </tr>

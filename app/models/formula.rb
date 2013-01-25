@@ -15,7 +15,7 @@ class Formula < ActiveRecord::Base
 
   attr_accessible :abrasive, :grain, :hardness, :porosity, :alloy, :formula_items_attributes
 
-  self.per_page = 50
+  self.per_page = 25
 
 private
 

@@ -1,5 +1,5 @@
 Comman.namespace("factory_formula_elements");
-Comman.factory_formula_elements.index = function() {
+Comman.factory_formula_elements.action_index = function() {
   var init = function() {
     setupJoinButton();
 

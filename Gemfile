@@ -13,6 +13,7 @@ gem 'wicked_pdf'
 gem 'delocalize'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
+gem 'ransack'
 
 # Gems used only for assets and not required
 # in production environments by default.

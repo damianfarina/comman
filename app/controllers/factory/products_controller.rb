@@ -4,9 +4,8 @@ class Factory::ProductsController < Factory::FactoryController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.includes(:formula)
-      .order(:name)
-      .paginate(:page => params[:page])
+    @search = Product.search(params[:q])
+    @products = @search.result.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

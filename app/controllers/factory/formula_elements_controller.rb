@@ -4,7 +4,8 @@ class Factory::FormulaElementsController < Factory::FactoryController
   # GET /formula_elements
   # GET /formula_elements.json
   def index
-    @formula_elements = FormulaElement.missing_first.paginate(:page => params[:page])
+    @search = FormulaElement.search(params[:q])
+    @formula_elements = @search.result.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

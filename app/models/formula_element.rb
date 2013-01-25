@@ -14,7 +14,7 @@ class FormulaElement < ActiveRecord::Base
 
   attr_accessible :name, :min_stock, :current_stock, :infinite
 
-  self.per_page = 10
+  self.per_page = 25
 
   def join_with(elements)
     elements.each do |element|

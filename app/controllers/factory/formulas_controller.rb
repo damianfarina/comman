@@ -4,8 +4,11 @@ class Factory::FormulasController < Factory::FactoryController
   # GET /formulas
   # GET /formulas.json
   def index
-    @formulas = Formula.order(:name)
-      .paginate(:page => params[:page])
+    @search = Formula.search(params[:q])
+    @formulas = @search.result.paginate(:page => params[:page])
+
+    # @search = Formula.order(:name).search(params[:search])
+    # @formulas = @search.result.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
