@@ -382,6 +382,7 @@ es-AR:
         created_at: "Fecha de registro"
         id: ID
         state: Estado
+        delivery_note_items: Productos
   namespace:
     business: Administración
     factory: Fábrica

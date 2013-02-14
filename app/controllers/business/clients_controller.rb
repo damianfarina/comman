@@ -82,4 +82,11 @@ class Business::ClientsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def autocomplete
+    @clients = Client.name_or_id_contains(params['term']).select("id, name").limit(10)
+    respond_to do |format|
+      format.json { render :json => @clients.map{|item| { :id => item.id, :value => item.name } } }
+    end
+  end
 end

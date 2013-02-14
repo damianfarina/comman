@@ -5,15 +5,41 @@
 <dl class="dl-horizontal">
   <dt><strong><%= DeliveryNote.human_attribute_name(:client) %>:</strong></dt>
   <dd><%= @delivery_note.client_name %></dd>
+  <% unless @delivery_note.comments.blank? %>
   <dt><strong><%= DeliveryNote.human_attribute_name(:comments) %>:</strong></dt>
   <dd><%= @delivery_note.comments %></dd>
+  <% end %>
   <dt><strong><%= DeliveryNote.human_attribute_name(:state) %>:</strong></dt>
   <dd><%= delivery_note_state(@delivery_note) %></dd>
 </dl>
 
+<table id="products_list" class="table">
+  <thead>
+    <tr>
+      <th class=""><%= MakingOrderItem.human_attribute_name :quantity %></th>
+      <th class=""><%= Product.human_attribute_name :id %></th>
+      <th class=""><%= Product.human_attribute_name :formula %></th>
+      <th class=""><%= Product.human_attribute_name :shape %></th>
+      <th class=""><%= Product.human_attribute_name :size %></th>
+      <th class=""><%= Product.human_attribute_name :weight %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @delivery_note.delivery_note_items.each do |item| %>
+      <tr>
+        <td><%= item.quantity %></td>
+        <td><%= item.product.id %></td>
+        <td><%= item.product.formula_name %></td>
+        <td><%= item.product.shape %></td>
+        <td><%= item.product.size %></td>
+        <td><%= number_with_precision item.product.weight %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-    business_delivery_notes_path, :class => 'btn'  %>
+  <%= links_by_state(@delivery_note) %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
     edit_business_delivery_note_path(@delivery_note), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

@@ -2,9 +2,18 @@ Comman::Application.routes.draw do
 
 
   namespace :business do
-    resources :clients
+    resources :clients do
+      get :autocomplete, :on => :collection
+    end
     resources :delivery_notes do
-      get :delivery_note_item, :on => :collection
+      member do
+        post :liberate
+        post :close
+      end
+      collection do
+        get :delivery_note_item
+        get :client
+      end
     end
     root :to => 'dashboard#index'
   end

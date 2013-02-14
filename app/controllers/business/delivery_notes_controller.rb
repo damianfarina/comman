@@ -27,7 +27,6 @@ class Business::DeliveryNotesController < ApplicationController
   # GET /delivery_notes/new.json
   def new
     @delivery_note = DeliveryNote.new
-    @delivery_note.delivery_note_items.build(:product_id => 100)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -92,5 +91,31 @@ class Business::DeliveryNotesController < ApplicationController
       format.json { render :json => @product }
       format.js
     end
+  end
+
+  def client
+    @client = Client.find_by_id params[:client_id]
+    
+    respond_to do |format|
+      format.html { render :partial => 'client', :locals => { :client => @client } }
+      format.json { render :json => @client }
+      format.js
+    end
+  end
+
+  def liberate
+    @delivery_note = DeliveryNote.find(params[:id])
+    @delivery_note.state = DeliveryNote::STATE_DELIVERED
+    @delivery_note.save!
+
+    redirect_to business_delivery_note_path(@delivery_note)
+  end
+
+  def close
+    @delivery_note = DeliveryNote.find(params[:id])
+    @delivery_note.state = DeliveryNote::STATE_CLOSED
+    @delivery_note.save!
+
+    redirect_to business_delivery_note_path(@delivery_note)
   end
 end

@@ -1,16 +1,16 @@
 <tr>
+  <td>
+    <%= number_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][quantity]", item.quantity, :class => 'span1' %>
+    <%= hidden_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][product_id]", item.product_id %>
+    <%= hidden_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][id]", item.id %>
+    <%= hidden_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][_destroy]", '0', :class => 'destroy' %>
+  </td>
   <td><%= item.product.id %></td>
   <td><%= item.product.formula_name %></td>
   <td><%= item.product.shape %></td>
   <td><%= item.product.size %></td>
   <td><%= number_with_precision item.product.weight %></td>
   <td><%= item.product.pressure %></td>
-  <td>
-    <%= number_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][quantity]", item.quantity, :class => 'input-small' %>
-    <%= hidden_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][product_id]", item.product_id %>
-    <%= hidden_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][id]", item.id %>
-    <%= hidden_field_tag "delivery_note[delivery_note_items_attributes][#{item.product_id}][_destroy]", '0', :class => 'destroy' %>
-  </td>
   <td>
     <%= link_to raw("&times"), '#', :class => 'close destroy' %>
   </td>

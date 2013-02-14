@@ -10,27 +10,30 @@
   <% end %>
 
   <div class="row">
-    <div class="span3">
-      <%= f.input :client_id, :collection => Client.all.map {|c| [c.name, c.id]} %>
+    <div class="span5">
+      <input type="text" id="search_clients" class="autocomplete span5" placeholder="Buscar cliente por ID o nombre">
+      <div id="client">
+        <%= render :partial => 'client', :locals => { :client => @delivery_note.client } unless @delivery_note.client.nil? %>
+      </div>
     </div>
-    <div class="span3">
+    <div class="span5">
       <%= f.input :comments, :input_html => { :rows => 2 } %>
     </div>
   </div>
   <hr>
   <div class="row">
     <div class="span10">
-      <input type="text" id="search-products" class="autocomplete span10" placeholder="Buscar producto por ID o nombre">
+      <input type="text" id="search_products" class="autocomplete span10" placeholder="Buscar producto por ID o nombre">
       <table id="products_list" class="table">
         <thead>
           <tr>
+            <th class=""><%= MakingOrderItem.human_attribute_name :quantity %></th>
             <th class=""><%= Product.human_attribute_name :id %></th>
             <th class=""><%= Product.human_attribute_name :formula %></th>
             <th class=""><%= Product.human_attribute_name :shape %></th>
             <th class=""><%= Product.human_attribute_name :size %></th>
             <th class=""><%= Product.human_attribute_name :weight %></th>
             <th class=""><%= Product.human_attribute_name :pressure %></th>
-            <th class=""><%= MakingOrderItem.human_attribute_name :quantity %></th>
             <th></th>
           </tr>
         </thead>

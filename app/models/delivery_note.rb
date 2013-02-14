@@ -1,7 +1,7 @@
 class DeliveryNote < ActiveRecord::Base
   STATE_OPEN = 0
   STATE_DELIVERED = 1
-  STATE_CLOSE = 2
+  STATE_CLOSED = 2
 
   attr_accessible :client_id, :comments, :state, :delivery_note_items_attributes
 
@@ -11,4 +11,6 @@ class DeliveryNote < ActiveRecord::Base
   has_many :delivery_note_items, :dependent => :destroy
   accepts_nested_attributes_for :delivery_note_items, :allow_destroy => true, 
     :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }
+
+  validates :client, :delivery_note_items, :presence => true
 end

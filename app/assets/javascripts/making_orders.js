@@ -43,10 +43,10 @@ Comman.factory_making_orders = function() {
 Comman.factory_making_orders.action_edit = function() {
   var init = function() {
     Comman.factory_making_orders.setupAutocomplete();
-    $('.close.destroy').click(function(){
+    $('#products_list').on('click', '.close.destroy', function(){
       var $tr = $(this).closest('tr');
       $tr.find('input[type=hidden].destroy').val('1');
-      $tr.hide();
+      $tr.fadeOut();
       return false;
     });
   }
