@@ -3,6 +3,7 @@
   <li><%= link_to t(:new, :scope => [:menu]), new_factory_formula_path %></li>
   <li class="active"><a href="#"><%= t(:show, :scope => [:menu]) %></a></li>
   <li><%= link_to t(:edit, :scope => [:menu]), edit_factory_formula_path(@formula) %></li>
+  <li><%= link_to t(:products, :scope => [:menu, :formula]), products_factory_formula_path(@formula) %></li>
 <% end %>
 
 <div class="row">

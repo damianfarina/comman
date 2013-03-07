@@ -10,9 +10,9 @@ class ImportProducts
       product.id = row[0]
       product.shape = row[1]
       product.size = row[2]
-      product.price = row[3]
+      product.price = row[3].gsub(".", "@").gsub(",", ".").gsub("@", ",")
       product.formula_id = row[4]
-      product.weight = row[5]
+      product.weight = row[5].gsub(".", "@").gsub(",", ".").gsub("@", ",")
       product.pressure = row[6]
 
       unless product.save

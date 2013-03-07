@@ -96,4 +96,18 @@ class Factory::FormulasController < Factory::FactoryController
       format.js
     end
   end
+
+  def products
+    @formula = Formula.find(params[:id])
+    @search = @formula.products.search(params[:q])
+    @products = @search.result.paginate(:page => params[:page])
+
+    # @search = Formula.order(:name).search(params[:search])
+    # @formulas = @search.result.paginate(:page => params[:page])
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @formulas }
+    end
+  end
 end

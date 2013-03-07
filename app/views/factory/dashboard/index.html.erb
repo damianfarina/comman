@@ -15,11 +15,8 @@ $(function () {
                 text: 'Sumatoria de toda la materia prima utilizada por mes, comparado con años anteriores'
             },
             xAxis: {
-                type: 'datetime',
-                dateTimeLabelFormats: { // don't display the dummy year
-                    month: '%e. %b',
-                    year: '%b'
-                }
+                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
             },
             yAxis: {
                 title: {
@@ -30,7 +27,7 @@ $(function () {
             tooltip: {
                 formatter: function() {
                         return '<b>'+ this.series.name +'</b><br/>'+
-                        Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' m';
+                        this.y +' Kg';
                 }
             },
 
@@ -40,7 +37,7 @@ $(function () {
                         name: '<%= year[:name] %>',
                         data: [
                             <% year[:data].each do |month| %>
-                                [Date.UTC(<%= month[:year] %>,  <%= month[:month] - 1 %>, 15), <%= month[:production].round %>],
+                                <%= month[:production].round %>,
                             <% end %>
                         ],
                     },

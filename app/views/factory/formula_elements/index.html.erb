@@ -2,6 +2,7 @@
   <li class="active"><a href="#"><%= t :index, :scope => [:menu] %></a></li>
   <li><%= link_to t(:new, :scope => [:menu]), new_factory_formula_element_path %></li>
   <li style="display: none;"><%= link_to t(:join, :scope => [:menu]), join_factory_formula_elements_path, :id => "join_formula_elements_button" %></li>
+  <li><%= link_to t(:report, :scope => [:menu, :formula_element]), report_factory_formula_elements_path %></li>
 <% end %>
 
 <%= form_for @search, :url => factory_formula_elements_path, :html => { :method => :get, :class => 'form-inline' } do |f| %>

@@ -12,6 +12,7 @@
       <th class="amount"><%= MakingOrder.human_attribute_name :products %></th>
       <th class="amount"><%= MakingOrder.human_attribute_name :total_weight %></th>
       <th class="span3"><%= MakingOrder.human_attribute_name :comments %></th>
+      <th class="span1"><%= MakingOrder.human_attribute_name :state %></th>
     </tr>
   </thead>
   <tbody>
@@ -23,6 +24,7 @@
         <td class="amount"><%= making_order.making_order_items.count %></td>
         <td class="amount"><%= number_with_precision making_order.total_weight %></td>
         <td><%= truncate making_order.comments, :length => 55 %></td>
+        <td class="amount"><%=t "#{making_order.state}", :scope => [:activerecord, :attributes, :making_order, :state_values] %></td>
       </tr>
     <% end %>
   </tbody>

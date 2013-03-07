@@ -1,0 +1,13 @@
+<% content_for :secondary_navigation do %>
+  <li><%= link_to t(:index, :scope => [:menu]), factory_formula_elements_path %></li>
+  <li><%= link_to t(:new, :scope => [:menu]), new_factory_formula_element_path %></li>
+  <li><%= link_to t(:show, :scope => [:menu]), factory_formula_element_path(@formula_element) %></li>
+  <li><%= link_to t(:edit, :scope => [:menu]), edit_factory_formula_element_path(@formula_element) %></li>
+  <li class="active"><%= link_to t(:formulas, :scope => [:menu, :formula_element]), formulas_factory_formula_element_path(@formula_element) %></li>
+<% end %>
+
+<ul class="unstyled">
+  <% @formulas.each do |formula| %>
+  <li><%= link_to formula.name, factory_formula_path(formula) %></li>
+  <% end %>
+</ul>

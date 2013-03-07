@@ -2,6 +2,7 @@ class Formula < ActiveRecord::Base
   has_many :products, :dependent => :destroy
   has_many :formula_items, :order => "id", :dependent => :destroy
   has_many :formula_elements, :through => :formula_items
+  has_many :making_order_formulas, :dependent => :nullify
 
   accepts_nested_attributes_for :formula_items,
     :allow_destroy => true,

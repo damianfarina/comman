@@ -12,7 +12,7 @@
       <dd class="amount">#<%= @making_order.id %></dd>
 
       <dt><%= MakingOrder.human_attribute_name :formula %></dt>
-      <dd class="amount"><%= link_to @making_order.making_order_formula.formula_name, factory_formula_path(@making_order.making_order_formula) %></dd>
+      <dd class="amount"><%= link_to_if @making_order.making_order_formula.present?, @making_order.making_order_formula.formula_name, hash_for_factory_formula_path(:id => @making_order.making_order_formula), :target => :blank %></dd>
 
       <dt><%= MakingOrder.human_attribute_name :mixer_capacity %></dt>
       <dd class="amount"><%= number_with_precision @making_order.mixer_capacity %>kg</dd>
@@ -25,6 +25,9 @@
 
       <dt><%= MakingOrder.human_attribute_name :rounds_count %></dt>
       <dd class="amount"><%= @making_order.rounds_count %></dd>
+
+      <dt><%= MakingOrder.human_attribute_name :created_at %></dt>
+      <dd class="amount"><%= l(@making_order.created_at) unless @making_order.created_at.nil? %></dd>
     </dl>
   </div>
 
@@ -50,7 +53,7 @@
       <tbody>
         <% @making_order.making_order_items.each do |item| %>
           <tr>
-            <td><%= link_to item.product_name, factory_product_path(item.product) %></td>
+            <td><%= link_to_if item.product.present?, item.product_name, hash_for_factory_product_path(:id => item.product), :target => :blank %></td>
             <td class="span1 amount"><%= item.quantity %></td>
           </tr>
         <% end %>
@@ -69,7 +72,7 @@
       <tbody>
         <% @making_order.making_order_formula.making_order_formula_items.each do |item| %>
           <tr>
-            <td><%= link_to item.formula_element_name, factory_formula_element_path(item.formula_element), :target => :blank %></td>
+            <td><%= link_to_if item.formula_element.present?, item.formula_element_name, hash_for_factory_formula_element_path(:id => item.formula_element), :target => :blank %></td>
             <td class="amount"><%= formula_item_weight_per_round(item.proportion, @making_order.weight_per_round) %></td>
           </tr>
         <% end %>

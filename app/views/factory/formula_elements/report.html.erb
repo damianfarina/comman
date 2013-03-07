@@ -1,0 +1,19 @@
+<% content_for :secondary_navigation do %>
+  <li><%= link_to t(:index, :scope => [:menu]), factory_formula_elements_path %></li>
+  <li><%= link_to t(:new, :scope => [:menu]), new_factory_formula_element_path %></li>
+  <li class="active"><%= link_to t(:report, :scope => [:menu, :formula_element]), report_factory_formula_elements_path %></li>
+<% end %>
+
+<%= form_for @search, :url => report_factory_formula_elements_path, :html => { :method => :get, :class => 'form-inline' } do |f| %>
+  <%= f.date_select :updated_at_gteq, :placeholder => 'Usado el' %>
+  <%= f.date_select :updated_at_lteq, :placeholder => 'Hasta el' %>
+  <%= f.submit t(:search, :scope => [:actions]), :class => 'btn' %>
+<% end %>
+
+<ul class="unstyled">
+  <% @formula_elements.each do |formula_element| %>
+    <li><b><%= formula_element.formula_element_name %>:</b> <%= number_with_precision(formula_element.consumed_stock) %> Kg</li>
+  <% end %>
+</ul>
+
+<h4>Total <b><%= number_with_precision @formula_elements.inject(0.0){|sum, item| sum = sum + item.consumed_stock} %> Kg</b></h4>

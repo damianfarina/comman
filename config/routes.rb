@@ -26,10 +26,13 @@ Comman::Application.routes.draw do
       get :join, :on => :collection, :action => "preview_join"
       post :join, :on => :collection
       get :autocomplete, :on => :collection
+      get :formulas, :on => :member
+      get :report, :on => :collection
     end
     resources :formulas do
       resources :formula_items
       get :formula_item, :on => :collection
+      get :products, :on => :member
     end
     resources :making_orders do
       get :making_order_item, :on => :collection
