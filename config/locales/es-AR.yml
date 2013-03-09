@@ -399,6 +399,7 @@ es-AR:
     formula_element:
       report: "Reporte"
       formulas: "Fórmulas"
+      products: "Productos"
     formula:
       products: "Productos"
   messages:
@@ -417,3 +418,5 @@ es-AR:
     join: Unir
     print: Imprimir
     search: Buscar
+    filter: Filtrar
+    cancel: Anular

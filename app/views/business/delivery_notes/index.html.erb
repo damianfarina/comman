@@ -1,6 +1,8 @@
-<div class="page-header">
-  <h1><%=t '.title', :default => DeliveryNote.model_name.human.pluralize %></h1>
-</div>
+<% content_for :secondary_navigation do %>
+  <li class="active"><a href="#"><%= t :index, :scope => [:menu] %></a></li>
+  <li><%= link_to t(:new, :scope => [:menu]), new_business_delivery_note_path %></li>
+<% end %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -21,7 +23,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-  new_business_delivery_note_path,
-  :class => 'btn btn-primary' %>

@@ -27,6 +27,7 @@ Comman::Application.routes.draw do
       post :join, :on => :collection
       get :autocomplete, :on => :collection
       get :formulas, :on => :member
+      get :products, :on => :member
       get :report, :on => :collection
     end
     resources :formulas do
@@ -36,6 +37,7 @@ Comman::Application.routes.draw do
     end
     resources :making_orders do
       get :making_order_item, :on => :collection
+      post :cancel, :on => :member
     end
     root :to => 'dashboard#index'
   end

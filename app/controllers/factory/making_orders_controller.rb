@@ -95,4 +95,14 @@ class Factory::MakingOrdersController < Factory::FactoryController
       format.js
     end
   end
+
+  def cancel
+    @making_order = MakingOrder.find(params[:id])
+    @making_order.cancel!
+
+    respond_to do |format|
+      format.html { redirect_to factory_making_orders_path, :flash => { :success => t('controllers.successfully_updated') } }
+      format.json { head :no_content }
+    end
+  end
 end

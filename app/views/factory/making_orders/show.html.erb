@@ -12,7 +12,7 @@
       <dd class="amount">#<%= @making_order.id %></dd>
 
       <dt><%= MakingOrder.human_attribute_name :formula %></dt>
-      <dd class="amount"><%= link_to_if @making_order.making_order_formula.present?, @making_order.making_order_formula.formula_name, hash_for_factory_formula_path(:id => @making_order.making_order_formula), :target => :blank %></dd>
+      <dd class="amount"><%= link_to_if @making_order.making_order_formula.present?, @making_order.making_order_formula.formula_name, hash_for_factory_formula_path(:id => @making_order.formula_id), :target => :blank %></dd>
 
       <dt><%= MakingOrder.human_attribute_name :mixer_capacity %></dt>
       <dd class="amount"><%= number_with_precision @making_order.mixer_capacity %>kg</dd>

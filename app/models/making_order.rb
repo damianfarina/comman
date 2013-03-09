@@ -1,4 +1,9 @@
 class MakingOrder < ActiveRecord::Base
+
+  STATE_WORKING = 0
+  STATE_FINISHED = 1
+  STATE_CANCELED = 2
+
   has_one :making_order_formula, :dependent => :destroy
   delegate :formula, :formula_id, :formula_name, :to => :making_order_formula,
     :allow_nil => true
@@ -24,6 +29,11 @@ class MakingOrder < ActiveRecord::Base
   attr_accessible :mixer_capacity, :making_order_items_attributes, :comments
 
   self.per_page = 10
+
+  def cancel!
+    self.update_column :state, MakingOrder::STATE_CANCELED
+    self.making_order_formula_items.each { |i| i.cancel! }
+  end
 
 private
 

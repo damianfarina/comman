@@ -5,15 +5,29 @@
 <% end %>
 
 <%= form_for @search, :url => report_factory_formula_elements_path, :html => { :method => :get, :class => 'form-inline' } do |f| %>
-  <%= f.date_select :updated_at_gteq, :placeholder => 'Usado el' %>
-  <%= f.date_select :updated_at_lteq, :placeholder => 'Hasta el' %>
-  <%= f.submit t(:search, :scope => [:actions]), :class => 'btn' %>
+  <%= f.date_select :updated_at_gteq, {}, :class => 'span1' %><br/>
+  <%= f.date_select :updated_at_lteq, {}, :class => 'span1' %><br/>
+  <%= f.submit t(:filter, :scope => [:actions]), :class => 'btn' %>
 <% end %>
 
-<ul class="unstyled">
-  <% @formula_elements.each do |formula_element| %>
-    <li><b><%= formula_element.formula_element_name %>:</b> <%= number_with_precision(formula_element.consumed_stock) %> Kg</li>
-  <% end %>
-</ul>
+<table class="">
+  <tbody>
+    <% @formula_elements.each do |formula_element| %>
+      <tr>
+        <td><%= formula_element.formula_element_name %></td>
+        <td class="amount"><%= formula_element.consumed_stock.ceil %> Kg</td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>
+        <h4>Total</h4>
+      </td>
+      <td class="amount">
+         <b><%= @formula_elements.inject(0.0){|sum, item| sum = sum + item.consumed_stock}.round %> Kg</b>
+      </td>
+    </tr>
+  </tfoot>
+</table>
 
-<h4>Total <b><%= number_with_precision @formula_elements.inject(0.0){|sum, item| sum = sum + item.consumed_stock} %> Kg</b></h4>

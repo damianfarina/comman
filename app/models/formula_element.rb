@@ -1,6 +1,7 @@
 class FormulaElement < ActiveRecord::Base
   has_many :formula_items
   has_many :formulas, :through => :formula_items, :uniq => true
+  has_many :products, :through => :formulas, :uniq => true
 
   validates :min_stock, :current_stock, :presence => true, :unless => 'self.infinite?'
   validates :name, :presence => true, :uniqueness => true

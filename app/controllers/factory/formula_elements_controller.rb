@@ -126,6 +126,14 @@ class Factory::FormulaElementsController < Factory::FactoryController
     end
   end
 
+  def products
+    @formula_element = FormulaElement.find(params[:id])
+    @formulas = @formula_element.products
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def report
     @search = MakingOrderFormulaItem.select('formula_element_name, SUM(consumed_stock) as consumed_stock').group(:formula_element_name).order(:formula_element_name).search(params[:q])
     @formula_elements = @search.result

@@ -13,10 +13,10 @@
     <%= f.input :name, input_html: { :class => 'span4' } %>
   </div>
   <div class="inputs">
-    <%= f.input :min_stock, input_html: { :class => 'span4' } %>
+    <%= f.input :min_stock, :as => :string, input_html: { :class => 'span4' } %>
   </div>
   <div class="inputs">
-    <%= f.input :current_stock, input_html: { :class => 'span4' } %>
+    <%= f.input :current_stock, :as => :string, input_html: { :class => 'span4' } %>
   </div>
   <div class="inputs">
     <%= f.input :infinite %>
