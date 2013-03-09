@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -10,7 +10,7 @@ gem 'simple_form'
 gem 'twitter-bootstrap-rails'
 gem 'chosen-rails'
 gem 'wicked_pdf'
-gem 'delocalize', :git => 'git://github.com/danieltamiosso/delocalize.git'
+gem 'delocalize'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'ransack'

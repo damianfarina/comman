@@ -128,7 +128,7 @@ class Factory::FormulaElementsController < Factory::FactoryController
 
   def products
     @formula_element = FormulaElement.find(params[:id])
-    @formulas = @formula_element.products
+    @products = @formula_element.products
     respond_to do |format|
       format.html
     end

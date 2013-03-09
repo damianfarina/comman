@@ -3,16 +3,23 @@
   <li><%= link_to t(:new, :scope => [:menu]), new_factory_making_order_path %></li>
 <% end %>
 
+<%= form_for @search, :url => factory_making_orders_path, :html => { :method => :get, :class => 'form-inline' } do |f| %>
+  <%= f.text_field :id_eq, :placeholder => 'ID' %>
+  <%= f.text_field :making_order_formula_formula_name_cont, :placeholder => 'Formula' %>
+  <%= f.submit t(:search, :scope => [:actions]), :class => 'btn' %>
+<% end %>
+<hr>
+
 <table class="table table-striped">
   <thead>
     <tr>
-      <th class="span1"></th>
-      <th class="amount"><%= MakingOrder.human_attribute_name :created_at %></th>
-      <th class="amount"><%= MakingOrder.human_attribute_name :formula %></th>
+      <th class="span1"><%= sort_link(@search, :id, MakingOrder.human_attribute_name(:id)) %></th>
+      <th class="span1"><%= sort_link(@search, :created_at, MakingOrder.human_attribute_name(:created_at)) %></th>
+      <th class="span1"><%= sort_link(@search, :making_order_formula_formula_name, MakingOrder.human_attribute_name(:formula)) %></th>
       <th class="amount"><%= MakingOrder.human_attribute_name :products %></th>
-      <th class="amount"><%= MakingOrder.human_attribute_name :total_weight %></th>
+      <th class="amount"><%= sort_link(@search, :total_weight, MakingOrder.human_attribute_name(:total_weight)) %></th>
       <th class="span3"><%= MakingOrder.human_attribute_name :comments %></th>
-      <th class="span1"><%= MakingOrder.human_attribute_name :state %></th>
+      <th class="span1"><%= sort_link(@search, :state, MakingOrder.human_attribute_name(:state)) %></th>
     </tr>
   </thead>
   <tbody>

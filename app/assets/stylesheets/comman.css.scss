@@ -46,6 +46,10 @@ html {
     }
     .amount {
       text-align: right;
+      white-space: nowrap;
+      a {
+        white-space: nowrap;
+      }
     }
     footer {
       border-top: 1px solid #2C2C2C;

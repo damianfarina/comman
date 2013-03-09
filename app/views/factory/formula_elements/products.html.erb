@@ -8,7 +8,7 @@
 <% end %>
 
 <ul class="unstyled">
-  <% @formulas.each do |formula| %>
-  <li><%= link_to formula.name, factory_formula_path(formula) %></li>
+  <% @products.each do |product| %>
+  <li><%= link_to product.name, factory_product_path(product) %></li>
   <% end %>
 </ul>
