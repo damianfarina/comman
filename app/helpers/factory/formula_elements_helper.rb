@@ -61,4 +61,15 @@ def hsv_to_rgb(h, s, v)
     return [r1, r2, r3]
   end
 
+
+def formula_elements_to_csv(formula_elements)
+  require 'csv'
+  CSV.generate do |csv| 
+    csv << ['Nombre', 'Peso']
+    formula_elements.each do |item|
+      csv << [item.formula_element_name, item.consumed_stock]
+    end
+  end
+end
+
 end

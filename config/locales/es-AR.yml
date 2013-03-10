@@ -417,6 +417,7 @@ es-AR:
     add: Agregar
     join: Unir
     print: Imprimir
+    export: Exportar planilla
     search: Buscar
     filter: Filtrar
     cancel: Anular

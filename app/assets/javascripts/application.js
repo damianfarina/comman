@@ -17,5 +17,6 @@
 //= require twitter/bootstrap
 //= require chosen-jquery
 //= require highcharts
+//= require exporting
 //= require comman
 //= require_tree .

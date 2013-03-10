@@ -4,7 +4,8 @@ class Factory::FormulaElementsController < Factory::FactoryController
   # GET /formula_elements
   # GET /formula_elements.json
   def index
-    @search = FormulaElement.search(params[:q])
+    q = params[:q] || { :s => "name asc" }
+    @search = FormulaElement.search(q)
     @formula_elements = @search.result.paginate(:page => params[:page])
 
     respond_to do |format|
@@ -141,6 +142,8 @@ class Factory::FormulaElementsController < Factory::FactoryController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @formula_elements }
+      format.pdf  { render :pdf  => "Reporte_consumo" }
+      format.csv  { render :layout => false }
     end
   end
 end
