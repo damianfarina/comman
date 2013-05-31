@@ -22,7 +22,11 @@ class Factory::MakingOrdersController < Factory::FactoryController
     respond_to do |format|
       format.html
       format.json { render :json => @making_order }
-      format.pdf  { render :pdf  => "Orden_de_fabricacion_##{@making_order.id}" }
+      format.pdf  {
+        render :pdf => "Orden_de_fabricacion_##{@making_order.id}",
+          :page_size => "Letter",
+          :dpi => 200
+      }
     end
   end
 
