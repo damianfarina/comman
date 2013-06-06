@@ -77,12 +77,13 @@ body.printing {
     font-style: italic;
   }
   .block {
-    min-height: 50%;
+    min-height: 620px;
     &.last {
       min-height: 0;
     }
   }
   pre {
+    background: transparent;
     white-space: pre-wrap;       /* css-3 */
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -pre-wrap;      /* Opera 4-6 */
