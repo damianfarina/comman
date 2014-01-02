@@ -82,4 +82,3 @@ Comman.business_delivery_notes.action_new = function() {
 
 Comman.business_delivery_notes.action_edit = Comman.business_delivery_notes.action_new;
 Comman.business_delivery_notes.action_create = Comman.business_delivery_notes.action_new;
-Comman.business_delivery_notes.action_create = Comman.business_delivery_notes.action_new;

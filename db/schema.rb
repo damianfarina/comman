@@ -11,13 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222004209) do
+ActiveRecord::Schema.define(:version => 20131231005853) do
+
+  create_table "client_types", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "clients", :force => true do |t|
     t.string   "name"
     t.string   "address"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.string   "zip_code"
+    t.float    "balance",                :default => 0.0
+    t.date     "admission_date",         :default => '2014-01-02'
+    t.integer  "client_type_id"
+    t.string   "state",                  :default => "Mendoza"
+    t.string   "country",                :default => "Argentina"
+    t.string   "phone_one"
+    t.string   "phone_two"
+    t.string   "email_one"
+    t.boolean  "responsible_registered", :default => false
+    t.string   "cuit"
+    t.float    "discount",               :default => 0.0
+    t.datetime "last_transaction_at"
   end
 
   create_table "delivery_note_items", :force => true do |t|

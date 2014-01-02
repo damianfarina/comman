@@ -86,8 +86,6 @@ class Factory::ProductsController < Factory::FactoryController
 
   def autocomplete
     @products = Product.name_or_id_contains(params['term']).with_formula(params['formula_id']).select("id, name, formula_id").limit(10)
-    respond_to do |format|
-      format.json { render :json => @products.map{|item| {:id => item.id, :value => item.name, :formula_id => item.formula_id} } }
-    end
+    render :json => @products.map{|item| {:id => item.id, :value => item.name, :formula_id => item.formula_id} }
   end
 end

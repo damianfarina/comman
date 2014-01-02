@@ -1,7 +1,7 @@
 Comman::Application.routes.draw do
 
-
   namespace :business do
+    resources :client_types
     resources :clients do
       get :autocomplete, :on => :collection
     end

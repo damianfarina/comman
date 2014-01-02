@@ -1,6 +1,7 @@
 <% content_for :secondary_navigation do %>
   <li class="active"><a href="#"><%= t :index, :scope => [:menu] %></a></li>
   <li><%= link_to t(:new, :scope => [:menu]), new_business_client_path %></li>
+  <li><%= link_to t(:index, :scope => [:menu, :client_type]), business_client_types_path %></li>
 <% end %>
 
 <table class="table table-striped">
@@ -9,7 +10,7 @@
       <th><%= Client.human_attribute_name(:id) %></th>
       <th><%= Client.human_attribute_name(:name) %></th>
       <th><%= Client.human_attribute_name(:address) %></th>
-      <th><%= Client.human_attribute_name(:created_at) %></th>
+      <th><%= Client.human_attribute_name(:admission_date) %></th>
     </tr>
   </thead>
   <tbody>
@@ -18,7 +19,7 @@
         <td><%= link_to client.id, business_client_path(client) %></td>
         <td><%= link_to client.name, business_client_path(client) %></td>
         <td><%= client.address %></td>
-        <td><%=l client.created_at, :format => :short %></td>
+        <td><%=l client.admission_date, :format => :short %></td>
       </tr>
     <% end %>
   </tbody>

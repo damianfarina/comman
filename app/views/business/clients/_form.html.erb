@@ -1,22 +1,46 @@
 <%= simple_form_for [:business, @client] do |f| %>
-  <% if @client.errors.any? %>
-    <div class="alert alert-error">
-      <ul>
-        <% @client.errors.full_messages.each do |msg| %>
-          <li><%= raw msg %></li>
-        <% end %>
-      </ul>
+  <div class="row">
+    <div class="span5">
+      <% if @client.errors.any? %>
+        <div class="alert alert-error">
+          <ul>
+            <% @client.errors.full_messages.each do |msg| %>
+              <li><%= raw msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= f.input :name %>
+      <%= f.input :address %>
+      <%= f.input :zip_code %>
+      <%= f.input :state %>
+      <%= f.input :country, as: :string %>
+      <%= f.input :phone_one %>
+      <%= f.input :phone_two %>
+      <%= f.input :email_one %>
+
     </div>
-  <% end %>
 
-  <%= f.input :name %>
-  <%= f.input :address %>
+    <div class="span5">
+      <%= f.input :balance, as: :string %>
+      <%= f.input :admission_date, as: :string  %>
+      <%= f.input :client_type_id, collection: ClientType.all %>
+      <%= f.input :responsible_registered %>
+      <%= f.input :discount, as: :string %>
+      <%= f.input :cuit %>
+    </div>
+  </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t(:delete, :scope => [:actions]), business_client_path(@client),
-      :method => :delete,
-      :confirm => t("messages.are_you_sure"),
-      :class => 'btn btn-danger pull-right' unless @client.new_record? -%>
+  <div class="row">
+    <div class="span10">
+      <div class="form-actions">
+        <%= f.button :submit, :class => 'btn-primary' %>
+        <%= link_to t(:delete, :scope => [:actions]), business_client_path(@client),
+          :method => :delete,
+          :confirm => t("messages.are_you_sure"),
+          :class => 'btn btn-danger pull-right' unless @client.new_record? -%>
+      </div>
+    </div>
   </div>
 <% end %>

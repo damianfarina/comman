@@ -27,6 +27,7 @@ class Business::ClientsController < ApplicationController
   # GET /clients/new.json
   def new
     @client = Client.new
+    @client.admission_date = Date.today
 
     respond_to do |format|
       format.html # new.html.erb
@@ -85,8 +86,6 @@ class Business::ClientsController < ApplicationController
 
   def autocomplete
     @clients = Client.name_or_id_contains(params['term']).select("id, name").limit(10)
-    respond_to do |format|
-      format.json { render :json => @clients.map{|item| { :id => item.id, :value => item.name } } }
-    end
+    render :json => @clients.map { |item| { :id => item.id, :value => item.name } }
   end
 end

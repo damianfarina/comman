@@ -293,6 +293,39 @@ es-AR:
 
   activerecord:
     errors:
+      messages:
+        accepted: 'debe ser aceptado'
+        blank: 'no puede estar en blanco'
+        present: 'debe estar en blanco'
+        confirmation: ! 'no es igual a %{attribute}'
+        empty: 'no puede estar vacio'
+        equal_to: 'debe ser igual a %{count}'
+        even: 'debe ser par'
+        exclusion: 'está reservado'
+        greater_than: 'debe ser mayor que %{count}'
+        greater_than_or_equal_to: 'debe ser mayor o igual a %{count}'
+        inclusion: 'no está incluido en la lista'
+        invalid: 'es inválido'
+        less_than: 'debe ser menor a %{count}'
+        less_than_or_equal_to: 'debe ser menor o igual a %{count}'
+        not_a_number: 'no es un número'
+        not_an_integer: 'debe ser un entero'
+        odd: 'debe ser impar'
+        record_invalid: ! 'Inválido: %{errors}'
+        restrict_dependent_destroy:
+          one: 'No puedo eliminar el registro porque %{record} depende de este'
+          many: 'No puedo eliminar el registro porque %{record} dependen de este'
+        taken: 'ya ha sido tomado'
+        too_long:
+          one: is too long (maximum is 1 character)
+          other: is too long (maximum is %{count} characters)
+        too_short:
+          one: is too short (minimum is 1 character)
+          other: is too short (minimum is %{count} characters)
+        wrong_length:
+          one: is the wrong length (should be 1 character)
+          other: is the wrong length (should be %{count} characters)
+        other_than: "must be other than %{count}"
       models:
         making_order:
           products_formula_is_different: 'Algunos productos no tienen la misma fórmula'
@@ -305,21 +338,24 @@ es-AR:
           formula_exists: 'No se puede eliminar porque al menos una fórmula depende de esta materia prima'
     models:
       client:
-        one: Cliente
-        other: Clientes
+        one: 'Cliente'
+        other: 'Clientes'
+      client_type:
+        one: 'Tipo de cliente'
+        other: 'Tipos de cliente'
       delivery_note:
-        one: Remito
-        other: Remitos
+        one: 'Remito'
+        other: 'Remitos'
       product:
-        one: Producto
-        other: Productos
+        one: 'Producto'
+        other: 'Productos'
       formula:
-        one: Formula
-        other: Formulas
-      formula_element: Materia prima
+        one: 'Formula'
+        other: 'Formulas'
+      formula_element: 'Materia prima'
       making_order:
-        one: Órden de fabricación
-        other: Órdenes de fabricación
+        one: 'Órden de fabricación'
+        other: 'Órdenes de fabricación'
     attributes:
       formula_element:
         name: Nombre
@@ -372,9 +408,23 @@ es-AR:
         created_at: "Fecha de registro"
       client:
         id: ID
-        name: Nombre
-        address: "Dirección"
-        created_at: "Fecha de registro"
+        name: 'nombre'
+        address: 'dirección'
+        created_at: 'fecha de carga'
+        admission_date: 'fecha de ingreso'
+        zip_code: 'código postal'
+        balance: 'balance'
+        client_type: 'tipo de cliente'
+        client_type_id: 'tipo de cliente'
+        state: 'provincia'
+        country: 'país'
+        phone_one: 'teléfono trabajo'
+        phone_two: 'teléfono otro'
+        email_one: 'email'
+        responsible_registered: 'responsable inscripto'
+      client_type:
+        name: 'nombre'
+        description: 'descripción'
       delivery_note:
         client: Cliente
         client_id: Cliente
@@ -402,6 +452,8 @@ es-AR:
       products: "Productos"
     formula:
       products: "Productos"
+    client_type:
+      index: 'Tipos de cliente'
   messages:
     are_you_sure: "¿Esta seguro?"
   controllers:
