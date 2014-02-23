@@ -18,6 +18,7 @@ gem 'ransack'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+	gem 'coffee-rails'
   gem 'sass-rails',   '~> 3.2.3'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes

@@ -43,6 +43,13 @@ GEM
       railties (~> 3.0)
       thor (~> 0.14)
     coderay (1.1.0)
+    coffee-rails (3.2.2)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.2.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.4.0)
     commonjs (0.2.6)
     delocalize (0.3.1)
       rails (>= 3.0)
@@ -209,6 +216,7 @@ DEPENDENCIES
   bootstrap-will_paginate
   capybara
   chosen-rails
+  coffee-rails
   delocalize
   factory_girl_rails
   faker
