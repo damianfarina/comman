@@ -5,12 +5,11 @@ class MakingOrder < ActiveRecord::Base
   STATE_CANCELED = 2
 
   has_one :making_order_formula, :dependent => :destroy
-  delegate :formula, :formula_id, :formula_name, :to => :making_order_formula,
-    :allow_nil => true
+  delegate :formula, :formula_id, :formula_name, :to => :making_order_formula, :allow_nil => true
   has_many :making_order_items, :dependent => :destroy
   has_many :making_order_formula_items, :through => :making_order_formula, :autosave => true
 
-  accepts_nested_attributes_for :making_order_items, :allow_destroy => true, 
+  accepts_nested_attributes_for :making_order_items, :allow_destroy => true,
     :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }
 
   validates :making_order_formula,
@@ -52,7 +51,9 @@ private
   end
 
   def calculate_total_weight
-    self.total_weight = making_order_items.inject(0.0) { |r, i| r + (i.product.weight * i.quantity)  }
+    self.total_weight = making_order_items.reject(&:marked_for_destruction?).inject(0.0) do |r, i|
+      r + (i.product.weight * i.quantity)
+    end
   end
 
   def calculate_rounds_count
@@ -68,6 +69,7 @@ private
   end
 
   def are_there_valid_products?
-    making_order_items.any? and making_order_items.first.product_id.present?
+    items = making_order_items.reject(&:marked_for_destruction?)
+    items.any? and items.first.product_id.present?
   end
 end
