@@ -1,8 +1,0 @@
-<% content_for :secondary_navigation do %>
-  <li><%= link_to t(:index, :scope => [:menu]), business_clients_path %></li>
-  <li><%= link_to t(:new, :scope => [:menu]), new_business_client_path %></li>
-  <li><%= link_to t(:show, :scope => [:menu]), business_client_path(@client) %></li>
-  <li class="active"><a href="#"><%= t(:edit, :scope => [:menu]) %></a></li>
-<% end %>
-
-<%= render 'form' %>

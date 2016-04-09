@@ -1,7 +1,0 @@
-<% content_for :sidebar do %>
-  <li class="nav-header <%= "active" if is_making_orders_active? %>"><%= link_to MakingOrder.model_name.human(:count => 2), factory_making_orders_path %></li>
-  <li class="nav-header <%= "active" if is_products_active? %>"><%= link_to Product.model_name.human(:count => 2), factory_products_path %></li>
-  <li class="nav-header <%= "active" if is_formulas_active? %>"><%= link_to Formula.model_name.human(:count => 2), factory_formulas_path %></li>
-  <li class="nav-header <%= "active" if is_formula_elements_active? %>"><%= link_to FormulaElement.model_name.human(:count => 2), factory_formula_elements_path %></li>
-<% end %>
-<%= render :template => 'layouts/application' %>
