@@ -9,7 +9,7 @@ class FormulaElement < ApplicationRecord
   validates :current_stock, :numericality => true, :if => 'self.current_stock.blank? and !self.infinite?'
 
   scope :missing_first, -> { order('current_stock / min_stock') }
-  scope :name_or_id_contains, -> {|part| where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
+  scope :name_or_id_contains, -> (part) { where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
 
   before_destroy :confirm_no_formula_is_associated
 
