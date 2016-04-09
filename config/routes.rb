@@ -3,4 +3,9 @@ Rails.application.routes.draw do
 
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'
+
+  # Api definition
+  namespace :api do
+    # We are going to list our resources here
+  end
 end
