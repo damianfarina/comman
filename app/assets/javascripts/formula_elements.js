@@ -32,3 +32,16 @@ Comman.factory_formula_elements.action_index = function() {
     init: init
   }
 }();
+
+Comman.factory_formula_elements.action_report = function() {
+  var init = function() {
+
+    $('.print-btn').on('click', function() {
+      window.print();
+    });
+  }
+
+  return {
+    init: init
+  }
+}();

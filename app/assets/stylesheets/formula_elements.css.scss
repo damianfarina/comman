@@ -6,3 +6,13 @@
   width: 100%;
   @include all_rounded(50px);
 }
+
+@media print {
+  body#comman[data-controller="factory_formula_elements"][data-action="action_report"] {
+    padding: 10px 20px;
+    margin: 0;
+    .web {
+      display: none;
+    }
+  }
+}
