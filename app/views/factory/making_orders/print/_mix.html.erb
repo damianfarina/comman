@@ -88,12 +88,14 @@
             <th>Fecha</th>
             <th>H/Fin</th>
           </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
+          <% (1..@making_order.rounds_count).to_a.each do %>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
     </td>
