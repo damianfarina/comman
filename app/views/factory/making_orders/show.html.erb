@@ -84,25 +84,24 @@
 
   <div class="well">
     <button type="button" name="button" class="print-btn btn btn-large btn-success"><%= t(:print, :scope => :actions) %></button>
-    <!-- <%= link_to t(:print, :scope => :actions), factory_making_order_path(:format => :pdf), :class => 'btn btn-large btn-success' %> -->
   </div>
 </div>
 
 <% content_for :print_section do %>
   <div class="printing" style="padding-top:0">
     <div class="block">
-      <%= render :partial => '/factory/making_orders/pdf/mix', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+      <%= render :partial => '/factory/making_orders/print/mix', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
     </div>
     <div class="block">
       <div class="separator"></div>
-      <%= render :partial => '/factory/making_orders/pdf/pressing', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+      <%= render :partial => '/factory/making_orders/print/pressing', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
     </div>
     <div class="block">
-      <%= render :partial => '/factory/making_orders/pdf/adjustment', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+      <%= render :partial => '/factory/making_orders/print/adjustment', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
     </div>
     <div class="block last">
       <div class="separator"></div>
-      <%= render :partial => '/factory/making_orders/pdf/archive', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+      <%= render :partial => '/factory/making_orders/print/archive', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
     </div>
   </div>
 <% end %>
