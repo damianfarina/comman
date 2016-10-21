@@ -1,0 +1,11 @@
+@media print {
+  body#comman[data-controller="factory_making_orders"][data-action="action_show"] {
+    padding: 0;
+    margin: 0;
+    height: 279.4mm;
+    width: 215.9mm;
+    .web {
+      display: none;
+    }
+  }
+}

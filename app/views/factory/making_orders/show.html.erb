@@ -5,82 +5,104 @@
   <li><%= link_to t(:edit, :scope => [:menu]), edit_factory_making_order_path(@making_order) %></li>
 <% end %>
 
-<div class="row">
-  <div class="span3">
-    <dl class="dl-horizontal">
-      <dt><%= MakingOrder.human_attribute_name :id %></dt>
-      <dd class="amount">#<%= @making_order.id %></dd>
+<div class="print-hide">
+  <div class="row">
+    <div class="span3">
+      <dl class="dl-horizontal">
+        <dt><%= MakingOrder.human_attribute_name :id %></dt>
+        <dd class="amount">#<%= @making_order.id %></dd>
 
-      <dt><%= MakingOrder.human_attribute_name :formula %></dt>
-      <dd class="amount"><%= link_to_if @making_order.making_order_formula.present?, @making_order.making_order_formula.formula_name, hash_for_factory_formula_path(:id => @making_order.formula_id), :target => :blank %></dd>
+        <dt><%= MakingOrder.human_attribute_name :formula %></dt>
+        <dd class="amount"><%= link_to_if @making_order.making_order_formula.present?, @making_order.making_order_formula.formula_name, hash_for_factory_formula_path(:id => @making_order.formula_id), :target => :blank %></dd>
 
-      <dt><%= MakingOrder.human_attribute_name :mixer_capacity %></dt>
-      <dd class="amount"><%= number_with_precision @making_order.mixer_capacity %>kg</dd>
+        <dt><%= MakingOrder.human_attribute_name :mixer_capacity %></dt>
+        <dd class="amount"><%= number_with_precision @making_order.mixer_capacity %>kg</dd>
 
-      <dt><%= MakingOrder.human_attribute_name :total_weight %></dt>
-      <dd class="amount"><%= number_with_precision @making_order.total_weight %>kg</dd>
+        <dt><%= MakingOrder.human_attribute_name :total_weight %></dt>
+        <dd class="amount"><%= number_with_precision @making_order.total_weight %>kg</dd>
 
-      <dt><%= MakingOrder.human_attribute_name :weight_per_round %></dt>
-      <dd class="amount"><%= number_with_precision @making_order.weight_per_round %>kg</dd>
+        <dt><%= MakingOrder.human_attribute_name :weight_per_round %></dt>
+        <dd class="amount"><%= number_with_precision @making_order.weight_per_round %>kg</dd>
 
-      <dt><%= MakingOrder.human_attribute_name :rounds_count %></dt>
-      <dd class="amount"><%= @making_order.rounds_count %></dd>
+        <dt><%= MakingOrder.human_attribute_name :rounds_count %></dt>
+        <dd class="amount"><%= @making_order.rounds_count %></dd>
 
-      <dt><%= MakingOrder.human_attribute_name :created_at %></dt>
-      <dd class="amount"><%= l(@making_order.created_at) unless @making_order.created_at.nil? %></dd>
-    </dl>
+        <dt><%= MakingOrder.human_attribute_name :created_at %></dt>
+        <dd class="amount"><%= l(@making_order.created_at) unless @making_order.created_at.nil? %></dd>
+      </dl>
+    </div>
+
+    <div class="span7">
+      <dl class="dl-horizontal">
+        <dt><%= MakingOrder.human_attribute_name :comments %></dt>
+        <dd><%= @making_order.comments %></dd>
+      </dl>
+    </div>
+
   </div>
+  <hr>
+  <div class="row">
 
-  <div class="span7">
-    <dl class="dl-horizontal">
-      <dt><%= MakingOrder.human_attribute_name :comments %></dt>
-      <dd><%= @making_order.comments %></dd>
-    </dl>
-  </div>
-
-</div>
-<hr>
-<div class="row">
-
-  <div class="span5">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Cantidad</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @making_order.making_order_items.each do |item| %>
+    <div class="span5">
+      <table class="table">
+        <thead>
           <tr>
-            <td><%= link_to_if item.product.present?, item.product_name, hash_for_factory_product_path(:id => item.product), :target => :blank %></td>
-            <td class="span1 amount"><%= item.quantity %></td>
+            <th>Producto</th>
+            <th>Cantidad</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          <% @making_order.making_order_items.each do |item| %>
+            <tr>
+              <td><%= link_to_if item.product.present?, item.product_name, hash_for_factory_product_path(:id => item.product), :target => :blank %></td>
+              <td class="span1 amount"><%= item.quantity %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
 
-  <div class="span5">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Tipo y grano</th>
-          <th class="amount">Peso (kg)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @making_order.making_order_formula.making_order_formula_items.each do |item| %>
+    <div class="span5">
+      <table class="table">
+        <thead>
           <tr>
-            <td><%= link_to_if item.formula_element.present?, item.formula_element_name, hash_for_factory_formula_element_path(:id => item.formula_element), :target => :blank %></td>
-            <td class="amount"><%= formula_item_weight_per_round(item.proportion, @making_order.weight_per_round) %></td>
+            <th>Tipo y grano</th>
+            <th class="amount">Peso (kg)</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% @making_order.making_order_formula.making_order_formula_items.each do |item| %>
+            <tr>
+              <td><%= link_to_if item.formula_element.present?, item.formula_element_name, hash_for_factory_formula_element_path(:id => item.formula_element), :target => :blank %></td>
+              <td class="amount"><%= formula_item_weight_per_round(item.proportion, @making_order.weight_per_round) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="well">
+    <button type="button" name="button" class="print-btn btn btn-large btn-success"><%= t(:print, :scope => :actions) %></button>
+    <!-- <%= link_to t(:print, :scope => :actions), factory_making_order_path(:format => :pdf), :class => 'btn btn-large btn-success' %> -->
   </div>
 </div>
 
-<div class="well">
-  <%= link_to t(:print, :scope => :actions), factory_making_order_path(:format => :pdf), :class => 'btn btn-large btn-success' %>
-</div>
+<% content_for :print_section do %>
+  <div class="printing" style="padding-top:0">
+    <div class="block">
+      <%= render :partial => '/factory/making_orders/pdf/mix', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+    </div>
+    <div class="block">
+      <div class="separator"></div>
+      <%= render :partial => '/factory/making_orders/pdf/pressing', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+    </div>
+    <div class="block">
+      <%= render :partial => '/factory/making_orders/pdf/adjustment', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+    </div>
+    <div class="block last">
+      <div class="separator"></div>
+      <%= render :partial => '/factory/making_orders/pdf/archive', :locals => { :form_id_and_revision => 'F1-PCU753 Rv8'} %>
+    </div>
+  </div>
+<% end %>
