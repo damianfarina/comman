@@ -69,12 +69,6 @@
               <td>Op</td>
               <td>Canti</td>
               <td>H/Fin</td>
-              <td></td>
-              <td>Fecha</td>
-              <td>H/Ini</td>
-              <td>Op</td>
-              <td>Canti</td>
-              <td>H/Fin</td>
             </tr>
             <% @making_order.making_order_items.each do |item| %>
               <tr>
@@ -83,7 +77,23 @@
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td>&nbsp;</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table class="full">
+          <tbody>
+            <tr>
+              <td>Fecha</td>
+              <td>H/Ini</td>
+              <td>Op</td>
+              <td>Canti</td>
+              <td>H/Fin</td>
+            </tr>
+            <% @making_order.making_order_items.each do |item| %>
+              <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
