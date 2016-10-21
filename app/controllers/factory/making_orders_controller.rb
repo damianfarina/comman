@@ -18,15 +18,11 @@ class Factory::MakingOrdersController < Factory::FactoryController
   # GET /making_orders/1.json
   def show
     @making_order = MakingOrder.find(params[:id])
+    @revision_id = 'F1-PCU753 Rv9'
 
     respond_to do |format|
       format.html
       format.json { render :json => @making_order }
-      format.pdf  {
-        render :pdf => "Orden_de_fabricacion_##{@making_order.id}",
-          :page_size => "Letter",
-          :dpi => 200
-      }
     end
   end
 
@@ -92,7 +88,7 @@ class Factory::MakingOrdersController < Factory::FactoryController
 
   def making_order_item
     @making_order_item = MakingOrderItem.new :product_id => params[:product_id]
-    
+
     respond_to do |format|
       format.html { render :partial => 'making_order_item', :locals => { :item => @making_order_item } }
       format.json { render :json => @making_order_item }

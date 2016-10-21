@@ -22,61 +22,67 @@
     <% end %>
   </head>
   <body id="comman" data-controller="<%= controller_safe_name %>" data-action="<%= action_safe_name %>">
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <%= link_to "Comman", root_path, :class => "brand" %>
-          <div class="container nav-collapse">
-            <ul class="nav">
-              <li class="<%= "active" if is_business_active? %>"><%= link_to t('namespace.business'), business_root_path %></li>
-              <li class="<%= "active" if is_factory_active? %>"><%= link_to t('namespace.factory'), factory_root_path %></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+    <div class="web">
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <%= link_to "Comman", root_path, :class => "brand" %>
+            <div class="container nav-collapse">
+              <ul class="nav">
+                <li class="<%= "active" if is_business_active? %>"><%= link_to t('namespace.business'), business_root_path %></li>
+                <li class="<%= "active" if is_factory_active? %>"><%= link_to t('namespace.factory'), factory_root_path %></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="container">
-      <div class="content">
-        <div class="row">
+      <div class="container">
+        <div class="content">
+          <div class="row">
 
-          <% if content_for? :sidebar %>
-            <div class="sidebar span2">
-              <div class="sidebar-nav">
-                <ul class="nav nav-list">
-                  <%= yield :sidebar %>
+            <% if content_for? :sidebar %>
+              <div class="sidebar span2">
+                <div class="sidebar-nav">
+                  <ul class="nav nav-list">
+                    <%= yield :sidebar %>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+
+            <% if content_for? :secondary_navigation %>
+              <div id="secondary_navigation" class="<%= content_for?(:sidebar) ? "span10 offset2" : "span12"%>">
+                <ul class="nav nav-pills">
+                  <%= yield :secondary_navigation %>
                 </ul>
               </div>
+            <% end %>
+
+            <div class="main <%= content_for?(:sidebar) ? "span10 offset2" : "span12"%> <%= "content-with-secondary-toolbar" if content_for?(:secondary_navigation) %>">
+              <%= render :partial => 'common/flash', :locals => { :flash => flash } %>
+              <%= yield %>
             </div>
-          <% end %>
 
-          <% if content_for? :secondary_navigation %>
-            <div id="secondary_navigation" class="<%= content_for?(:sidebar) ? "span10 offset2" : "span12"%>">
-              <ul class="nav nav-pills">
-                <%= yield :secondary_navigation %>
-              </ul>
-            </div>
-          <% end %>
+          </div><!--/row-->
+        </div><!--/content-->
 
-          <div class="main <%= content_for?(:sidebar) ? "span10 offset2" : "span12"%> <%= "content-with-secondary-toolbar" if content_for?(:secondary_navigation) %>">
-            <%= render :partial => 'common/flash', :locals => { :flash => flash } %>
-            <%= yield %>
-          </div>
+        <footer>
+          <p>&copy; Unibras <%= Date.today.year %></p>
+        </footer>
 
-        </div><!--/row-->
-      </div><!--/content-->
+      </div> <!-- /container -->
+    </div> <!-- /web -->
 
-      <footer>
-        <p>&copy; Unibras <%= Date.today.year %></p>
-      </footer>
-
-    </div> <!-- /container -->
-
+    <% if content_for? :print_section %>
+      <div class="print-section">
+        <%= yield :print_section %>
+      </div>
+    <% end %>
   </body>
 </html>

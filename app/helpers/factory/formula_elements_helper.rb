@@ -62,14 +62,19 @@ def hsv_to_rgb(h, s, v)
   end
 
 
-def formula_elements_to_csv(formula_elements)
-  require 'csv'
-  CSV.generate do |csv| 
-    csv << ['Nombre', 'Peso']
-    formula_elements.each do |item|
-      csv << [item.formula_element_name, item.consumed_stock]
+  def formula_elements_to_csv(formula_elements)
+    require 'csv'
+    CSV.generate do |csv|
+      csv << ['Nombre', 'Peso']
+      formula_elements.each do |item|
+        csv << [item.formula_element_name, item.consumed_stock]
+      end
     end
   end
-end
+
+  def date_parts_to_date(query, key)
+    date = Date.civil(query["#{key}(1i)"].to_i, query["#{key}(2i)"].to_i, query["#{key}(3i)"].to_i)
+    date.strftime("%d/%m/%Y") if date
+  end
 
 end

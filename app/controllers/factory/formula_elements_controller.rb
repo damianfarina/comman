@@ -142,7 +142,6 @@ class Factory::FormulaElementsController < Factory::FactoryController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @formula_elements }
-      format.pdf  { render :pdf  => "Reporte_consumo" }
       format.csv  { render :layout => false }
     end
   end

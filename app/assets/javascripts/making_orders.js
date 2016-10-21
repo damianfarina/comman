@@ -56,6 +56,19 @@ Comman.factory_making_orders.action_edit = function() {
   }
 }();
 
+Comman.factory_making_orders.action_show = function() {
+  var init = function() {
+
+    $('.print-btn').on('click', function() {
+      window.print();
+    });
+  }
+
+  return {
+    init: init
+  }
+}();
+
 Comman.factory_making_orders.action_create = Comman.factory_making_orders.action_edit;
 Comman.factory_making_orders.action_update = Comman.factory_making_orders.action_edit;
 Comman.factory_making_orders.action_new = Comman.factory_making_orders.action_edit;
