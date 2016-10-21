@@ -1,4 +1,5 @@
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<div id="years-container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 <script type="text/javascript">
 $(function () {
     var chart;
@@ -44,7 +45,46 @@ $(function () {
                 <% end %>
             ]
         });
+
+        yearsChart = new Highcharts.Chart({
+          chart: {
+            renderTo: 'years-container',
+            type: 'spline'
+          },
+          title: {
+            text: 'Consumo por año'
+          },
+          subtitle: {
+            text: 'Sumatoria de toda la materia prima utilizada por año'
+          },
+          xAxis: {
+            categories: <%= years %>
+          },
+          yAxis: {
+            title: {
+              text: 'Consumo de materia prima'
+            },
+            min: 0
+          },
+          tooltip: {
+            formatter: function() {
+              return '<b>'+ this.series.name +'</b><br/>'+
+              this.y +' Kg';
+            }
+          },
+
+          series: [
+            {
+              name: 'Consumo (kg)',
+              data: [
+                <% ProductionMonth.weight_per_year.each do |weight| %>
+                  <%= weight.round %>,
+                <% end %>
+              ],
+            },
+          ]
+        });
     });
-    
+
 });
 </script>

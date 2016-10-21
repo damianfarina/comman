@@ -4,4 +4,8 @@ module Factory::DashboardHelper
 
     end
   end
+
+  def years
+    (2011..Date.today.year).to_a
+  end
 end

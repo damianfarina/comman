@@ -15,6 +15,30 @@ class ProductionMonth < ActiveRecord::Base
     data_year
   end
 
+  def self.weight_per_year
+    data_year = []
+    self.where('year < ?', Date.today.year).order(:year).group(:year).pluck(:year).each do |year|
+      production = self.where(:year => year).order(:month).reduce(0) do |sum, month|
+        sum + month.production
+      end
+      data_year << production
+      puts "#{year}: #{production}"
+    end
+
+    production = self.where(:year => Date.today.beginning_of_year.yesterday.year) \
+      .order(:month).reduce(0) do |sum, month|
+        current_month = self.where(:year => Date.today.year).where(month: month.month).first
+        if current_month
+          sum + current_month.production
+        else
+          sum + month.production
+        end
+      end
+    data_year << production
+
+    data_year
+  end
+
   def self.generate_production_levels
     ProductionMonth.delete_all
     MakingOrderFormulaItem.find_each do |item|
