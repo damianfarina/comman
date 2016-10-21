@@ -9,3 +9,14 @@
     }
   }
 }
+
+.cell-checkbox {
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+
+  [type="checkbox"] {
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+}

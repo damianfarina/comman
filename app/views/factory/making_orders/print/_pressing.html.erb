@@ -47,7 +47,11 @@
               <tr>
                 <td><%= item.product.id %></td>
                 <td class="amount"><%= item.quantity %></td>
-                <td><%= item.product_shape %></td>
+                <td>
+                  <div class="cell-checkbox">
+                    <%= item.product_shape %> <input type="checkbox">
+                  </div>
+                </td>
                 <td><%= item.product_size %></td>
                 <td><%= item.product_pressure %></td>
                 <td class="amount"><%= number_with_precision item.product_weight %></td>
@@ -61,17 +65,21 @@
           <tbody>
             <tr>
               <td>Fecha</td>
-              <td>Opera</td>
+              <td>H/Ini</td>
+              <td>Op</td>
               <td>Canti</td>
+              <td>H/Fin</td>
+              <td></td>
               <td>Fecha</td>
-              <td>Opera</td>
+              <td>H/Ini</td>
+              <td>Op</td>
               <td>Canti</td>
-              <td>Fecha</td>
-              <td>Opera</td>
-              <td>Canti</td>
+              <td>H/Fin</td>
             </tr>
             <% @making_order.making_order_items.each do |item| %>
               <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
