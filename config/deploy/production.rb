@@ -4,6 +4,7 @@ set :deploy_to,       "/home/deployer/apps/comman"
 set :rails_env,       "production"
 set :normalize_asset_timestamps, false
 set :ssh_options,     { forward_agent: true }
+set :linked_files, %w{config/database.yml}
 
 # set :migrate_target,  :current
 #
