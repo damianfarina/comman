@@ -12,6 +12,7 @@ gem 'delocalize'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'ransack'
+gem "unicorn"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -34,22 +35,16 @@ gem 'less-rails'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-group :production do
-  gem 'pg'
-end
+gem 'pg'
 
 group :development do
-  gem 'unicorn'
   gem 'railroady'
   gem 'quiet_assets'
-  gem 'sqlite3'
   gem 'yaml_db'
+  gem 'capistrano'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
 end
 
 group :development, :test do
