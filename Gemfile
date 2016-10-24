@@ -12,7 +12,6 @@ gem 'delocalize'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'ransack'
-gem "unicorn"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -45,7 +44,6 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'capistrano-unicorn-nginx'
 end
 
 group :development, :test do
