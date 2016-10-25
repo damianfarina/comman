@@ -1,8 +1,7 @@
 @page {
-  size: auto;
-  margin: 0;
-  orphans:4;
-  widows:2;
+  margin: 20px 25px;
+  orphans: 4;
+  widows: 2;
 }
 @media only screen {
   .print-section,
@@ -113,7 +112,7 @@
       line-height: 1;
     }
     .block {
-      min-height: 50vh;
+      min-height: 47vh;
       page-break-inside: avoid;
       &.last {
         min-height: 0;
