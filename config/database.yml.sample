@@ -1,6 +1,6 @@
 development:
   adapter: postgresql
-  database: comman_damian
+  database: comman
   host: localhost
   username: postgres
   password: postgres
