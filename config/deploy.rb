@@ -7,7 +7,6 @@ set :rails_env, 'production'
 
 set :rvm_type, :system
 set :rvm_ruby_version, '2.1@comman'
-set :branch, 'deploy_ubuntu_16.04'
 
 set :migration_role, :app
 
