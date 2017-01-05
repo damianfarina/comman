@@ -19,6 +19,4 @@
 
 # Ignore Byebug command history file.
 .byebug_history
-
-# UI
-/ui/node_modules
+config/database.yml
