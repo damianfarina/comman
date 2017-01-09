@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Products</h1>
+
+<%= link_to 'New Product', new_factory_product_path %>
+
+<%= form_for @search, url: factory_products_path, html: { method: :get } do |f| %>
+  <%= f.text_field :id_eq, placeholder: 'ID' %>
+  <%= f.text_field :name_cont, placeholder: 'Nombre' %>
+  <%= f.submit 'Buscar' %>
+<% end %>
+
+<div id="product-list">
+  <%= render 'list', products: @products %>
+</div>

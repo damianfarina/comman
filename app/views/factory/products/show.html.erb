@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>ID:</strong>
+  <%= @product.id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @product.name %>
+</p>
+
+<p>
+  <strong>Formula:</strong>
+  <b>#<%= @product.formula_id %></b> <%= @product.formula_name %>
+</p>
+
+<p>
+  <strong>Shape:</strong>
+  <%= @product.shape %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @product.size %>
+</p>
+
+<p>
+  <strong>Weight:</strong>
+  <%= @product.weight %>
+</p>
+
+<p>
+  <strong>Pressure:</strong>
+  <%= @product.pressure %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @product.price %>
+</p>
+
+<%= link_to 'Edit', edit_factory_product_path(@product) %> |
+<%= link_to 'Back', factory_products_path %>

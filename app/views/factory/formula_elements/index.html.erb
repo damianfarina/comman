@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Formula Elements</h1>
+
+<%= link_to 'New Formula Element', new_factory_formula_element_path %>
+
+<%= form_for @search, url: factory_formula_elements_path, html: { method: :get } do |f| %>
+  <%= f.text_field :id_eq, placeholder: 'ID' %>
+  <%= f.text_field :name_cont, placeholder: 'Nombre' %>
+  <%= f.submit 'Buscar' %>
+<% end %>
+
+<div id="formula-element-list">
+  <%= render 'list', formula_elements: @formula_elements %>
+</div>

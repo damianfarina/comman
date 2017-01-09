@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @formula.name %>
+</p>
+
+<p>
+  <strong>Abrasive:</strong>
+  <%= @formula.abrasive %>
+</p>
+
+<p>
+  <strong>Grain:</strong>
+  <%= @formula.grain %>
+</p>
+
+<p>
+  <strong>Hardness:</strong>
+  <%= @formula.hardness %>
+</p>
+
+<p>
+  <strong>Porosity:</strong>
+  <%= @formula.porosity %>
+</p>
+
+<p>
+  <strong>Alloy:</strong>
+  <%= @formula.alloy %>
+</p>
+
+<h3>Elements</h3>
+<% @formula.formula_items.each do |item| %>
+  <p>
+    <strong>Element:</strong>
+    <%= item.formula_element_name %> (<%= item.proportion %>%)
+  </p>
+<% end %>
+
+
+<%= link_to 'Edit', edit_factory_formula_path(@formula) %> |
+<%= link_to 'Back', factory_formulas_path %>

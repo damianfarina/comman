@@ -1,0 +1,29 @@
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Shape</th>
+      <th>Size</th>
+      <th>Weight</th>
+      <th>Pressure</th>
+      <th>Price</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% products.each do |product| %>
+      <tr>
+        <td><%= product.id %></td>
+        <td><%= product.shape %></td>
+        <td><%= product.size %></td>
+        <td><%= product.weight %></td>
+        <td><%= product.pressure %></td>
+        <td><%= product.price %></td>
+        <td><%= link_to 'Show', factory_product_path(product) %></td>
+        <td><%= link_to 'Edit', edit_factory_product_path(product) %></td>
+        <td><%= link_to 'Destroy', factory_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

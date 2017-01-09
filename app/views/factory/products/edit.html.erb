@@ -1,0 +1,8 @@
+<h1>Editing Product</h1>
+
+<h2><%= @product.name %></h2>
+
+<%= render 'form', product: @product %>
+
+<%= link_to 'Show', factory_product_path(@product) %> |
+<%= link_to 'Back', factory_products_path %>

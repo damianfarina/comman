@@ -1,0 +1,54 @@
+<%= form_for([:factory, formula]) do |f| %>
+  <% if formula.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(formula.errors.count, "error") %> prohibited this formula from being saved:</h2>
+
+      <ul>
+      <% formula.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :abrasive %>
+    <%= f.text_field :abrasive %>
+  </div>
+
+  <div class="field">
+    <%= f.label :grain %>
+    <%= f.text_field :grain %>
+  </div>
+
+  <div class="field">
+    <%= f.label :hardness %>
+    <%= f.text_field :hardness %>
+  </div>
+
+  <div class="field">
+    <%= f.label :porosity %>
+    <%= f.text_field :porosity %>
+  </div>
+
+  <div class="field">
+    <%= f.label :alloy %>
+    <%= f.text_field :alloy %>
+  </div>
+
+  <h3>Elements</h3>
+
+  <%= f.fields_for :formula_items do |ff| %>
+    <div class="field">
+      <%= f.label 'Element' %>
+      <%= ff.hidden_field :id %>
+      <%= ff.collection_select(:formula_element_id, FormulaElement.all, :id, :name, prompt: true) %>
+        <%= ff.text_field :proportion, placeholder: 'Proportion' %> %
+    </div>
+
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

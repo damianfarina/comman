@@ -9,6 +9,11 @@
   </head>
 
   <body>
+    <ul>
+      <li><%= link_to :products, factory_products_path %></li>
+      <li><%= link_to :formula_elements, factory_formula_elements_path %></li>
+      <li><%= link_to :formulas, factory_formulas_path %></li>
+    </ul>
     <%= yield %>
   </body>
 </html>

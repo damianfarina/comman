@@ -1,0 +1,37 @@
+<%= form_for([:factory, formula_element]) do |f| %>
+  <% if formula_element.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(formula_element.errors.count, "error") %> prohibited this formula element from being saved:</h2>
+
+      <ul>
+      <% formula_element.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :min_stock %>
+    <%= f.text_field :min_stock %>
+  </div>
+
+  <div class="field">
+    <%= f.label :current_stock %>
+    <%= f.text_field :current_stock %>
+  </div>
+
+  <div class="field">
+    <%= f.label :infinite %>
+    <%= f.check_box :infinite %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

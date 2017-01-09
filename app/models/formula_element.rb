@@ -1,23 +1,27 @@
 class FormulaElement < ApplicationRecord
   has_many :formula_items
-  has_many :formulas, -> { uniq }, :through => :formula_items
-  has_many :products, -> { uniq }, :through => :formulas
+  has_many :formulas, -> { distinct }, through: :formula_items
+  has_many :products, -> { distinct }, through: :formulas
 
-  validates :min_stock, :current_stock, :presence => true, :unless => 'self.infinite?'
-  validates :name, :presence => true, :uniqueness => true
-  validates :min_stock, :numericality => { :greater_than => 0 }, :if => 'self.min_stock.present? and !self.infinite?'
-  validates :current_stock, :numericality => true, :if => 'self.current_stock.blank? and !self.infinite?'
+  validates :min_stock, :current_stock, presence: true, unless: 'self.infinite?'
+  validates :name, presence: true, uniqueness: true
+  validates :min_stock, numericality: { greater_than: 0 },
+    if: 'self.min_stock.present? and !self.infinite?'
+  validates :current_stock, numericality: true,
+    if: 'self.current_stock.blank? and !self.infinite?'
 
   scope :missing_first, -> { order('current_stock / min_stock') }
-  scope :name_or_id_contains, -> (part) { where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
+  scope :name_or_id_contains, -> (part) {
+    where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%")
+  }
 
   before_destroy :confirm_no_formula_is_associated
 
-  # self.per_page = 25
-
   def join_with(elements)
     elements.each do |element|
-      element.formula_items.each { |item| item.update_attributes :formula_element_id => self.id}
+      element.formula_items.each { |item|
+        item.update_attributes formula_element_id: self.id
+      }
       element.formula_items(true)
     end
     elements.each { |element| element.destroy }
@@ -29,7 +33,6 @@ class FormulaElement < ApplicationRecord
   end
 
   def current_stock_percentage
-
     return 100 if self.infinite?
 
     max = 100.0 * self.min_stock / 5.0
@@ -50,7 +53,12 @@ private
 
   def confirm_no_formula_is_associated
     if self.formulas.any?
-      errors[:base] << I18n.t(:formula_exists, :scope => [:activerecord, :errors, :models, :formula_element])
+      errors[:base] << I18n.t(:formula_exists, scope: [
+        :activerecord,
+        :errors,
+        :models,
+        :formula_element
+      ])
       return false
     end
   end

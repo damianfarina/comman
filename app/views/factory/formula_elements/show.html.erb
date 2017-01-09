@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>ID:</strong>
+  <%= @formula_element.id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @formula_element.name %>
+</p>
+
+<p>
+  <strong>Min Stock:</strong>
+  <%= @formula_element.min_stock %>
+</p>
+
+<p>
+  <strong>Current Stock:</strong>
+  <%= @formula_element.current_stock %>
+</p>
+
+<p>
+  <strong>Infinite?:</strong>
+  <%= @formula_element.infinite ? 'Yes' : 'No' %>
+</p>
+
+<%= link_to 'Edit', edit_factory_formula_element_path(@formula_element) %> |
+<%= link_to 'Back', factory_formula_elements_path %>
