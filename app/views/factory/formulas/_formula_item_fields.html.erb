@@ -1,0 +1,7 @@
+<div class="field">
+  <%= f.label 'Element' %>
+  <%= f.hidden_field :id %>
+  <%= f.collection_select(:formula_element_id, FormulaElement.all, :id, :name, prompt: true) %>
+  <%= f.text_field :proportion, placeholder: 'Proportion' %> %
+  Delete <%= f.check_box :_destroy %> 
+</div>

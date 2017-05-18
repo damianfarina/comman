@@ -14,8 +14,6 @@ class Formula < ApplicationRecord
 
   before_validation :set_name
 
-  # self.per_page = 25
-
 private
 
   def items_proportion_is_one_hundred

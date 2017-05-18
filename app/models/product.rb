@@ -5,15 +5,17 @@ class Product < ApplicationRecord
 
   delegate :name, :to => :formula, :prefix => true, :allow_nil => true
 
-  scope :name_or_id_contains, lambda { |part| where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%") }
-  scope :with_formula, lambda { |formula_id| where('formula_id = ?', formula_id) unless formula_id.blank? }
+  scope :name_or_id_contains, -> (part) do
+    where('id = ? OR UPPER(name) like UPPER(?)', get_id_from_search(part), "%#{part}%")
+  end
+  scope :with_formula, -> (formula_id) do
+    where(formula_id: formula_id) unless formula_id.blank?
+  end
 
   validates :shape, :size, :pressure, :weight, :formula, :presence => true
   validate :name_is_unique, :unless => 'self.name.nil?'
 
   before_validation :set_name
-
-  # self.per_page = 25
 
 private
 

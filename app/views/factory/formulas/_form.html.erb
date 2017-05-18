@@ -1,8 +1,7 @@
 <%= form_for([:factory, formula]) do |f| %>
   <% if formula.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(formula.errors.count, "error") %> prohibited this formula from being saved:</h2>
-
+      <h2><%= t('messages.form_errors', count: formula.errors.count) %></h2>
       <ul>
       <% formula.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -39,14 +38,10 @@
   <h3>Elements</h3>
 
   <%= f.fields_for :formula_items do |ff| %>
-    <div class="field">
-      <%= f.label 'Element' %>
-      <%= ff.hidden_field :id %>
-      <%= ff.collection_select(:formula_element_id, FormulaElement.all, :id, :name, prompt: true) %>
-        <%= ff.text_field :proportion, placeholder: 'Proportion' %> %
-    </div>
-
+    <%= render 'formula_item_fields', f: ff %>
   <% end %>
+
+  <%= link_to_add_fields 'Add Element', f, :formula_items %>
 
   <div class="actions">
     <%= f.submit %>

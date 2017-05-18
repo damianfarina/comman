@@ -25,8 +25,6 @@ class MakingOrder < ApplicationRecord
   before_save :calculate_weight_per_round
   before_update :set_formula_dirty, :if => 'self.total_weight_changed?'
 
-  # self.per_page = 10
-
   def cancel!
     self.update_column :state, MakingOrder::STATE_CANCELED
     self.making_order_formula_items.each { |i| i.cancel! }

@@ -1,11 +1,12 @@
 FactoryGirl.define do
-  sequence :abrasive do |n|
-    "#{n}A"
-  end
 
   factory :formula do
-    abrasive 'OA'
-    grain '20.3'
+    sequence :abrasive do |n|
+      "#{((n % 25) + 65).chr}"
+    end
+    sequence :grain do
+      rand(10..120)
+    end
     hardness 'R'
     porosity '6'
     alloy 'BAK'

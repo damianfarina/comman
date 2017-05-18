@@ -1,10 +1,9 @@
 FactoryGirl.define do
-  sequence :name do |n|
-    "Formula Element #{n}"
-  end
-
   factory :formula_element do
-    name
+    sequence :name do |n|
+      "Formula-#{n}-Element"
+    end
+
     min_stock 100
     current_stock 150
     infinite false

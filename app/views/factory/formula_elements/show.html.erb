@@ -1,28 +1,28 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>ID:</strong>
+  <strong><%= FormulaElement.human_attribute_name(:id) %></strong>
   <%= @formula_element.id %>
 </p>
 
 <p>
-  <strong>Name:</strong>
+  <strong><%= FormulaElement.human_attribute_name(:name) %></strong>
   <%= @formula_element.name %>
 </p>
 
 <p>
-  <strong>Min Stock:</strong>
+  <strong><%= FormulaElement.human_attribute_name(:min_stock) %></strong>
   <%= @formula_element.min_stock %>
 </p>
 
 <p>
-  <strong>Current Stock:</strong>
+  <strong><%= FormulaElement.human_attribute_name(:current_stock) %></strong>
   <%= @formula_element.current_stock %>
 </p>
 
 <p>
-  <strong>Infinite?:</strong>
-  <%= @formula_element.infinite ? 'Yes' : 'No' %>
+  <strong><%= FormulaElement.human_attribute_name(:needs_stock) %></strong>
+  <%= !@formula_element.infinite ? t('messages.yes') : t('messages.no') %>
 </p>
 
 <%= link_to 'Edit', edit_factory_formula_element_path(@formula_element) %> |

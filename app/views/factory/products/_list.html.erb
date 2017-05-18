@@ -1,12 +1,13 @@
+<%= will_paginate products %>
 <table>
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Shape</th>
-      <th>Size</th>
-      <th>Weight</th>
-      <th>Pressure</th>
-      <th>Price</th>
+      <th><%= sort_link(search, :id, Product.human_attribute_name(:id)) %></th>
+      <th><%= sort_link(search, :shape, Product.human_attribute_name(:shape)) %></th>
+      <th><%= sort_link(search, :size, Product.human_attribute_name(:size)) %></th>
+      <th><%= sort_link(search, :weight, Product.human_attribute_name(:weight)) %></th>
+      <th><%= sort_link(search, :pressure, Product.human_attribute_name(:pressure)) %></th>
+      <th><%= sort_link(search, :price, Product.human_attribute_name(:price)) %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -27,3 +28,4 @@
     <% end %>
   </tbody>
 </table>
+<%= will_paginate products %>

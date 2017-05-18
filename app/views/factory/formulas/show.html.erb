@@ -1,43 +1,43 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @formula.name %>
-</p>
+<h3>Details</h3>
+<strong>ID:</strong>
+<%= @formula.id %>
 
-<p>
-  <strong>Abrasive:</strong>
-  <%= @formula.abrasive %>
-</p>
+<br>
+<strong>Name:</strong>
+<%= @formula.name %>
 
-<p>
-  <strong>Grain:</strong>
-  <%= @formula.grain %>
-</p>
+<br>
+<strong>Abrasive:</strong>
+<%= @formula.abrasive %>
 
-<p>
-  <strong>Hardness:</strong>
-  <%= @formula.hardness %>
-</p>
+<br>
+<strong>Grain:</strong>
+<%= @formula.grain %>
 
-<p>
-  <strong>Porosity:</strong>
-  <%= @formula.porosity %>
-</p>
+<br>
+<strong>Hardness:</strong>
+<%= @formula.hardness %>
 
-<p>
-  <strong>Alloy:</strong>
-  <%= @formula.alloy %>
-</p>
+<br>
+<strong>Porosity:</strong>
+<%= @formula.porosity %>
 
-<h3>Elements</h3>
+<br>
+<strong>Alloy:</strong>
+<%= @formula.alloy %>
+<br>
+<br>
+<h3>Composition</h3>
 <% @formula.formula_items.each do |item| %>
-  <p>
-    <strong>Element:</strong>
-    <%= item.formula_element_name %> (<%= item.proportion %>%)
-  </p>
+    <%= item.formula_element_name %> (<%= item.proportion %>%)<br>
 <% end %>
+<br>
 
-
+<h3>Products</h3>
+<% @formula.products.each do |product| %>
+  <%= link_to product.name, factory_product_path(product) %><br>
+<% end %>
 <%= link_to 'Edit', edit_factory_formula_path(@formula) %> |
 <%= link_to 'Back', factory_formulas_path %>

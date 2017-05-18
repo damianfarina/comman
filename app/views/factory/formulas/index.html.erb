@@ -11,13 +11,13 @@
 <table>
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Abrasive</th>
-      <th>Grain</th>
-      <th>Hardness</th>
-      <th>Porosity</th>
-      <th>Alloy</th>
+      <th><%= sort_link(@search, :id, Formula.human_attribute_name(:id)) %></th>
+      <th><%= sort_link(@search, :name, Formula.human_attribute_name(:name)) %></th>
+      <th><%= sort_link(@search, :abrasive, Formula.human_attribute_name(:abrasive)) %></th>
+      <th><%= sort_link(@search, :grain, Formula.human_attribute_name(:grain)) %></th>
+      <th><%= sort_link(@search, :hardness, Formula.human_attribute_name(:hardness)) %></th>
+      <th><%= sort_link(@search, :porosity, Formula.human_attribute_name(:porosity)) %></th>
+      <th><%= sort_link(@search, :alloy, Formula.human_attribute_name(:alloy)) %></th>
       <th colspan="3"></th>
     </tr>
   </thead>

@@ -24,24 +24,24 @@ RSpec.describe Factory::ProductsController, :type => :controller do
   # Product. As you add validations to Product, be sure to
   # adjust the attributes here as well.
   let(:formula) { create(:formula) }
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     {
       formula_id: formula.id,
       shape: 'CPL',
-      size: '127X50X22.2',
+      size: '127X50X15',
       weight: '1.45',
-      pressure: 'C-20',
+      pressure: 'C-29',
       price: '100.0'
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       id: 1,
       name: "Invalid name",
       formula_id: 56456
     }
-  }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -122,20 +122,26 @@ RSpec.describe Factory::ProductsController, :type => :controller do
 
       it "updates the requested product" do
         product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: new_attributes}, session: valid_session
+        put :update,
+          params: { id: product.to_param, product: new_attributes },
+          session: valid_session
         product.reload
         expect(product.price).to eq(new_attributes[:price])
       end
 
       it "assigns the requested product as @product" do
         product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: valid_attributes}, session: valid_session
+        put :update,
+          params: { id: product.to_param, product: valid_attributes },
+          session: valid_session
         expect(assigns(:product)).to eq(product)
       end
 
       it "redirects to the product" do
         product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: valid_attributes}, session: valid_session
+        put :update,
+          params: { id: product.to_param, product: valid_attributes },
+          session: valid_session
         expect(response).to redirect_to(factory_product_path(product))
       end
     end
@@ -143,13 +149,17 @@ RSpec.describe Factory::ProductsController, :type => :controller do
     describe "with invalid params" do
       it "assigns the product as @product" do
         product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: invalid_attributes}, session: valid_session
+        put :update,
+          params: { id: product.to_param, product: invalid_attributes },
+          session: valid_session
         expect(assigns(:product)).to eq(product)
       end
 
       it "re-renders the 'edit' template" do
         product = Product.create! valid_attributes
-        put :update, params: {id: product.to_param, product: invalid_attributes}, session: valid_session
+        put :update,
+          params: { id: product.to_param, product: invalid_attributes },
+          session: valid_session
         expect(response).to render_template("edit")
       end
     end

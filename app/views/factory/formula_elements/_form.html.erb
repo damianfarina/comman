@@ -1,8 +1,7 @@
 <%= form_for([:factory, formula_element]) do |f| %>
   <% if formula_element.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(formula_element.errors.count, "error") %> prohibited this formula element from being saved:</h2>
-
+      <h2><%= t('messages.form_errors', count: formula_element.errors.count) %></h2>
       <ul>
       <% formula_element.errors.full_messages.each do |message| %>
         <li><%= message %></li>
