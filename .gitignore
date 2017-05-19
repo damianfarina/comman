@@ -16,3 +16,4 @@
 /nbproject
 node_modules
 config/database.yml
+.byebug_history

@@ -37,4 +37,10 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+    Rails.application.load_seed # loading seeds
+    DatabaseCleaner.strategy = :transaction
+  end
 end

@@ -8,7 +8,7 @@ gem 'rails', '3.2.12'
 gem 'simple_form'
 gem 'twitter-bootstrap-rails'
 gem 'chosen-rails'
-gem 'delocalize'
+gem 'delocalize', '~> 0.4.0'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'ransack'
@@ -49,6 +49,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+	gem 'byebug'
 end
 
 group :test do
@@ -56,4 +57,5 @@ group :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
+	gem 'database_cleaner'
 end

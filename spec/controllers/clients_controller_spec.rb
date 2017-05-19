@@ -51,7 +51,6 @@ describe Business::ClientsController do
 
       it "redirects to the created client" do
         post :create, {:client => FactoryGirl.attributes_for(:client)}, valid_session
-        puts "caca"
         response.should redirect_to(business_client_path(Client.last))
       end
     end

@@ -28,8 +28,9 @@ private
       end
       result
     end
-    errors[:base] << I18n.t(:items_proportion_should_be_100, :scope => [:activerecord, :errors, :models, :formula],
-      :difference => difference.round(3)) unless (difference.abs < 0.01)
+    errors[:base] << I18n.t(:items_proportion_should_be_100,
+      scope: [:activerecord, :errors, :models, :formula],
+      difference: difference.round(3)) unless (difference.abs < 0.01)
   end
 
   def set_name
