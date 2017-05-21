@@ -43,4 +43,6 @@ RSpec.configure do |config|
     Rails.application.load_seed # loading seeds
     DatabaseCleaner.strategy = :transaction
   end
+
+  config.include FactoryGirl::Syntax::Methods
 end

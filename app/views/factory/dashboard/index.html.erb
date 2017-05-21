@@ -2,7 +2,9 @@
 <div id="years-container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 <script type="text/javascript">
 $(function () {
-    var chart;
+    'use strict';
+    var chart,
+      yearsChart;
     $(document).ready(function() {
         chart = new Highcharts.Chart({
             chart: {
@@ -33,7 +35,7 @@ $(function () {
             },
 
             series: [
-                <% ProductionMonth.data_for_chart.each do |year| %>
+                <% flat_dates_to_nested_dates(@production_monthly).each do |year| %>
                     {
                         name: '<%= year[:name] %>',
                         data: [
@@ -58,7 +60,7 @@ $(function () {
             text: 'Sumatoria de toda la materia prima utilizada por año'
           },
           xAxis: {
-            categories: <%= years %>
+            categories: <%= @production_yearly.map { |date| date['year'].to_i } %>
           },
           yAxis: {
             title: {
@@ -77,8 +79,8 @@ $(function () {
             {
               name: 'Consumo (kg)',
               data: [
-                <% ProductionMonth.weight_per_year.each do |weight| %>
-                  <%= weight.round %>,
+                <% @production_yearly.each do |date| %>
+                  <%= date['weight'] %>,
                 <% end %>
               ],
             },

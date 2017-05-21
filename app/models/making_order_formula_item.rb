@@ -35,11 +35,11 @@ private
   def calculate_consumed_stock
     self.consumed_stock = self.making_order.total_weight * self.proportion / 100.0
   end
-  
+
   def give_back_formula_element_stock
     return if self.formula_item.nil?
     return if self.formula_item.formula_element.nil?
-    
+
     current_stock = self.formula_item.formula_element.current_stock + self.consumed_stock
     self.formula_item.formula_element.update_attributes :current_stock => current_stock
   end

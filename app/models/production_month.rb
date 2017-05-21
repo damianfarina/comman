@@ -12,6 +12,7 @@ class ProductionMonth < ActiveRecord::Base
       end
       data_year << { :name => year.to_s, :data => data_month }
     end
+
     data_year
   end
 
@@ -22,7 +23,6 @@ class ProductionMonth < ActiveRecord::Base
         sum + month.production
       end
       data_year << production
-      puts "#{year}: #{production}"
     end
 
     production = self.where(:year => Date.today.beginning_of_year.yesterday.year) \
