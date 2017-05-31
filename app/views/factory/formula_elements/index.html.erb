@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1><%= FormulaElement.model_name.human %></h1>
+<h1><%= FormulaElement.model_name.human(count: 2) %></h1>
 
 <%= link_to t('actions.new'), new_factory_formula_element_path %>
 

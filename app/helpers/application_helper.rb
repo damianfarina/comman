@@ -33,4 +33,14 @@ module ApplicationHelper
     content_tag(:a, name, html_options, &block)
   end
 
+  def navbar_item_classes(path)
+    classes = ['nav-bar__item']
+    classes << 'nav-bar__item--active' if request.url.include?(path)
+    classes
+  end
+
+  def navbar_link_to(label, path)
+    link_to label, path, class: navbar_item_classes(path)
+  end
+
 end

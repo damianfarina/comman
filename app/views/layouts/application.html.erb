@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comman</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <ul>
-      <li><%= link_to :products, factory_products_path %></li>
-      <li><%= link_to :formula_elements, factory_formula_elements_path %></li>
-      <li><%= link_to :formulas, factory_formulas_path %></li>
-    </ul>
-    <%= yield %>
+  <body class="layout__main-container">
+
+    <header class="layout__header site-header">
+      <div class="site-header__container">
+        <button type="button" name="menu" class="site-header__menu">
+          <%= image_tag 'menu.svg' %>
+        </button>
+        <%= link_to 'Comman', '/', class: 'site-header__brand' %>
+      </div>
+    </header>
+
+    <aside class="layout__sidebar site-sidebar">
+      <nav class="nav-bar">
+        <div class="nav-bar__title"><%= t('namespace.factory') %></div>
+        <%= navbar_link_to Product.model_name.human(count: 2), factory_products_path %>
+        <%= navbar_link_to FormulaElement.model_name.human(count: 2), factory_formula_elements_path %>
+        <%= navbar_link_to Formula.model_name.human(count: 2), factory_formulas_path %>
+        <hr/>
+        <div class="nav-bar__title"><%= t('namespace.business') %></div>
+      </nav>
+    </aside>
+
+    <section class="layout__content site-content">
+      <% if notice %>
+        <p id="notice"><%= notice %></p>
+      <% end %>
+      <%= yield %>
+    </section>
+
   </body>
 </html>

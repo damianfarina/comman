@@ -269,7 +269,7 @@ es:
           products_formula_is_different: 'Algunos productos no tienen la misma fórmula'
         formula:
           items_proportion_should_be_100: 'La suma de los porcentajes debe ser 100. La diferencia es %{difference}'
-          name_must_be_unique: 'Ya existe una formula con la misma descripcion, es la <a href="/factory/formulas/%{other_formula_id}" target="_blank">%{other_formula_name}</a>'
+          name_must_be_unique: 'Ya existe una fórmula con la misma descripcion, es la <a href="/factory/formulas/%{other_formula_id}" target="_blank">%{other_formula_name}</a>'
         product:
           name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
         formula_element:
@@ -288,8 +288,8 @@ es:
         one: 'Producto'
         other: 'Productos'
       formula:
-        one: 'Formula'
-        other: 'Formulas'
+        one: 'Fórmula'
+        other: 'Fórmulas'
       formula_element: 'Materia prima'
       making_order:
         one: 'Órden de fabricación'
@@ -316,7 +316,7 @@ es:
         formula_items: Composición
       making_order:
         id: ID
-        making_order_formula: Formula
+        making_order_formula: Fórmula
         mixer_capacity: Mezcladora
         comments: Observaciones
         total_weight: Peso total
@@ -339,6 +339,7 @@ es:
       product:
         id: ID
         formula_id: Fórmula
+        formula: Fórmula
         shape: Forma
         size: Dimensiones
         weight: Peso
@@ -421,3 +422,7 @@ es:
   will_paginate:
     next_label: Siguiente
     previous_label: Anterior
+  factory:
+    products:
+      new:
+        new_product: Nuevo producto

@@ -1,7 +1,7 @@
-<p id="notice"><%= notice %></p>
+<h1><%= Formula.model_name.human(count: 2) %></h1>
 
-<h1>Formulas</h1>
-<%= link_to 'New Factory Formula', new_factory_formula_path %>
+<%= link_to t('actions.new'), new_factory_formula_path %>
+
 <%= form_for @search, url: factory_formulas_path, html: { method: :get } do |f| %>
   <%= f.text_field :id_eq, placeholder: 'ID' %>
   <%= f.text_field :name_cont, placeholder: 'Nombre' %>
