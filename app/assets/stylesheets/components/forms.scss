@@ -1,0 +1,79 @@
+@import "variables";
+
+input:not([type]),
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+input[type="color"],
+select,
+textarea {
+  font-size: $font-size-base;
+  border-radius: $default-border-radius;
+  appearance: none;
+
+  border: 1px solid $border-color;
+
+  background-color: #fff;
+
+  display: block;
+
+  height: 2.7rem;
+  margin: 0 0 0.3rem 0;
+  padding: 0.2rem;
+  width: 100%;
+}
+
+select {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+");
+  background-position: 100% center;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  border: 1px solid $light-gray;
+}
+
+[type="submit"] {
+  font-size: $font-size-base;
+  border-radius: $default-border-radius;
+
+  border: 1px solid $dark-primary-color;
+
+  background-color: $primary-color;
+  color: $white;
+
+  height: 2.7rem;
+  margin: 0 0 0.3rem 0;
+  padding: 0.2rem $default-spacing;
+  width: auto;
+
+}
+
+.form {
+  display: grid;
+  grid-gap: $default-spacing;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
+
+  &__field {}
+
+  &__actions {
+    grid-column: 1 / -1;
+  }
+}
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#error_explanation {
+  grid-column: 1 / -1;
+}

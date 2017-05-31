@@ -1,0 +1,55 @@
+@import "variables";
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: $default-spacing;
+}
+
+h1 {
+  font-size: 2.8rem;
+  line-height: 1.4285714286;
+}
+
+h2 {
+  font-size: 2.1rem;
+  line-height: 1.4285714286;
+}
+
+h3 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+}
+
+h4 {
+  font-size: 1.4rem;
+  line-height: 1.4285714286;
+}
+
+h5 {
+  font-size: 1.2rem;
+  line-height: 1.7;
+}
+
+h6 {
+  font-size: .9rem;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0 0 1rem 0;
+}
+
+hr {
+  width: 100%;
+  height: 0;
+  padding: 0;
+  margin-bottom: $default-spacing;
+
+  border: none;
+  border-top: .1rem solid $lighter-gray;
+  border-radius: $default-border-radius;
+}
+
+a {
+  color: $primary-color;
+}

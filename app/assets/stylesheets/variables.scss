@@ -1,0 +1,17 @@
+$font-size-base: 1.4rem; /* 14px */
+$line-height: 1.42858; /* 20px */
+
+$primary-color: #6BA66A;
+$dark-primary-color: darken($primary-color, 15);
+$light-gray: #ccc;
+$lighter-gray: lighten($light-gray, 15);
+$dark-gray: #333;
+$white: #FAFAFA;
+$text-color: $dark-gray;
+$border-color: $light-gray;
+$default-border-radius: 2px;
+$default-spacing: 1rem;
+$default-transition-time: .15s;
+
+$sidebar-width: 35rem;
+$header-height: 5rem;

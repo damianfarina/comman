@@ -1,0 +1,28 @@
+@import "variables";
+
+.site-content {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - $header-height);
+  position: relative;
+  padding: $default-spacing 0;
+
+  .layout__main-container-sidebar--open &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+  }
+}
+
+@media (min-width: 900px) {
+  .layout__main-container-sidebar--open {
+    .site-content::before {
+      content: none;
+    }
+  }
+}

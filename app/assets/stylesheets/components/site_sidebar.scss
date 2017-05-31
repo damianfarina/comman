@@ -1,0 +1,7 @@
+@import "variables";
+
+.site-sidebar {
+  background-color: $white;
+  padding: (2 * $default-spacing) 0;
+  overflow: auto;
+}
