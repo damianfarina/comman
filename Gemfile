@@ -37,26 +37,27 @@ gem 'less-rails'
 gem 'pg'
 
 group :development do
-  gem 'railroady'
-  gem 'quiet_assets'
-  gem 'yaml_db'
   gem 'capistrano'
-  gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'quiet_assets'
+  gem 'railroady'
+  gem 'yaml_db'
 end
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'byebug'
   gem 'factory_girl_rails'
-	gem 'byebug'
+  gem 'guard-rspec', require: false
+  gem 'rspec-rails'
+  gem 'rubocop'
 end
 
 group :test do
-  gem 'faker'
   gem 'capybara'
-  gem 'guard-rspec'
+  gem 'database_cleaner'
+  gem 'faker'
   gem 'launchy'
-	gem 'database_cleaner'
-	gem 'timecop'
+  gem 'timecop'
 end
