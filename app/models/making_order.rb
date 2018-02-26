@@ -44,6 +44,7 @@ private
 
   def products_belongs_to_the_same_formula
     self.making_order_items.each do |item|
+      next unless item.changed?
       errors[:base] << I18n.t(:products_formula_is_different,
           scope: [:activerecord, :errors, :models, :making_order]
         ) unless item.product.formula_id == self.making_order_formula.formula_id

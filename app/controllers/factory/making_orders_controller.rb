@@ -18,7 +18,6 @@ class Factory::MakingOrdersController < Factory::FactoryController
   # GET /making_orders/1.json
   def show
     @making_order = MakingOrder.find(params[:id])
-    @revision_id = 'F1-PCU753 Rv9'
 
     respond_to do |format|
       format.html
