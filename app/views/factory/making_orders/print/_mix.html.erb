@@ -69,7 +69,7 @@
         <tbody>
           <% @making_order.making_order_items.each do |item| %>
             <tr>
-              <td><%= item.product.id %></td>
+              <td><%= item.product_id %></td>
               <td><%= item.product_shape %></td>
               <td><%= item.product_size %></td>
               <td class="amount"><%= number_with_precision item.product_weight %></td>

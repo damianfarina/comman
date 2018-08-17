@@ -45,7 +45,7 @@
           <tbody>
             <% @making_order.making_order_items.each do |item| %>
               <tr>
-                <td><%= item.product.id %></td>
+                <td><%= item.product_id %></td>
                 <td class="amount"><%= item.quantity %></td>
                 <td>
                   <div class="cell-checkbox">
