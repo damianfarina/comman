@@ -1,5 +1,0 @@
-ClientType.create! name: 'Distribuidor'
-ClientType.create! name: 'Ferretería'
-ClientType.create! name: 'Usuario'
-ClientType.create! name: 'Representante'
-ClientType.create! name: 'Vendedor'

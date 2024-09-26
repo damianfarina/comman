@@ -1,2 +1,0 @@
-module Business::ClientsHelper
-end

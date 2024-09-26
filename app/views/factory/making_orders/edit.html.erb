@@ -1,8 +1,0 @@
-<% content_for :secondary_navigation do %>
-  <li><%= link_to t(:index, :scope => [:menu]), factory_making_orders_path %></li>
-  <li><%= link_to t(:new, :scope => [:menu]), new_factory_making_order_path %></li>
-  <li><%= link_to t(:show, :scope => [:menu]), factory_making_order_path(@making_order) %></li>
-  <li class="active"><a href="#"><%= t(:edit, :scope => [:menu]) %></a></li>
-<% end %>
-
-<%= render 'form' %>
