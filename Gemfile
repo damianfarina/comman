@@ -49,6 +49,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "rspec-rails", "~> 6.0"
   gem "factory_bot_rails"
+  gem "faker"
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
 end
@@ -56,6 +57,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  gem "annotate"
 end
 
 group :test do
