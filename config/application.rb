@@ -26,6 +26,7 @@ module Comman
 
     config.generators do |g|
       g.helper false
+      g.view_specs false
     end
   end
 end
