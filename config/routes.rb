@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   namespace :factory do
+    get "dashboard/index"
     resources :formulas
+    resources :formula_elements
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

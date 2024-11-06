@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_02_160045) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_22_231333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,7 +18,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_02_160045) do
     t.string "name"
     t.float "min_stock", default: 1.0
     t.float "current_stock", default: 0.0
-    t.boolean "infinite"
+    t.boolean "infinite", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "formula_items", force: :cascade do |t|
+    t.integer "formula_id"
+    t.integer "formula_element_id"
+    t.decimal "proportion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

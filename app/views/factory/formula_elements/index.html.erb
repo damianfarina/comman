@@ -1,0 +1,47 @@
+<%= render "common/headings/page",
+  title: t("titles.formula_element.index"),
+  actions: [
+    { label: t("navigation.new"), path: new_factory_formula_element_path, method: :get },
+  ],
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.formula_element.index"), path: factory_formula_elements_path },
+  ] %>
+
+<div class="w-full">
+  <div class="px-4 sm:px-6 lg:px-8">
+    <div class="mt-8 flow-root">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <table id="formula-elements" class="min-w-full divide-y divide-gray-300">
+            <thead>
+              <tr>
+                <th scope="col" class="py-3.5 text-center text-sm font-semibold text-gray-900">ID</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-0">Nombre</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Stock mínimo</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Stock actual</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <% @formula_elements.each do |formula_element| %>
+                <tr id="<%= dom_id formula_element %>">
+                  <td class="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">
+                    <%= link_to formula_element.id, factory_formula_element_path(formula_element) %>
+                  </td>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <%= link_to factory_formula_element_path(formula_element) do %>
+                      <span class="sr-only">Ver materia prima </span><%= formula_element.name %>
+                    <% end %>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula_element.min_stock %></td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula_element.current_stock %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

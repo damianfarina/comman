@@ -1,0 +1,22 @@
+<%# locals: (title:, actions: [], breadcrumbs:, options_dropdown: nil) -%>
+
+<% provide(:title, title) %>
+
+<div>
+  <%= render "common/headings/breadcrumbs", breadcrumbs: breadcrumbs %>
+  <div class="mt-2 md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"><%= title %></h2>
+    </div>
+    <% if actions.any? %>
+      <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
+        <% actions.each do |action| %>
+          <%= button_to action[:label], action[:path], method: action[:method], class: "inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-lightGray-500" %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if options_dropdown.present? %>
+      <%= render "common/components/options_dropdown", items: options_dropdown %>
+    <% end %>
+  </div>
+</div>

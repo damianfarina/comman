@@ -3,10 +3,10 @@ class FormulaElement < ApplicationRecord
   # has_many :formulas, -> { distinct }, through: :formula_items
   # has_many :products, -> { distinct }, through: :formulas
 
-  # validates :min_stock, :current_stock, presence: true, unless: :infinite?
-  # validates :name, presence: true, uniqueness: true
-  # validates :min_stock, numericality: { greater_than: 0 }, if: -> { min_stock.present? && !infinite? }
-  # validates :current_stock, numericality: true, if: -> { current_stock.present? && !infinite? }
+  validates :name, presence: true, uniqueness: true
+  validates :min_stock, :current_stock, presence: true, unless: :infinite?
+  validates :min_stock, numericality: { greater_than_or_equal_to: 0 }, if: -> { min_stock.present? && infinite }
+  validates :current_stock, numericality: true, if: -> { current_stock.present? && infinite }
 
   # scope :missing_first, -> { order(Arel.sql("current_stock / min_stock")) }
   # scope :name_or_id_contains, lambda { |part|
@@ -61,7 +61,7 @@ end
 #
 #  id            :bigint           not null, primary key
 #  current_stock :float            default(0.0)
-#  infinite      :boolean
+#  infinite      :boolean          default(FALSE)
 #  min_stock     :float            default(1.0)
 #  name          :string
 #  created_at    :datetime         not null

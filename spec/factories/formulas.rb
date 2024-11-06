@@ -1,10 +1,9 @@
 FactoryBot.define do
   factory :formula do
-    name { "MyString" }
-    abrasive { "MyString" }
-    grain { "MyString" }
-    hardness { "MyString" }
-    porosity { "MyString" }
-    alloy { "MyString" }
+    abrasive { "A" }
+    grain { "G" }
+    hardness { "H" }
+    porosity { "P" }
+    alloy { "A" }
   end
 end

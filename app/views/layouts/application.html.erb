@@ -17,15 +17,13 @@
   </head>
   <body class="h-full">
     <div>
-      <%= render 'application/sidenav' %>
+      <%= render 'application/sidebar' %>
       <main class="py-10 lg:pl-72">
         <div class="px-4 sm:px-6 lg:px-8">
+          <%= render 'common/flash' %>
           <%= yield %>
         </div>
       </main>
     </div>
-    <%# <main class="container mx-auto mt-28 px-5 flex"> %>
-    <%# <%= render 'application/nav' %> %>
-    <%# </main> %>
   </body>
 </html>

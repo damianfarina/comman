@@ -26,7 +26,7 @@ module Factory
 
       respond_to do |format|
         if @formula.save
-          format.html { redirect_to factory_formula_path(@formula), notice: "Formula was successfully created." }
+          format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue creada." }
           format.json { render :show, status: :created, location: @formula }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ module Factory
     def update
       respond_to do |format|
         if @formula.update(formula_params)
-          format.html { redirect_to factory_formula_path(@formula), notice: "Formula was successfully updated." }
+          format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue actualizada." }
           format.json { render :show, status: :ok, location: @formula }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -53,7 +53,7 @@ module Factory
       @formula.destroy!
 
       respond_to do |format|
-        format.html { redirect_to factory_formulas_path, status: :see_other, notice: "Formula was successfully destroyed." }
+        format.html { redirect_to factory_formulas_path, status: :see_other, notice: "La fórmula fue eliminada." }
         format.json { head :no_content }
       end
     end

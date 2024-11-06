@@ -24,6 +24,9 @@ module Comman
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # Set the default locale to Spanish
+    config.i18n.default_locale = :es
+
     config.generators do |g|
       g.helper false
       g.view_specs false

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :formula_element do
-    name { "MyString" }
-    min_stock { 1.5 }
-    current_stock { 1.5 }
+    name { "Magnesium" }
+    min_stock { 10.0 }
+    current_stock { 11.5 }
     infinite { false }
   end
 end

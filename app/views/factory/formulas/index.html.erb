@@ -1,50 +1,46 @@
+<%= render "common/headings/page",
+  title: "Fórmulas",
+  actions: [
+    { label: "Nueva fórmula", path: new_factory_formula_path, method: :get },
+  ],
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: "Fórmulas", path: factory_formulas_path },
+  ] %>
+
 <div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-  <% content_for :title, "Formulas" %>
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Formulas</h1>
-  </div>
   <div class="px-4 sm:px-6 lg:px-8">
-    <div class="sm:flex sm:items-center">
-      <div class="sm:flex-auto">
-        <h1 class="text-base font-semibold leading-6 text-gray-900">Users</h1>
-        <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
-      </div>
-      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <%= link_to "Nueva fórmula", new_factory_formula_path, class: "btn-primary" %>
-      </div>
-    </div>
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <table id="formulas" class="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Abrasive</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Grain</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Hardness</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Porosity</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Alloy</th>
-                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0"></th>
+                <th scope="col" class="py-3.5 text-center text-sm font-semibold text-gray-900">ID</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-0">Nombre</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Abrasivo</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Grano</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dureza</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Porosidad</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Liga</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200">
+            <tbody class="divide-y divide-gray-100">
               <% @formulas.each do |formula| %>
                 <tr id="<%= dom_id formula %>">
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0"><%= formula.name %></td>
+                  <td class="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">
+                    <%= link_to formula.id, factory_formula_path(formula) %>
+                  </td>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <%= link_to factory_formula_path(formula) do %>
+                      <span class="sr-only">Ver formula </span><%= formula.name %>
+                    <% end %>
+                  </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula.abrasive %></td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula.grain %></td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula.hardness %></td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula.porosity %></td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula.alloy %></td>
-                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <%= link_to factory_formula_path(formula), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" do %>
-                      Ver<span class="sr-only"> formula <%= formula.name %> </span>
-                    <% end %>
-                  </td>
                 </tr>
               <% end %>
             </tbody>

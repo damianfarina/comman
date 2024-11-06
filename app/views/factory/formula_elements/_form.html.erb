@@ -1,0 +1,44 @@
+<%= form_with(model: [:factory, formula_element], class: "contents") do |form| %>
+  <%= render "common/error_messages", model: formula_element %>
+  <%= render "common/forms/simple" do %>
+
+    <div class="sm:col-span-6 md:col-span-6 lg:col-span-5 xl:col-span-4">
+      <%= form.label :name, class: "block text-sm font-medium leading-6 text-gray-900" %>
+      <div class="mt-2">
+        <%= form.text_field :name, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+      </div>
+    </div>
+    <div class="sm:col-span-6 md:col-span-6 lg:col-span-5 xl:col-span-4">
+      <div class="flex items-center">
+        <%= form.check_box :infinite, data: { controller: "input" }, hidden: true %>
+        <button
+              type="button"
+              class="group relative flex h-7 w-14 cursor-pointer rounded-full bg-lightGray p-1 transition-colors duration-200 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-blue data-[checked]:bg-blue"
+              role="switch"
+              data-controller="common--switch"
+              data-action="common--switch#toggle"
+              data-common--switch-input-outlet="#formula_element_infinite">
+          <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 rounded-full bg-white ring-0 shadow-lg transition duration-200 ease-in-out group-data-[checked]:translate-x-7"></span>
+        </button>
+        <span class="ml-3 text-sm" id="formula_element_infinite">
+          <span class="font-medium text-gray-900"><%= FormulaElement.human_attribute_name(:infinite) %></span>
+        </span>
+      </div>
+    </div>
+    <div class="sm:col-span-6 md:col-span-6 lg:col-span-5 xl:col-span-4">
+      <%= form.label :min_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
+      <div class="mt-2">
+        <%= form.number_field :min_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+      </div>
+    </div>
+    <div class="sm:col-span-6 md:col-span-6 lg:col-span-5 xl:col-span-4">
+      <%= form.label :current_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
+      <div class="mt-2">
+        <%= form.number_field :current_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+      </div>
+    </div>
+    <div class="sm:col-span-6 md:col-span-6 lg:col-span-5 xl:col-span-4">
+      <%= form.button t('actions.save'), :class => 'btn-primary' %>
+    </div>
+  <% end %>
+<% end %>
