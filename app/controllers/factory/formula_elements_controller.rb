@@ -4,7 +4,7 @@ module Factory
 
     # GET /formula_elements or /formula_elements.json
     def index
-      @formula_elements = FormulaElement.all
+      @formula_elements = FormulaElement.page(params[:page]).per(10)
     end
 
     # GET /formula_elements/1 or /formula_elements/1.json

@@ -1,0 +1,15 @@
+es:
+  views:
+    pagination:
+      first: "&laquo; Primera"
+      last: "Última &raquo;"
+      previous: "‹ Anterior"
+      next: "Siguiente ›"
+      truncate: "&hellip;"
+      entries: "resultados"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries: "Mostrando <b>1</b> %{entry_name}"
+      more_pages:
+        display_entries: "Mostrando <b>%{first}</b> - <b>%{last}</b> de <b>%{total}</b> %{entry_name}"
