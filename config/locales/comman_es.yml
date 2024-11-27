@@ -46,4 +46,6 @@ es:
       show: "Materia prima"
       new: "Nueva materia prima"
       edit: "Editar materia prima"
+  placeholders:
+    search_by_name: "Buscar por nombre"
 

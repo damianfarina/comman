@@ -8,6 +8,14 @@ class FormulaElement < ApplicationRecord
   validates :min_stock, numericality: { greater_than_or_equal_to: 0 }, if: -> { min_stock.present? && infinite }
   validates :current_stock, numericality: true, if: -> { current_stock.present? && infinite }
 
+  def self.ransackable_attributes(auth_object = nil)
+    [ "id", "name" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
   # scope :missing_first, -> { order(Arel.sql("current_stock / min_stock")) }
   # scope :name_or_id_contains, lambda { |part|
   #   where("id = ? OR UPPER(name) LIKE UPPER(?)", get_id_from_search(part), "%#{part}%")
