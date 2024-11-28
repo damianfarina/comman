@@ -1,7 +1,6 @@
 <%= form_with(model: [:factory, formula_element], class: "contents") do |form| %>
   <%= render "common/error_messages", model: formula_element %>
   <%= render "common/forms/simple" do %>
-
     <div class="sm:col-span-6 md:col-span-6 lg:col-span-5 xl:col-span-4">
       <%= form.label :name, class: "block text-sm font-medium leading-6 text-gray-900" %>
       <div class="mt-2">
