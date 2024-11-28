@@ -41,6 +41,8 @@ es:
     dashboard: "Tablero"
     new: "Nuevo"
   titles:
+    formula:
+      index: "Fórmulas"
     formula_element:
       index: "Materias primas"
       show: "Materia prima"
@@ -48,4 +50,5 @@ es:
       edit: "Editar materia prima"
   placeholders:
     search_by_name: "Buscar por nombre"
+    search_by_name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
 

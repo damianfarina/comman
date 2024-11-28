@@ -7,6 +7,14 @@ class Formula < ApplicationRecord
 
   before_validation :set_name
 
+  def self.ransackable_attributes(auth_object = nil)
+    [ "id", "name", "abrasive", "grain", "hardness", "porosity", "alloy" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
   private
 
     def set_name

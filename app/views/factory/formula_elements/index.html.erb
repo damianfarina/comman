@@ -9,26 +9,37 @@
   ] %>
 
 <div class="w-full">
-    <div class="mt-8 flow-root">
-      <div class="flex flex-1">
-        <%= search_form_for @q, url: factory_formula_elements_path, method: :get, class: "w-full max-w-lg lg:max-w-xs" do |f| %>
-          <label for="search" class="sr-only">Buscar</label>
-          <div class="relative text-gray-300 focus-within:text-gray">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <%= f.search_field(
-              :name_cont,
-              autofocus: true,
-              class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
-              placeholder: t("placeholders.search_by_name"),
-            ) %>
+  <div class="mt-8 flow-root">
+    <div class="flex flex-1">
+      <%= search_form_for(
+        @q,
+        url: factory_formula_elements_path,
+        method: :get,
+        data: {
+          turbo_frame: "formula_elements_table",
+          turbo_action: "advance",
+        },
+        class: "w-full max-w-lg lg:max-w-xs",
+      ) do |f| %>
+        <label for="search" class="sr-only"><%= t("placeholders.search_by_name") %></label>
+        <div class="relative text-gray-300 focus-within:text-gray">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+            </svg>
           </div>
-        <% end %>
-      </div>
+          <%= f.search_field(
+            :name_cont,
+            autofocus: true,
+            autocomplete: "off",
+            class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+            placeholder: t("placeholders.search_by_name"),
+          ) %>
+        </div>
+      <% end %>
+    </div>
 
+    <%= turbo_frame_tag "formula_elements_table" do %>
       <div class="inline-block min-w-full py-2 align-middle">
         <table id="formula-elements" class="min-w-full divide-y divide-gray-300">
           <thead>
@@ -44,10 +55,10 @@
             <% @formula_elements.each do |formula_element| %>
               <tr id="<%= dom_id formula_element %>">
                 <td class="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">
-                  <%= link_to formula_element.id, factory_formula_element_path(formula_element) %>
+                  <%= link_to formula_element.id, factory_formula_element_path(formula_element), data: { turbo_frame: "_top" } %>
                 </td>
                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                  <%= link_to factory_formula_element_path(formula_element) do %>
+                  <%= link_to factory_formula_element_path(formula_element), data: { turbo_frame: "_top" } do %>
                     <span class="sr-only">Ver materia prima </span><%= formula_element.name %>
                   <% end %>
                 </td>
@@ -59,5 +70,6 @@
         </table>
       </div>
       <%= paginate @formula_elements, total_count: @formula_elements.total_count %>
-    </div>
+    <% end %>
+  </div>
 </div>

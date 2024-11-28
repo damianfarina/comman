@@ -1,8 +1,25 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing formula</h1>
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.formula.index"), path: factory_formulas_path },
+    { title: @formula.name, path: factory_formula_path(@formula) },
+    { title: t("navigation.edit"), path: edit_factory_formula_path(@formula) },
+  ],
+  title: @formula.name,
+  options_dropdown: [
+    ->(classes, index:) do
+      button_to(
+        t(:archive, scope: [:actions]),
+        factory_formula_path(@formula),
+        method: :delete,
+        data: { turbo_confirm: t("messages.are_you_sure") },
+        class: "#{classes} text-red-500",
+      )
+    end
+  ],
+) %>
 
+<div class="md:w-2/3 w-full">
   <%= render "form", formula: @formula %>
-
-  <%= link_to "Show this formula", factory_formula_path(@formula), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to formulas", factory_formulas_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

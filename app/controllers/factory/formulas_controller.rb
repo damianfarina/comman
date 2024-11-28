@@ -4,7 +4,8 @@ module Factory
 
     # GET /formulas or /formulas.json
     def index
-      @formulas = Formula.all
+      @q = Formula.ransack(params[:q])
+      @formulas = @q.result.page(params[:page])
     end
 
     # GET /formulas/1 or /formulas/1.json
