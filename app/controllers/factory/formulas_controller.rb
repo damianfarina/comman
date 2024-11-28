@@ -10,6 +10,17 @@ module Factory
 
     # GET /formulas/1 or /formulas/1.json
     def show
+      @pie_chart_data = @formula
+        .formula_items
+        .includes(:formula_element)
+        .reorder("formula_items.proportion": :desc)
+        .map do |item|
+          proportion = item.proportion.round(2)
+          {
+            name: "#{item.formula_element.name} (#{proportion}%)",
+            proportion: proportion,
+          }
+        end
     end
 
     # GET /formulas/new

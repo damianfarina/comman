@@ -32,7 +32,22 @@
       <div class="border-b border-lightGray-500 bg-white py-6 mb-6">
         <h3 class="text-base font-semibold text-gray-900">Ingredientes</h3>
       </div>
-
+      <%= pie_chart(
+        @pie_chart_data.map { |data| [data[:name], data[:proportion]] },
+        legend: "left",
+        library: {
+          borderWidth: 1,
+          borderRadius: 5,
+          plugins: {
+            legend: {
+              labels: {
+                boxWidth: 12,
+                boxHeight: 12,
+              }
+            },
+          }
+        },
+      ) %>
     </div>
 
     <div class="border-b border-lightGray-500 bg-white py-6 mb-6">
