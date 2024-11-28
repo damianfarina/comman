@@ -11,12 +11,12 @@
       <div class="flex items-center">
         <%= form.check_box :infinite, data: { controller: "input" }, hidden: true %>
         <button
-              type="button"
-              class="group relative flex h-7 w-14 cursor-pointer rounded-full bg-lightGray p-1 transition-colors duration-200 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-blue data-[checked]:bg-blue"
-              role="switch"
-              data-controller="common--switch"
-              data-action="common--switch#toggle"
-              data-common--switch-input-outlet="#formula_element_infinite">
+          type="button"
+          class="group relative flex h-7 w-14 cursor-pointer rounded-full bg-lightGray p-1 transition-colors duration-200 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-blue data-[checked]:bg-blue"
+          role="switch"
+          data-controller="common--switch"
+          data-action="common--switch#toggle"
+          data-common--switch-input-outlet="#formula_element_infinite">
           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 rounded-full bg-white ring-0 shadow-lg transition duration-200 ease-in-out group-data-[checked]:translate-x-7"></span>
         </button>
         <span class="ml-3 text-sm" id="formula_element_infinite">
