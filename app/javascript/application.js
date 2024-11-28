@@ -1,5 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import { Turbo } from "@hotwired/turbo-rails"
 import "controllers"
+import "chartkick"
+import "Chart.bundle"
 
-Turbo.setProgressBarDelay(100);
+Turbo.config.drive.progressBarDelay = 100
