@@ -2,8 +2,11 @@ class Formula < ApplicationRecord
   has_many :formula_items, -> { order(id: :desc) }, dependent: :destroy
   has_many :formula_elements, through: :formula_items
 
-  validates :abrasive, :grain, :hardness, :porosity, :alloy, :name, presence: true # :formula_items
+  accepts_nested_attributes_for :formula_items, allow_destroy: true
+
+  validates :abrasive, :grain, :hardness, :porosity, :alloy, :name, :formula_items, presence: true
   validate :name_is_unique, if: -> { name.present? }
+  validate :items_proportion_is_one_hundred, if:  -> { self.formula_items.any? }
 
   before_validation :set_name
 
@@ -16,6 +19,28 @@ class Formula < ApplicationRecord
   end
 
   private
+    def items_proportion_is_one_hundred
+      difference = 100.0
+      difference = self.formula_items.inject(difference) do |result, item|
+        unless item.marked_for_destruction?
+          result -= (item.proportion || 0)
+        end
+        result
+      end
+
+      return if difference.abs < 0.01
+
+      errors.add(
+        :base,
+        I18n.t(
+          :proportion_must_be_one_hundred,
+          scope: [ :activerecord, :errors, :models, :formula ],
+          difference: difference.round(3),
+        )
+      )
+
+      throw :abort
+    end
 
     def set_name
       self.name = "#{abrasive}#{grain}#{hardness}#{porosity}#{alloy}".gsub(" ", "")

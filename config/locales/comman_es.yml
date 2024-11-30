@@ -1,5 +1,9 @@
 es:
   activerecord:
+    errors:
+      models:
+        formula:
+          proportion_must_be_one_hundred: "La suma de los porcentajes debe ser 100. La diferencia es %{difference}"
     models:
       formula_element: "Materia prima"
       formula_item:
@@ -28,6 +32,7 @@ es:
         hardness: "Dureza"
         porosity: "Porosidad"
         alloy: "Liga"
+        formula_items: "Ingredientes"
         updated_at: "Actualizado"
         created_at: "Ingresado"
 

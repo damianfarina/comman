@@ -78,7 +78,21 @@ module Factory
 
       # Only allow a list of trusted parameters through.
       def formula_params
-        params.require(:formula).permit(:name, :abrasive, :grain, :hardness, :porosity, :alloy)
+        params
+          .require(:formula)
+          .permit(
+            :abrasive,
+            :grain,
+            :hardness,
+            :porosity,
+            :alloy,
+            formula_items_attributes: [
+              :id,
+              :formula_element_id,
+              :proportion,
+              :_destroy
+            ],
+          )
       end
   end
 end
