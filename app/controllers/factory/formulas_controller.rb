@@ -26,6 +26,7 @@ module Factory
     # GET /formulas/new
     def new
       @formula = Formula.new
+      @formula.formula_items.build
     end
 
     # GET /formulas/1/edit

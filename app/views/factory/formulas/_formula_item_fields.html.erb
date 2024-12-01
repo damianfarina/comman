@@ -1,7 +1,7 @@
 <% marked_for_destruction = item.persisted? && item.marked_for_destruction? %>
 <div
   data-common--nested-form-target="item" data-item-id="<%= item.id || "" %>"
-  class="grid grid-cols-[1fr,1fr,auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
+  class="grid grid-cols-[1fr,auto,auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
 >
   <%= form.fields_for :formula_items, item, child_index: local_assigns[:child_index] do |ff| %>
     <%= ff.hidden_field :id if item.persisted? %>

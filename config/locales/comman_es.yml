@@ -48,6 +48,7 @@ es:
   titles:
     formula:
       index: "Fórmulas"
+      new: "Nueva fórmula"
     formula_element:
       index: "Materias primas"
       show: "Materia prima"

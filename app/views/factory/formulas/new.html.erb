@@ -1,7 +1,13 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New formula</h1>
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.formula.index"), path: factory_formulas_path },
+    { title: t("navigation.new"), path: new_factory_formula_path },
+  ],
+  title: t("titles.formula.new"),
+) %>
 
+<div class="w-full">
   <%= render "form", formula: @formula %>
-
-  <%= link_to "Back to formulas", factory_formulas_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

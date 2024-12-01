@@ -3,11 +3,21 @@ require 'rails_helper'
 RSpec.describe "/factory/formulas", type: :request do
   let(:valid_attributes) {
     {
-      abrasive: "AB",
+      abrasive: "ABC",
       alloy: "Liga",
       grain: "A",
       hardness: "80",
       porosity: "Q",
+      formula_items_attributes: [
+        {
+          formula_element_id: create(:formula_element).id,
+          proportion: 50,
+        },
+        {
+          formula_element_id: create(:formula_element).id,
+          proportion: 50,
+        }
+      ],
     }
   }
 
@@ -21,11 +31,11 @@ RSpec.describe "/factory/formulas", type: :request do
     }
   }
 
-  let!(:formula1) { create(:formula) }
+  let!(:formula1) { create(:formula, :with_items) }
 
   describe "GET /index" do
     it "renders a successful response" do
-      Formula.create! valid_attributes
+      create(:formula, :with_items)
       get factory_formulas_url
       expect(response).to be_successful
     end
@@ -60,7 +70,7 @@ RSpec.describe "/factory/formulas", type: :request do
         expect {
           post factory_formulas_url, params: { formula: valid_attributes }
         }.to change(Formula, :count).by(1)
-        expect(Formula.last.name).to eq("ABA80QLiga")
+        expect(Formula.last.name).to eq("ABCA80QLiga")
       end
 
       it "redirects to the created formula" do

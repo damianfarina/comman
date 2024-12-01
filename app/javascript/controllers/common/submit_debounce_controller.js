@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import debounce from "lib/debounce"
 
-// Connects to data-controller="common--form"
+// Connects to data-controller="common--submit-debounce"
 export default class extends Controller {
   initialize() {
     this.submit = debounce(this.submit.bind(this), 500);
