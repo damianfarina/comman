@@ -18,7 +18,8 @@
   <%= link_to(
     url,
     rel: "next",
-    class: "#{wrapper_class} text-gray-300 hover:bg-lightGray"
+    class: "#{wrapper_class} text-gray-300 hover:bg-lightGray",
+    data: { turbo_action: "advance" },
   ) do %>
     <span class="sr-only"><%= t("views.pagination.next") %></span>
     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
