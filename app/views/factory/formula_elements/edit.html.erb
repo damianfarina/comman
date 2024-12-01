@@ -1,0 +1,25 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.formula_element.index"), path: factory_formula_elements_path },
+    { title: @formula_element.name, path: factory_formula_element_path(@formula_element) },
+    { title: t("navigation.edit"), path: edit_factory_formula_element_path(@formula_element) },
+  ],
+  title: @formula_element.name,
+  options_dropdown: [
+    ->(classes, index:) do
+      button_to(
+        t(:archive, scope: [:actions]),
+        factory_formula_element_path(@formula_element),
+        method: :delete,
+        data: { turbo_confirm: t("messages.are_you_sure") },
+        class: "#{classes} text-red-500",
+      )
+    end
+  ],
+) %>
+
+<div class="w-full">
+  <%= render "form", formula_element: @formula_element %>
+</div>

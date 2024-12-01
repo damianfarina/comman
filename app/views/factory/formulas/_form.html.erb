@@ -1,0 +1,63 @@
+<%= form_with(model: [:factory, formula], class: "contents") do |form| %>
+  <%= render "common/error_messages", model: formula %>
+  <%= render "common/forms/simple" do %>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <div>
+        <%= form.label :abrasive, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :abrasive, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+      <div>
+        <%= form.label :grain, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :grain, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+      <div>
+        <%= form.label :hardness , class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :hardness, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+      <div>
+        <%= form.label :porosity, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :porosity, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+      <div>
+        <%= form.label :alloy, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :alloy, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+      <div>
+        <%= form.button t('actions.save'), :class => 'btn-primary' %>
+      </div>
+    </div>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <div
+        data-controller="common--nested-form"
+        data-common--nested-form-deleted-class="text-red line-through italic"
+      >
+        <div class="border-b border-lightGray-500 bg-white py-6 mb-6">
+          <h3 class="text-base font-semibold text-gray-900">Ingredientes</h3>
+        </div>
+        <!-- Template for new formula item -->
+        <template data-common--nested-form-target="template">
+          <%= render "formula_item_fields", form: form, item: FormulaItem.new, child_index: "NEW_RECORD" %>
+        </template>
+
+        <div class="grid grid-cols-1 gap-y-8 mb-8" data-common--nested-form-target="container">
+          <% formula.formula_items.each do |item| %>
+            <%= render "formula_item_fields", form: form, item: item %>
+          <% end %>
+        </div>
+
+        <!-- Button to add new formula item -->
+        <button type="button" data-action="common--nested-form#addItem" class="btn btn-primary">Add Formula Item</button>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,60 @@
+es:
+  activerecord:
+    errors:
+      models:
+        formula:
+          proportion_must_be_one_hundred: "La suma de los porcentajes debe ser 100. La diferencia es %{difference}"
+    models:
+      formula_element: "Materia prima"
+      formula_item:
+        one: "Ingrediente"
+        other: "Ingredientes"
+      formula:
+        one: "Fórmula"
+        other: "Fórmulas"
+    attributes:
+      formula_element:
+        id: "ID"
+        name: "Nombre"
+        min_stock: "Stock mínimo"
+        current_stock: "Stock actual"
+        infinite: "Recurso Ilimitado"
+        updated_at: "Actualizado"
+        created_at: "Ingresado"
+      formula_item:
+        id: "ID"
+        proportion: "Proporción"
+      formula:
+        id: "ID"
+        name: "Nombre"
+        abrasive: "Abrasivo"
+        grain: "Grano"
+        hardness: "Dureza"
+        porosity: "Porosidad"
+        alloy: "Liga"
+        formula_items: "Ingredientes"
+        updated_at: "Actualizado"
+        created_at: "Ingresado"
+
+  messages:
+    are_you_sure: "¿Estás seguro?"
+  actions:
+    archive: "Archivar"
+    save: "Guardar"
+  navigation:
+    edit: "Editar"
+    dashboard: "Tablero"
+    new: "Nuevo"
+  titles:
+    formula:
+      index: "Fórmulas"
+      new: "Nueva fórmula"
+    formula_element:
+      index: "Materias primas"
+      show: "Materia prima"
+      new: "Nueva materia prima"
+      edit: "Editar materia prima"
+  placeholders:
+    search_by_name: "Buscar por nombre"
+    search_by_name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
+

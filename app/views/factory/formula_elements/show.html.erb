@@ -1,0 +1,149 @@
+<%= render "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.formula_element.index"), path: factory_formula_elements_path },
+    { title: @formula_element.name, path: factory_formula_element_path(@formula_element) },
+  ],
+  title: @formula_element.name,
+  actions: [
+    { label: t("navigation.edit"), path: edit_factory_formula_element_path(@formula_element), method: :get },
+  ] %>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-6">
+  <div>
+    <%= render(
+      "common/lists/description",
+      items: [
+        { label: FormulaElement.human_attribute_name(:id), value: @formula_element.id },
+        { label: FormulaElement.human_attribute_name(:name), value: @formula_element.name },
+        { label: FormulaElement.human_attribute_name(:infinite), value: @formula_element.infinite? ? "Sí" : "No" },
+        { label: FormulaElement.human_attribute_name(:min_stock), value: @formula_element.min_stock },
+        { label: FormulaElement.human_attribute_name(:current_stock), value: @formula_element.current_stock },
+      ]
+    ) %>
+    <div>
+      <div class="border-b border-lightGray-500 bg-white py-6 mb-6">
+        <h3 class="text-base font-semibold text-gray-900">Proveedores</h3>
+      </div>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-6 shadow-sm focus-within:ring-2 focus-within:ring-red-500 focus-within:ring-offset-2 hover:border-gray-500">
+          <div class="flex-shrink-0">
+            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1611488006001-eb993d4d2ec4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+          </div>
+          <div class="min-w-0 flex-1">
+            <a href="#" class="focus:outline-none">
+              <span class="absolute inset-0" aria-hidden="true"></span>
+              <p class="text-sm font-medium text-gray-900">Proveedor AAAA</p>
+              <p class="truncate text-sm text-gray-500">Mendoza</p>
+            </a>
+          </div>
+        </div>
+        <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-6 shadow-sm focus-within:ring-2 focus-within:ring-red-500 focus-within:ring-offset-2 hover:border-gray-500">
+          <div class="flex-shrink-0">
+            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1696654149774-6674b4d1ee35?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+          </div>
+          <div class="min-w-0 flex-1">
+            <a href="#" class="focus:outline-none">
+              <span class="absolute inset-0" aria-hidden="true"></span>
+              <p class="text-sm font-medium text-gray-900">Proveedor BBBB</p>
+              <p class="truncate text-sm text-gray-500">Buenos Aires</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flow-root">
+    <div class="border-b border-lightGray-500 bg-white py-6 mb-6">
+      <h3 class="text-base font-semibold text-gray-900">Historial de cambios</h3>
+    </div>
+    <ul role="list" class="-mb-8">
+      <li>
+        <div class="relative pb-8">
+          <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-100" aria-hidden="true"></span>
+          <div class="relative flex space-x-3">
+            <div>
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 ring-8 ring-white">
+                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                  <path d="M1 8.25a1.25 1.25 0 1 1 2.5 0v7.5a1.25 1.25 0 1 1-2.5 0v-7.5ZM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0 1 14 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 0 1-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 0 1-1.341-.317l-2.734-1.366A3 3 0 0 0 6.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 0 1 2.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388Z" />
+                </svg>
+              </span>
+            </div>
+            <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+              <div>
+                <p class="text-sm text-gray-500">Stock actual actualizado: 30 / 40</p>
+              </div>
+              <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <time datetime="2020-09-22">Oct 22</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="relative pb-8">
+          <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-100" aria-hidden="true"></span>
+          <div class="relative flex space-x-3">
+            <div>
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 ring-8 ring-white">
+                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </div>
+            <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+              <div>
+                <p class="text-sm text-gray-500">Stock mínimo actualizado: 25 / 20</p>
+              </div>
+              <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <time datetime="2020-09-28">Oct 18</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="relative pb-8">
+          <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-100" aria-hidden="true"></span>
+          <div class="relative flex space-x-3">
+            <div>
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 ring-8 ring-white">
+                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                  <path d="M1 8.25a1.25 1.25 0 1 1 2.5 0v7.5a1.25 1.25 0 1 1-2.5 0v-7.5ZM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0 1 14 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 0 1-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 0 1-1.341-.317l-2.734-1.366A3 3 0 0 0 6.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 0 1 2.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388Z" />
+                </svg>
+              </span>
+            </div>
+            <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+              <div>
+                <p class="text-sm text-gray-500">Stock mínimo actualizado: 10 / 25</p>
+              </div>
+              <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <time datetime="2020-09-30">Oct 5</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="relative pb-8">
+          <div class="relative flex space-x-3">
+            <div>
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 ring-8 ring-white">
+                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </div>
+            <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+              <div>
+                <p class="text-sm text-gray-500">Materia prima ingresada</p>
+              </div>
+              <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <time datetime="2020-10-04">Oct 4</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

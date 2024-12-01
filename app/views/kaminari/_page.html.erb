@@ -1,0 +1,19 @@
+<%# Link showing page number
+  - available local variables
+    page:          a page object for "this" page
+    url:           url to this page
+    current_page:  a page object for the currently displayed page
+    total_pages:   total number of pages
+    per_page:      number of items to fetch per page
+    remote:        data-remote
+-%>
+<% if page.current? -%>
+  <span aria-current="page" class="relative z-10 inline-flex items-center bg-blue px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"><%= page %></span>
+<% else -%>
+  <%= link_to(page, url, {
+    remote: remote,
+    rel: page.rel,
+    class: "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-lightGray-300 focus:z-20 focus:outline-offset-0",
+    data: { turbo_action: "advance" },
+  }) %>
+<% end -%>
