@@ -7,10 +7,10 @@ end
 #
 # Table name: formula_items
 #
-#  id                 :bigint           not null, primary key
+#  id                 :integer          not null, primary key
+#  formula_id         :integer
+#  formula_element_id :integer
 #  proportion         :decimal(, )
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  formula_element_id :integer
-#  formula_id         :integer
 #
