@@ -85,11 +85,6 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
 
-      - name: Precompile assets
-        env:
-          RAILS_ENV: test
-        run: bin/rails assets:precompile
-
       - name: Run RSpec tests
         env:
           RAILS_ENV: test
