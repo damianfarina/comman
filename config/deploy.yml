@@ -25,7 +25,8 @@ proxy:
 registry:
   # Specify the registry server, if you're not using Docker Hub
   # server: registry.digitalocean.com / ghcr.io / ...
-  username: damianfarina
+  username:
+    - KAMAL_REGISTRY_USER
 
   # Always use an access token rather than real password (pulled from .kamal/secrets).
   password:
@@ -48,7 +49,10 @@ env:
 
     # Match this to any external database server to configure Active Record correctly
     # Use comman-db for a db accessory server on same machine via local kamal docker network.
-    # DB_HOST: 192.168.0.2
+    DB_HOST: comman-db
+    DB_PORT: 5432
+    POSTGRES_USER: comman
+    POSTGRES_DB: comman_production
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
@@ -98,17 +102,22 @@ builder:
 #   wait: 2
 
 # Use accessory services (secrets come from .kamal/secrets).
-# accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     # Change to 3306 to expose port to the world instead of just local network.
-#     port: "127.0.0.1:3306:3306"
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
+accessories:
+  db:
+    image: postgres:17.2
+    host: cuartoterminal.dev
+    # Change to 3306 to expose port to the world instead of just local network.
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: "${POSTGRES_USER}"
+        POSTGRES_DB: "${POSTGRES_DB}"
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
+    files:
+      - db/production_setup.sql:/docker-entrypoint-initdb.d/setup.sql
 #     files:
 #       - config/mysql/production.cnf:/etc/mysql/my.cnf
 #       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
