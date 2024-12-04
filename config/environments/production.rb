@@ -80,11 +80,11 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
-    # Enable DNS rebinding protection and other `Host` header attacks.
-    # config.hosts = [
-    # IPAddr.new("0.0.0.0/0") # Allow requests from any IP address
-    # "example.com",     # Allow requests from example.com
-    # /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+  # Enable DNS rebinding protection and other `Host` header attacks.
+  # config.hosts = [
+  #   IPAddr.new("0.0.0.0/0") # Allow requests from any IP address
+  #   "example.com",     # Allow requests from example.com
+  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
   # ]
   #
   # Skip DNS rebinding protection for the default health check endpoint.
