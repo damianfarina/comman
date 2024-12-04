@@ -7,7 +7,7 @@ image: damianfarina/comman
 # Deploy to these servers.
 servers:
   web:
-    - comman.cuartoterminal.dev
+    - 192.168.54.15
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -17,9 +17,10 @@ servers:
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
 #
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
-proxy:
-  ssl: true
-  host: comman.cuartoterminal.dev
+# proxy:
+#   ssl: true
+#   host: 192.168.54.15
+#   app_port: 3000
 
 # Credentials for your image host.
 registry:
@@ -108,7 +109,7 @@ builder:
 accessories:
   db:
     image: postgres:17.2
-    host: comman.cuartoterminal.dev
+    host: 192.168.54.15
     # Change to 3306 to expose port to the world instead of just local network.
     port: "127.0.0.1:5432:5432"
     env:
