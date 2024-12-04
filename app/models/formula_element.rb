@@ -8,20 +8,42 @@ class FormulaElement < ApplicationRecord
   validates :min_stock, numericality: { greater_than_or_equal_to: 0 }, if: -> { min_stock.present? && infinite }
   validates :current_stock, numericality: true, if: -> { current_stock.present? && infinite }
 
+  before_validation :clear_current_stock_if_infinite
+
   # ransacker :name_or_id do |parent|
   #   Arel::Nodes::NamedFunction.new(
   #     "CAST",
   #     [ parent.table[:id].as("text") ]
   #   ).concat(parent.table[:name])
   # end
+  #
+  ransacker :stock_level do |parent|
+    Arel.sql(
+      "CASE
+        WHEN infinite = TRUE THEN 100
+        WHEN min_stock = 0 THEN 0
+        ELSE GREATEST((current_stock / min_stock) * 100, 0)
+      END"
+    )
+  end
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "id", "name" ]
+    [ "id", "name", "stock_level", "infinite" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
     []
   end
+
+  scope :by_stock_level, ->(direction = :asc) {
+    direction = direction.to_s.downcase == "desc" ? "DESC" : "ASC"
+    order(Arel.sql(
+      "CASE
+        WHEN min_stock = 0 THEN 0
+        ELSE GREATEST((current_stock / min_stock) * 100, 0)
+      END #{direction}",
+    ))
+  }
 
   # scope :missing_first, -> { order(Arel.sql("current_stock / min_stock")) }
   # scope :name_or_id_contains, lambda { |part|
@@ -41,29 +63,31 @@ class FormulaElement < ApplicationRecord
     #   save
     # end
 
-    # def current_stock_percentage
-    #   return 100 if infinite?
-
-    #   max = 100.0 * min_stock / 5.0
-    #   result = current_stock * 100.0 / max
-    #   [ [ 0, result ].max, 100 ].min
-    # end
-
-    # private
-
-    #   def self.get_id_from_search(search)
-    #     return 0 if search.blank?
-    #     search = search.strip
-    #     return 0 unless search.start_with?("#")
-    #     search.delete("#").to_i
-    #   end
-
-    def confirm_no_formula_is_associated
-      if formulas.any?
-        errors.add(:base, I18n.t(:formula_exists, scope: [ :activerecord, :errors, :models, :formula_element ]))
-        throw :abort
-      end
+    def stock_level
+      return 100 if infinite?
+      return 0 if min_stock.to_f.zero?
+      [ (current_stock / min_stock) * 100, 0 ].max.round(2)
     end
+
+    private
+
+      #   def self.get_id_from_search(search)
+      #     return 0 if search.blank?
+      #     search = search.strip
+      #     return 0 unless search.start_with?("#")
+      #     search.delete("#").to_i
+      #   end
+
+      def confirm_no_formula_is_associated
+        if formulas.any?
+          errors.add(:base, I18n.t(:formula_exists, scope: [ :activerecord, :errors, :models, :formula_element ]))
+          throw :abort
+        end
+      end
+
+      def clear_current_stock_if_infinite
+        self.current_stock = nil if infinite?
+      end
 end
 
 # == Schema Information

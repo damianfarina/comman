@@ -46,11 +46,21 @@
         <table id="formula-elements" class="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
-              <th scope="col" class="py-3.5 text-center text-sm font-semibold text-gray-900">ID</th>
-              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-0">Nombre</th>
-              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Stock mínimo</th>
-              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Stock actual</th>
-              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0"></th>
+              <th scope="col" class="py-3.5 text-sm font-semibold text-gray-900">
+                <%= sort_link(@q, :id, FormulaElement.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900 sm:pl-0">
+                <%= sort_link(@q, :name, FormulaElement.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                <%= sort_link(@q, :current_stock, FormulaElement.human_attribute_name(:current_stock), class: "flex justify-end", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                <%= sort_link(@q, :stock_level, FormulaElement.human_attribute_name(:stock_level), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                <%= sort_link(@q, :infinite, FormulaElement.human_attribute_name(:infinite), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
@@ -64,8 +74,23 @@
                     <span class="sr-only">Ver materia prima </span><%= formula_element.name %>
                   <% end %>
                 </td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula_element.min_stock %></td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= formula_element.current_stock %></td>
+                <td class="whitespace-nowrap text-right px-3 py-4 text-sm text-gray-500"><%= "#{formula_element.current_stock.round(1)}kg" unless formula_element.current_stock.blank? %></td>
+                <td class="whitespace-nowrap text-right px-3 py-4 text-sm text-gray-500">
+                  <div class="relative w-full bg-lightGray-300 h-4 rounded-md overflow-hidden">
+                    <div
+                      class="absolute h-full rounded-md transition-all flex items-center justify-center text-white font-semibold"
+                      style="width: <%= [formula_element.stock_level, 100].min %>%; background-color: <%= stock_level_color(formula_element.stock_level) %>;">
+                    </div>
+                    <span class="absolute left-0 w-full text-center text-xs">
+                      <%= number_to_percentage(formula_element.stock_level, precision: 0) %>
+                    </span>
+                  </div>
+                </td>
+                <td class="whitespace-nowrap flex justify-center px-3 py-4 text-sm text-gray-500">
+                  <% if formula_element.infinite? %>
+                    <%= heroicon("sun", options: { class: "h-4 w-4 shrink-0 text-green" }) %>
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>
