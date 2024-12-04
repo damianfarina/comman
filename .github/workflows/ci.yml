@@ -85,6 +85,11 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
 
+      - name: Prepare tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+        run: bin/rails spec:prepare
       - name: Run RSpec tests
         env:
           RAILS_ENV: test
