@@ -74,7 +74,7 @@
                     <span class="sr-only">Ver materia prima </span><%= formula_element.name %>
                   <% end %>
                 </td>
-                <td class="whitespace-nowrap text-right px-3 py-4 text-sm text-gray-500"><%= "#{formula_element.current_stock.round(1)}kg" unless formula_element.infinite? %></td>
+                <td class="whitespace-nowrap text-right px-3 py-4 text-sm text-gray-500"><%= "#{formula_element.current_stock.round(1)}kg" unless formula_element.current_stock.blank? %></td>
                 <td class="whitespace-nowrap text-right px-3 py-4 text-sm text-gray-500">
                   <div class="relative w-full bg-lightGray-300 h-4 rounded-md overflow-hidden">
                     <div

@@ -76,4 +76,18 @@ RSpec.describe FormulaElement, type: :model do
       expect(FormulaElement.ransack(stock_level_eq: 100).result).to include(infinite_element)
     end
   end
+
+  describe "before_validation :clear_current_stock_if_infinite" do
+    it "clears current_stock when infinite is true" do
+      formula_element = FormulaElement.new(current_stock: 100, infinite: true)
+      formula_element.valid? # Trigger validations
+      expect(formula_element.current_stock).to be_nil
+    end
+
+    it "does not clear current_stock when infinite is false" do
+      formula_element = FormulaElement.new(current_stock: 100, infinite: false)
+      formula_element.valid? # Trigger validations
+      expect(formula_element.current_stock).to eq(100)
+    end
+  end
 end

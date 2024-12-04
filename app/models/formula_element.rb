@@ -8,6 +8,8 @@ class FormulaElement < ApplicationRecord
   validates :min_stock, numericality: { greater_than_or_equal_to: 0 }, if: -> { min_stock.present? && infinite }
   validates :current_stock, numericality: true, if: -> { current_stock.present? && infinite }
 
+  before_validation :clear_current_stock_if_infinite
+
   # ransacker :name_or_id do |parent|
   #   Arel::Nodes::NamedFunction.new(
   #     "CAST",
@@ -67,21 +69,25 @@ class FormulaElement < ApplicationRecord
       [ (current_stock / min_stock) * 100, 0 ].max.round(2)
     end
 
-    # private
+    private
 
-    #   def self.get_id_from_search(search)
-    #     return 0 if search.blank?
-    #     search = search.strip
-    #     return 0 unless search.start_with?("#")
-    #     search.delete("#").to_i
-    #   end
+      #   def self.get_id_from_search(search)
+      #     return 0 if search.blank?
+      #     search = search.strip
+      #     return 0 unless search.start_with?("#")
+      #     search.delete("#").to_i
+      #   end
 
-    def confirm_no_formula_is_associated
-      if formulas.any?
-        errors.add(:base, I18n.t(:formula_exists, scope: [ :activerecord, :errors, :models, :formula_element ]))
-        throw :abort
+      def confirm_no_formula_is_associated
+        if formulas.any?
+          errors.add(:base, I18n.t(:formula_exists, scope: [ :activerecord, :errors, :models, :formula_element ]))
+          throw :abort
+        end
       end
-    end
+
+      def clear_current_stock_if_infinite
+        self.current_stock = nil if infinite?
+      end
 end
 
 # == Schema Information
