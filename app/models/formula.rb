@@ -68,13 +68,13 @@ end
 #
 # Table name: formulas
 #
-#  id         :integer          not null, primary key
-#  name       :string
+#  id         :bigint           not null, primary key
 #  abrasive   :string
+#  alloy      :string
 #  grain      :string
 #  hardness   :string
+#  name       :string
 #  porosity   :string
-#  alloy      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
