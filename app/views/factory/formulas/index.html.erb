@@ -31,12 +31,12 @@
             </svg>
           </div>
           <%= f.search_field(
-          :name_or_abrasive_or_grain_or_hardness_or_porosity_or_alloy_cont,
-          autofocus: true,
-          autocomplete: "off",
-          class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
-          placeholder: t("placeholders.search_by_name_abrasive_grain_hardness_porosity_alloy"),
-        ) %>
+            :name_or_abrasive_or_grain_or_hardness_or_porosity_or_alloy_cont,
+            autofocus: true,
+            autocomplete: "off",
+            class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+            placeholder: t("placeholders.search_by_name_abrasive_grain_hardness_porosity_alloy"),
+          ) %>
         </div>
       <% end %>
     </div>
@@ -72,7 +72,7 @@
           <tbody class="divide-y divide-lightGray">
             <% @formulas.each do |formula| %>
               <tr id="<%= dom_id formula %>">
-                <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-500">
+                <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
                   <%= link_to formula.id, factory_formula_path(formula), data: { turbo_frame: "_top" } %>
                 </td>
                 <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">

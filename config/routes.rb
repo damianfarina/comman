@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     get "dashboard/index"
     resources :formulas
     resources :formula_elements
+    resources :making_orders
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

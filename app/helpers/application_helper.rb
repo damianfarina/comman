@@ -15,9 +15,10 @@ module ApplicationHelper
 
   def navigation_items
     [
-      { name: "Tablero", path: factory_dashboard_index_path, icon: "home" },
-      { name: "Fórmulas", path: factory_formulas_path, icon: "beaker" },
-      { name: "Materia Prima", path: factory_formula_elements_path, icon: "puzzle-piece" }
+      { name: t("navigation.dashboard"), path: factory_dashboard_index_path, icon: "home" },
+      { name: t("titles.making_order.index"), path: factory_making_orders_path, icon: "circle-stack" },
+      { name: t("titles.formula.index"), path: factory_formulas_path, icon: "beaker" },
+      { name: t("titles.formula_element.index"), path: factory_formula_elements_path, icon: "puzzle-piece" }
     ]
   end
 end

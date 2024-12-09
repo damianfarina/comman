@@ -1,0 +1,52 @@
+<%= form_with(model: [:factory, making_order], class: "contents") do |form| %>
+  <%= render "common/error_messages", model: making_order %>
+  <%= render "common/forms/simple" do %>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <div>
+        <%= form.label :total_weight, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :total_weight, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :weight_per_round %>
+        <div class="mt-2">
+          <%= form.text_field :weight_per_round, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :rounds_count %>
+        <div class="mt-2">
+          <%= form.number_field :rounds_count, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :comments %>
+        <div class="mt-2">
+          <%= form.textarea :comments, rows: 4, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :mixer_capacity %>
+        <div class="mt-2">
+          <%= form.text_field :mixer_capacity, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :state %>
+        <div class="mt-2">
+          <%= form.number_field :state, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit t('actions.save'), :class => 'btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

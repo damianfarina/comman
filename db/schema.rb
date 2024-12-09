@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_22_231333) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_09_191055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,6 +38,54 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_22_231333) do
     t.string "hardness"
     t.string "porosity"
     t.string "alloy"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "making_order_formula_items", force: :cascade do |t|
+    t.integer "making_order_formula_id"
+    t.integer "formula_item_id"
+    t.integer "formula_element_id"
+    t.string "formula_element_name"
+    t.decimal "proportion"
+    t.decimal "consumed_stock"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "making_order_formulas", force: :cascade do |t|
+    t.integer "formula_id"
+    t.integer "making_order_id"
+    t.string "formula_name"
+    t.string "formula_abrasive"
+    t.string "formula_grain"
+    t.string "formula_hardness"
+    t.string "formula_porosity"
+    t.string "formula_alloy"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "making_order_items", force: :cascade do |t|
+    t.integer "making_order_id"
+    t.integer "product_id"
+    t.integer "quantity"
+    t.string "product_name"
+    t.string "product_shape"
+    t.string "product_size"
+    t.decimal "product_weight"
+    t.string "product_pressure"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "making_orders", force: :cascade do |t|
+    t.decimal "total_weight"
+    t.decimal "weight_per_round"
+    t.integer "rounds_count"
+    t.text "comments"
+    t.float "mixer_capacity"
+    t.integer "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
