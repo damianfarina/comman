@@ -43,11 +43,11 @@
 
     <%= turbo_frame_tag "formula_elements_table" do %>
       <div class="inline-block min-w-full py-2 align-middle">
-        <table id="formula-elements" class="min-w-full divide-y divide-gray-300">
+        <table id="formula-elements" class="min-w-full divide-y divide-lightGray-900">
           <thead>
             <tr>
               <th scope="col" class="py-3 text-sm font-semibold text-gray-900">
-                <%= sort_link(@q, :id, FormulaElement.human_attribute_name(:id), class: "flex justify-end sm:justify-center", data: { turbo_action: "advance"}) %>
+                <%= sort_link(@q, :id, FormulaElement.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
               <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
                 <%= sort_link(@q, :name, FormulaElement.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
@@ -59,23 +59,25 @@
                 <%= sort_link(@q, :stock_level, FormulaElement.human_attribute_name(:stock_level), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
               <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
-                <%= sort_link(@q, :infinite, FormulaElement.human_attribute_name(:infinite), class: "hidden sm:block flex justify-center", data: { turbo_action: "advance"}) %>
+                <%= sort_link(@q, :infinite, FormulaElement.human_attribute_name(:infinite), class: "hidden sm:flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-100">
+          <tbody class="divide-y divide-lightGray">
             <% @formula_elements.each do |formula_element| %>
               <tr id="<%= dom_id formula_element %>">
-                <td class="whitespace-nowrap px-2 md:px-4 py-4 text-right sm:text-center text-sm text-gray-500">
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-center text-sm text-gray-500">
                   <%= link_to formula_element.id, factory_formula_element_path(formula_element), data: { turbo_frame: "_top" } %>
                 </td>
-                <td class="whitespace-nowrap py-4 px-2 md:px-4 pr-3 text-sm font-medium text-gray-900">
+                <td class="whitespace-nowrap py-3 px-2 md:px-4 pr-3 text-sm font-medium text-gray-900">
                   <%= link_to factory_formula_element_path(formula_element), data: { turbo_frame: "_top" } do %>
                     <span class="sr-only">Ver materia prima </span><%= formula_element.name %>
                   <% end %>
                 </td>
-                <td class="hidden sm:block whitespace-nowrap text-right px-2 md:px-4 py-4 text-sm text-gray-500"><%= "#{formula_element.current_stock.round(1)}kg" unless formula_element.current_stock.blank? %></td>
-                <td class="whitespace-nowrap text-right px-2 md:px-4 py-4 text-sm text-gray-500">
+                <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                  <%= "#{formula_element.current_stock.round(1)}kg" unless formula_element.current_stock.blank? %>
+                </td>
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                   <div class="relative w-full bg-lightGray-300 h-4 rounded-md overflow-hidden">
                     <div
                       class="absolute h-full rounded-md transition-all flex items-center justify-center text-white font-semibold"
@@ -86,7 +88,7 @@
                     </span>
                   </div>
                 </td>
-                <td class="whitespace-nowrap flex justify-center px-2 md:px-4 py-4 text-sm text-gray-500">
+                <td class="whitespace-nowrap flex justify-center px-2 md:px-4 py-3 text-sm text-gray-500">
                   <% if formula_element.infinite? %>
                     <%= heroicon("sun", options: { class: "h-4 w-4 shrink-0 text-green" }) %>
                   <% end %>
