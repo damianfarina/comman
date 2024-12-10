@@ -74,6 +74,8 @@ es:
       index: "Materias primas"
       new: "Nueva materia prima"
   placeholders:
-    search_by_name: "Buscar por nombre"
-    search_by_name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
+    search_by:
+      name: "Buscar por nombre"
+      name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
+      comments_formula: "Buscar por observaciones o fórmula"
 

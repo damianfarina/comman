@@ -4,8 +4,12 @@ module Factory
 
     # GET /making_orders or /making_orders.json
     def index
-      @q = MakingOrder.ransack(params[:q].presence || default_sort)
-      @making_orders = @q.result.includes(:making_order_formula, :making_order_items).page(params[:page])
+      @q = MakingOrder.ransack(params[:q])
+      @making_orders = @q
+        .result(distinct: true)
+        .joins(:making_order_formula)
+        .includes(:making_order_formula, :making_order_items)
+        .page(params[:page])
     end
 
     # GET /making_orders/1 or /making_orders/1.json

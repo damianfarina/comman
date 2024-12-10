@@ -11,3 +11,5 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
