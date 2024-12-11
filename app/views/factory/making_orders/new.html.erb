@@ -1,7 +1,13 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New making order</h1>
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.making_order.index"), path: factory_making_orders_path },
+    { title: t("navigation.new"), path: new_factory_making_order_path },
+  ],
+  title: t("titles.making_order.new"),
+) %>
 
+<div class="w-full">
   <%= render "form", making_order: @making_order %>
-
-  <%= link_to "Back to making orders", making_orders_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

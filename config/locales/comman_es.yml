@@ -59,6 +59,7 @@ es:
   actions:
     archive: "Archivar"
     save: "Guardar"
+    cancel: "Cancelar"
   navigation:
     edit: "Editar"
     dashboard: "Tablero"

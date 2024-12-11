@@ -49,31 +49,31 @@
               <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :id, MakingOrder.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :created_at, MakingOrder.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :making_order_formula_name, MakingOrder.human_attribute_name(:making_order_formula), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group text-center">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group text-center">
                 <%= MakingOrder.human_attribute_name(:making_order_items) %>
               </th>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :total_weight, MakingOrder.human_attribute_name(:total_weight), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :comments, MakingOrder.human_attribute_name(:comments), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :state, MakingOrder.human_attribute_name(:state), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-lightGray-900">
+          <tbody class="divide-y divide-lightGray">
             <% @making_orders.each do |making_order| %>
               <tr class="hover:bg-lightGray-50">
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-900">
-                  <%= link_to making_order.id, factory_making_order_path(making_order), class: "flex justify-center" %>
+                  <%= link_to making_order.id, factory_making_order_path(making_order), class: "flex justify-center", data: { turbo_frame: "_top" } %>
                 </td>
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
                   <%= l(making_order.created_at.to_datetime, format: :compact) %>
