@@ -46,25 +46,25 @@
         <table id="formulas" class="min-w-full divide-y divide-lightGray-900">
           <thead>
             <tr>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :id, Formula.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 sm:pl-0">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :name, Formula.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :abrasive, Formula.human_attribute_name(:abrasive), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :grain, Formula.human_attribute_name(:grain), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :hardness, Formula.human_attribute_name(:hardness), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :porosity, Formula.human_attribute_name(:porosity), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :alloy, Formula.human_attribute_name(:alloy), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
             </tr>
@@ -75,7 +75,7 @@
                 <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
                   <%= link_to formula.id, factory_formula_path(formula), data: { turbo_frame: "_top" } %>
                 </td>
-                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
                   <%= link_to factory_formula_path(formula), data: { turbo_frame: "_top" } do %>
                     <span class="sr-only">Ver formula </span><%= formula.name %>
                   <% end %>

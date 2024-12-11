@@ -46,19 +46,19 @@
         <table id="formula-elements" class="min-w-full divide-y divide-lightGray-900">
           <thead>
             <tr>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :id, FormulaElement.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :name, FormulaElement.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :current_stock, FormulaElement.human_attribute_name(:current_stock), class: "flex justify-end", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :stock_level, FormulaElement.human_attribute_name(:stock_level), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :infinite, FormulaElement.human_attribute_name(:infinite), class: "hidden sm:flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
             </tr>
@@ -66,7 +66,7 @@
           <tbody class="divide-y divide-lightGray">
             <% @formula_elements.each do |formula_element| %>
               <tr id="<%= dom_id formula_element %>">
-                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-center text-sm text-gray-500">
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-center text-sm text-gray-900">
                   <%= link_to formula_element.id, factory_formula_element_path(formula_element), data: { turbo_frame: "_top" } %>
                 </td>
                 <td class="whitespace-nowrap py-3 px-2 md:px-4 pr-3 text-sm font-medium text-gray-900">
