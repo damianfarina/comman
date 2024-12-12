@@ -4,18 +4,11 @@ class MakingOrder < ApplicationRecord
   has_many :making_order_formula_items, through: :making_order_formula
 
   def self.ransackable_associations(auth_object = nil)
-    [ "making_order_formula" ]
+    %w[making_order_formula]
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    [
-      "id",
-      "comments",
-      "making_order_formula_name",
-      "created_at",
-      "total_weight",
-      "state",
-    ]
+    %w[id comments making_order_formula_name created_at total_weight state]
   end
 
   ransacker :making_order_formula_name do |parent|

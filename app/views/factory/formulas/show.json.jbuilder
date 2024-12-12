@@ -1,1 +1,1 @@
-json.partial! "formulas/formula", formula: @formula
+json.partial! "factory/formulas/formula", formula: @formula

@@ -4,7 +4,7 @@ module Factory
 
     # GET /making_orders or /making_orders.json
     def index
-      @q = MakingOrder.ransack(params[:q])
+      @q = MakingOrder.ransack(params[:q] || default_sort)
       @making_orders = @q
         .result(distinct: true)
         .joins(:making_order_formula)

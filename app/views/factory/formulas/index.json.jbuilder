@@ -1,1 +1,1 @@
-json.array! @formulas, partial: "formulas/formula", as: :formula
+json.array! @formulas, partial: "factory/formulas/formula", as: :formula

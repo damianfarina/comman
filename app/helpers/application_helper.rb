@@ -21,6 +21,7 @@ module ApplicationHelper
     [
       { name: t("navigation.dashboard"), path: factory_dashboard_index_path, icon: "home" },
       { name: t("titles.making_order.index"), path: factory_making_orders_path, icon: "circle-stack" },
+      { name: t("titles.product.index"), path: factory_products_path, icon: "cube" },
       { name: t("titles.formula.index"), path: factory_formulas_path, icon: "beaker" },
       { name: t("titles.formula_element.index"), path: factory_formula_elements_path, icon: "puzzle-piece" },
     ]
