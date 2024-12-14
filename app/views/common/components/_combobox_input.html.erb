@@ -1,0 +1,45 @@
+<%# locals: (placeholder:)  %>
+
+<div
+  data-controller="common--combobox-input"
+  data-common--combobox-input-highlight-class="bg-lightGray text-white"
+  data-common--combobox-input-hidden-class="hidden"
+>
+  <div class="relative mt-2">
+    <div class="relative">
+      <input
+        placeholder="<%= placeholder %>"
+        data-action="input->common--combobox-input#filter focus->common--combobox-input#focus"
+        data-common--combobox-input-target="input"
+        autocomplete="false"
+        class="grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue sm:text-sm/6"
+        role="combobox"
+        type="text"
+        aria-expanded="true"
+        aria-autocomplete="list"
+        value=""
+      >
+      <button
+        class="group absolute inset-y-0 right-0 px-2.5"
+        type="button"
+        tabindex="-1"
+        aria-haspopup="listbox"
+        aria-expanded="true"
+        data-action="click->common--combobox-input#toggle"
+        data-common--combobox-input-target="button"
+      >
+        <%= heroicon("chevron-down", options: { class: "size-4 fill-black/60 group-hover:fill-black" } ) %>
+      </button>
+    </div>
+
+    <ul
+      class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm hidden"
+      tabindex="-1"
+      role="listbox"
+      aria-labelledby="listbox-label"
+      data-common--combobox-input-target="menu"
+    >
+      <%= yield %>
+    </ul>
+  </div>
+</div>
