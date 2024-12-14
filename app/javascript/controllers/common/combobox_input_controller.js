@@ -45,16 +45,32 @@ export default class extends Controller {
   }
 
   filterOptions() {
-    const query = this.inputTarget.value.toLowerCase()
-    this.optionTargets.forEach(option => {
-      const text = option.textContent.toLowerCase()
-      option.classList.toggle(...this.hiddenClasses, !text.includes(query))
-    })
+    const query = this.inputTarget.value.toLowerCase();
+    this.optionTargets.forEach((option) => {
+      const text = option.textContent.toLowerCase();
+      option.classList.toggle(...this.hiddenClasses, !text.includes(query));
+    });
   }
 
   focus() {
     this.open = true;
     this.updateMenu();
+  }
+
+  keydown(event) {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      this.focusFirstOption();
+    }
+  }
+
+  focusFirstOption() {
+    const firstVisibleOption = this.optionTargets.find(
+      (option) => !option.classList.contains(...this.hiddenClasses)
+    );
+    if (firstVisibleOption) {
+      firstVisibleOption.focus();
+    }
   }
 
   updateMenu() {

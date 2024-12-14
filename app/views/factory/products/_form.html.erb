@@ -6,7 +6,13 @@
       <div>
         <%= render 'common/components/combobox_input', placeholder: "Seleccione una fórmula" do %>
           <% Formula.all.each do |formula| %>
-            <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" role="option" data-action="click->common--combobox-input#select mouseenter->common--combobox-input#highlight" data-common--combobox-input-target="option">
+            <li
+              class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
+              role="option"
+              tabindex="0"
+              data-action="click->common--combobox-input#select mouseenter->common--combobox-input#highlight"
+              data-common--combobox-input-target="option"
+            >
               <span class="block truncate font-normal"><%= formula.name %></span>
               <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-700">
                 <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
