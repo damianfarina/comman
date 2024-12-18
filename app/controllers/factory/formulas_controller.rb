@@ -1,6 +1,7 @@
 module Factory
   class FormulasController < ApplicationController
     before_action :set_formula, only: %i[ show edit update destroy ]
+    before_action :set_formula_elements, only: %i[ new create edit update destroy ]
 
     # GET /formulas or /formulas.json
     def index
@@ -72,12 +73,14 @@ module Factory
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_formula
         @formula = Formula.find(params[:id])
       end
 
-      # Only allow a list of trusted parameters through.
+      def set_formula_elements
+        @formula_elements = FormulaElement.order(:name)
+      end
+
       def formula_params
         params
           .require(:formula)
@@ -91,7 +94,7 @@ module Factory
               :id,
               :formula_element_id,
               :proportion,
-              :_destroy
+              :_destroy,
             ],
           )
       end

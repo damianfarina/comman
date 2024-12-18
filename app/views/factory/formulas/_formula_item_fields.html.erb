@@ -1,35 +1,40 @@
-<% marked_for_destruction = item.persisted? && item.marked_for_destruction? %>
+<%# locals: (child_index: nil, form:, formula_item:, formula_elements:)  %>
+
+<% marked_for_destruction = formula_item.persisted? && formula_item.marked_for_destruction? %>
 <div
-  data-common--nested-form-target="item" data-item-id="<%= item.id || "" %>"
+  data-common--nested-form-target="item" data-item-id="<%= formula_item.id || "" %>"
   class="grid grid-cols-[1fr,auto,auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
 >
-  <%= form.fields_for :formula_items, item, child_index: local_assigns[:child_index] do |ff| %>
-    <%= ff.hidden_field :id if item.persisted? %>
-    <%= ff.collection_select(
-      :formula_element_id,
-      FormulaElement.all,
-      :id,
-      :name,
-      { prompt: "Select Formula Element" },
-      {
+  <%= form.fields_for :formula_items, formula_item, child_index: child_index do |ff| %>
+    <%= ff.hidden_field :id if formula_item.persisted? %>
+
+    <%= render("common/components/combobox_input",
+      placeholder: t("helpers.select.prompt", model: FormulaElement.model_name.human),
+      input_name: "formula[formula_items_attributes][#{child_index}][formula_element_id]",
+      input_value: formula_item.formula_element_id,
+      search_value: formula_item&.formula_element&.name,
+    ) do %>
+      <% formula_elements.each do |formula_element| %>
+        <%= render "common/components/combobox_option", id: formula_element.id, value: formula_element.name do %>
+          <span class="block truncate font-normal"><%= formula_element.name %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+    <div>
+      <%= ff.number_field(
+        :proportion,
+        placeholder: "Porcentage %",
+        min: 0,
+        step: 0.001,
+        disabled: marked_for_destruction,
         class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6",
-        disabled: item.persisted? && item.marked_for_destruction?,
-      },
-    ) %>
-    <%= ff.number_field(
-      :proportion,
-      placeholder: "Porcentage %",
-      min: 0,
-      step: 0.001,
-      disabled: item.persisted? && item.marked_for_destruction?,
-      class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6",
-    ) %>
-    <%= ff.hidden_field(
-      :_destroy,
-      value: item.persisted? && item.marked_for_destruction?,
-      data: { "common--nested-form-target": "destroyField" },
-      class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6",
-    ) %>
+      ) %>
+      <%= ff.hidden_field(
+        :_destroy,
+        value: marked_for_destruction,
+        data: { "common--nested-form-target": "destroyField" },
+      ) %>
+    </div>
 
     <button type="button" class="btn btn-danger group" data-action="common--nested-form#removeItem">
       <%= heroicon("trash", options: { class: "h-4 w-4 shrink-0 transition text-lightRed group-hover:text-red" }) %>

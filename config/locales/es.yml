@@ -175,7 +175,7 @@ es:
         other: "%{model} no pudo guardarse debido a %{count} errores"
   helpers:
     select:
-      prompt: Por favor selecciona
+      prompt: Por favor selecciona %{model}
     submit:
       create: Crear %{model}
       submit: Guardar %{model}
