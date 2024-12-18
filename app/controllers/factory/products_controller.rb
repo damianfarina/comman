@@ -1,6 +1,7 @@
 module Factory
   class ProductsController < ApplicationController
     before_action :set_product, only: %i[ show edit update destroy ]
+    before_action :set_formulas, only: %i[ new create edit update destroy ]
 
     # GET /products or /products.json
     def index
@@ -27,7 +28,7 @@ module Factory
 
       respond_to do |format|
         if @product.save
-          format.html { redirect_to @product, notice: "Product was successfully created." }
+          format.html { redirect_to factory_product_path(@product), notice: "Product was successfully created." }
           format.json { render :show, status: :created, location: @product }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +41,7 @@ module Factory
     def update
       respond_to do |format|
         if @product.update(product_params)
-          format.html { redirect_to @product, notice: "Product was successfully updated." }
+          format.html { redirect_to factory_product_path(@product), notice: "Product was successfully updated." }
           format.json { render :show, status: :ok, location: @product }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -60,12 +61,14 @@ module Factory
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_product
         @product = Product.find(params.expect(:id))
       end
 
-      # Only allow a list of trusted parameters through.
+      def set_formulas
+        @formulas = Formula.order(:name)
+      end
+
       def product_params
         params.expect(product: [ :name, :price, :formula_id, :shape, :size, :weight, :pressure ])
       end

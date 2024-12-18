@@ -17,6 +17,7 @@
       items: [
         { label: Product.human_attribute_name(:id), value: @product.id },
         { label: Product.human_attribute_name(:name), value: @product.name },
+        { label: Product.human_attribute_name(:shape), value: @product.shape },
         {
           label: Product.human_attribute_name(:formula),
           block: -> {
