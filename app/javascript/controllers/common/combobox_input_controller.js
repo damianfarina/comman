@@ -1,37 +1,45 @@
 import { Controller } from "@hotwired/stimulus";
+import debounce from "lib/debounce";
 
 // Connects to data-controller="common--combobox-input"
 export default class extends Controller {
-  static targets = ["button", "menu", "option", "input"];
-  static classes = ["highlight", "hidden"];
+  static targets = ["button", "menu", "option", "searchInput", "valueInput"];
+  static classes = ["hidden", "selected"];
 
   connect() {
     this.open = false;
-    this.selectedOption = null;
-    this.filterOptions();
+    document.addEventListener("click", this._handleClickOutside);
   }
 
-  toggle() {
+  disconnect() {
+    document.removeEventListener("click", this._handleClickOutside);
+  }
+
+  initialize() {
+    this.filter = debounce(this.filter.bind(this), 200);
+  }
+
+  toggle(event) {
     this.open = !this.open;
-    this.updateMenu();
+    this._updateMenu();
+    this.focusNext(event);
   }
 
   close() {
     this.open = false;
-    this.updateMenu();
+    this._updateMenu();
   }
 
   select(event) {
-    this.selectedOption = event.currentTarget;
+    event.stopImmediatePropagation();
+    const selectedOption = event.currentTarget;
+    this.optionTargets.forEach((option) => {
+      option.classList.remove(...this.selectedClasses);
+    });
+    selectedOption.classList.add(...this.selectedClasses);
+    this.searchInputTarget.focus();
     this.close();
-    this.updateButton();
-  }
-
-  highlight(event) {
-    this.optionTargets.forEach((option) =>
-      option.classList.remove(...this.highlightClasses)
-    );
-    event.currentTarget.classList.add(...this.highlightClasses);
+    this._updateInputs(selectedOption);
   }
 
   filter(event) {
@@ -41,39 +49,83 @@ export default class extends Controller {
       option.classList.toggle(...this.hiddenClasses, !text.includes(query));
     });
     this.open = true;
-    this.updateMenu();
+    this._updateMenu();
   }
 
-  filterOptions() {
-    const query = this.inputTarget.value.toLowerCase();
-    this.optionTargets.forEach((option) => {
-      const text = option.textContent.toLowerCase();
-      option.classList.toggle(...this.hiddenClasses, !text.includes(query));
+  searchMore(event) {
+    const keyValue = event.key;
+    const isEscapeKey = event.keyCode === 27;
+    const isBackspaceKey = event.keyCode === 8;
+    const isNumberKey = event.keyCode >= 48 && event.keyCode <= 57;
+    const isUppercaseLetterKey = event.keyCode >= 65 && event.keyCode <= 90;
+    const isLowercaseLetterKey = event.keyCode >= 97 && event.keyCode <= 122;
+
+    if (
+      !(
+        isNumberKey ||
+        isUppercaseLetterKey ||
+        isLowercaseLetterKey ||
+        isBackspaceKey ||
+        isEscapeKey
+      )
+    ) {
+      return;
+    }
+
+    if (isEscapeKey) {
+      this.searchInputTarget.focus();
+      this.close();
+      return;
+    }
+
+    if (isBackspaceKey) {
+      this.searchInputTarget.value = this.searchInputTarget.value.slice(0, -1);
+    } else {
+      this.searchInputTarget.value = this.searchInputTarget.value + keyValue;
+    }
+
+    requestAnimationFrame(() => {
+      this.searchInputTarget.focus();
+      this.filter(event);
     });
   }
 
   focus() {
     this.open = true;
-    this.updateMenu();
+    this._updateMenu();
   }
 
-  keydown(event) {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      this.focusFirstOption();
-    }
-  }
-
-  focusFirstOption() {
-    const firstVisibleOption = this.optionTargets.find(
+  focusNext(event) {
+    event.stopImmediatePropagation();
+    const visibleOptions = this.optionTargets.filter(
       (option) => !option.classList.contains(...this.hiddenClasses)
     );
-    if (firstVisibleOption) {
-      firstVisibleOption.focus();
+    const currentIndex = visibleOptions.indexOf(document.activeElement);
+    const nextIndex = (currentIndex + 1) % visibleOptions.length;
+    if (!visibleOptions[nextIndex]) {
+      return;
     }
+    requestAnimationFrame(() => visibleOptions[nextIndex].focus());
   }
 
-  updateMenu() {
+  focusPrevious(event) {
+    event.stopImmediatePropagation();
+    const visibleOptions = this.optionTargets.filter(
+      (option) => !option.classList.contains(...this.hiddenClasses)
+    );
+    const currentIndex = visibleOptions.indexOf(document.activeElement);
+
+    if (currentIndex === 0) {
+      this.searchInputTarget.focus();
+      return;
+    }
+
+    requestAnimationFrame(() => visibleOptions[currentIndex - 1].focus());
+  }
+
+  private;
+
+  _updateMenu() {
     if (this.open) {
       this.menuTarget.classList.remove(...this.hiddenClasses);
       this.buttonTarget.setAttribute("aria-expanded", "true");
@@ -83,10 +135,16 @@ export default class extends Controller {
     }
   }
 
-  updateButton() {
-    if (this.selectedOption) {
-      this.buttonTarget.querySelector("span").textContent =
-        this.selectedOption.querySelector("span").textContent;
+  _updateInputs(option) {
+    if (option) {
+      this.searchInputTarget.value = option.dataset.value;
+      this.valueInputTarget.value = option.dataset.id;
     }
   }
+
+  _handleClickOutside = (event) => {
+    if (!this.element.contains(event.target)) {
+      this.close();
+    }
+  };
 }

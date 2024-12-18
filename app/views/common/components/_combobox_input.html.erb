@@ -1,23 +1,30 @@
-<%# locals: (placeholder:)  %>
+<%# locals: (placeholder:, input_name:, input_value:, search_value:)  %>
 
 <div
   data-controller="common--combobox-input"
-  data-common--combobox-input-highlight-class="bg-lightGray text-white"
   data-common--combobox-input-hidden-class="hidden"
+  data-common--combobox-input-selected-class="bg-blue text-white focus:text-white hover:text-white focus:bg-blue-300 hover:bg-blue-300 outline-none"
 >
   <div class="relative mt-2">
     <div class="relative">
+      <input name="<%= input_name %>" value="<%= input_value %>" type="hidden" data-common--combobox-input-target="valueInput">
       <input
         placeholder="<%= placeholder %>"
-        data-action="input->common--combobox-input#filter focus->common--combobox-input#focus keydown->common--combobox-input#keydown"
-        data-common--combobox-input-target="input"
+        data-action="
+          input->common--combobox-input#filter
+          focus->common--combobox-input#focus
+          keydown.down->common--combobox-input#focusNext
+          keydown.enter->common--combobox-input#filter:prevent
+          keydown.esc->common--combobox-input#close
+        "
+        data-common--combobox-input-target="searchInput"
         autocomplete="false"
-        class="grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pl-3 pr-2 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue sm:text-sm/6"
+        class="grid w-full cursor-default grid-cols-1 pr-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6"
         role="combobox"
         type="text"
         aria-expanded="true"
         aria-autocomplete="list"
-        value=""
+        value="<%= search_value %>"
       >
       <button
         class="group absolute inset-y-0 right-0 px-2.5"
@@ -33,7 +40,7 @@
     </div>
 
     <ul
-      class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm hidden"
+      class="absolute z-10 mt-1 max-h-60 w-full overflow-auto min-h-9 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm hidden"
       tabindex="-1"
       role="listbox"
       aria-labelledby="listbox-label"
