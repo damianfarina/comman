@@ -7,8 +7,6 @@ class Product < ApplicationRecord
   belongs_to :formula, dependent: :destroy
   delegate :name, to: :formula, prefix: true, allow_nil: true
 
-  validates :shape, :size, :pressure, presence: true
-  validates :name, presence: true, uniqueness: true
   validates :price, :weight, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def self.ransackable_associations(auth_object = nil)
