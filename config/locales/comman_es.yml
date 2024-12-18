@@ -6,6 +6,8 @@ es:
           proportion_must_be_one_hundred: "La suma de los porcentajes debe ser 100. La diferencia es %{difference}"
         product:
           name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
+        formula_element:
+          formula_exists: 'No se puede eliminar porque al menos una fórmula depende de esta materia prima'
     models:
       formula_element: "Materia prima"
       formula_item:

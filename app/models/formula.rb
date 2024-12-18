@@ -1,8 +1,10 @@
 class Formula < ApplicationRecord
+  has_many :products, dependent: :destroy
   has_many :formula_items, -> { order(id: :desc) }, dependent: :destroy
   has_many :formula_elements, through: :formula_items
+  has_many :making_order_formulas, dependent: :nullify
 
-  accepts_nested_attributes_for :formula_items, allow_destroy: true
+  accepts_nested_attributes_for :formula_items, allow_destroy: true, reject_if: :all_blank
 
   validates :abrasive, :grain, :hardness, :porosity, :alloy, :name, :formula_items, presence: true
   validate :name_is_unique, if: -> { name.present? }
