@@ -10,9 +10,10 @@
 
     <%= render("common/components/combobox_input",
       placeholder: t("helpers.select.prompt", model: FormulaElement.model_name.human),
-      input_name: "formula[formula_items_attributes][#{child_index}][formula_element_id]",
+      input_name: "formula[formula_items_attributes][#{ff.index}][formula_element_id]",
       input_value: formula_item.formula_element_id,
       search_value: formula_item&.formula_element&.name,
+      input_classes: formula_item.errors.any? ? "ring-red" : "",
     ) do %>
       <% formula_elements.each do |formula_element| %>
         <%= render "common/components/combobox_option", id: formula_element.id, value: formula_element.name do %>
@@ -27,7 +28,7 @@
         min: 0,
         step: 0.001,
         disabled: marked_for_destruction,
-        class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6",
+        class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6 #{ 'ring-red' if formula_item.errors.any? }",
       ) %>
       <%= ff.hidden_field(
         :_destroy,
@@ -36,7 +37,7 @@
       ) %>
     </div>
 
-    <button type="button" class="btn btn-danger group" data-action="common--nested-form#removeItem">
+    <button type="button" class="group" data-action="common--nested-form#removeItem">
       <%= heroicon("trash", options: { class: "h-4 w-4 shrink-0 transition text-lightRed group-hover:text-red" }) %>
     </button>
   <% end %>
