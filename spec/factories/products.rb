@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :product do
-    name { "MyString" }
-    price { "9.99" }
-    formula_id { 1 }
-    shape { "MyString" }
-    size { "MyString" }
-    weight { "9.99" }
-    pressure { "MyString" }
+    name { Faker::Commerce.unique.product_name }
+    price { Faker::Commerce.price }
+    formula
+    shape { "RR" }
+    size { "250x100x50" }
+    weight { 10.0 }
+    pressure { "G100" }
   end
 end

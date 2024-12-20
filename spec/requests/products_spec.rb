@@ -1,12 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe "/products", type: :request do
+  let(:formula) { create(:formula, :with_items, abrasive: "A", grain: "B", hardness: "C", porosity: "D", alloy: "E") }
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      price: 10.0,
+      formula_id: formula.id,
+      shape: "RR",
+      size: "250x100x50",
+      weight: 10.0,
+      pressure: "G100",
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      price: "FREE",
+      formula_id: formula.id,
+      shape: "RR",
+      size: "150x100x50",
+      weight: "HEAVY",
+      pressure: "G100",
+    }
   }
 
   describe "GET /index" do
@@ -50,7 +65,7 @@ RSpec.describe "/products", type: :request do
 
       it "redirects to the created product" do
         post factory_products_url, params: { product: valid_attributes }
-        expect(response).to redirect_to(product_url(Product.last))
+        expect(response).to redirect_to(factory_product_url(Product.last))
       end
     end
 
@@ -71,28 +86,30 @@ RSpec.describe "/products", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          price: 20.0,
+        }
       }
 
       it "updates the requested product" do
         product = Product.create! valid_attributes
-        patch product_url(product), params: { product: new_attributes }
+        patch factory_product_url(product), params: { product: new_attributes }
         product.reload
-        skip("Add assertions for updated state")
+        expect(product.price).to eq(20.0)
       end
 
       it "redirects to the product" do
         product = Product.create! valid_attributes
-        patch product_url(product), params: { product: new_attributes }
+        patch factory_product_url(product), params: { product: new_attributes }
         product.reload
-        expect(response).to redirect_to(product_url(product))
+        expect(response).to redirect_to(factory_product_url(product))
       end
     end
 
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         product = Product.create! valid_attributes
-        patch product_url(product), params: { product: invalid_attributes }
+        patch factory_product_url(product), params: { product: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -102,13 +119,13 @@ RSpec.describe "/products", type: :request do
     it "destroys the requested product" do
       product = Product.create! valid_attributes
       expect {
-        delete product_url(product)
+        delete factory_product_url(product)
       }.to change(Product, :count).by(-1)
     end
 
     it "redirects to the products list" do
       product = Product.create! valid_attributes
-      delete product_url(product)
+      delete factory_product_url(product)
       expect(response).to redirect_to(factory_products_url)
     end
   end
