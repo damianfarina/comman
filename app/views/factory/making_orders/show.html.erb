@@ -62,7 +62,9 @@
             <li class="flex gap-x-4 py-5">
               <img class="size-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1564182872950-978e194a05cd?q=80&w=300&h=300&fit=crop" alt="">
               <div class="min-w-0 grow flex items-center">
-                <div class="flex-1 grow text-sm/6 font-semibold text-gray-900"><%= item.product_name %></div>
+                <div class="flex-1 grow text-sm/6 font-semibold text-gray-900">
+                  <%= link_to item.product_name, factory_product_path(item.product_id) %>
+                </div>
                 <div class="mt-1 text-2xl font-semibold text-gray-900"><%= item.quantity %></div>
               </div>
             </li>

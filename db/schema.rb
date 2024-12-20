@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_190154) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_19_181909) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -84,8 +84,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_190154) do
     t.decimal "weight_per_round"
     t.integer "rounds_count"
     t.text "comments"
-    t.float "mixer_capacity"
-    t.integer "state"
+    t.float "mixer_capacity", default: 60.0
+    t.integer "state", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

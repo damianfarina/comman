@@ -41,7 +41,7 @@ module Factory
       respond_to do |format|
         if @formula.save
           format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue creada." }
-          format.json { render :show, status: :created, location: @formula }
+          format.json { render :show, status: :created, location: factory_formula_url(@formula) }
         else
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @formula.errors, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ module Factory
       respond_to do |format|
         if @formula.update(formula_params)
           format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue actualizada." }
-          format.json { render :show, status: :ok, location: @formula }
+          format.json { render :show, status: :ok, location: factory_formula_url(@formula) }
         else
           format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @formula.errors, status: :unprocessable_entity }
@@ -82,21 +82,23 @@ module Factory
       end
 
       def formula_params
-        params
-          .require(:formula)
-          .permit(
+        params.expect(
+          formula: [
             :abrasive,
             :grain,
             :hardness,
             :porosity,
             :alloy,
             formula_items_attributes: [
-              :id,
-              :formula_element_id,
-              :proportion,
-              :_destroy,
+              [
+                :id,
+                :formula_element_id,
+                :proportion,
+                :_destroy,
+              ],
             ],
-          )
+          ],
+        )
       end
   end
 end

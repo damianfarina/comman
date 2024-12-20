@@ -68,7 +68,14 @@ module Factory
       end
 
       def formula_element_params
-        params.require(:formula_element).permit(:name, :min_stock, :current_stock, :infinite)
+        params.expect(
+          formula_element: [
+            :name,
+            :min_stock,
+            :current_stock,
+            :infinite,
+          ],
+        )
       end
   end
 end
