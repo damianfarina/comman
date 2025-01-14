@@ -22,7 +22,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="h-full">
-    <div>
+    <div class="web">
       <%= render 'application/sidebar' %>
       <main class="py-10 lg:pl-72">
         <div class="px-4 sm:px-6 lg:px-8">
@@ -31,5 +31,11 @@
         </div>
       </main>
     </div>
+
+    <% if content_for? :print_section %>
+      <div class="print-section">
+        <%= yield :print_section %>
+      </div>
+    <% end %>
   </body>
 </html>

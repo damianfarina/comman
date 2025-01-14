@@ -22,6 +22,12 @@ es:
       product:
         one: "Producto"
         other: "Productos"
+      making_order:
+        one: "Orden de producción"
+        other: "Órdenes de producción"
+      making_order_item:
+        one: "Producto"
+        other: "Productos"
     attributes:
       formula_element:
         id: "ID"
@@ -87,6 +93,7 @@ es:
     edit: "Editar"
     dashboard: "Tablero"
     new: "Nuevo"
+    print: "Imprimir"
   titles:
     making_order:
       index: "Órdenes de producción"
