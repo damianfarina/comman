@@ -1,0 +1,13 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.product.index"), path: factory_products_path },
+    { title: t("navigation.new"), path: new_factory_product_path },
+  ],
+  title: t("titles.product.new"),
+) %>
+
+<div class="w-full">
+  <%= render "form", product: @product, formulas: @formulas %>
+</div>

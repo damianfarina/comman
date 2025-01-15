@@ -1,0 +1,104 @@
+<%= render "common/headings/page",
+  title: t("titles.making_order.index"),
+  actions: [
+    { label: t("navigation.new"), path: new_factory_making_order_path, method: :get },
+  ],
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.making_order.index"), path: factory_making_orders_path },
+  ] %>
+
+<div class="w-full">
+  <div class="mt-8 flow-root">
+    <div class="flex flex-1">
+      <%= search_form_for(
+        @q,
+        url: factory_making_orders_path,
+        method: :get,
+        data: {
+          turbo_frame: "making_orders_table",
+          turbo_action: "advance",
+          controller: "common--submit-debounce",
+          action: "input->common--submit-debounce#submit",
+        },
+        class: "w-full max-w-lg lg:max-w-xs",
+      ) do |f| %>
+        <%= f.label :comments_or_making_order_formula_name_cont, t("placeholders.search_by.comments_formula"), class: "sr-only" %>
+        <div class="relative text-gray-300 focus-within:text-gray">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.search_field(
+            :comments_or_making_order_formula_name_cont,
+            autofocus: true,
+            autocomplete: "off",
+            class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+            placeholder: t("placeholders.search_by.comments_formula"),
+          ) %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= turbo_frame_tag "making_orders_table" do %>
+      <div class="inline-block min-w-full py-2 align-middle">
+        <table id="formulas" class="min-w-full divide-y divide-lightGray-900">
+          <thead>
+            <tr>
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :id, MakingOrder.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :created_at, MakingOrder.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :making_order_formula_name, MakingOrder.human_attribute_name(:making_order_formula), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group text-center">
+                <%= MakingOrder.human_attribute_name(:making_order_items) %>
+              </th>
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :total_weight, MakingOrder.human_attribute_name(:total_weight), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :comments, MakingOrder.human_attribute_name(:comments), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :state, MakingOrder.human_attribute_name(:state), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-lightGray">
+            <% @making_orders.each do |making_order| %>
+              <tr class="hover:bg-lightGray-50">
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-900">
+                  <%= link_to making_order.id, factory_making_order_path(making_order), class: "flex justify-center", data: { turbo_frame: "_top" } %>
+                </td>
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <%= l(making_order.created_at.to_datetime, format: :compact) %>
+                </td>
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <%= making_order.making_order_formula.formula_name %>
+                </td>
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <%= making_order.making_order_items.size %>
+                </td>
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <%= number_with_precision making_order.total_weight %>
+                </td>
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <%= truncate making_order.comments, :length => 55 %>
+                </td>
+                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <%= t("#{making_order.state}", :scope => [:activerecord, :attributes, :making_order, :state_values]) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= paginate @making_orders, total_count: @making_orders.total_count %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<%# locals: (making_order:) -%>
+
+<table class="full" style="page-break-before: always;">
+  <tbody>
+    <tr>
+      <th class="title"><span class="highlight">R</span>ectificación / Liberación</th>
+      <th>Fecha <%= l making_order.created_at.to_date, :format => :default %></th>
+      <th>Órden #<%= making_order.id %></th>
+    </tr>
+  </tbody>
+</table>
+
+<table class="full">
+  <tbody>
+    <tr>
+      <td>ID</td>
+      <td><b><%= making_order.making_order_formula.formula_id %></b></td>
+      <td><%= Formula.human_attribute_name :abrasive %></td>
+      <td><b><%= making_order.making_order_formula.formula_abrasive %></b></td>
+      <td><%= Formula.human_attribute_name :grain %></td>
+      <td><b><%= making_order.making_order_formula.formula_grain %></b></td>
+      <td><%= Formula.human_attribute_name :hardness %></td>
+      <td><b><%= making_order.making_order_formula.formula_hardness %></b></td>
+      <td><%= Formula.human_attribute_name :porosity %></td>
+      <td><b><%= making_order.making_order_formula.formula_porosity %></b></td>
+      <td><%= Formula.human_attribute_name :alloy %></td>
+      <td><b><%= making_order.making_order_formula.formula_alloy %></b></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="layout full">
+  <tbody>
+    <tr>
+      <td class="smaller-as-it-can">
+        <table class="small">
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td class="amount">Canti</td>
+              <td>Forma</td>
+              <td>Medida</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% making_order.making_order_items.each do |item| %>
+              <tr>
+                <td><%= item.product_id %></td>
+                <td class="amount"><%= item.quantity %></td>
+                <td><%= item.product_shape %></td>
+                <td><%= item.product_size %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table class="full">
+          <tbody>
+            <tr>
+              <td>Fecha</td>
+              <td>Op</td>
+              <td>Canti</td>
+              <td>Fecha</td>
+              <td>Op</td>
+              <td>Canti</td>
+            </tr>
+            <% making_order.making_order_items.each do |item| %>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table class="full">
+          <tbody>
+            <tr>
+              <td>ObVisual</td>
+              <td>Medida</td>
+              <td>Balanceo</td>
+              <td>RPM</td>
+              <td>Observaciones</td>
+            </tr>
+            <% making_order.making_order_items.each do |item| %>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <table class="full">
+          <tbody>
+            <tr>
+              <th style="width: 1px">Observaciones</th>
+              <td class="comments"><pre><%= making_order.comments %></pre></td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="layout full">
+  <tbody>
+    <tr>
+      <td>
+        <p class="note">Tolerancia en medida +/- 0.5mm</p>
+      </td>
+      <td class="smaller-as-it-can nowrap">
+        <p class="note"><%= ENV.fetch("REVISION_ID") %></p>
+      </td>
+    </tr>
+  </tbody>
+</table>

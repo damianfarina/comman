@@ -1,6 +1,7 @@
 module Factory
   class FormulasController < ApplicationController
     before_action :set_formula, only: %i[ show edit update destroy ]
+    before_action :set_formula_elements, only: %i[ new create edit update destroy ]
 
     # GET /formulas or /formulas.json
     def index
@@ -40,7 +41,7 @@ module Factory
       respond_to do |format|
         if @formula.save
           format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue creada." }
-          format.json { render :show, status: :created, location: @formula }
+          format.json { render :show, status: :created, location: factory_formula_url(@formula) }
         else
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @formula.errors, status: :unprocessable_entity }
@@ -53,7 +54,7 @@ module Factory
       respond_to do |format|
         if @formula.update(formula_params)
           format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue actualizada." }
-          format.json { render :show, status: :ok, location: @formula }
+          format.json { render :show, status: :ok, location: factory_formula_url(@formula) }
         else
           format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @formula.errors, status: :unprocessable_entity }
@@ -72,28 +73,32 @@ module Factory
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_formula
         @formula = Formula.find(params[:id])
       end
 
-      # Only allow a list of trusted parameters through.
+      def set_formula_elements
+        @formula_elements = FormulaElement.order(:name)
+      end
+
       def formula_params
-        params
-          .require(:formula)
-          .permit(
+        params.expect(
+          formula: [
             :abrasive,
             :grain,
             :hardness,
             :porosity,
             :alloy,
             formula_items_attributes: [
-              :id,
-              :formula_element_id,
-              :proportion,
-              :_destroy
+              [
+                :id,
+                :formula_element_id,
+                :proportion,
+                :_destroy,
+              ],
             ],
-          )
+          ],
+        )
       end
   end
 end

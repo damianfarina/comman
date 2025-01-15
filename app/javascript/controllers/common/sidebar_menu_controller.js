@@ -12,7 +12,8 @@ export default class extends Controller {
 
   open() {
     this.backdropTarget.classList.remove(...this.hiddenClasses);
-    setTimeout(() => {
+
+    requestAnimationFrame(() => {
       this.backdropTarget.classList.remove(...this.backdropHidingClasses);
       this.menuTarget.classList.add(...this.menuShowingClasses);
       this.menuTarget.classList.remove(

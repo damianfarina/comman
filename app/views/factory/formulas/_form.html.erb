@@ -33,7 +33,7 @@
         </div>
       </div>
       <div>
-        <%= form.button t('actions.save'), :class => 'btn-primary' %>
+        <%= form.submit t("actions.save"), class: "btn-primary" %>
       </div>
     </div>
     <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
@@ -46,17 +46,28 @@
         </div>
         <!-- Template for new formula item -->
         <template data-common--nested-form-target="template">
-          <%= render "formula_item_fields", form: form, item: FormulaItem.new, child_index: "NEW_RECORD" %>
+          <%= render(
+            "formula_item_fields",
+            form: form,
+            formula_item: FormulaItem.new,
+            formula_elements: @formula_elements,
+            child_index: "NEW_RECORD",
+          ) %>
         </template>
 
         <div class="grid grid-cols-1 gap-y-8 mb-8" data-common--nested-form-target="container">
-          <% formula.formula_items.each do |item| %>
-            <%= render "formula_item_fields", form: form, item: item %>
+          <% formula.formula_items.each do |formula_item| %>
+            <%= render(
+              "formula_item_fields",
+              form: form,
+              formula_item: formula_item,
+              formula_elements: @formula_elements,
+            ) %>
           <% end %>
         </div>
 
         <!-- Button to add new formula item -->
-        <button type="button" data-action="common--nested-form#addItem" class="btn btn-primary">Add Formula Item</button>
+        <button type="button" data-action="common--nested-form#addItem" class="btn-primary">Add Formula Item</button>
       </div>
     </div>
   <% end %>

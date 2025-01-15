@@ -16,7 +16,7 @@ RSpec.describe "/factory/formulas", type: :request do
         {
           formula_element_id: create(:formula_element).id,
           proportion: 50,
-        }
+        },
       ],
     }
   }

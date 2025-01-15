@@ -23,7 +23,7 @@
         },
         class: "w-full max-w-lg lg:max-w-xs",
       ) do |f| %>
-        <%= f.label :name_or_abrasive_or_grain_or_hardness_or_porosity_or_alloy_cont, t("placeholders.search_by_name_abrasive_grain_hardness_porosity_alloy"), class: "sr-only" %>
+        <%= f.label :name_or_abrasive_or_grain_or_hardness_or_porosity_or_alloy_cont, t("placeholders.search_by.name_abrasive_grain_hardness_porosity_alloy"), class: "sr-only" %>
         <div class="relative text-gray-300 focus-within:text-gray">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -31,12 +31,12 @@
             </svg>
           </div>
           <%= f.search_field(
-          :name_or_abrasive_or_grain_or_hardness_or_porosity_or_alloy_cont,
-          autofocus: true,
-          autocomplete: "off",
-          class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
-          placeholder: t("placeholders.search_by_name_abrasive_grain_hardness_porosity_alloy"),
-        ) %>
+            :name_or_abrasive_or_grain_or_hardness_or_porosity_or_alloy_cont,
+            autofocus: true,
+            autocomplete: "off",
+            class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+            placeholder: t("placeholders.search_by.name_abrasive_grain_hardness_porosity_alloy"),
+          ) %>
         </div>
       <% end %>
     </div>
@@ -46,25 +46,25 @@
         <table id="formulas" class="min-w-full divide-y divide-lightGray-900">
           <thead>
             <tr>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :id, Formula.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 sm:pl-0">
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :name, Formula.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :abrasive, Formula.human_attribute_name(:abrasive), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :grain, Formula.human_attribute_name(:grain), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :hardness, Formula.human_attribute_name(:hardness), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :porosity, Formula.human_attribute_name(:porosity), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900">
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :alloy, Formula.human_attribute_name(:alloy), class: "flex", data: { turbo_action: "advance"}) %>
               </th>
             </tr>
@@ -72,10 +72,10 @@
           <tbody class="divide-y divide-lightGray">
             <% @formulas.each do |formula| %>
               <tr id="<%= dom_id formula %>">
-                <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-500">
+                <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
                   <%= link_to formula.id, factory_formula_path(formula), data: { turbo_frame: "_top" } %>
                 </td>
-                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
                   <%= link_to factory_formula_path(formula), data: { turbo_frame: "_top" } do %>
                     <span class="sr-only">Ver formula </span><%= formula.name %>
                   <% end %>

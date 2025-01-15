@@ -4,6 +4,13 @@ es:
       models:
         formula:
           proportion_must_be_one_hundred: "La suma de los porcentajes debe ser 100. La diferencia es %{difference}"
+          duplicated_formula_elements: "No puede haber materias primas repetidas"
+        product:
+          name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
+        formula_element:
+          formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
+        making_order:
+          products_formula_is_different: "Algunos productos no tienen la misma fórmula"
     models:
       formula_element: "Materia prima"
       formula_item:
@@ -12,6 +19,15 @@ es:
       formula:
         one: "Fórmula"
         other: "Fórmulas"
+      product:
+        one: "Producto"
+        other: "Productos"
+      making_order:
+        one: "Orden de producción"
+        other: "Órdenes de producción"
+      making_order_item:
+        one: "Producto"
+        other: "Productos"
     attributes:
       formula_element:
         id: "ID"
@@ -36,26 +52,64 @@ es:
         formula_items: "Ingredientes"
         updated_at: "Actualizado"
         created_at: "Ingresado"
+      making_order:
+        comments: "Observaciones"
+        created_at: "Ingresado"
+        id: "ID"
+        making_order_formula: "Fórmula"
+        making_order_items: "Productos"
+        mixer_capacity: "Mezcladora"
+        quantity: "Cantidad"
+        rounds_count: "Mezclas"
+        state: "Estado"
+        state_values:
+          "in_progress": "En producción"
+          "completed": "Terminada"
+          "canceled": "Anulada"
+        total_weight: "Peso total"
+        updated_at: "Actualizado"
+        weight_per_round: "Peso por mezcla"
+      product:
+        id: "ID"
+        name: "Nombre"
+        shape: "Forma"
+        size: "Dimensiones"
+        weight: "Peso"
+        pressure: "Presión"
+        price: "Precio"
+        formula: "Fórmula"
+        formula_id: "Fórmula"
+        updated_at: "Actualizado"
+        created_at: "Ingresado"
 
   messages:
     are_you_sure: "¿Estás seguro?"
   actions:
     archive: "Archivar"
     save: "Guardar"
+    cancel: "Cancelar"
+    add_new_model: "Agregar %{model}"
   navigation:
     edit: "Editar"
     dashboard: "Tablero"
     new: "Nuevo"
+    print: "Imprimir"
   titles:
+    making_order:
+      index: "Órdenes de producción"
+      new: "Nueva orden de producción"
+    product:
+      index: "Productos"
+      new: "Nuevo producto"
     formula:
       index: "Fórmulas"
       new: "Nueva fórmula"
     formula_element:
       index: "Materias primas"
-      show: "Materia prima"
       new: "Nueva materia prima"
-      edit: "Editar materia prima"
   placeholders:
-    search_by_name: "Buscar por nombre"
-    search_by_name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
+    search_by:
+      name: "Buscar por nombre"
+      name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
+      comments_formula: "Buscar por observaciones o fórmula"
 

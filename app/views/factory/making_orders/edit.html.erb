@@ -1,0 +1,25 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.making_order.index"), path: factory_making_orders_path },
+    { title: @making_order.id, path: factory_making_order_path(@making_order) },
+    { title: t("navigation.edit"), path: edit_factory_making_order_path(@making_order) },
+  ],
+  title: @making_order.id,
+  options_dropdown: [
+    ->(classes, index:) do
+      button_to(
+        t('actions.cancel'),
+        factory_making_order_path(@making_order),
+        method: :delete,
+        data: { turbo_confirm: t("messages.are_you_sure") },
+        class: "#{classes} text-red-500",
+      )
+    end
+  ],
+) %>
+
+<div class="w-full">
+  <%= render "form", making_order: @making_order, products: @products %>
+</div>

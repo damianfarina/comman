@@ -1,0 +1,66 @@
+<%# locals: (making_order:, products:)  %>
+
+<%= form_with(model: [:factory, making_order], class: "contents") do |form| %>
+  <%= render "common/error_messages", model: making_order %>
+  <%= render "common/forms/simple" do %>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <% unless making_order.new_record? %>
+        <div>
+          <%= form.label :created_at %>
+          <div class="mt-2">
+            <p><%= l(making_order.created_at, format: :long) %></p>
+          </div>
+        </div>
+      <% end %>
+      <div>
+        <%= form.label :mixer_capacity %>
+        <div class="mt-2">
+          <%= form.text_field :mixer_capacity, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+      <div>
+        <%= form.label :comments %>
+        <div class="mt-2">
+          <%= form.textarea :comments, rows: 4, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+      <div>
+        <%= form.submit t("actions.save"), class: "btn-primary" %>
+      </div>
+    </div>
+
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <div
+        data-controller="common--nested-form"
+        data-common--nested-form-deleted-class="text-red line-through italic"
+      >
+        <div class="border-b border-lightGray-500 bg-white py-6 mb-6">
+          <h3 class="text-base font-semibold text-gray-900"><%= Product.model_name.human(count: 2) %></h3>
+        </div>
+        <!-- Template for new making order item -->
+        <template data-common--nested-form-target="template">
+          <%= render(
+            "making_order_item_fields",
+            form: form,
+            making_order_item: MakingOrderItem.new,
+            products: products,
+            child_index: "NEW_RECORD",
+          ) %>
+        </template>
+
+        <div class="grid grid-cols-1 gap-y-8 mb-8" data-common--nested-form-target="container">
+          <% making_order.making_order_items.each do |item| %>
+            <%= render(
+              "making_order_item_fields",
+              form: form,
+              making_order_item: item,
+              products: products,
+            ) %>
+          <% end %>
+        </div>
+
+        <button type="button" data-action="common--nested-form#addItem" class="btn-primary"><%= t("actions.add_new_model", model: MakingOrderItem.model_name.human) %></button>
+      </div>
+    </div>
+  <% end %>
+<% end %>

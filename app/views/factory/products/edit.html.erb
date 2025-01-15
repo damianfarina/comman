@@ -1,0 +1,25 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("titles.product.index"), path: factory_products_path },
+    { title: @product.name, path: factory_product_path(@product) },
+    { title: t("navigation.edit"), path: edit_factory_product_path(@product) },
+  ],
+  title: @product.name,
+  options_dropdown: [
+    ->(classes, index:) do
+      button_to(
+        t(:archive, scope: [:actions]),
+        factory_product_path(@product),
+        method: :delete,
+        data: { turbo_confirm: t("messages.are_you_sure") },
+        class: "#{classes} text-red-500",
+      )
+    end
+  ],
+) %>
+
+<div class="w-full">
+  <%= render "form", product: @product, formulas: @formulas %>
+</div>

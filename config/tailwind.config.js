@@ -7,6 +7,7 @@ module.exports = {
     './app/javascript/**/*.js',
     './app/views/**/*.{erb,haml,html,slim}',
     './config/initializers/ransack.rb',
+    './app/helpers/application_helper.rb'
   ],
   plugins: [
     require('@tailwindcss/forms'),
