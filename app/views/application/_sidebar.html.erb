@@ -121,11 +121,19 @@
             </ul>
           </li>
           <li class="-mx-6">
-            <a href="#" class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-blue-700">
-              <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=yoo" alt="">
-              <span class="sr-only">Your profile</span>
-              <span aria-hidden="true">Damián Farina</span>
-            </a>
+            <%= render(
+              "account_dropdown",
+              items: [
+                ->(classes, index:) do
+                  button_to(
+                    t(:sign_out, scope: [:actions]),
+                    session_path,
+                    method: :delete,
+                    class: classes,
+                  )
+                end
+              ],
+            ) %>
           </li>
         </ul>
       </nav>
@@ -144,10 +152,10 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
       </svg>
     </button>
-    <div class="flex-1 text-sm font-semibold leading-6 text-white">Dashboard</div>
+    <div class="flex-1 text-sm font-semibold leading-6 text-white">comman</div>
     <a href="#">
       <span class="sr-only">Your profile</span>
-      <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=yoo" alt="">
+      <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=<%= Current.user.email_address %>" alt="">
     </a>
   </div>
 </div>
