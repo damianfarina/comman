@@ -33,6 +33,8 @@ RSpec.describe "/factory/formulas", type: :request do
 
   let!(:formula1) { create(:formula, :with_items) }
 
+  before { sign_in create(:user) }
+
   describe "GET /index" do
     it "renders a successful response" do
       create(:formula, :with_items)

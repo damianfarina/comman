@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   namespace :factory do
     get "dashboard/index"
     resources :formula_elements

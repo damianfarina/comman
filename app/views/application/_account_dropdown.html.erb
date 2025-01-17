@@ -3,33 +3,26 @@
 <% unique_id = "options-dropdown-button-#{SecureRandom.uuid}" %>
 
 <div
-  class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0"
+  class="flex flex-shrink-0"
   data-controller="common--options-dropdown"
   data-common--options-dropdown-bottom-position-class="top-auto"
   data-common--options-dropdown-left-position-class="right-0"
-  data-common--options-dropdown-right-position-class="left-0"
-  data-common--options-dropdown-top-position-class="bottom-8"
-  data-common--options-dropdown-button-open-class="bg-lightGray-100"
+  data-common--options-dropdown-right-position-class="left-2"
+  data-common--options-dropdown-top-position-class="bottom-14"
+  data-common--options-dropdown-button-open-class="bg-blue-700"
   data-common--options-dropdown-menu-close-class="opacity-0 scale-95"
   data-common--options-dropdown-menu-open-class="opacity-100 scale-100"
 >
-  <div class="relative inline-block text-left">
-    <div>
-      <button
-        type="button"
-        class="flex items-center rounded-full hover:bg-lightGray-100 text-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500"
-        id="<%= unique_id %>"
-        aria-expanded="true"
-        aria-haspopup="true"
-        data-action="click->common--options-dropdown#toggle"
-        data-common--options-dropdown-target="button"
-      >
-        <span class="sr-only">Open options</span>
-        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-          <path d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
-        </svg>
-      </button>
-    </div>
+  <div class="flex flex-1 relative text-left">
+    <button
+      data-action="click->common--options-dropdown#toggle"
+      data-common--options-dropdown-target="button"
+      class="flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-blue-700"
+    >
+      <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=<%= Current.user.email_address %>" alt="">
+      <span class="sr-only">Tu perfil</span>
+      <span aria-hidden="true"><%= Current.user.email_address %></span>
+    </button>
     <div
       class="transition transform opacity-0 scale-95 absolute z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       role="menu"
