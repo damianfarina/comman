@@ -23,8 +23,10 @@
   </head>
   <body class="h-full">
     <div class="web">
-      <%= render 'application/sidebar' %>
-      <main class="py-10 lg:pl-72">
+      <% if authenticated? %>
+        <%= render 'application/sidebar' %>
+      <% end %>
+      <main class="py-10 <%= 'lg:pl-72' if authenticated? %>">
         <div class="px-4 sm:px-6 lg:px-8">
           <%= render 'common/flash' %>
           <%= yield %>

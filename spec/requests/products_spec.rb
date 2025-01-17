@@ -24,6 +24,8 @@ RSpec.describe "/products", type: :request do
     }
   }
 
+  before { sign_in create(:user) }
+
   describe "GET /index" do
     it "renders a successful response" do
       Product.create! valid_attributes

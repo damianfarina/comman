@@ -89,6 +89,7 @@ es:
     save: "Guardar"
     cancel: "Cancelar"
     add_new_model: "Agregar %{model}"
+    sign_out: "Salir"
   navigation:
     edit: "Editar"
     dashboard: "Tablero"
