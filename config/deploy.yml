@@ -8,9 +8,9 @@ image: damianfarina/comman
 servers:
   web:
     hosts:
-      - 190.15.214.89
-    options:
-      publish: "4001:4001"
+      - comman.unibras.com.ar
+    # options:
+      # publish: "4001:4001"
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -21,9 +21,8 @@ servers:
 #
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
-  ssl: false
-  host: 190.15.214.89
-  app_port: 4001
+  ssl: true
+  host: comman.unibras.com.ar
 
 # Credentials for your image host.
 registry:
@@ -58,6 +57,7 @@ env:
     DB_PORT: 5432
     POSTGRES_USER: comman
     POSTGRES_DB: comman_production
+    REVISION_ID: "F1-PPU-6 REV0"
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
@@ -75,9 +75,6 @@ aliases:
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
   - "comman_storage:/rails/storage"
-  - "/etc/letsencrypt/live/cuartoterminal.dev/fullchain.pem:/etc/letsencrypt/live/cuartoterminal.dev/fullchain.pem"
-  - "/etc/letsencrypt/live/cuartoterminal.dev/privkey.pem:/etc/letsencrypt/live/cuartoterminal.dev/privkey.pem"
-
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combines all files from new and old
@@ -99,7 +96,9 @@ builder:
   #   - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-# ssh:
+ssh:
+  keys_only: true
+  keys: [ "~/.ssh/hetzner_key" ]
 #   user: app
 
 # Configure rolling deploys by setting a wait time between batches of restarts.
@@ -112,7 +111,7 @@ builder:
 accessories:
   db:
     image: postgres:17.2
-    host: 190.15.214.89
+    host: comman.unibras.com.ar
     # Change to 3306 to expose port to the world instead of just local network.
     port: "127.0.0.1:5432:5432"
     env:
