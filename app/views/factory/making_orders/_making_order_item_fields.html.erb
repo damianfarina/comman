@@ -3,7 +3,7 @@
 <% marked_for_destruction = making_order_item.persisted? && making_order_item.marked_for_destruction? %>
 <div
   data-common--nested-form-target="item" data-item-id="<%= making_order_item.id || "" %>"
-  class="grid grid-cols-[1fr,auto,auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
+  class="grid grid-cols-[1fr,80px,auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
 >
   <%= form.fields_for :making_order_items, making_order_item, child_index: child_index do |ff| %>
     <%= ff.hidden_field :id if making_order_item.persisted? %>
@@ -13,7 +13,7 @@
       input_name: "making_order[making_order_items_attributes][#{ff.index}][product_id]",
       input_value: making_order_item.product_id,
       search_value: making_order_item&.product_name,
-      input_classes: making_order_item.errors.any? ? "ring-red" : "",
+      input_classes: making_order_item.errors.any? ? "ring-red text-xs" : "text-xs",
     ) do %>
       <% products.each do |products| %>
         <%= render "common/components/combobox_option", id: products.id, value: products.name do %>
@@ -28,7 +28,7 @@
         min: 1,
         step: 1,
         disabled: marked_for_destruction,
-        class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6 #{ 'ring-red' if making_order_item.errors.any? }",
+        class: "block w-full rounded-md border-0 py-1.5 text-xs text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:leading-6 #{ 'ring-red' if making_order_item.errors.any? }",
       ) %>
       <%= ff.hidden_field(
         :_destroy,
