@@ -3,7 +3,7 @@
 <% marked_for_destruction = making_order_item.persisted? && making_order_item.marked_for_destruction? %>
 <div
   data-common--nested-form-target="item" data-item-id="<%= making_order_item.id || "" %>"
-  class="grid grid-cols-[1fr,80px,auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
+  class="grid grid-cols-[1fr_80px_auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
 >
   <%= form.fields_for :making_order_items, making_order_item, child_index: child_index do |ff| %>
     <%= ff.hidden_field :id if making_order_item.persisted? %>
@@ -38,7 +38,7 @@
     </div>
 
     <button type="button" class="group" data-action="common--nested-form#removeItem">
-      <%= heroicon("trash", options: { class: "h-4 w-4 shrink-0 transition text-lightRed group-hover:text-red" }) %>
+      <%= heroicon("trash", options: { class: "h-4 w-4 shrink-0 transition text-light-red group-hover:text-red" }) %>
     </button>
   <% end %>
 </div>

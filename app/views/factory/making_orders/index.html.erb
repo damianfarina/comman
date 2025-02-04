@@ -43,7 +43,7 @@
 
     <%= turbo_frame_tag "making_orders_table" do %>
       <div class="inline-block min-w-full py-2 align-middle">
-        <table id="formulas" class="min-w-full divide-y divide-lightGray-900">
+        <table id="formulas" class="min-w-full divide-y divide-light-gray-900">
           <thead>
             <tr>
               <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
@@ -69,9 +69,9 @@
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-lightGray">
+          <tbody class="divide-y divide-light-gray">
             <% @making_orders.each do |making_order| %>
-              <tr class="hover:bg-lightGray-50">
+              <tr class="hover:bg-light-gray-50">
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-900">
                   <%= link_to making_order.id, factory_making_order_path(making_order), class: "flex justify-center", data: { turbo_frame: "_top" } %>
                 </td>

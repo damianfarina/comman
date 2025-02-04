@@ -13,10 +13,10 @@
     -->
     <% flash.each do |type, message| %>
       <% bg_color, text_color, dismiss_after = case type.to_sym
-        when :notice then ['bg-lightBlue', 'text-gray-900', true]
-        when :error then ['bg-lightRed', 'text-gray-900', false]
-        when :success then ['bg-lightGreen', 'text-gray-900', true]
-        when :alert then ['bg-lightYellow', 'text-gray-900', true]
+        when :notice then ['bg-light-blue', 'text-gray-900', true]
+        when :error then ['bg-light-red', 'text-gray-900', false]
+        when :success then ['bg-light-green', 'text-gray-900', true]
+        when :alert then ['bg-light-yellow', 'text-gray-900', true]
         else ['bg-white', 'text-gray-900', false]
       end %>
       <div
@@ -34,7 +34,7 @@
             <div class="ml-4 flex flex-shrink-0">
               <button
                 type="button"
-                class="inline-flex rounded-md <%= bg_color %> <%= text_color %> hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-lightGray-300 focus:ring-offset-2"
+                class="inline-flex rounded-md <%= bg_color %> <%= text_color %> hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-light-gray-300 focus:ring-offset-2"
                 data-action="common--removable#close"
               >
                 <span class="sr-only">Close</span>

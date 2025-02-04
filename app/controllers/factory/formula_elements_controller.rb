@@ -4,7 +4,7 @@ module Factory
 
     # GET /formula_elements or /formula_elements.json
     def index
-      @q = FormulaElement.ransack(params[:q])
+      @q = FormulaElement.ransack(params[:q] || default_sort)
       @formula_elements = @q.result.page(params[:page])
     end
 
@@ -61,6 +61,10 @@ module Factory
     end
 
     private
+
+      def default_sort
+        { s: "name asc" }
+      end
 
       # Use callbacks to share common setup or constraints between actions.
       def set_formula_element

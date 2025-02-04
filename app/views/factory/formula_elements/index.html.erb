@@ -43,7 +43,7 @@
 
     <%= turbo_frame_tag "formula_elements_table" do %>
       <div class="inline-block min-w-full py-2 align-middle">
-        <table id="formula-elements" class="min-w-full divide-y divide-lightGray-900">
+        <table id="formula-elements" class="min-w-full divide-y divide-light-gray-900">
           <thead>
             <tr>
               <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
@@ -63,7 +63,7 @@
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-lightGray">
+          <tbody class="divide-y divide-light-gray">
             <% @formula_elements.each do |formula_element| %>
               <tr id="<%= dom_id formula_element %>">
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-center text-sm text-gray-900">
@@ -78,7 +78,7 @@
                   <%= "#{formula_element.current_stock.round(1)}kg" unless formula_element.current_stock.blank? %>
                 </td>
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                  <div class="relative w-full bg-lightGray-300 h-4 rounded-md overflow-hidden">
+                  <div class="relative w-full bg-light-gray-300 h-4 rounded-md overflow-hidden">
                     <div
                       class="absolute h-full rounded-md transition-all flex items-center justify-center text-white font-semibold"
                       style="width: <%= [formula_element.stock_level, 100].min %>%; background-color: <%= stock_level_color(formula_element.stock_level) %>;">

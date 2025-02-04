@@ -7,27 +7,27 @@
     paginator:     the paginator that renders the pagination tags inside
 -%>
 <%= paginator.render do -%>
-  <div class="flex items-center justify-between border-t border-lightGray bg-white py-3 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between border-t border-light-gray bg-white py-3 sm:px-6 lg:px-8">
     <div class="flex flex-1 justify-between sm:hidden">
       <% if current_page.first? %>
-        <span class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-lightGray"><%= t("views.pagination.previous") -%></span>
+        <span class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-light-gray"><%= t("views.pagination.previous") -%></span>
       <% else %>
         <%= link_to(
           t("views.pagination.previous"),
           url_for(request.query_parameters.merge(page: current_page - 1)),
           rel: "prev",
-          class: "relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-lightGray",
+          class: "relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-light-gray",
           data: { turbo_action: "advance" },
         ) %>
       <% end %>
       <% if current_page.last? %>
-        <span class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-lightGray"><%= t("views.pagination.next") %></span>
+        <span class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-light-gray"><%= t("views.pagination.next") %></span>
       <% else %>
         <%= link_to(
           t("views.pagination.next"),
           url_for(request.query_parameters.merge(page: current_page + 1)),
           rel: "next",
-          class: "relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-lightGray",
+          class: "relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-light-gray",
           data: { turbo_action: "advance" },
         ) %>
       <% end %>
@@ -42,7 +42,7 @@
       <div>
         <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <%= prev_page_tag %>
-          <!-- Current: "z-10 bg-blue text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-lightGray-300 focus:outline-offset-0" -->
+          <!-- Current: "z-10 bg-blue text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-light-gray-300 focus:outline-offset-0" -->
           <% each_page do |page| -%>
             <% if page.display_tag? -%>
               <%= page_tag page %>
