@@ -5,7 +5,7 @@ module Factory
 
     # GET /formulas or /formulas.json
     def index
-      @q = Formula.ransack(params[:q])
+      @q = Formula.ransack(params[:q] || default_sort)
       @formulas = @q.result.page(params[:page])
     end
 
@@ -73,6 +73,11 @@ module Factory
     end
 
     private
+
+      def default_sort
+        { s: "name asc" }
+      end
+
       def set_formula
         @formula = Formula.find(params[:id])
       end
