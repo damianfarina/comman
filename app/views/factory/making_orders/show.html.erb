@@ -33,7 +33,7 @@
         { label: MakingOrder.human_attribute_name(:created_at), value: l(@making_order.created_at, format: :long) },
       ]
     ) %>
-    <div class="border-b border-lightGray-500 py-6 mb-6">
+    <div class="border-b border-light-gray-500 py-6 mb-6">
       <h3 class="text-base font-semibold text-gray-900">Historial de cambios</h3>
     </div>
     <ul role="list" class="-mb-8">
@@ -62,11 +62,11 @@
   </div>
   <div class="flow-root">
     <div>
-      <div class="border-b border-lightGray-500 py-6 mb-6">
+      <div class="border-b border-light-gray-500 py-6 mb-6">
         <h3 class="text-base font-semibold text-gray-900"><%= MakingOrder.human_attribute_name(:making_order_items) %></h3>
       </div>
       <div class="grid grid-cols-1 gap-6">
-        <ul role="list" class="divide-y divide-lightGray">
+        <ul role="list" class="divide-y divide-light-gray">
           <% @making_order.making_order_items.each do |item| %>
             <li class="flex gap-x-4 py-5">
               <img class="size-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1564182872950-978e194a05cd?q=80&w=300&h=300&fit=crop" alt="">
@@ -86,7 +86,7 @@
       </div>
     </div>
     <div>
-      <div class="border-b border-lightGray-500 py-6 mb-6">
+      <div class="border-b border-light-gray-500 py-6 mb-6">
         <h3 class="text-base font-semibold text-gray-900">Tipo y grano</h3>
       </div>
       <%= render(
