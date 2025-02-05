@@ -5,7 +5,7 @@ RSpec.describe "Factory::Dashboards", type: :request do
 
   describe "GET /index" do
     it "returns http success" do
-      get "/factory/dashboard/index"
+      get "/factory"
       expect(response).to have_http_status(:success)
     end
   end

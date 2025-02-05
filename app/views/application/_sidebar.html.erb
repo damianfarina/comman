@@ -45,31 +45,23 @@
               <li>
                 <ul role="list" class="-mx-2 space-y-1">
                   <% navigation_items.each do |item| %>
-                    <%= sidebar_link item[:name], item[:path], item[:icon] %>
+                    <li>
+                      <%= sidebar_link_to item[:name], item[:path], item[:icon], item[:exact] %>
+                    </li>
                   <% end %>
                 </ul>
               </li>
               <li>
-                <div class="text-xs font-semibold leading-6 text-light-blue">Departamentos</div>
+                <div class="text-xs font-semibold leading-6 text-light-blue">t('titles.namespace.index')</div>
                 <ul role="list" class="-mx-2 mt-2 space-y-1">
                   <li>
-                    <!-- Current: "bg-blue-700 text-white", Default: "text-light-blue hover:text-white hover:bg-blue-700" -->
-                    <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white">
-                      <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-blue bg-blue-300 text-[0.625rem] font-medium text-white">H</span>
-                      <span class="truncate">Oficina</span>
-                    </a>
+                    <%= namespace_link_to t('titles.namespace.sales'), office_root_path %>
                   </li>
                   <li>
-                    <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white">
-                      <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-blue bg-blue-300 text-[0.625rem] font-medium text-white">T</span>
-                      <span class="truncate">Ventas</span>
-                    </a>
+                    <%= namespace_link_to t('titles.namespace.sales'), sales_root_path %>
                   </li>
                   <li>
-                    <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white">
-                      <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-blue bg-blue-300 text-[0.625rem] font-medium text-white">W</span>
-                      <span class="truncate">Fábrica</span>
-                    </a>
+                    <%= namespace_link_to t('titles.namespace.factory'), factory_root_path %>
                   </li>
                 </ul>
               </li>
@@ -92,7 +84,9 @@
           <li>
             <ul role="list" class="-mx-2 space-y-1">
               <% navigation_items.each do |item| %>
-                <%= sidebar_link item[:name], item[:path], item[:icon] %>
+                <li>
+                  <%= sidebar_link_to item[:name], item[:path], item[:icon], item[:exact] %>
+                </li>
               <% end %>
             </ul>
           </li>
@@ -100,23 +94,13 @@
             <div class="text-xs font-semibold leading-6 text-light-blue">Departamentos</div>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
               <li>
-                <!-- Current: "bg-blue-700 text-white", Default: "text-light-blue hover:text-white hover:bg-blue-700" -->
-                <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white">
-                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-blue bg-blue-300 text-[0.625rem] font-medium text-white">O</span>
-                  <span class="truncate">Oficina</span>
-                </a>
+                <%= namespace_link_to t('titles.namespace.office'), office_root_path %>
               </li>
               <li>
-                <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white">
-                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-blue bg-blue-300 text-[0.625rem] font-medium text-white">V</span>
-                  <span class="truncate">Ventas</span>
-                </a>
+                <%= namespace_link_to t('titles.namespace.sales'), sales_root_path %>
               </li>
               <li>
-                <a href="#" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white">
-                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-blue bg-blue-300 text-[0.625rem] font-medium text-white">F</span>
-                  <span class="truncate">Fábrica</span>
-                </a>
+                <%= namespace_link_to t('titles.namespace.factory'), factory_root_path %>
               </li>
             </ul>
           </li>
