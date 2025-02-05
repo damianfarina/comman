@@ -1,19 +1,39 @@
 require 'rails_helper'
 
-RSpec.describe "/making_orders", type: :request do
+RSpec.describe "/factory/making_orders", type: :request do
+  let(:product) { create(:product, formula: formula) }
+  let(:formula) { create(:formula, :with_items) }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      comments: "comments",
+      mixer_capacity: 60,
+      making_order_items_attributes: [
+        {
+          product_id: product.id,
+          quantity: 1,
+        },
+      ],
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      making_order_items_attributes: [
+        {
+          product_id: product.id,
+          quantity: 1,
+          _destroy: true,
+        },
+      ],
+    }
   }
 
   before { sign_in create(:user) }
 
   describe "GET /index" do
     it "renders a successful response" do
-      MakingOrder.create! valid_attributes
+      create(:making_order, :with_products)
       get factory_making_orders_url
       expect(response).to be_successful
     end
@@ -21,7 +41,7 @@ RSpec.describe "/making_orders", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      making_order = MakingOrder.create! valid_attributes
+      making_order = create(:making_order, :with_products)
       get factory_making_order_url(making_order)
       expect(response).to be_successful
     end
@@ -36,7 +56,7 @@ RSpec.describe "/making_orders", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
-      making_order = MakingOrder.create! valid_attributes
+      making_order = create(:making_order, :with_products)
       get edit_factory_making_order_url(making_order)
       expect(response).to be_successful
     end
@@ -73,14 +93,14 @@ RSpec.describe "/making_orders", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { comments: "new comment" }
       }
 
       it "updates the requested making_order" do
         making_order = MakingOrder.create! valid_attributes
         patch factory_making_order_url(making_order), params: { making_order: new_attributes }
         making_order.reload
-        skip("Add assertions for updated state")
+        expect(making_order.comments).to eq("new comment")
       end
 
       it "redirects to the making_order" do
@@ -94,7 +114,9 @@ RSpec.describe "/making_orders", type: :request do
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         making_order = MakingOrder.create! valid_attributes
-        patch factory_making_order_url(making_order), params: { making_order: invalid_attributes }
+        patch factory_making_order_url(making_order), params: { making_order: invalid_attributes.merge({
+          making_order_items_attributes: making_order.making_order_items.map { |item| item.attributes.merge(_destroy: true) },
+        }) }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -102,16 +124,10 @@ RSpec.describe "/making_orders", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested making_order" do
-      making_order = MakingOrder.create! valid_attributes
+      making_order = create(:making_order, :with_products)
       expect {
         delete factory_making_order_url(making_order)
-      }.to change(MakingOrder, :count).by(-1)
-    end
-
-    it "redirects to the making_orders list" do
-      making_order = MakingOrder.create! valid_attributes
-      delete factory_making_order_url(making_order)
-      expect(response).to redirect_to(factory_making_orders_url)
+    }.to raise_error(RuntimeError, "Making orders cannot be destroyed! They are part of the production history. Implement archiving instead.")
     end
   end
 end

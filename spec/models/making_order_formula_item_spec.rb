@@ -4,7 +4,7 @@ describe MakingOrderFormulaItem, type: :model do
   let(:formula_element) { create(:formula_element, current_stock: 100) }
   let(:formula) { create(:formula, formula_items: [ formula_item ]) }
   let(:formula_item) { build(:formula_item, formula_element: formula_element, proportion: 100) }
-  let(:product) { create(:product, formula: formula) }
+  let(:product) { create(:product, formula: formula, weight: 10.0) }
   let(:making_order_formula) { build(:making_order_formula, formula: formula, making_order_formula_items: [ making_order_formula_item ]) }
   let(:making_order_formula_item) { build(:making_order_formula_item, formula_item: formula_item, proportion: 100) }
   let(:making_order_item) { build(:making_order_item, product: product) }

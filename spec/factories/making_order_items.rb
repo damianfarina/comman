@@ -6,7 +6,7 @@ FactoryBot.define do
 
     trait :with_product do
       transient do
-        product { create(:product) }
+        product { create(:product, formula: making_order.formula) }
       end
 
       after(:build) do |making_order_item, evaluator|

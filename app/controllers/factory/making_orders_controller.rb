@@ -58,10 +58,12 @@ module Factory
 
     # DELETE /making_orders/1 or /making_orders/1.json
     def destroy
+      raise "Making orders cannot be destroyed! They are part of the production history. Implement archiving instead."
+
       @making_order.destroy!
 
       respond_to do |format|
-        format.html { redirect_to making_orders_path, status: :see_other, notice: "Making order was successfully destroyed." }
+        format.html { redirect_to factory_making_orders_path, status: :see_other, notice: "Making order was successfully destroyed." }
         format.json { head :no_content }
       end
     end

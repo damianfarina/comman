@@ -51,8 +51,8 @@ module Factory
 
     # DELETE /formula_elements/1 or /formula_elements/1.json
     def destroy
-      # let's archive the record instead of deleting it
-      # @formula_element.archive!
+      raise "Formula elements cannot be destroyed! They are part of the production history. Implement archiving instead."
+      @formula_element.destroy!
 
       respond_to do |format|
         format.html { redirect_to factory_formula_elements_path, status: :see_other, notice: "La materia prima fue archivada." }

@@ -124,17 +124,10 @@ RSpec.describe "/factory/formula_elements", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested formula" do
-      skip 'implement archive method'
       formula = create(:formula_element, **valid_attributes)
       expect {
         delete factory_formula_element_url(formula)
-      }.to change(FormulaElement, :count).by(-1)
-    end
-
-    it "redirects to the formulas list" do
-      formula = create(:formula_element, **valid_attributes)
-      delete factory_formula_element_url(formula)
-      expect(response).to redirect_to(factory_formula_elements_url)
+      }.to raise_error(RuntimeError, "Formula elements cannot be destroyed! They are part of the production history. Implement archiving instead.")
     end
   end
 end
