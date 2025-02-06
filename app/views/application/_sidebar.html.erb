@@ -7,7 +7,7 @@
   data-common--sidebar-menu-menu-showing-class="translate-x-0"
   data-common--sidebar-menu-menu-hiding-class="-translate-x-full"
 >
-  <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+  <div class="relative z-50 xl:hidden" role="dialog" aria-modal="true">
 
     <!-- Backdrop -->
     <div
@@ -46,16 +46,16 @@
                 <ul role="list" class="-mx-2 space-y-1">
                   <% navigation_items.each do |item| %>
                     <li>
-                      <%= sidebar_link_to item[:name], item[:path], item[:icon], item[:exact] %>
+                      <%= navigation_link_to item[:name], item[:path], item[:icon], item[:exact] %>
                     </li>
                   <% end %>
                 </ul>
               </li>
               <li>
-                <div class="text-xs font-semibold leading-6 text-light-blue">t('titles.namespace.index')</div>
+                <div class="text-xs font-semibold leading-6 text-light-blue"><%= t('titles.namespace.index') %></div>
                 <ul role="list" class="-mx-2 mt-2 space-y-1">
                   <li>
-                    <%= namespace_link_to t('titles.namespace.sales'), office_root_path %>
+                    <%= namespace_link_to t('titles.namespace.office'), office_root_path %>
                   </li>
                   <li>
                     <%= namespace_link_to t('titles.namespace.sales'), sales_root_path %>
@@ -73,7 +73,7 @@
   </div>
 
   <!-- Static sidebar for desktop -->
-  <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+  <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-blue px-6">
       <div class="flex h-16 shrink-0 items-center">
@@ -85,7 +85,7 @@
             <ul role="list" class="-mx-2 space-y-1">
               <% navigation_items.each do |item| %>
                 <li>
-                  <%= sidebar_link_to item[:name], item[:path], item[:icon], item[:exact] %>
+                  <%= navigation_link_to item[:name], item[:path], item[:icon], item[:exact] %>
                 </li>
               <% end %>
             </ul>
@@ -125,7 +125,7 @@
   </div>
 
   <!-- Mobile Header -->
-  <div class="sticky top-0 z-40 flex items-center gap-x-6 bg-blue-700 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+  <div class="sticky top-0 z-40 flex items-center gap-x-6 bg-blue-700 px-4 py-4 shadow-sm sm:px-6 xl:hidden">
     <button
       type="button"
       class="-m-2.5 p-2.5 text-light-blue"
@@ -136,7 +136,14 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
       </svg>
     </button>
-    <div class="flex-1 text-sm font-semibold leading-6 text-white">comman</div>
+    <div class="text-sm font-semibold leading-6 text-white">comman</div>
+    <div class="hidden flex-1 md:ml-6 md:block">
+      <div class="flex space-x-4">
+        <% navigation_items.each do |item| %>
+          <%= navigation_link_to nil, item[:path], item[:icon], item[:exact] %>
+        <% end %>
+      </div>
+    </div>
     <a href="#">
       <span class="sr-only">Your profile</span>
       <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=<%= Current.user.email_address %>" alt="">

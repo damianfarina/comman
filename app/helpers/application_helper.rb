@@ -1,12 +1,12 @@
 module ApplicationHelper
-  def sidebar_link_to(name, path, icon, exact = false)
+  def navigation_link_to(name, path, icon, exact = false)
     default_classes = "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white"
     active_classes = "bg-blue-700 text-white"
     classes = current_or_nested_page?(path, exact) ? "#{default_classes} #{active_classes}" : default_classes
     aria_current = current_page?(path) ? "page" : false
 
     content_tag(:a, href: path, class: classes, 'aria-current': aria_current) do
-      concat heroicon(icon, options: { class: "h-6 w-6 shrink-0 text-light-blue group-hover:text-white" })
+      concat heroicon(icon, options: { class: "h-6 w-6 shrink-0 text-current-color group-hover:text-white" })
       concat name
     end
   end
@@ -38,7 +38,7 @@ module ApplicationHelper
     when /^\/office/
       [
         { name: t("navigation.dashboard"), path: office_root_path, icon: "home", exact: true },
-        { name: t("titles.client.index"), path: office_clients_path, icon: "users" },
+        { name: t("titles.client.index"), path: office_clients_path, icon: "building-storefront" },
       ]
     when /^\/sales/
       [
