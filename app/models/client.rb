@@ -1,9 +1,9 @@
 class Client < ApplicationRecord
+  enum :client_type, regular: 0, distributor: 1
+
   validates :name, presence: true
   validates :client_type, presence: true
   validates :tax_identification, presence: true, uniqueness: true
-
-  enum :client_type, regular: 0, distributor: 1
 
   def self.ransackable_attributes(auth_object = nil)
     [ "id", "address", "client_type", "country", "email", "maps_url", "name", "phone", "province", "tax_identification", "zipcode" ]

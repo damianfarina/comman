@@ -1,6 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe "/office/clients", type: :request do
+  let(:valid_attributes) {
+    {
+      name: "Client name",
+      tax_identification: "987879879",
+      client_type: :distributor,
+    }
+  }
+
+  let(:invalid_attributes) {
+    {
+      name: "",
+      tax_identification: "",
+    }
+  }
+
   let(:client) do
     create(
       :client,
@@ -113,13 +128,6 @@ RSpec.describe "/office/clients", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:invalid_attributes) {
-        {
-          name: "",
-          tax_identification: "",
-        }
-      }
-
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         patch office_client_url(client), params: { client: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
@@ -134,6 +142,46 @@ RSpec.describe "/office/clients", type: :request do
       expect(response.body).to include(ENV.fetch("DEFAULT_COUNTRY"))
       expect(response.body).to include(ENV.fetch("DEFAULT_PROVINCE"))
       expect(response.body).to include("Particular")
+    end
+  end
+
+  describe "POST /create" do
+    context "with valid parameters" do
+      it "creates a new Client" do
+        expect {
+          post office_clients_url, params: { client: valid_attributes }
+        }.to change(Client, :count).by(1)
+        expect(Client.last.name).to eq("Client name")
+      end
+
+      it "redirects to the created client" do
+        post office_clients_url, params: { client: valid_attributes }
+        expect(response).to redirect_to(office_client_url(Client.last))
+      end
+    end
+
+    context "with invalid parameters" do
+      it "does not create a new Client" do
+        expect {
+          post office_clients_url, params: { client: invalid_attributes }
+        }.to change(Client, :count).by(0)
+      end
+
+      it "tries to duplicate " do
+        duplicated_attributes = {
+          name: "Already exists",
+          tax_identification: client.tax_identification,
+          client_type: :distributor,
+        }
+        expect {
+          post office_clients_url, params: { client: duplicated_attributes }
+        }.to change(Client, :count).by(0)
+      end
+
+      it "renders a response with 422 status (i.e. to display the 'new' template)" do
+        post office_clients_url, params: { client: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 end
