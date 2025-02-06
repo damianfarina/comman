@@ -1,7 +1,7 @@
 <%= render(
   "common/headings/page",
   breadcrumbs: [
-    { title: t("navigation.dashboard"), path: factory_dashboard_index_path },
+    { title: t("navigation.dashboard"), path: factory_root_path },
     { title: t("titles.making_order.index"), path: factory_making_orders_path },
     { title: @making_order.id, path: factory_making_order_path(@making_order) },
     { title: t("navigation.edit"), path: edit_factory_making_order_path(@making_order) },

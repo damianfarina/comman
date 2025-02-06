@@ -1,11 +1,10 @@
 FactoryBot.define do
   factory :product do
-    name { Faker::Commerce.unique.product_name }
     price { Faker::Commerce.price }
     formula
-    shape { "RR" }
-    size { "250x100x50" }
-    weight { 10.0 }
-    pressure { "G100" }
+    shape { Faker::Alphanumeric.alpha(number: 2) }
+    size { "#{ Faker::Number.number(digits: 2)}x#{ Faker::Number.number(digits: 2)}x#{ Faker::Number.number(digits: 2)}" }
+    weight { Faker::Number.number(digits: 2) }
+    pressure { "G#{Faker::Number.number(digits: 2)}" }
   end
 end

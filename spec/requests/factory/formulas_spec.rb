@@ -31,7 +31,7 @@ RSpec.describe "/factory/formulas", type: :request do
     }
   }
 
-  let!(:formula1) { create(:formula, :with_items) }
+  let!(:formula) { create(:formula, :with_items) }
 
   before { sign_in create(:user) }
 
@@ -90,11 +90,11 @@ RSpec.describe "/factory/formulas", type: :request do
 
       it "tries to duplicate " do
         duplicated_attributes = {
-          abrasive: formula1.abrasive,
-          alloy: formula1.alloy,
-          grain: formula1.grain,
-          hardness: formula1.hardness,
-          porosity: formula1.porosity,
+          abrasive: formula.abrasive,
+          alloy: formula.alloy,
+          grain: formula.grain,
+          hardness: formula.hardness,
+          porosity: formula.porosity,
         }
         expect {
           post factory_formulas_url, params: { formula: duplicated_attributes }
@@ -146,14 +146,12 @@ RSpec.describe "/factory/formulas", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested formula" do
-      formula = Formula.create! valid_attributes
       expect {
         delete factory_formula_url(formula)
       }.to change(Formula, :count).by(-1)
     end
 
     it "redirects to the formulas list" do
-      formula = Formula.create! valid_attributes
       delete factory_formula_url(formula)
       expect(response).to redirect_to(factory_formulas_url)
     end

@@ -58,6 +58,8 @@ env:
     POSTGRES_USER: comman
     POSTGRES_DB: comman_production
     REVISION_ID: "F1-PPU-6 REV0"
+    DEFAULT_COUNTRY: "Argentina"
+    DEFAULT_PROVINCE: "Mendoza"
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug

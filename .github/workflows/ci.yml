@@ -94,6 +94,9 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          REVISION_ID: REVISION_ID
+          DEFAULT_COUNTRY: Argentina
+          DEFAULT_PROVINCE: Mendoza
         run: bundle exec rspec
 
       - name: Keep screenshots from failed system tests

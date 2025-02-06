@@ -81,6 +81,23 @@ es:
         formula_id: "Fórmula"
         updated_at: "Actualizado"
         created_at: "Ingresado"
+      client:
+        id: "ID"
+        name: "Nombre"
+        tax_identification: "CUIT"
+        email: "Email"
+        phone: "Teléfono"
+        country: "País"
+        province: "Provincia"
+        zipcode: "Código Postal"
+        address: "Dirección"
+        maps_url: "Enlace Mapa"
+        client_type: "Tipo de cliente"
+        client_type_values:
+          "regular": "Particular"
+          "distributor": "Distribuidor"
+        updated_at: "Actualizado"
+        created_at: "Ingresado"
 
   messages:
     are_you_sure: "¿Estás seguro?"
@@ -96,6 +113,11 @@ es:
     new: "Nuevo"
     print: "Imprimir"
   titles:
+    namespace:
+      index: "Departamentos"
+      office: "Oficina"
+      factory: "Fábrica"
+      sales: "Ventas"
     making_order:
       index: "Órdenes de producción"
       new: "Nueva orden de producción"
@@ -108,9 +130,13 @@ es:
     formula_element:
       index: "Materias primas"
       new: "Nueva materia prima"
+    client:
+      index: "Clientes"
+      new: "Nuevo cliente"
   placeholders:
     search_by:
       name: "Buscar por nombre"
       name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
       comments_formula: "Buscar por observaciones o fórmula"
+      name_or_email_or_phone_or_province_or_address_cont: "Buscar por nombre, email, teléfono, provincia o dirección"
 

@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
+
+  namespace :office do
+    root "dashboard#index"
+    resources :clients
+  end
+
+  namespace :sales do
+    root "dashboard#index"
+  end
+
   namespace :factory do
-    get "dashboard/index"
+    root "dashboard#index"
     resources :formula_elements
     resources :formulas
     resources :making_orders
