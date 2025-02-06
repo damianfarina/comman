@@ -184,4 +184,12 @@ RSpec.describe "/office/clients", type: :request do
       end
     end
   end
+
+  describe "DELETE /destroy" do
+    it "destroys the requested client" do
+      expect {
+        delete office_client_url(client)
+      }.to raise_error(RuntimeError, "Clients cannot be destroyed! They are part of the company history. Implement archiving instead.")
+    end
+  end
 end

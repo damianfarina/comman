@@ -92,14 +92,14 @@ RSpec.describe "/factory/formula_elements", type: :request do
       }
 
       it "updates the requested formula element" do
-        formula_element = create(:formula_element, **valid_attributes)
+        formula_element = create(:formula_element, valid_attributes)
         patch factory_formula_element_url(formula_element), params: { formula_element: new_attributes }
         formula_element.reload
         expect(formula_element.name).to eq("Water")
       end
 
       it "redirects to the formula element" do
-        formula_element = create(:formula_element, **valid_attributes)
+        formula_element = create(:formula_element, valid_attributes)
         patch factory_formula_element_url(formula_element), params: { formula_element: new_attributes }
         formula_element.reload
         expect(response).to redirect_to(factory_formula_element_url(formula_element))
@@ -108,7 +108,7 @@ RSpec.describe "/factory/formula_elements", type: :request do
 
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        formula_element = create(:formula_element, **valid_attributes)
+        formula_element = create(:formula_element, valid_attributes)
         patch factory_formula_element_url(formula_element), params: { formula_element: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -123,10 +123,10 @@ RSpec.describe "/factory/formula_elements", type: :request do
   end
 
   describe "DELETE /destroy" do
-    it "destroys the requested formula" do
-      formula = create(:formula_element, **valid_attributes)
+    it "destroys the requested formula_element" do
+      formula_element = create(:formula_element, valid_attributes)
       expect {
-        delete factory_formula_element_url(formula)
+        delete factory_formula_element_url(formula_element)
       }.to raise_error(RuntimeError, "Formula elements cannot be destroyed! They are part of the production history. Implement archiving instead.")
     end
   end

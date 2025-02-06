@@ -1,6 +1,6 @@
 module Office
   class ClientsController < ApplicationController
-    before_action :set_client, only: %i[ show edit update ]
+    before_action :set_client, only: %i[ show edit update destroy]
 
     # GET /clients
     def index
@@ -16,7 +16,7 @@ module Office
     def edit
     end
 
-    # PATCH/PUT /clients/1
+    # PATCH/PUT /clients/1 or /clients/1.json
     def update
       respond_to do |format|
         if @client.update(client_params)
@@ -34,7 +34,7 @@ module Office
       @client = Client.new(default_client_params)
     end
 
-    # POST /clients
+    # POST /clients or /clients.json
     def create
       @client = Client.new(client_params)
 
@@ -46,6 +46,17 @@ module Office
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @client.errors, status: :unprocessable_entity }
         end
+      end
+    end
+
+    # DELETE /clients/1 or /clients/1.json
+    def destroy
+      raise "Clients cannot be destroyed! They are part of the company history. Implement archiving instead."
+      @client.destroy!
+
+      respond_to do |format|
+        format.html { redirect_to office_clients_path, status: :see_other, notice: "Cliente eliminado." }
+        format.json { head :no_content }
       end
     end
 
