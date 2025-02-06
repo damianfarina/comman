@@ -58,14 +58,14 @@
       <div>
         <%= form.label :country, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
-          <%= form.text_field :country, value: client.country.presence || ENV.fetch("DEFAULT_COUNTRY"), class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          <%= form.text_field :country, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
         </div>
       </div>
 
       <div>
         <%= form.label :province, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
-          <%= form.text_field :province, value: client.province.presence || ENV.fetch("DEFAULT_PROVINCE"), class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          <%= form.text_field :province, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 class Client < ApplicationRecord
   validates :name, presence: true
+  validates :client_type, presence: true
   validates :tax_identification, presence: true, uniqueness: true
 
   enum :client_type, regular: 0, distributor: 1

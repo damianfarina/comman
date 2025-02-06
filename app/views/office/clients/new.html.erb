@@ -1,0 +1,13 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: factory_root_path },
+    { title: t("titles.client.index"), path: office_clients_path },
+    { title: t("navigation.new"), path: new_office_client_path },
+  ],
+  title: t("titles.client.new"),
+) %>
+
+<div class="w-full">
+  <%= render "form", client: @client %>
+</div>

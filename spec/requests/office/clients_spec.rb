@@ -126,4 +126,14 @@ RSpec.describe "/office/clients", type: :request do
       end
     end
   end
+
+  describe "GET /new" do
+    it "renders a successful response" do
+      get new_office_client_url
+      expect(response).to be_successful
+      expect(response.body).to include(ENV.fetch("DEFAULT_COUNTRY"))
+      expect(response.body).to include(ENV.fetch("DEFAULT_PROVINCE"))
+      expect(response.body).to include("Particular")
+    end
+  end
 end

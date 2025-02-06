@@ -16,6 +16,11 @@ module Office
     def edit
     end
 
+    # GET /clients/new
+    def new
+      @client = Client.new(default_client_params)
+    end
+
     # PATCH/PUT /clients/1
     def update
       respond_to do |format|
@@ -30,6 +35,14 @@ module Office
     end
 
     private
+
+      def default_client_params
+        {
+          client_type: :regular,
+          country: ENV.fetch("DEFAULT_COUNTRY"),
+          province: ENV.fetch("DEFAULT_PROVINCE"),
+        }
+      end
 
       def client_params
         params.expect(
