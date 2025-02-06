@@ -1,14 +1,14 @@
 FactoryBot.define do
   factory :client do
-    name { "John Doe" }
-    tax_identification { "20202020200" }
-    address { "Home" }
-    zipcode { "5500" }
+    name { Faker::Company.name }
+    tax_identification { Faker::Company.ein }
+    address { Faker::Address.full_address }
+    zipcode { Faker::Address.zip_code }
     country { "Argentina" }
     province { "Mendoza" }
-    maps_url { "" }
-    phone { "https://maps.app.goo.gl/eFgrqGj8uBdXsgN87" }
-    email { "email@email.com" }
-    client_type { :regular }
+    maps_url { "https://maps.app.goo.gl/eFgrqGj8uBdXsgN87" }
+    phone { Faker::PhoneNumber.cell_phone }
+    email { Faker::Internet.email }
+    client_type { [ :regular, :distributor ].sample }
   end
 end

@@ -1,0 +1,25 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.client.index"), path: office_clients_path },
+    { title: @client.name, path: office_client_path(@client) },
+    { title: t("navigation.edit"), path: edit_office_client_path(@client) },
+  ],
+  title: @client.name,
+  options_dropdown: [
+    ->(classes, index:) do
+      button_to(
+        t(:archive, scope: [:actions]),
+        office_client_path(@client),
+        method: :delete,
+        data: { turbo_confirm: t("messages.are_you_sure") },
+        class: "#{classes} text-red-500",
+      )
+    end
+  ],
+) %>
+
+<div class="w-full">
+  <%= render "form", client: @client %>
+</div>

@@ -1,4 +1,7 @@
 class Client < ApplicationRecord
+  validates :name, presence: true
+  validates :tax_identification, presence: true, uniqueness: true
+
   enum :client_type, regular: 0, distributor: 1
 
   def self.ransackable_attributes(auth_object = nil)

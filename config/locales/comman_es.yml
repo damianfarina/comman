@@ -84,10 +84,14 @@ es:
       client:
         id: "ID"
         name: "Nombre"
+        tax_identification: "CUIT"
         email: "Email"
         phone: "Teléfono"
+        country: "País"
         province: "Provincia"
+        zipcode: "Código Postal"
         address: "Dirección"
+        maps_url: "Enlace Mapa"
         client_type: "Tipo de cliente"
         client_type_values:
           "regular": "Particular"

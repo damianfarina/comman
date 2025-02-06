@@ -1,0 +1,93 @@
+<%# locals: (client:)  %>
+
+<%= form_with(model: [:office, client], class: "contents") do |form| %>
+  <%= render "common/error_messages", model: client %>
+  <%= render "common/forms/simple" do %>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <div>
+        <%= form.label :name, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :name, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :tax_identification, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :tax_identification, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :client_type, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <fieldset>
+          <div class="mt-5 space-y-6 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+            <% Client.client_types.keys.each do |type| %>
+              <div class="flex items-center">
+                <%= form.radio_button :client_type, type, class: "relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-blue-700 checked:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden" %>
+                <%= form.label :client_type, t("activerecord.attributes.client.client_type_values.#{type}"), value: type, class: "ml-3 block text-sm/6 font-medium text-gray-900" %>
+              </div>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div>
+        <%= form.label :phone, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :phone, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :email, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :email, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <div>
+        <%= form.label :address, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :address, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :country, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :country, value: client.country.presence || ENV.fetch("DEFAULT_COUNTRY"), class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :province, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :province, value: client.province.presence || ENV.fetch("DEFAULT_PROVINCE"), class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :zipcode, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :zipcode, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :maps_url, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :maps_url, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-6 pt-12">
+      <div>
+        <%= form.submit t("actions.save"), class: "btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
