@@ -1,4 +1,6 @@
-class Sales::DashboardController < ApplicationController
-  def index
+module Sales
+  class DashboardController < ApplicationController
+    def index
+    end
   end
 end
