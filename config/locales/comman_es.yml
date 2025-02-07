@@ -94,8 +94,9 @@ es:
         maps_url: "Enlace Mapa"
         client_type: "Tipo de cliente"
         client_type_values:
-          "regular": "Particular"
-          "distributor": "Distribuidor"
+          regular: "Usuario"
+          distributor: "Distribuidor"
+          hardware_store: "Ferretería"
         updated_at: "Actualizado"
         created_at: "Ingresado"
 

@@ -1,5 +1,5 @@
 class Client < ApplicationRecord
-  enum :client_type, regular: 0, distributor: 1
+  enum :client_type, regular: 0, hardware_store: 2, distributor: 1
 
   validates :name, presence: true
   validates :client_type, presence: true
