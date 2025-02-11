@@ -1,5 +1,5 @@
 class Client < ApplicationRecord
-  enum :client_type, regular: 0, distributor: 1
+  enum :client_type, regular: 0, hardware_store: 2, distributor: 1
 
   validates :name, presence: true
   validates :client_type, presence: true
@@ -12,6 +12,10 @@ class Client < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     []
   end
+
+  def client_type_discount
+    Discount.find_by(discount_type: :client_type, client_type: client_type)&.percentage || 0
+  end
 end
 
 # == Schema Information
@@ -20,7 +24,7 @@ end
 #
 #  id                 :bigint           not null, primary key
 #  address            :string
-#  client_type        :integer          default(0)
+#  client_type        :integer          default("regular")
 #  country            :string
 #  email              :string
 #  maps_url           :string

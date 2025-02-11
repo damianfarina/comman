@@ -1,4 +1,6 @@
-class Factory::DashboardController < ApplicationController
-  def index
+module Factory
+  class DashboardController < ApplicationController
+    def index
+    end
   end
 end

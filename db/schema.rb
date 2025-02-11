@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_04_221108) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_07_210506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_04_221108) do
     t.integer "client_type", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "discounts", force: :cascade do |t|
+    t.integer "discount_type", null: false
+    t.integer "client_type"
+    t.decimal "percentage", precision: 5, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_type"], name: "index_discounts_on_client_type"
+    t.index ["discount_type"], name: "index_discounts_on_discount_type"
   end
 
   create_table "formula_elements", force: :cascade do |t|

@@ -94,13 +94,21 @@ es:
         maps_url: "Enlace Mapa"
         client_type: "Tipo de cliente"
         client_type_values:
-          "regular": "Particular"
-          "distributor": "Distribuidor"
+          regular: "Usuario"
+          distributor: "Distribuidor"
+          hardware_store: "Ferretería"
         updated_at: "Actualizado"
         created_at: "Ingresado"
+      discount:
+        client_type: "Tipo de cliente"
+        discount_type: "Tipo de descuento"
+        percentage: "Porcentaje"
+        created_at: "Ingresado"
+        cash: "Pago Efectivo"
 
   messages:
     are_you_sure: "¿Estás seguro?"
+    saving: "Guardando..."
   actions:
     archive: "Archivar"
     save: "Guardar"
@@ -133,6 +141,10 @@ es:
     client:
       index: "Clientes"
       new: "Nuevo cliente"
+    setting:
+      index: "Ajustes"
+    discount:
+      index: "Descuentos"
   placeholders:
     search_by:
       name: "Buscar por nombre"

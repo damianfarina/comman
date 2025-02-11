@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   namespace :office do
     root "dashboard#index"
     resources :clients
+    get :settings, to: "settings#index"
+    resources :discounts, only: %i[ show edit update ]
   end
 
   namespace :sales do
