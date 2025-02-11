@@ -1,0 +1,10 @@
+<%= render "common/headings/page",
+  title: t("titles.setting.index"),
+  actions: [],
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.setting.index"), path: office_settings_path },
+  ] %>
+<div class="w-full mt-8">
+  <%= render "discounts", cash_discount: @cash_discount, client_type_discounts: @client_type_discounts %>
+</div>

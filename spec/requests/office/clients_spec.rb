@@ -141,7 +141,7 @@ RSpec.describe "/office/clients", type: :request do
       expect(response).to be_successful
       expect(response.body).to include(ENV.fetch("DEFAULT_COUNTRY"))
       expect(response.body).to include(ENV.fetch("DEFAULT_PROVINCE"))
-      expect(response.body).to include("Particular")
+      expect(response.body).to include("Usuario")
     end
   end
 

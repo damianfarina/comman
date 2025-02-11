@@ -39,6 +39,7 @@ module ApplicationHelper
       [
         { name: t("navigation.dashboard"), path: office_root_path, icon: "home", exact: true },
         { name: t("titles.client.index"), path: office_clients_path, icon: "building-storefront" },
+        { name: t("titles.setting.index"), path: office_settings_path, icon: "cog-8-tooth" },
       ]
     when /^\/sales/
       [

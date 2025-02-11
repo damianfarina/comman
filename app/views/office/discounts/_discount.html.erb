@@ -1,0 +1,17 @@
+<div>
+  <%= turbo_frame_tag discount do %>
+    <div class="py-6 sm:flex items-center" id="<%= dom_id discount %>">
+      <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+        <% if discount.cash? %>
+          <%= t("activerecord.attributes.discount.cash") %>
+        <% else %>
+          <%= t("activerecord.attributes.client.client_type_values.#{discount.client_type}") %>
+        <% end %>
+      </dt>
+      <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+        <div class="text-gray-900"><%= discount.percentage %>%</div>
+        <%= link_to 'Editar', edit_office_discount_path(discount), class: 'font-semibold text-blue-700 hover:text-blue-300' %>
+      </dd>
+    </div>
+  <% end %>
+</div>
