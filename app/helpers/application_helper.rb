@@ -28,8 +28,6 @@ module ApplicationHelper
   end
 
   def current_or_nested_page?(path, exact = false)
-    Rails.logger.debug "current_page?(#{path}) = #{current_page?(path)} | exact = #{exact} | request.path.start_with?(#{path}) = #{request.path.start_with?(path)}"
-    Rails.logger.debug exact ? current_page?(path) : current_page?(path) || request.path.start_with?(path)
     exact ? current_page?(path) : current_page?(path) || request.path.start_with?(path)
   end
 
