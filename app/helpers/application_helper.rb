@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def number_with_precision(number, options = {})
+    super(number, { precision: 3 }.merge(options))
+  end
+
   def navigation_link_to(name, path, icon, exact = false)
     default_classes = "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-light-blue hover:bg-blue-700 hover:text-white"
     active_classes = "bg-blue-700 text-white"
@@ -28,8 +32,6 @@ module ApplicationHelper
   end
 
   def current_or_nested_page?(path, exact = false)
-    Rails.logger.debug "current_page?(#{path}) = #{current_page?(path)} | exact = #{exact} | request.path.start_with?(#{path}) = #{request.path.start_with?(path)}"
-    Rails.logger.debug exact ? current_page?(path) : current_page?(path) || request.path.start_with?(path)
     exact ? current_page?(path) : current_page?(path) || request.path.start_with?(path)
   end
 

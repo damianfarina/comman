@@ -21,7 +21,7 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Mixer capacity:</strong>
-    <%= making_order.mixer_capacity %>
+    <%= number_with_precision making_order.mixer_capacity, precision: 1 %>
   </p>
 
   <p class="my-5">
