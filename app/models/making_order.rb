@@ -41,7 +41,7 @@ class MakingOrder < ApplicationRecord
     end
 
     def set_total_weight
-      self.total_weight = self.making_order_items.reject(&:marked_for_destruction?).sum { |item| item.product.weight * item.quantity }
+      self.total_weight = self.making_order_items.reject(&:marked_for_destruction?).sum { |item| item.product.weight * (item.quantity || 0) }
     end
 
     def set_making_order_formula
@@ -55,9 +55,13 @@ class MakingOrder < ApplicationRecord
     def products_belongs_to_the_same_formula
       self.making_order_items.each do |item|
         next unless item.changed?
-        errors[:base] << I18n.t(:products_formula_is_different,
-            scope: [ :activerecord, :errors, :models, :making_order ]
-          ) unless item.product.formula_id == self.making_order_formula.formula_id
+
+        unless item.product.formula_id == self.making_order_formula.formula_id
+          errors.add(
+            :base,
+            I18n.t(:products_formula_is_different, scope: [ :activerecord, :errors, :models, :making_order ])
+          )
+        end
       end
     end
 
