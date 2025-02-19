@@ -11,7 +11,7 @@
       <dd class="mt-1 flex flex-1">
         <%= form_with(model: [:office, @discount], class: "contents flex-1") do |form| %>
           <div class="flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <%= form.text_field :percentage, class: "block rounded-md bg-black/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-black/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6 #{@discount.errors[:percentage].present? ? 'border-red-500' : 'border-gray-300'}" %>
+            <%= form.text_field :percentage, autofocus: true, class: "block rounded-md bg-black/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-black/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6 #{@discount.errors[:percentage].present? ? 'border-red-500' : 'border-gray-300'}" %>
             <%= form.submit t("actions.save"), data: { turbo_submits_with: t("messages.saving") }, class: "btn-primary" %>
           </div>
         <% end %>
