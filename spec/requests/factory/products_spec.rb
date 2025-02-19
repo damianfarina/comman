@@ -32,6 +32,51 @@ RSpec.describe "/products", type: :request do
       get factory_products_url
       expect(response).to be_successful
     end
+
+    context "with IdSearchQueryProcessor" do
+      let!(:product1) { create(:product, id: 1234, shape: "RR", size: "250x100x50", weight: 10.0, pressure: "G100", formula: formula) }
+      let!(:product2) { create(:product, id: 5678, shape: "SQ", size: "300x150x75", weight: 12.5, pressure: "G120", formula: formula) }
+
+      context "when params[:q] contains id_or_name_cont with #1234" do
+        it "filters by ID" do
+          get factory_products_url, params: { q: { "id_or_name_cont" => "#1234" } }, as: :json
+
+          json_response = JSON.parse(response.body)
+          expect(response).to be_successful
+          expect(json_response.pluck("id")).to contain_exactly(1234)
+        end
+      end
+
+      context "when params[:q] contains id_or_description_cont with #5678" do
+        it "filters by ID" do
+          get factory_products_url, params: { q: { "id_or_description_cont" => "#5678" } }, as: :json
+
+          json_response = JSON.parse(response.body)
+          expect(response).to be_successful
+          expect(json_response.pluck("id")).to contain_exactly(5678)
+        end
+      end
+
+      context "when params[:q] does not contain any id_or_* keys" do
+        it "returns RR products" do
+          get factory_products_url, params: { q: { "name_cont" => "RR" } }, as: :json
+
+          json_response = JSON.parse(response.body)
+          expect(response).to be_successful
+          expect(json_response.pluck("id")).to match_array([ product1.id ])
+        end
+      end
+
+      context "when params[:q] contains id_or_* keys but the value is missing the id" do
+        it "returns no products" do
+          get factory_products_url, params: { q: { "id_or_name_cont" => "1234" } }, as: :json
+
+          json_response = JSON.parse(response.body)
+          expect(response).to be_successful
+          expect(json_response.pluck("id")).to match_array([])
+        end
+      end
+    end
   end
 
   describe "GET /show" do
