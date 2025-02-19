@@ -1,5 +1,7 @@
 module Factory
   class MakingOrdersController < ApplicationController
+    include IdSearchQueryProcessor
+
     before_action :set_making_order, only: %i[ show edit update destroy ]
     before_action :set_products, only: %i[ new create edit update destroy ]
 

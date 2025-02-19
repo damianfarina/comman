@@ -1,5 +1,7 @@
 module Factory
   class FormulasController < ApplicationController
+    include IdSearchQueryProcessor
+
     before_action :set_formula, only: %i[ show edit update destroy ]
     before_action :set_formula_elements, only: %i[ new create edit update destroy ]
 

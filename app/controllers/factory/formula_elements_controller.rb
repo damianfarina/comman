@@ -1,5 +1,7 @@
 module Factory
   class FormulaElementsController < ApplicationController
+    include IdSearchQueryProcessor
+
     before_action :set_formula_element, only: %i[ show edit update destroy ]
 
     # GET /formula_elements or /formula_elements.json

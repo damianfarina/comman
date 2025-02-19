@@ -19,24 +19,11 @@ class MakingOrder < ApplicationRecord
   before_update :set_formula_dirty, if: -> { self.total_weight_changed? }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id comments mixer_capacity rounds_count state total_weight weight_per_round]
+    %w[id comments mixer_capacity rounds_count state making_order_formula_name total_weight]
   end
 
   def self.ransackable_associations(auth_object = nil)
     %w[making_order_formula]
-  end
-
-  ransacker :making_order_formula_name do |parent|
-    Arel.sql("making_order_formulas.formula_name")
-  end
-
-
-  def self.ransackable_associations(auth_object = nil)
-    %w[making_order_formula]
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    %w[id comments making_order_formula_name created_at total_weight state]
   end
 
   ransacker :making_order_formula_name do |parent|
