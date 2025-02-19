@@ -69,6 +69,8 @@ es:
         total_weight: "Peso total"
         updated_at: "Actualizado"
         weight_per_round: "Peso por mezcla"
+      making_order_items:
+        quantity: "Cantidad de producto"
       product:
         id: "ID"
         name: "Nombre"
