@@ -8,19 +8,14 @@
   <%= form.fields_for :making_order_items, making_order_item, child_index: child_index do |ff| %>
     <%= ff.hidden_field :id if making_order_item.persisted? %>
 
-    <%= render("common/components/combobox_input",
+    <%= render("common/components/dropdown",
       placeholder: t("helpers.select.prompt", model: Product.model_name.human),
       input_name: "making_order[making_order_items_attributes][#{ff.index}][product_id]",
       input_value: making_order_item.product_id,
       search_value: making_order_item&.product_name,
       input_classes: making_order_item.errors.any? ? "ring-red text-xs" : "text-xs",
-    ) do %>
-      <% products.each do |products| %>
-        <%= render "common/components/combobox_option", id: products.id, value: products.name do %>
-          <span class="block truncate font-normal"><%= products.name %></span>
-        <% end %>
-      <% end %>
-    <% end %>
+      url: factory_products_path,
+    ) %>
     <div>
       <%= ff.number_field(
         :quantity,
