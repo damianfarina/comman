@@ -19,24 +19,11 @@ class MakingOrder < ApplicationRecord
   before_update :set_formula_dirty, if: -> { self.total_weight_changed? }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id comments mixer_capacity rounds_count state total_weight weight_per_round]
+    %w[id comments mixer_capacity rounds_count state making_order_formula_name total_weight]
   end
 
   def self.ransackable_associations(auth_object = nil)
     %w[making_order_formula]
-  end
-
-  ransacker :making_order_formula_name do |parent|
-    Arel.sql("making_order_formulas.formula_name")
-  end
-
-
-  def self.ransackable_associations(auth_object = nil)
-    %w[making_order_formula]
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    %w[id comments making_order_formula_name created_at total_weight state]
   end
 
   ransacker :making_order_formula_name do |parent|
@@ -54,7 +41,7 @@ class MakingOrder < ApplicationRecord
     end
 
     def set_total_weight
-      self.total_weight = self.making_order_items.reject(&:marked_for_destruction?).sum { |item| item.product.weight * item.quantity }
+      self.total_weight = self.making_order_items.reject(&:marked_for_destruction?).sum { |item| item.product.weight * (item.quantity || 0) }
     end
 
     def set_making_order_formula
@@ -68,9 +55,13 @@ class MakingOrder < ApplicationRecord
     def products_belongs_to_the_same_formula
       self.making_order_items.each do |item|
         next unless item.changed?
-        errors[:base] << I18n.t(:products_formula_is_different,
-            scope: [ :activerecord, :errors, :models, :making_order ]
-          ) unless item.product.formula_id == self.making_order_formula.formula_id
+
+        unless item.product.formula_id == self.making_order_formula.formula_id
+          errors.add(
+            :base,
+            I18n.t(:products_formula_is_different, scope: [ :activerecord, :errors, :models, :making_order ])
+          )
+        end
       end
     end
 

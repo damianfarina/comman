@@ -23,7 +23,7 @@
         },
         class: "w-full max-w-lg lg:max-w-xs",
       ) do |f| %>
-        <%= f.label :comments_or_making_order_formula_name_cont, t("placeholders.search_by.comments_formula"), class: "sr-only" %>
+        <%= f.label :id_or_comments_or_making_order_formula_name_cont, t("placeholders.search_by.comments_formula"), class: "sr-only" %>
         <div class="relative text-gray-300 focus-within:text-gray">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -31,7 +31,7 @@
             </svg>
           </div>
           <%= f.search_field(
-            :comments_or_making_order_formula_name_cont,
+            :id_or_comments_or_making_order_formula_name_cont,
             autofocus: true,
             autocomplete: "off",
             class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
