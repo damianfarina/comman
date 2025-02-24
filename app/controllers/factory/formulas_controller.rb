@@ -16,7 +16,6 @@ module Factory
       @pie_chart_data = @formula
         .formula_items
         .includes(:formula_element)
-        .reorder("formula_items.proportion": :desc)
         .map do |item|
           proportion = item.proportion.round(2)
           {
