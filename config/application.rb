@@ -26,6 +26,7 @@ module Comman
 
     # Set the default locale to Spanish
     config.i18n.default_locale = :es
+    config.time_zone = "America/Argentina/Buenos_Aires"
 
     config.generators do |g|
       g.helper false
