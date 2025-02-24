@@ -8,19 +8,15 @@
   <%= form.fields_for :formula_items, formula_item, child_index: child_index do |ff| %>
     <%= ff.hidden_field :id if formula_item.persisted? %>
 
-    <%= render("common/components/combobox_input",
+    <%= render("common/components/dropdown",
       placeholder: t("helpers.select.prompt", model: FormulaElement.model_name.human),
       input_name: "formula[formula_items_attributes][#{ff.index}][formula_element_id]",
       input_value: formula_item.formula_element_id,
       search_value: formula_item&.formula_element&.name,
-      input_classes: formula_item.errors.any? ? "ring-red" : "",
-    ) do %>
-      <% formula_elements.each do |formula_element| %>
-        <%= render "common/components/combobox_option", id: formula_element.id, value: formula_element.name do %>
-          <span class="block truncate font-normal"><%= formula_element.name %></span>
-        <% end %>
-      <% end %>
-    <% end %>
+      input_classes: "text-xs #{'ring-red' if formula_item.errors.any?}",
+      url: factory_formula_elements_path,
+    ) %>
+
     <div>
       <%= ff.number_field(
         :proportion,
