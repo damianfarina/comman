@@ -3,7 +3,6 @@ module Factory
     include IdSearchQueryProcessor
 
     before_action :set_product, only: %i[ show edit update destroy ]
-    before_action :set_formulas, only: %i[ new create edit update destroy ]
 
     # GET /products or /products.json
     def index
@@ -65,10 +64,6 @@ module Factory
     private
       def set_product
         @product = Product.find(params.expect(:id))
-      end
-
-      def set_formulas
-        @formulas = Formula.order(:name)
       end
 
       def product_params

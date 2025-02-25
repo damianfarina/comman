@@ -3,7 +3,6 @@ module Factory
     include IdSearchQueryProcessor
 
     before_action :set_making_order, only: %i[ show edit update destroy ]
-    before_action :set_products, only: %i[ new create edit update destroy ]
 
     # GET /making_orders or /making_orders.json
     def index
@@ -73,10 +72,6 @@ module Factory
     private
       def set_making_order
         @making_order = MakingOrder.find(params.expect(:id))
-      end
-
-      def set_products
-        @products = Product.order(:name)
       end
 
       def making_order_params

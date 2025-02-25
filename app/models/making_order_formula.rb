@@ -1,7 +1,7 @@
 class MakingOrderFormula < ApplicationRecord
   belongs_to :making_order
   belongs_to :formula
-  has_many :making_order_formula_items, dependent: :destroy
+  has_many :making_order_formula_items, -> { order(id: :asc) }, dependent: :destroy
 
   validates :making_order_formula_items, presence: true
 

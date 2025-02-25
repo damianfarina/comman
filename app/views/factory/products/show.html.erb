@@ -48,10 +48,10 @@
             </div>
             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
               <div>
-                <p class="text-sm text-gray-500">Materia prima ingresada</p>
+                <p class="text-sm text-gray-500">Producto ingresado</p>
               </div>
               <div class="whitespace-nowrap text-right text-sm text-gray-500">
-                <time datetime="2020-10-04">Oct 4</time>
+                <time title="<%= l(@product.created_at, format: :compact) %>" datetime="<%= l(@product.created_at, format: :machine) %>"><%= l(@product.created_at.to_date, format: :short) %></time>
               </div>
             </div>
           </div>

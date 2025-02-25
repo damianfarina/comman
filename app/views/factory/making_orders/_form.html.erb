@@ -1,4 +1,4 @@
-<%# locals: (making_order:, products:)  %>
+<%# locals: (making_order:)  %>
 
 <%= form_with(model: [:factory, making_order], class: "contents") do |form| %>
   <%= render "common/error_messages", model: making_order %>
@@ -43,7 +43,6 @@
             "making_order_item_fields",
             form: form,
             making_order_item: MakingOrderItem.new,
-            products: products,
             child_index: "NEW_RECORD",
           ) %>
         </template>
@@ -54,7 +53,6 @@
               "making_order_item_fields",
               form: form,
               making_order_item: item,
-              products: products,
             ) %>
           <% end %>
         </div>

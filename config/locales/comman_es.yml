@@ -38,7 +38,7 @@ es:
         infinite: "Recurso Ilimitado"
         updated_at: "Actualizado"
         created_at: "Ingresado"
-      formula_item:
+      formula_items:
         id: "ID"
         proportion: "Proporción"
       formula:

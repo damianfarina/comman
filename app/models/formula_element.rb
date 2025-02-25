@@ -11,13 +11,6 @@ class FormulaElement < ApplicationRecord
   before_validation :clear_current_stock_if_infinite
   before_destroy :confirm_no_formula_is_associated
 
-  # ransacker :name_or_id do |parent|
-  #   Arel::Nodes::NamedFunction.new(
-  #     "CAST",
-  #     [ parent.table[:id].as("text") ]
-  #   ).concat(parent.table[:name])
-  # end
-  #
   ransacker :stock_level do |parent|
     Arel.sql(
       "CASE

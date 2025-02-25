@@ -1,27 +1,18 @@
-<%# locals: (product:, formulas:)  %>
+<%# locals: (product:)  %>
 
 <%= form_with(model: [:factory, product], class: "contents") do |form| %>
   <%= render "common/error_messages", model: product %>
   <%= render "common/forms/simple" do %>
     <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
 
-      <div>
-        <%= form.label :formula_id, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= render("common/components/combobox_input",
-            placeholder: "Seleccione una fórmula",
-            input_name: "product[formula_id]",
-            input_value: product.formula_id,
-            search_value: product&.formula_name,
-          ) do %>
-            <% formulas.each do |formula| %>
-              <%= render "common/components/combobox_option", id: formula.id, value: formula.name do %>
-                <span class="block truncate font-normal"><%= formula.name %></span>
-              <% end %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
+      <%= render("common/components/dropdown",
+        placeholder: t("helpers.select.prompt", model: Formula.model_name.human),
+        input_name: "product[formula_id]",
+        input_value: product.formula_id,
+        search_value: product&.formula_name,
+        input_classes: "text-xs #{'ring-red' if product.errors.any?}",
+        url: factory_formulas_path,
+      ) %>
 
       <div>
         <%= form.label :shape, class: "block text-sm font-medium leading-6 text-gray-900" %>
