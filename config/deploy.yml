@@ -112,9 +112,9 @@ ssh:
 # Use accessory services (secrets come from .kamal/secrets).
 accessories:
   db:
-    image: postgres:17.2
+    image: postgres:17
     host: comman.unibras.com.ar
-    # Change to 3306 to expose port to the world instead of just local network.
+    # Change to 5432 to expose port to the world instead of just local network.
     port: "127.0.0.1:5432:5432"
     env:
       clear:
@@ -126,11 +126,22 @@ accessories:
       - data:/var/lib/postgresql/data
     files:
       - db/production_setup.sql:/docker-entrypoint-initdb.d/setup.sql
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
+
+  postgres_backup:
+    image: kartoza/pg-backup:17-3.5
+    host: comman.unibras.com.ar
+    env:
+      clear:
+        POSTGRES_USER: comman
+        POSTGRES_DB: comman_production
+        POSTGRES_HOST: comman-db
+        POSTGRES_PORT: 5432
+        REMOVE_BEFORE: 30
+        CRON_SCHEDULE: "0 0,12 * * *" # run at midnight and noon
+      secret:
+        - POSTGRES_PASS
+    directories:
+      - backups:/backups
 #   redis:
 #     image: valkey/valkey:8
 #     host: 192.168.0.2
