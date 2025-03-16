@@ -104,19 +104,23 @@
 
 <% content_for :print_section do %>
   <div class="printing" style="padding-top:0">
-    <div class="block">
-      <%= render partial: '/factory/making_orders/print/mix', locals: { making_order: @making_order } %>
-    </div>
-    <div class="block">
-      <div class="separator"></div>
-      <%= render partial: '/factory/making_orders/print/pressing', locals: { making_order: @making_order } %>
-    </div>
-    <div class="block">
-      <%= render partial: '/factory/making_orders/print/adjustment', locals: { making_order: @making_order } %>
-    </div>
-    <div class="block last">
-      <div class="separator"></div>
-      <%= render partial: '/factory/making_orders/print/archive', locals: { making_order: @making_order } %>
-    </div>
+    <section class="sheet">
+      <div class="block">
+        <%= render partial: '/factory/making_orders/print/mix', locals: { making_order: @making_order } %>
+      </div>
+      <div class="block">
+        <div class="separator"></div>
+        <%= render partial: '/factory/making_orders/print/pressing', locals: { making_order: @making_order } %>
+      </div>
+    </section>
+    <section class="sheet">
+      <div class="block">
+        <%= render partial: '/factory/making_orders/print/adjustment', locals: { making_order: @making_order } %>
+      </div>
+      <div class="block">
+        <div class="separator"></div>
+        <%= render partial: '/factory/making_orders/print/archive', locals: { making_order: @making_order } %>
+      </div>
+    </section>
   </div>
 <% end %>
