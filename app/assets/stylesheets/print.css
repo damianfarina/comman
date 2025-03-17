@@ -1,7 +1,23 @@
 @page {
-  margin: 20px 25px;
+  margin: 0;
   orphans: 4;
   widows: 2;
+}
+
+/** Paper sizes **/
+body.A3           .sheet { width: 297mm; height: 419mm }
+body.A3.landscape .sheet { width: 420mm; height: 296mm }
+body.A4           .sheet { width: 210mm; height: 296mm }
+body.A4.landscape .sheet { width: 297mm; height: 209mm }
+body.A5           .sheet { width: 148mm; height: 209mm }
+body.A5.landscape .sheet { width: 210mm; height: 147mm }
+
+/** Fix for Chrome issue #273306 **/
+@media print {
+           body.A3.landscape { width: 420mm }
+  body.A3, body.A4.landscape { width: 297mm }
+  body.A4, body.A5.landscape { width: 210mm }
+  body.A5                    { width: 148mm }
 }
 
 @media only screen {
@@ -21,6 +37,7 @@
     background-color: #fff;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 16px;
+    margin: 0;
   }
 
   .web {
@@ -30,6 +47,20 @@
   .print-hide {
     display: none !important;
   }
+
+  .sheet {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    page-break-after: always;
+  }
+
+  /** Padding area **/
+  .sheet.padding-10mm { padding: 10mm }
+  .sheet.padding-15mm { padding: 15mm }
+  .sheet.padding-20mm { padding: 20mm }
+  .sheet.padding-25mm { padding: 25mm }
 
   .row {
     margin: 0;
