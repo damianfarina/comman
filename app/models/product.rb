@@ -21,7 +21,7 @@ class Product < ApplicationRecord
 
   private
     def set_name
-      self.name = productable.name if productable&.name&.present?
+      self.name = productable.name unless productable&.name.nil?
     end
 
     def name_is_unique

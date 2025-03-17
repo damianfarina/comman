@@ -72,17 +72,25 @@ es:
       making_order_items:
         quantity: "Cantidad de producto"
       product:
+        created_at: "Ingresado"
+        current_stock: "Stock actual"
+        description: "Descripción"
         id: "ID"
+        max_stock: "Stock máximo"
+        min_stock: "Stock mínimo"
         name: "Nombre"
+        price: "Precio"
+        updated_at: "Actualizado"
+      manufactured_product:
+        formula_id: "Fórmula"
+        formula: "Fórmula"
+        pressure: "Presión"
+        product_detail: "Detalle"
         shape: "Forma"
         size: "Dimensiones"
         weight: "Peso"
-        pressure: "Presión"
-        price: "Precio"
-        formula: "Fórmula"
-        formula_id: "Fórmula"
-        updated_at: "Actualizado"
-        created_at: "Ingresado"
+      purchased_product:
+        base_cost: "Costo base"
       client:
         id: "ID"
         name: "Nombre"

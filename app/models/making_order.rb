@@ -41,11 +41,12 @@ class MakingOrder < ApplicationRecord
     end
 
     def set_total_weight
-      self.total_weight = self.making_order_items.reject(&:marked_for_destruction?).sum { |item| item.product.weight * (item.quantity || 0) }
+      self.total_weight = self.making_order_items.reject(&:marked_for_destruction?).sum { |item| item.product.productable.weight * (item.quantity || 0) }
     end
 
     def set_making_order_formula
-      self.build_making_order_formula(formula_id: making_order_items.first.product.formula_id)
+      productable = making_order_items.first.product.productable
+      self.build_making_order_formula(formula_id: productable.formula_id)
     end
 
     def set_formula_dirty
@@ -56,7 +57,7 @@ class MakingOrder < ApplicationRecord
       self.making_order_items.each do |item|
         next unless item.changed?
 
-        unless item.product.formula_id == self.making_order_formula.formula_id
+        unless item.product.productable.formula_id == self.making_order_formula.formula_id
           errors.add(
             :base,
             I18n.t(:products_formula_is_different, scope: [ :activerecord, :errors, :models, :making_order ])

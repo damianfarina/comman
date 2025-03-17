@@ -4,51 +4,89 @@
   <%= render "common/error_messages", model: product %>
   <%= render "common/forms/simple" do %>
     <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
-
-      <%= render("common/components/dropdown",
-        placeholder: t("helpers.select.prompt", model: Formula.model_name.human),
-        input_name: "product[formula_id]",
-        input_value: product.formula_id,
-        search_value: product&.formula_name,
-        input_classes: "text-xs #{'ring-red' if product.errors.any?}",
-        url: factory_formulas_path,
-      ) %>
-
       <div>
-        <%= form.label :shape, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <%= form.label :description, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
-          <%= form.text_field :shape, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          <%= form.textarea :description, rows: 4, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
         </div>
       </div>
 
       <div>
-        <%= form.label :size, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <%= form.label :min_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
-          <%= form.text_field :size, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          <%= form.number_field :min_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
         </div>
       </div>
 
       <div>
-        <%= form.label :weight, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <%= form.label :max_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
-          <%= form.number_field :weight, min: 0, step: 0.01, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          <%= form.number_field :max_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
         </div>
       </div>
 
       <div>
-        <%= form.label :pressure, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <%= form.label :current_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
-          <%= form.text_field :pressure, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          <%= form.number_field :current_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
         </div>
       </div>
+    </div>
 
-      <div>
-        <%= form.label :price, min: 0, step: 0.01, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.number_field :price, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <%= form.fields_for :productable, @product.productable do |productable_fields| %>
+        <div>
+          <%= productable_fields.label :formula_id, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= render("common/components/dropdown",
+              placeholder: t("helpers.select.prompt", model: Formula.model_name.human),
+              input_name: "product[formula_id]",
+              input_value: product.productable.formula_id,
+              search_value: product&.productable&.formula_name,
+              input_classes: "text-xs #{'ring-red' if product.errors.any?}",
+              url: factory_formulas_path,
+            ) %>
+          </div>
         </div>
-      </div>
+        <div>
+          <%= productable_fields.label :shape, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= productable_fields.text_field :shape, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
 
+        <div>
+          <%= productable_fields.label :size, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= productable_fields.text_field :size, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+
+        <div>
+          <%= productable_fields.label :weight, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= productable_fields.number_field :weight, min: 0, step: 0.01, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+
+        <div>
+          <%= productable_fields.label :pressure, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= productable_fields.text_field :pressure, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+
+        <!-- Product price
+        <div>
+          <%= form.label :price, min: 0, step: 0.01, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :price, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+        -->
+      <% end %>
+    </div>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
       <div>
         <%= form.submit t("actions.save"), class: "btn-primary" %>
       </div>

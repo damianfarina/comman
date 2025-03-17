@@ -3,7 +3,6 @@ module Productable
 
   included do
     has_one :product, as: :productable, touch: true, autosave: true
-    validates_associated :product
     default_scope { includes(:product) }
 
     def name

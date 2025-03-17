@@ -9,10 +9,10 @@ class MakingOrderItem < ApplicationRecord
   private
     def prepare_product_fields
       self.product_name = product.name
-      self.product_shape = product.shape
-      self.product_pressure = product.pressure
-      self.product_size = product.size
-      self.product_weight = product.weight
+      self.product_shape = product.productable.shape
+      self.product_pressure = product.productable.pressure
+      self.product_size = product.productable.size
+      self.product_weight = product.productable.weight
     end
 end
 

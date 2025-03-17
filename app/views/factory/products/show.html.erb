@@ -17,21 +17,33 @@
       items: [
         { label: Product.human_attribute_name(:id), value: @product.id },
         { label: Product.human_attribute_name(:name), value: @product.name },
-        { label: Product.human_attribute_name(:shape), value: @product.shape },
+        { label: Product.human_attribute_name(:description), value: @product.description },
+        { label: Product.human_attribute_name(:min_stock), value: @product.min_stock },
+        { label: Product.human_attribute_name(:max_stock), value: @product.max_stock },
+        { label: Product.human_attribute_name(:current_stock), value: @product.current_stock },
+      ]
+    ) %>
+  </div>
+  <div>
+    <%= render(
+      "common/lists/description",
+      items: [
         {
-          label: Product.human_attribute_name(:formula),
+          label: ManufacturedProduct.human_attribute_name(:formula),
           block: -> {
-            link_to(factory_formula_path(@product.formula), class: "font-semibold") do
-              "#{@product.formula_name} (##{@product.formula_id})"
+            link_to(factory_formula_path(@product.manufactured_product.formula), class: "font-semibold") do
+              "#{@product.manufactured_product.formula_name} (##{@product.manufactured_product.formula_id})"
             end
           },
         },
-        { label: Product.human_attribute_name(:size), value: @product.size },
-        { label: Product.human_attribute_name(:weight), value: number_with_precision(@product.weight) },
-        { label: Product.human_attribute_name(:pressure), value: @product.pressure },
-        { label: Product.human_attribute_name(:price), value: number_to_currency(@product.price) },
+        { label: ManufacturedProduct.human_attribute_name(:shape), value: @product.manufactured_product.shape },
+        { label: ManufacturedProduct.human_attribute_name(:size), value: @product.manufactured_product.size },
+        { label: ManufacturedProduct.human_attribute_name(:weight), value: number_with_precision(@product.manufactured_product.weight) },
+        { label: ManufacturedProduct.human_attribute_name(:pressure), value: @product.manufactured_product.pressure },
       ]
     ) %>
+  </div>
+  <div>
     <div class="border-b border-light-gray-500 bg-white py-6 mb-6">
       <h3 class="text-base font-semibold text-gray-900">Historial de cambios</h3>
     </div>

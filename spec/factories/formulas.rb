@@ -12,14 +12,11 @@ FactoryBot.define do
         items_proportions { [ 30.0, 70.0 ] }
       end
 
-      after(:build) do |formula, evaluator|
-        evaluator.items_proportions.each do |proportion|
-          formula.formula_items << build(
-            :formula_item,
-            formula: formula,
-            formula_element: create(:formula_element),
-            proportion: proportion,
-          )
+      formula_items do
+        Array.new(items_count) do |index|
+          association :formula_item, :with_element,
+            formula: instance,
+            proportion: items_proportions[index]
         end
       end
     end
