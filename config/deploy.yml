@@ -137,7 +137,7 @@ accessories:
         POSTGRES_HOST: comman-db
         POSTGRES_PORT: 5432
         REMOVE_BEFORE: 30
-        CRON_SCHEDULE: "0 0,12 * * *" # run at midnight and noon
+        CRON_SCHEDULE: "0 5 * * *" # run at 5am (host time)
       secret:
         - POSTGRES_PASS
     directories:
