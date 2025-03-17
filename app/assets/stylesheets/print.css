@@ -13,15 +13,14 @@
 
 @media print {
   html {
-    font-family: Tahoma, Helvetica, sans-serif;
-    font-size: 16px;
     display: block;
     transition: 0s;
   }
 
   body {
     background-color: #fff;
-    padding: 4px;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 16px;
   }
 
   .web {
@@ -133,12 +132,8 @@
   }
 
   .printing .block {
-    min-height: 40vh;
+    height: 148mm;
     page-break-inside: avoid;
-  }
-
-  .printing .block.last {
-    min-height: 0;
   }
 
   .printing pre {
