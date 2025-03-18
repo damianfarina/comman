@@ -1,6 +1,8 @@
 class Product < ApplicationRecord
   include Productables
 
+  has_rich_text :description
+
   belongs_to :formula, optional: true # This is optional until manufactured product details refactor is complete
   has_many :making_order_items, dependent: :nullify
 
@@ -38,7 +40,6 @@ end
 #
 #  id               :bigint           not null, primary key
 #  current_stock    :integer          default(0), not null
-#  description      :text
 #  max_stock        :integer          default(0), not null
 #  min_stock        :integer          default(0), not null
 #  name             :string
