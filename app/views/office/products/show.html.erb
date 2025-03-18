@@ -1,0 +1,64 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.product.index"), path: office_products_path },
+    { title: @product.name, path: office_product_path(@product) },
+  ],
+  title: @product.name,
+  actions: [
+    { label: t("navigation.edit"), path: edit_office_product_path(@product), method: :get },
+  ],
+) %>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-6">
+  <div>
+    <%= render(
+      "common/lists/description",
+      items: [
+        { label: Product.human_attribute_name(:id), value: @product.id },
+        { label: Product.human_attribute_name(:name), value: @product.name },
+        { label: Product.human_attribute_name(:description), value: @product.description },
+        { label: Product.human_attribute_name(:min_stock), value: @product.min_stock },
+        { label: Product.human_attribute_name(:max_stock), value: @product.max_stock },
+        { label: Product.human_attribute_name(:current_stock), value: @product.current_stock },
+      ]
+    ) %>
+  </div>
+  <div>
+    <%= render(
+      "common/lists/description",
+      items: [
+        { label: Product.human_attribute_name(:price), value: number_to_currency(@product.price) },
+      ]
+    ) %>
+    <%= render "office/products/productables/#{@product.productable_name}", productable: @product.productable %>
+  </div>
+  <div>
+    <div class="border-b border-light-gray-500 bg-white py-6 mb-6">
+      <h3 class="text-base font-semibold text-gray-900">Historial de cambios</h3>
+    </div>
+    <ul role="list" class="-mb-8">
+      <li>
+        <div class="relative pb-8">
+          <div class="relative flex space-x-3">
+            <div>
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 ring-8 ring-white">
+                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </div>
+            <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+              <div>
+                <p class="text-sm text-gray-500">Producto ingresado</p>
+              </div>
+              <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                <time title="<%= l(@product.created_at, format: :compact) %>" datetime="<%= l(@product.created_at, format: :machine) %>"><%= l(@product.created_at.to_date, format: :short) %></time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -2,11 +2,16 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
 
+  namespace :admin do
+    mount MaintenanceTasks::Engine, at: "/maintenance_tasks"
+  end
+
   namespace :office do
     root "dashboard#index"
     resources :clients
     get :settings, to: "settings#index"
     resources :discounts, only: %i[ show edit update ]
+    resources :products
   end
 
   namespace :sales do

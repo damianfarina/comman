@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_210506) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_13_173754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_210506) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "maintenance_tasks_runs", force: :cascade do |t|
+    t.string "task_name", null: false
+    t.datetime "started_at", precision: nil
+    t.datetime "ended_at", precision: nil
+    t.float "time_running", default: 0.0, null: false
+    t.bigint "tick_count", default: 0, null: false
+    t.bigint "tick_total"
+    t.string "job_id"
+    t.string "cursor"
+    t.string "status", default: "enqueued", null: false
+    t.string "error_class"
+    t.string "error_message"
+    t.text "backtrace"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "arguments"
+    t.integer "lock_version", default: 0, null: false
+    t.text "metadata"
+    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
+  end
+
   create_table "making_order_formula_items", force: :cascade do |t|
     t.integer "making_order_formula_id"
     t.integer "formula_item_id"
@@ -115,6 +136,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_210506) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "manufactured_products", force: :cascade do |t|
+    t.bigint "formula_id"
+    t.string "pressure"
+    t.string "shape"
+    t.string "size"
+    t.decimal "weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["formula_id"], name: "index_manufactured_products_on_formula_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.decimal "price"
@@ -123,6 +155,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_210506) do
     t.string "size"
     t.decimal "weight"
     t.string "pressure"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "productable_type"
+    t.integer "productable_id"
+    t.integer "current_stock", default: 0, null: false
+    t.integer "min_stock", default: 0, null: false
+    t.integer "max_stock", default: 0, null: false
+    t.text "description"
+  end
+
+  create_table "purchased_products", force: :cascade do |t|
+    t.decimal "base_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -144,5 +188,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_210506) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "manufactured_products", "formulas"
   add_foreign_key "sessions", "users"
 end

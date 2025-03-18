@@ -1,0 +1,7 @@
+<%# locals(:productable) %>
+<%= render(
+  "common/lists/description",
+  items: [
+    { label: PurchasedProduct.human_attribute_name(:base_cost), value: number_to_currency(productable.base_cost) },
+  ]
+) %>

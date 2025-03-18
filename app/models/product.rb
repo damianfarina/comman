@@ -1,33 +1,27 @@
 class Product < ApplicationRecord
-  belongs_to :formula, dependent: :destroy
-  has_many :formula_elements, through: :formula
+  include Productables
+
+  belongs_to :formula, optional: true # This is optional until manufactured product details refactor is complete
   has_many :making_order_items, dependent: :nullify
 
-  delegate :name, to: :formula, prefix: true, allow_nil: true
-
-  scope :by_formula, ->(formula_id) { where(formula_id: formula_id) }
-
-  validates :name, :shape, :size, :pressure, :price, :weight, presence: true
-  validates :price, numericality: { greater_than_or_equal_to: 0 }, unless: -> { name.blank? }
-  validates :weight, numericality: { greater_than_or_equal_to: 0 }, unless: -> { name.blank? }
-  validate :name_is_unique, unless: -> { name.blank? }
-
   before_validation :set_name
+  validates :name, presence: true
+  validate :name_is_unique, unless: -> { name.blank? }
+  validates :current_stock, :max_stock, :min_stock, numericality: { greater_than_or_equal_to: 0 }
+  validates :price, presence: true, on: [ :office ]
+  validates :price, numericality: { greater_than_or_equal_to: 0 }, if: -> { price.present? }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id name pressure price shape size weight]
+    %w[id name]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[formula]
+    %w[formula productable]
   end
 
   private
     def set_name
-      if shape.present? && size.present? && formula_name.present? && pressure.present?
-        combined_name = [ shape, size, formula_name, pressure ].join
-        self.name = combined_name.gsub(" ", "")
-      end
+      self.name = productable.name unless productable&.name.nil?
     end
 
     def name_is_unique
@@ -42,14 +36,20 @@ end
 #
 # Table name: products
 #
-#  id         :bigint           not null, primary key
-#  name       :string
-#  pressure   :string
-#  price      :decimal(, )
-#  shape      :string
-#  size       :string
-#  weight     :decimal(, )
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  formula_id :integer
+#  id               :bigint           not null, primary key
+#  current_stock    :integer          default(0), not null
+#  description      :text
+#  max_stock        :integer          default(0), not null
+#  min_stock        :integer          default(0), not null
+#  name             :string
+#  pressure         :string
+#  price            :decimal(, )
+#  productable_type :string
+#  shape            :string
+#  size             :string
+#  weight           :decimal(, )
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  formula_id       :integer
+#  productable_id   :integer
 #

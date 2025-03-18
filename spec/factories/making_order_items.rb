@@ -1,17 +1,21 @@
 FactoryBot.define do
   factory :making_order_item do
-    making_order
-    product
     quantity { 1 }
+    product
+    making_order
+
+    trait :with_making_order do
+      transient do
+        formula { association :formula, :with_items }
+      end
+      making_order { association :making_order, formula: formula, making_order_items: [ instance ] }
+    end
 
     trait :with_product do
       transient do
-        product { create(:product, formula: making_order.formula) }
+        formula { making_order.formula }
       end
-
-      after(:build) do |making_order_item, evaluator|
-        making_order_item.product = evaluator.product
-      end
+      product { association :manufactured_productable, formula: formula }
     end
   end
 end

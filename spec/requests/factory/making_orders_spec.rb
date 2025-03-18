@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "/factory/making_orders", type: :request do
-  let(:product) { create(:product, formula: formula) }
   let(:formula) { create(:formula, :with_items) }
+  let(:product) { create(:manufactured_productable, formula: formula) }
 
   let(:valid_attributes) {
     {

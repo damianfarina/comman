@@ -6,7 +6,7 @@ module Factory
 
     # GET /products or /products.json
     def index
-      @q = Product.includes(:formula).ransack(params[:q] || default_sort)
+      @q = Product.manufactured_products.includes(:formula).ransack(params[:q] || default_sort)
       @products = @q.result.page(params[:page])
     end
 
@@ -16,7 +16,7 @@ module Factory
 
     # GET /products/new
     def new
-      @product = Product.new
+      @product = Product.new(productable: ManufacturedProduct.new)
     end
 
     # GET /products/1/edit
@@ -25,10 +25,13 @@ module Factory
 
     # POST /products or /products.json
     def create
-      @product = Product.new(product_params)
+      @product = Product.new(
+        **product_params,
+        productable: ManufacturedProduct.new(manufactured_product_params),
+      )
 
       respond_to do |format|
-        if @product.save
+        if @product.save(context: :factory)
           format.html { redirect_to factory_product_path(@product), notice: "Product was successfully created." }
           format.json { render :show, status: :created, location: @product }
         else
@@ -40,8 +43,11 @@ module Factory
 
     # PATCH/PUT /products/1 or /products/1.json
     def update
+      @product.assign_attributes(product_params)
+      @product.productable.assign_attributes(manufactured_product_params)
+
       respond_to do |format|
-        if @product.update(product_params)
+        if @product.save(context: :factory)
           format.html { redirect_to factory_product_path(@product), notice: "Product was successfully updated." }
           format.json { render :show, status: :ok, location: @product }
         else
@@ -67,7 +73,24 @@ module Factory
       end
 
       def product_params
-        params.expect(product: [ :name, :price, :formula_id, :shape, :size, :weight, :pressure ])
+        params.expect(product: [
+          :current_stock,
+          :description,
+          :max_stock,
+          :min_stock,
+        ])
+      end
+
+      def manufactured_product_params
+        params
+          .require(:product)
+          .expect(productable_attributes: [
+            :formula_id,
+            :pressure,
+            :shape,
+            :size,
+            :weight,
+          ])
       end
 
       def default_sort

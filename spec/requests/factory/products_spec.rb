@@ -1,26 +1,42 @@
 require 'rails_helper'
 
-RSpec.describe "/products", type: :request do
-  let(:formula) { create(:formula, :with_items, abrasive: "A", grain: "B", hardness: "C", porosity: "D", alloy: "E") }
+RSpec.describe "/factory/products", type: :request do
+  let(:formula) do
+    create(
+      :formula,
+      :with_items,
+      abrasive: "A",
+      grain: "B",
+      hardness: "C",
+      porosity: "D",
+      alloy: "E",
+    )
+  end
   let(:valid_attributes) {
     {
-      price: 10.0,
-      formula_id: formula.id,
-      shape: "RR",
-      size: "250x100x50",
-      weight: 10.0,
-      pressure: "G100",
+      current_stock: 5,
+      productable_type: "ManufacturedProduct",
+      productable_attributes: {
+        formula_id: formula.id,
+        shape: "RR",
+        size: "250x100x50",
+        weight: 10.0,
+        pressure: "G100",
+      },
     }
   }
 
   let(:invalid_attributes) {
     {
-      price: "FREE",
-      formula_id: formula.id,
-      shape: "RR",
-      size: "150x100x50",
-      weight: "HEAVY",
-      pressure: "G100",
+      current_stock: "Nothing left",
+      productable_type: "ManufacturedProduct",
+      productable_attributes: {
+        formula_id: formula.id,
+        shape: "RR",
+        size: "150x100x50",
+        weight: "HEAVY",
+        pressure: "G100",
+      },
     }
   }
 
@@ -28,14 +44,33 @@ RSpec.describe "/products", type: :request do
 
   describe "GET /index" do
     it "renders a successful response" do
-      Product.create! valid_attributes
+      create(:manufactured_productable)
       get factory_products_url
       expect(response).to be_successful
     end
 
     context "with IdSearchQueryProcessor" do
-      let!(:product1) { create(:product, id: 1234, shape: "RR", size: "250x100x50", weight: 10.0, pressure: "G100", formula: formula) }
-      let!(:product2) { create(:product, id: 5678, shape: "SQ", size: "300x150x75", weight: 12.5, pressure: "G120", formula: formula) }
+      let!(:product1) do
+        create(
+          :manufactured_productable,
+          id: 1234,
+          formula: formula,
+          pressure: "G100",
+          shape: "RR",
+          size: "250x100x50",
+          weight: 10.0,
+        )
+      end
+      let!(:product2) do
+        create(
+          :manufactured_productable,
+          id: 5678,
+          formula: formula,
+          shape: "SQ",
+          pressure: "G120",
+          size: "300x150x75", weight: 12.5,
+        )
+      end
 
       context "when params[:q] contains id_or_name_cont with #1234" do
         it "filters by ID" do
@@ -81,7 +116,7 @@ RSpec.describe "/products", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      product = Product.create! valid_attributes
+      product = create(:manufactured_productable)
       get factory_product_url(product)
       expect(response).to be_successful
     end
@@ -96,7 +131,7 @@ RSpec.describe "/products", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
-      product = Product.create! valid_attributes
+      product = create(:manufactured_productable)
       get edit_factory_product_url(product)
       expect(response).to be_successful
     end
@@ -108,6 +143,7 @@ RSpec.describe "/products", type: :request do
         expect {
           post factory_products_url, params: { product: valid_attributes }
         }.to change(Product, :count).by(1)
+        .and change(ManufacturedProduct, :count).by(1)
       end
 
       it "redirects to the created product" do
@@ -121,6 +157,7 @@ RSpec.describe "/products", type: :request do
         expect {
           post factory_products_url, params: { product: invalid_attributes }
         }.to change(Product, :count).by(0)
+        .and change(ManufacturedProduct, :count).by(0)
       end
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
@@ -134,19 +171,24 @@ RSpec.describe "/products", type: :request do
     context "with valid parameters" do
       let(:new_attributes) {
         {
-          price: 20.0,
+          current_stock: 27,
+          productable_attributes: {
+            formula_id: formula.id,
+            shape: "OO",
+          },
         }
       }
 
       it "updates the requested product" do
-        product = Product.create! valid_attributes
+        product = create(:manufactured_productable)
         patch factory_product_url(product), params: { product: new_attributes }
         product.reload
-        expect(product.price).to eq(20.0)
+        expect(product.current_stock).to eq(27)
+        expect(product.productable.shape).to eq("OO")
       end
 
       it "redirects to the product" do
-        product = Product.create! valid_attributes
+        product = create(:manufactured_productable)
         patch factory_product_url(product), params: { product: new_attributes }
         product.reload
         expect(response).to redirect_to(factory_product_url(product))
@@ -155,7 +197,7 @@ RSpec.describe "/products", type: :request do
 
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        product = Product.create! valid_attributes
+        product = create(:manufactured_productable)
         patch factory_product_url(product), params: { product: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -164,14 +206,15 @@ RSpec.describe "/products", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested product" do
-      product = Product.create! valid_attributes
+      product = create(:manufactured_productable)
       expect {
         delete factory_product_url(product)
       }.to change(Product, :count).by(-1)
+      .and change(ManufacturedProduct, :count).by(-1)
     end
 
     it "redirects to the products list" do
-      product = Product.create! valid_attributes
+      product = create(:manufactured_productable)
       delete factory_product_url(product)
       expect(response).to redirect_to(factory_products_url)
     end
