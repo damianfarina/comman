@@ -29,6 +29,10 @@ export default class extends Controller {
 
   disconnect() {
     document.removeEventListener("click", this._handleClickOutside);
+    if (this.controller) {
+      this.controller.abort();
+      this.controller = null;
+    }
   }
 
   focus() {
@@ -96,6 +100,12 @@ export default class extends Controller {
   }
 
   async filter() {
+    if (this.controller) {
+      this.controller.abort();
+    }
+    this.controller = new AbortController();
+    const signal = this.controller.signal;
+
     this.itemTargets.forEach((item) => item.remove());
     const keyword = this.searchInputTarget.value.toLowerCase();
 
@@ -106,10 +116,21 @@ export default class extends Controller {
     }
 
     const queryParams = { "q[id_or_name_cont]": keyword };
-    const response = await get(this.fetchUrlValue, {
-      query: queryParams,
-      responseKind: "json",
-    });
+    let response;
+    try {
+      response = await get(this.fetchUrlValue, {
+        signal,
+        query: queryParams,
+        responseKind: "json",
+      });
+    } catch (error) {
+      if (error.name === "AbortError") {
+        return;
+      }
+      throw error
+    }
+    this.controller = null;
+    this.itemTargets.forEach((item) => item.remove());
     const items = await response.json;
     items.forEach((item) => {
       this._addItem({ value: item.id, label: item.name });

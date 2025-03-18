@@ -181,10 +181,12 @@ RSpec.describe "/factory/products", type: :request do
 
       it "updates the requested product" do
         product = create(:manufactured_productable)
+
         patch factory_product_url(product), params: { product: new_attributes }
         product.reload
         expect(product.current_stock).to eq(27)
         expect(product.productable.shape).to eq("OO")
+        expect(product.productable.formula_id).to eq(formula.id)
       end
 
       it "redirects to the product" do
