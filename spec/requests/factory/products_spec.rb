@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "/factory/products", type: :request do
-  let(:formula) do
+  let(:formula1) do
     create(
       :formula,
       :with_items,
@@ -12,12 +12,23 @@ RSpec.describe "/factory/products", type: :request do
       alloy: "E",
     )
   end
+  let(:formula2) do
+    create(
+      :formula,
+      :with_items,
+      abrasive: "V",
+      grain: "W",
+      hardness: "X",
+      porosity: "Y",
+      alloy: "Z",
+    )
+  end
   let(:valid_attributes) {
     {
       current_stock: 5,
       productable_type: "ManufacturedProduct",
       productable_attributes: {
-        formula_id: formula.id,
+        formula_id: formula1.id,
         shape: "RR",
         size: "250x100x50",
         weight: 10.0,
@@ -31,7 +42,7 @@ RSpec.describe "/factory/products", type: :request do
       current_stock: "Nothing left",
       productable_type: "ManufacturedProduct",
       productable_attributes: {
-        formula_id: formula.id,
+        formula_id: formula1.id,
         shape: "RR",
         size: "150x100x50",
         weight: "HEAVY",
@@ -43,35 +54,54 @@ RSpec.describe "/factory/products", type: :request do
   before { sign_in create(:user) }
 
   describe "GET /index" do
+    let!(:product1) do
+      create(
+        :manufactured_productable,
+        id: 1234,
+        formula: formula1,
+        pressure: "G100",
+        shape: "RR",
+        size: "250x100x50",
+        weight: 10.0,
+      )
+    end
+    let!(:product2) do
+      create(
+        :manufactured_productable,
+        id: 5678,
+        formula: formula2,
+        shape: "SQ",
+        pressure: "G120",
+        size: "300x150x75",
+        weight: 12.5,
+      )
+    end
+
     it "renders a successful response" do
       create(:manufactured_productable)
       get factory_products_url
       expect(response).to be_successful
     end
 
-    context "with IdSearchQueryProcessor" do
-      let!(:product1) do
-        create(
-          :manufactured_productable,
-          id: 1234,
-          formula: formula,
-          pressure: "G100",
-          shape: "RR",
-          size: "250x100x50",
-          weight: 10.0,
-        )
-      end
-      let!(:product2) do
-        create(
-          :manufactured_productable,
-          id: 5678,
-          formula: formula,
-          shape: "SQ",
-          pressure: "G120",
-          size: "300x150x75", weight: 12.5,
-        )
+    context "sorting" do
+      it "by formula name asc" do
+        get factory_products_url, params: { q: { s: "productable_of_ManufacturedProduct_type_formula_name asc" } }, as: :json
+
+        json_response = JSON.parse(response.body)
+        expect(response).to be_successful
+        expect(json_response.pluck("id")).to eq([ product1.id, product2.id ])
       end
 
+      it "by formula name desc" do
+        get factory_products_url, params: { q: { s: "productable_of_ManufacturedProduct_type_formula_name desc" } }, as: :json
+
+        json_response = JSON.parse(response.body)
+        expect(response).to be_successful
+        expect(json_response.pluck("id")).to eq([ product2.id, product1.id ])
+      end
+    end
+
+    context "with IdSearchQueryProcessor" do
       context "when params[:q] contains id_or_name_cont with #1234" do
         it "filters by ID" do
           get factory_products_url, params: { q: { "id_or_name_cont" => "#1234" } }, as: :json
@@ -173,7 +203,7 @@ RSpec.describe "/factory/products", type: :request do
         {
           current_stock: 27,
           productable_attributes: {
-            formula_id: formula.id,
+            formula_id: formula1.id,
             shape: "OO",
           },
         }
@@ -186,7 +216,7 @@ RSpec.describe "/factory/products", type: :request do
         product.reload
         expect(product.current_stock).to eq(27)
         expect(product.productable.shape).to eq("OO")
-        expect(product.productable.formula_id).to eq(formula.id)
+        expect(product.productable.formula_id).to eq(formula1.id)
       end
 
       it "redirects to the product" do

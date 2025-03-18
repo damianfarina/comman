@@ -19,7 +19,7 @@ class MakingOrder < ApplicationRecord
   before_update :set_formula_dirty, if: -> { self.total_weight_changed? }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id comments mixer_capacity rounds_count state making_order_formula_name total_weight]
+    %w[id comments mixer_capacity rounds_count state making_order_formula_name total_weight created_at]
   end
 
   def self.ransackable_associations(auth_object = nil)

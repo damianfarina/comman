@@ -22,7 +22,7 @@ class FormulaElement < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "id", "name", "stock_level", "infinite" ]
+    [ "id", "name", "current_stock", "stock_level", "infinite" ]
   end
 
   def self.ransackable_associations(auth_object = nil)

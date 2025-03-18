@@ -1,6 +1,8 @@
 class Product < ApplicationRecord
   include Productables
 
+  has_rich_text :description
+
   belongs_to :formula, optional: true # This is optional until manufactured product details refactor is complete
   has_many :making_order_items, dependent: :nullify
 
@@ -12,11 +14,11 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }, if: -> { price.present? }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id name]
+    %w[id name current_stock price created_at]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[formula productable]
+    %w[productable]
   end
 
   private
@@ -38,7 +40,6 @@ end
 #
 #  id               :bigint           not null, primary key
 #  current_stock    :integer          default(0), not null
-#  description      :text
 #  max_stock        :integer          default(0), not null
 #  min_stock        :integer          default(0), not null
 #  name             :string
