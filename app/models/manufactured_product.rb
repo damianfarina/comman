@@ -10,6 +10,14 @@ class ManufacturedProduct < ApplicationRecord
   validates :pressure, :shape, :size, :weight, presence: true
   validates :weight, numericality: { greater_than_or_equal_to: 0 }
 
+  def self.ransackable_attributes(auth_object = nil)
+    [ "formula_id", "id", "pressure", "shape", "size", "updated_at", "weight" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[formula]
+  end
+
   def name
     if shape.present? && size.present? && formula_name.present? && pressure.present?
       combined_name = [ shape, size, formula_name, pressure ].join

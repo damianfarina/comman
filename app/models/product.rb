@@ -12,11 +12,11 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }, if: -> { price.present? }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id name]
+    %w[id name current_stock price created_at]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[formula productable]
+    %w[productable]
   end
 
   private

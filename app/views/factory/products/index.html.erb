@@ -53,10 +53,10 @@
                 <%= sort_link(@q, :name, Product.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
               <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :manufactured_product_formula_name, ManufacturedProduct.human_attribute_name(:formula), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                <%= sort_link(@q, :productable_of_ManufacturedProduct_type_formula_name, ManufacturedProduct.human_attribute_name(:formula), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
               <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :price, Product.human_attribute_name(:price), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
               <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :created_at, Product.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
@@ -76,7 +76,7 @@
                   <%= link_to product.manufactured_product.formula_name, factory_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
                 </td>
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= number_to_currency product.price %>
+                  <%= product.current_stock %>
                 </td>
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
                   <%=l product.created_at, :format => :compact %>

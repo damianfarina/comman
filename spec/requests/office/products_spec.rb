@@ -221,7 +221,7 @@ RSpec.describe "/office/products", type: :request do
         }
         product.reload
         expect(product.current_stock).to eq(1)
-        expect(product.description).to eq("New Description")
+        expect(product.description.body.to_plain_text).to eq("New Description")
         expect(product.max_stock).to eq(3)
         expect(product.min_stock).to eq(2)
         expect(product.name).to eq(original_name)
@@ -253,9 +253,10 @@ RSpec.describe "/office/products", type: :request do
             },
           },
         }
+
         product.reload
         expect(product.current_stock).to eq(1)
-        expect(product.description).to eq("New Description")
+        expect(product.description.body.to_plain_text).to eq("New Description")
         expect(product.max_stock).to eq(3)
         expect(product.min_stock).to eq(2)
         expect(product.name).to eq("New Name")

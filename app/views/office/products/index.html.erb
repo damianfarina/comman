@@ -53,7 +53,7 @@
                 <%= sort_link(@q, :name, Product.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
               <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :product_current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
               <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :price, Product.human_attribute_name(:price), class: "flex justify-center", data: { turbo_action: "advance"}) %>
