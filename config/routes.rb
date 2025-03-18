@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :clients
     get :settings, to: "settings#index"
     resources :discounts, only: %i[ show edit update ]
+    resources :products
   end
 
   namespace :sales do

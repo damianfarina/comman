@@ -1,13 +1,13 @@
 <%= render(
   "common/headings/page",
   breadcrumbs: [
-    { title: t("navigation.dashboard"), path: factory_root_path },
-    { title: t("titles.product.index"), path: factory_products_path },
-    { title: @product.name, path: factory_product_path(@product) },
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.product.index"), path: office_products_path },
+    { title: @product.name, path: office_product_path(@product) },
   ],
   title: @product.name,
   actions: [
-    { label: t("navigation.edit"), path: edit_factory_product_path(@product), method: :get },
+    { label: t("navigation.edit"), path: edit_office_product_path(@product), method: :get },
   ],
 ) %>
 <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-6">
@@ -28,20 +28,10 @@
     <%= render(
       "common/lists/description",
       items: [
-        {
-          label: ManufacturedProduct.human_attribute_name(:formula),
-          block: -> {
-            link_to(factory_formula_path(@product.manufactured_product.formula), class: "font-semibold") do
-              "#{@product.manufactured_product.formula_name} (##{@product.manufactured_product.formula_id})"
-            end
-          },
-        },
-        { label: ManufacturedProduct.human_attribute_name(:shape), value: @product.manufactured_product.shape },
-        { label: ManufacturedProduct.human_attribute_name(:size), value: @product.manufactured_product.size },
-        { label: ManufacturedProduct.human_attribute_name(:weight), value: "#{number_with_precision(@product.manufactured_product.weight)} kg" },
-        { label: ManufacturedProduct.human_attribute_name(:pressure), value: @product.manufactured_product.pressure },
+        { label: Product.human_attribute_name(:price), value: number_to_currency(@product.price) },
       ]
     ) %>
+    <%= render "office/products/productables/#{@product.productable_name}", productable: @product.productable %>
   </div>
   <div>
     <div class="border-b border-light-gray-500 bg-white py-6 mb-6">

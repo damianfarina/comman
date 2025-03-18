@@ -1,4 +1,4 @@
-module Factory
+module Office
   class ProductsController < ApplicationController
     include IdSearchQueryProcessor
 
@@ -6,7 +6,7 @@ module Factory
 
     # GET /products or /products.json
     def index
-      @q = Product.manufactured_products.includes(:formula).ransack(params[:q] || default_sort)
+      @q = Product.ransack(params[:q] || default_sort)
       @products = @q.result.page(params[:page])
     end
 
@@ -16,7 +16,7 @@ module Factory
 
     # GET /products/new
     def new
-      @product = Product.new(productable: ManufacturedProduct.new)
+      @product = Product.new(productable: PurchasedProduct.new)
     end
 
     # GET /products/1/edit
@@ -27,12 +27,12 @@ module Factory
     def create
       @product = Product.new(
         **product_params,
-        productable: ManufacturedProduct.new(manufactured_product_params),
+        productable: PurchasedProduct.new(productable_params(:purchased_product)),
       )
 
       respond_to do |format|
-        if @product.save(context: :factory)
-          format.html { redirect_to factory_product_path(@product), notice: "Product was successfully created." }
+        if @product.save(context: :office)
+          format.html { redirect_to office_product_path(@product), notice: "Product was successfully created." }
           format.json { render :show, status: :created, location: @product }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -44,11 +44,11 @@ module Factory
     # PATCH/PUT /products/1 or /products/1.json
     def update
       @product.assign_attributes(product_params)
-      @product.productable.assign_attributes(manufactured_product_params)
+      @product.productable.assign_attributes(productable_params(@product.productable_name))
 
       respond_to do |format|
-        if @product.save(context: :factory)
-          format.html { redirect_to factory_product_path(@product), notice: "Product was successfully updated." }
+        if @product.save(context: :office)
+          format.html { redirect_to office_product_path(@product), notice: "Product was successfully updated." }
           format.json { render :show, status: :ok, location: @product }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -62,7 +62,7 @@ module Factory
       @product.destroy!
 
       respond_to do |format|
-        format.html { redirect_to factory_products_path, status: :see_other, notice: "Product was successfully destroyed." }
+        format.html { redirect_to office_products_path, status: :see_other, notice: "Product was successfully destroyed." }
         format.json { head :no_content }
       end
     end
@@ -78,19 +78,28 @@ module Factory
           :description,
           :max_stock,
           :min_stock,
+          :name,
+          :price,
         ])
       end
 
+      def purchased_product_params
+        params.require(:product).expect(productable_attributes: [ :base_cost ])
+      end
+
       def manufactured_product_params
-        params
-          .require(:product)
-          .expect(productable_attributes: [
-            :formula_id,
-            :pressure,
-            :shape,
-            :size,
-            :weight,
-          ])
+        {}
+      end
+
+      def productable_params(productable_name)
+        case productable_name.to_sym
+        when :purchased_product
+          purchased_product_params
+        when :manufactured_product
+          manufactured_product_params
+        else
+          {}
+        end
       end
 
       def default_sort

@@ -1,0 +1,10 @@
+<%# locals(:productable) %>
+<%= render(
+  "common/lists/description",
+  items: [
+    { label: ManufacturedProduct.human_attribute_name(:formula), value: productable.formula_name },
+    { label: ManufacturedProduct.human_attribute_name(:shape), value: productable.shape },
+    { label: ManufacturedProduct.human_attribute_name(:size), value: productable.size },
+    { label: ManufacturedProduct.human_attribute_name(:weight), value: "#{number_with_precision productable.weight} kg" },
+  ]
+) %>

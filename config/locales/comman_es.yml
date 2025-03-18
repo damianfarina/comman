@@ -90,7 +90,7 @@ es:
         size: "Dimensiones"
         weight: "Peso"
       purchased_product:
-        base_cost: "Costo base"
+        base_cost: "Costo"
       client:
         id: "ID"
         name: "Nombre"
