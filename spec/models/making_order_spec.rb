@@ -46,4 +46,10 @@ RSpec.describe MakingOrder, type: :model do
       expect(item.consumed_stock_changed?).to eq(false)
     end
   end
+
+  it "converts rich text to plain text" do
+    making_order.comments = ActionText::RichText.new(body: "<p>This <i>is</i> a comment</p>")
+    making_order.save
+    expect(making_order.comments_plain_text).to eq("This is a comment")
+  end
 end

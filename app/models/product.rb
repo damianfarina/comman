@@ -3,6 +3,7 @@ class Product < ApplicationRecord
 
   has_rich_text :description
 
+  # TODO: Remove manufactured product attributes from this model
   belongs_to :formula, optional: true # This is optional until manufactured product details refactor is complete
   has_many :making_order_items, dependent: :nullify
 

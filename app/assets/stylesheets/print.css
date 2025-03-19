@@ -179,4 +179,9 @@ body.A5.landscape .sheet { width: 210mm; height: 147mm }
   .printing .nowrap {
     white-space: nowrap;
   }
+
+  .printing .trix-content ol,
+  .printing .trix-content ul {
+    margin-left: 1rem;
+  }
 }
