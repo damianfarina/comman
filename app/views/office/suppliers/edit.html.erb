@@ -1,0 +1,25 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.supplier.index"), path: office_suppliers_path },
+    { title: @supplier.name, path: office_supplier_path(@supplier) },
+    { title: t("navigation.edit"), path: edit_office_supplier_path(@supplier) },
+  ],
+  title: @supplier.name,
+  options_dropdown: [
+    ->(classes, index:) do
+      button_to(
+        t(:archive, scope: [:actions]),
+        office_supplier_path(@supplier),
+        method: :delete,
+        data: { turbo_confirm: t("messages.are_you_sure") },
+        class: "#{classes} text-red-500",
+      )
+    end
+  ],
+) %>
+
+<div class="w-full">
+  <%= render "form", supplier: @supplier %>
+</div>

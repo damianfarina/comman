@@ -115,7 +115,27 @@ es:
         percentage: "Porcentaje"
         created_at: "Ingresado"
         cash: "Pago Efectivo"
-
+      supplier:
+        tax_type_values:
+          general_regime: "Responsable Inscripto"
+          simplified_regime: "Monotributista"
+          exempt: "Exento"
+        name: "Nombre"
+        tax_identification: "CUIT"
+        email: "Email"
+        phone: "Teléfono"
+        country: "País"
+        province: "Provincia"
+        zipcode: "Código Postal"
+        address: "Dirección"
+        maps_url: "Enlace Mapa"
+        tax_type: "Inscripción Tributaria"
+        updated_at: "Actualizado"
+        created_at: "Ingresado"
+        comments: "Observaciones"
+        bank_name: "Banco"
+        bank_account_number: "Cuenta"
+        routing_number: "CBU"
   messages:
     are_you_sure: "¿Estás seguro?"
     saving: "Guardando..."
@@ -130,31 +150,35 @@ es:
     dashboard: "Tablero"
     new: "Nuevo"
     print: "Imprimir"
+    show_detail: "Ver detalle"
   titles:
-    namespace:
-      index: "Departamentos"
-      office: "Oficina"
-      factory: "Fábrica"
-      sales: "Ventas"
-    making_order:
-      index: "Órdenes de producción"
-      new: "Nueva orden de producción"
-    product:
-      index: "Productos"
-      new: "Nuevo producto"
+    client:
+      index: "Clientes"
+      new: "Nuevo cliente"
+    discount:
+      index: "Descuentos"
     formula:
       index: "Fórmulas"
       new: "Nueva fórmula"
     formula_element:
       index: "Materias primas"
       new: "Nueva materia prima"
-    client:
-      index: "Clientes"
-      new: "Nuevo cliente"
+    making_order:
+      index: "Órdenes de producción"
+      new: "Nueva orden de producción"
+    namespace:
+      index: "Departamentos"
+      office: "Oficina"
+      factory: "Fábrica"
+      sales: "Ventas"
+    product:
+      index: "Productos"
+      new: "Nuevo producto"
     setting:
       index: "Ajustes"
-    discount:
-      index: "Descuentos"
+    supplier:
+      index: "Proveedores"
+      new: "Nuevo proveedor"
   placeholders:
     search_by:
       name: "Buscar por nombre"
