@@ -100,7 +100,7 @@ RSpec.describe "/factory/making_orders", type: :request do
         making_order = MakingOrder.create! valid_attributes
         patch factory_making_order_url(making_order), params: { making_order: new_attributes }
         making_order.reload
-        expect(making_order.comments).to eq("new comment")
+        expect(making_order.comments.to_plain_text).to eq("new comment")
       end
 
       it "redirects to the making_order" do

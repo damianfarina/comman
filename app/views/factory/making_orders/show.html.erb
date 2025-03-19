@@ -27,7 +27,7 @@
         },
         { label: MakingOrder.human_attribute_name(:weight_per_round), value: "#{number_with_precision @making_order.weight_per_round} kg" },
         { label: MakingOrder.human_attribute_name(:rounds_count), value: @making_order.rounds_count },
-        { label: MakingOrder.human_attribute_name(:mixer_capacity), value: number_with_precision(@making_order.mixer_capacity, precision: 1) },
+        { label: MakingOrder.human_attribute_name(:mixer_capacity), value: "#{number_with_precision(@making_order.mixer_capacity, precision: 1)} kg" },
         { label: MakingOrder.human_attribute_name(:comments), value: @making_order.comments },
         { label: MakingOrder.human_attribute_name(:state), value: t("#{@making_order.state}", scope: [:activerecord, :attributes, :making_order, :state_values]) },
         { label: MakingOrder.human_attribute_name(:created_at), value: l(@making_order.created_at, format: :long) },

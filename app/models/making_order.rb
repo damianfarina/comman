@@ -1,4 +1,6 @@
 class MakingOrder < ApplicationRecord
+  has_rich_text :comments
+
   has_one :making_order_formula, dependent: :destroy
   delegate :formula, :formula_id, :formula_name, to: :making_order_formula, allow_nil: true
   has_many :making_order_items, dependent: :destroy
@@ -17,9 +19,10 @@ class MakingOrder < ApplicationRecord
   before_validation :set_rounds_count
   before_validation :set_weight_per_round
   before_update :set_formula_dirty, if: -> { self.total_weight_changed? }
+  before_save :set_comments_plain_text, if: -> { self.comments.present? }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id comments mixer_capacity rounds_count state making_order_formula_name total_weight created_at]
+    %w[id comments_plain_text mixer_capacity rounds_count state making_order_formula_name total_weight created_at]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -53,6 +56,10 @@ class MakingOrder < ApplicationRecord
       self.making_order_formula_items.each { |item| item.consumed_stock_will_change! }
     end
 
+    def set_comments_plain_text
+      self.comments_plain_text = self.comments.to_plain_text
+    end
+
     def products_belongs_to_the_same_formula
       self.making_order_items.each do |item|
         next unless item.changed?
@@ -80,13 +87,13 @@ end
 #
 # Table name: making_orders
 #
-#  id               :bigint           not null, primary key
-#  comments         :text
-#  mixer_capacity   :float            default(60.0)
-#  rounds_count     :integer
-#  state            :integer          default("in_progress")
-#  total_weight     :decimal(, )
-#  weight_per_round :decimal(, )
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                  :bigint           not null, primary key
+#  comments_plain_text :text
+#  mixer_capacity      :float            default(60.0)
+#  rounds_count        :integer
+#  state               :integer          default("in_progress")
+#  total_weight        :decimal(, )
+#  weight_per_round    :decimal(, )
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
