@@ -1,5 +1,6 @@
 class Supplier < ApplicationRecord
-  has_rich_text :comments
+  include HasRichComments
+
   enum :tax_type, general_regime: 0, simplified_regime: 1, exempt: 2
 
   has_many :supplier_products, dependent: :destroy
@@ -10,8 +11,6 @@ class Supplier < ApplicationRecord
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, :tax_identification, uniqueness: true
   validates :tax_type, inclusion: { in: tax_types.keys }
-
-  before_save :set_comments_plain_text, if: -> { self.comments.present? }
 
   def self.ransackable_attributes(auth_object = nil)
     [
@@ -34,12 +33,6 @@ class Supplier < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     []
   end
-
-  private
-
-    def set_comments_plain_text
-      self.comments_plain_text = self.comments.to_plain_text
-    end
 end
 
 # == Schema Information
