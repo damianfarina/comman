@@ -112,9 +112,9 @@ RSpec.describe "/factory/products", type: :request do
         end
       end
 
-      context "when params[:q] contains id_or_description_cont with #5678" do
+      context "when params[:q] contains id_or_comments_cont with #5678" do
         it "filters by ID" do
-          get factory_products_url, params: { q: { "id_or_description_cont" => "#5678" } }, as: :json
+          get factory_products_url, params: { q: { "id_or_comments_cont" => "#5678" } }, as: :json
 
           json_response = JSON.parse(response.body)
           expect(response).to be_successful

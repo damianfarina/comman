@@ -1,4 +1,4 @@
-json.extract! product, :id, :name, :min_stock, :max_stock, :current_stock, :description
+json.extract! product, :id, :name, :min_stock, :max_stock, :current_stock, :comments
 
 json.manufactured_product do
   json.id product.manufactured_product.id

@@ -1,7 +1,6 @@
 class Product < ApplicationRecord
   include Productables
-
-  has_rich_text :description
+  include HasRichComments
 
   # TODO: Remove manufactured product attributes from this model
   belongs_to :formula, optional: true # This is optional until manufactured product details refactor is complete
@@ -39,19 +38,20 @@ end
 #
 # Table name: products
 #
-#  id               :bigint           not null, primary key
-#  current_stock    :integer          default(0), not null
-#  max_stock        :integer          default(0), not null
-#  min_stock        :integer          default(0), not null
-#  name             :string
-#  pressure         :string
-#  price            :decimal(, )
-#  productable_type :string
-#  shape            :string
-#  size             :string
-#  weight           :decimal(, )
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  formula_id       :integer
-#  productable_id   :integer
+#  id                  :bigint           not null, primary key
+#  comments_plain_text :text
+#  current_stock       :integer          default(0), not null
+#  max_stock           :integer          default(0), not null
+#  min_stock           :integer          default(0), not null
+#  name                :string
+#  pressure            :string
+#  price               :decimal(, )
+#  productable_type    :string
+#  shape               :string
+#  size                :string
+#  weight              :decimal(, )
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  formula_id          :integer
+#  productable_id      :integer
 #

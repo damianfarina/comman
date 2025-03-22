@@ -72,9 +72,9 @@ RSpec.describe "/office/products", type: :request do
         end
       end
 
-      context "when params[:q] contains id_or_description_cont with #5678" do
+      context "when params[:q] contains id_or_comments_cont with #5678" do
         it "filters by ID" do
-          get office_products_url, params: { q: { "id_or_description_cont" => "#5678" } }, as: :json
+          get office_products_url, params: { q: { "id_or_comments_cont" => "#5678" } }, as: :json
 
           json_response = JSON.parse(response.body)
           expect(response).to be_successful
@@ -205,7 +205,7 @@ RSpec.describe "/office/products", type: :request do
         patch office_product_url(product), params: {
           product: {
             current_stock: 1,
-            description: "New Description",
+            comments: "New comments",
             max_stock: 3,
             min_stock: 2,
             name: "not allowed",
@@ -221,7 +221,7 @@ RSpec.describe "/office/products", type: :request do
         }
         product.reload
         expect(product.current_stock).to eq(1)
-        expect(product.description.body.to_plain_text).to eq("New Description")
+        expect(product.comments.body.to_plain_text).to eq("New comments")
         expect(product.max_stock).to eq(3)
         expect(product.min_stock).to eq(2)
         expect(product.name).to eq(original_name)
@@ -239,7 +239,7 @@ RSpec.describe "/office/products", type: :request do
         patch office_product_url(product), params: {
           product: {
             current_stock: 1,
-            description: "New Description",
+            comments: "New comments",
             max_stock: 3,
             min_stock: 2,
             name: "New Name",
@@ -256,7 +256,7 @@ RSpec.describe "/office/products", type: :request do
 
         product.reload
         expect(product.current_stock).to eq(1)
-        expect(product.description.body.to_plain_text).to eq("New Description")
+        expect(product.comments.body.to_plain_text).to eq("New comments")
         expect(product.max_stock).to eq(3)
         expect(product.min_stock).to eq(2)
         expect(product.name).to eq("New Name")

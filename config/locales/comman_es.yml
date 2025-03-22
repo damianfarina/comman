@@ -74,7 +74,7 @@ es:
       product:
         created_at: "Ingresado"
         current_stock: "Stock actual"
-        description: "Descripción"
+        comments: "Descripción"
         id: "ID"
         max_stock: "Stock máximo"
         min_stock: "Stock mínimo"

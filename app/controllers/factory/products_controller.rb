@@ -75,7 +75,7 @@ module Factory
       def product_params
         params.expect(product: [
           :current_stock,
-          :description,
+          :comments,
           :max_stock,
           :min_stock,
         ])
