@@ -6,7 +6,8 @@ module Factory
 
     # GET /products or /products.json
     def index
-      @q = Product.manufactured_products.includes(:formula).ransack(params[:q] || default_sort)
+      @q = Product.manufactured_products.includes(:formula).ransack(params[:q])
+      @q.sorts = default_sort if @q.sorts.empty?
       @products = @q.result.page(params[:page])
     end
 
@@ -94,7 +95,7 @@ module Factory
       end
 
       def default_sort
-        { s: "id asc" }
+        [ "id asc" ]
       end
   end
 end

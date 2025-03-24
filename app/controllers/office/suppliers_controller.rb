@@ -6,7 +6,8 @@ module Office
 
     # GET /office/suppliers or /office/suppliers.json
     def index
-      @q = Supplier.ransack(params[:q] || default_sort)
+      @q = Supplier.ransack(params[:q])
+      @q.sorts = default_sort if @q.sorts.empty?
       @suppliers = @q.result.page(params[:page])
     end
 
@@ -88,7 +89,7 @@ module Office
       end
 
       def default_sort
-        { s: "name asc" }
+        [ "name asc" ]
       end
   end
 end

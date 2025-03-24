@@ -4,7 +4,8 @@ module Office
 
     # GET /clients
     def index
-      @q = Client.ransack(params[:q] || default_sort)
+      @q = Client.ransack(params[:q])
+      @q.sorts = default_sort if @q.sorts.empty?
       @clients = @q.result.page(params[:page])
     end
 
@@ -92,7 +93,7 @@ module Office
       end
 
       def default_sort
-        { s: "name asc" }
+        [ "name asc" ]
       end
   end
 end

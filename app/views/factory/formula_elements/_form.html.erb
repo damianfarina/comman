@@ -8,18 +8,17 @@
       </div>
     </div>
     <div class="sm:col-span-6 md:col-span-6 lg:col-span-5 xl:col-span-4">
-      <div class="flex items-center">
-        <%= form.check_box :infinite, data: { controller: "input" }, hidden: true %>
+      <div class="flex items-center" data-controller="common--switch">
+        <%= form.check_box :infinite, "data-common--switch-target": "input", hidden: true %>
         <button
           type="button"
           class="group relative flex h-7 w-14 cursor-pointer rounded-full bg-light-gray p-1 transition-colors duration-200 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-blue data-[checked]:bg-blue"
           role="switch"
-          data-controller="common--switch"
-          data-action="common--switch#toggle"
-          data-common--switch-input-outlet="#formula_element_infinite">
+          data-common--switch-target="button"
+          data-action="common--switch#toggle">
           <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 rounded-full bg-white ring-0 shadow-lg transition duration-200 ease-in-out group-data-[checked]:translate-x-7"></span>
         </button>
-        <span class="ml-3 text-sm" id="formula_element_infinite">
+        <span class="ml-3 text-sm cursor-pointer" data-action="click->common--switch#toggle">
           <span class="font-medium text-gray-900"><%= FormulaElement.human_attribute_name(:infinite) %></span>
         </span>
       </div>

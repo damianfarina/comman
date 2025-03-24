@@ -6,7 +6,8 @@ module Factory
 
     # GET /making_orders or /making_orders.json
     def index
-      @q = MakingOrder.ransack(params[:q] || default_sort)
+      @q = MakingOrder.ransack(params[:q])
+      @q.sorts = default_sort if @q.sorts.empty?
       @making_orders = @q
         .result(distinct: true)
         .joins(:making_order_formula)
@@ -92,7 +93,7 @@ module Factory
       end
 
       def default_sort
-        { s: "id desc" }
+        [ "id desc" ]
       end
   end
 end
