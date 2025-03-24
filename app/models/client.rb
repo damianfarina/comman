@@ -6,7 +6,18 @@ class Client < ApplicationRecord
   validates :tax_identification, presence: true, uniqueness: true
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "id", "address", "client_type", "country", "email", "maps_url", "name", "phone", "province", "tax_identification", "zipcode" ]
+    [
+      "address",
+      "client_type",
+      "country",
+      "email",
+      "id",
+      "name",
+      "phone",
+      "province",
+      "tax_identification",
+      "zipcode",
+    ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -35,4 +46,8 @@ end
 #  zipcode            :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#
+# Indexes
+#
+#  index_clients_on_tax_identification  (tax_identification) UNIQUE
 #

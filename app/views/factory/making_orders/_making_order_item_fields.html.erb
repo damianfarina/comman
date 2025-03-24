@@ -10,7 +10,7 @@
 
     <%= render("common/components/dropdown",
       placeholder: t("helpers.select.prompt", model: Product.model_name.human),
-      input_name: "making_order[making_order_items_attributes][#{ff.index}][product_id]",
+      input_name: ff.field_name(:product_id),
       input_value: making_order_item.product_id,
       search_value: making_order_item&.product_name,
       input_classes: making_order_item.errors.any? ? "ring-red text-xs" : "text-xs",

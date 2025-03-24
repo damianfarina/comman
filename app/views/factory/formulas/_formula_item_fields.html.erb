@@ -10,7 +10,7 @@
 
     <%= render("common/components/dropdown",
       placeholder: t("helpers.select.prompt", model: FormulaElement.model_name.human),
-      input_name: "formula[formula_items_attributes][#{ff.index}][formula_element_id]",
+      input_name: ff.field_name(:formula_element_id),
       input_value: formula_item.formula_element_id,
       search_value: formula_item&.formula_element&.name,
       input_classes: "text-xs #{'ring-red' if formula_item.errors.any?}",

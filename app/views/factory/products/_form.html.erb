@@ -40,7 +40,7 @@
           <div class="mt-2">
             <%= render("common/components/dropdown",
               placeholder: t("helpers.select.prompt", model: Formula.model_name.human),
-              input_name: "product[productable_attributes][formula_id]",
+              input_name: productable_fields.field_name(:formula_id),
               input_value: product.productable.formula_id,
               search_value: product&.productable&.formula_name,
               input_classes: "text-xs #{'ring-red' if product.errors.any?}",
