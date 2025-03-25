@@ -63,7 +63,7 @@
                 <p class="text-sm text-gray-500">Producto ingresado</p>
               </div>
               <div class="whitespace-nowrap text-right text-sm text-gray-500">
-                <time title="<%= l(@product.created_at, format: :compact) %>" datetime="<%= l(@product.created_at, format: :machine) %>"><%= l(@product.created_at.to_date, format: :short) %></time>
+                <time title="<%= l(@product.created_at, format: :default) %>" datetime="<%= l(@product.created_at, format: :machine) %>"><%= l(@product.created_at, format: :short) %></time>
               </div>
             </div>
           </div>
