@@ -18,17 +18,19 @@ module Office
     # GET /products/new
     def new
       @product = Product.new(productable: PurchasedProduct.new)
+      @product.supplier_products.build
     end
 
     # GET /products/1/edit
     def edit
+      @product.supplier_products.build
     end
 
     # POST /products or /products.json
     def create
       @product = Product.new(
+        productable: PurchasedProduct.new,
         **product_params,
-        productable: PurchasedProduct.new(productable_params(:purchased_product)),
       )
 
       respond_to do |format|
@@ -45,7 +47,6 @@ module Office
     # PATCH/PUT /products/1 or /products/1.json
     def update
       @product.assign_attributes(product_params)
-      @product.productable.assign_attributes(productable_params(@product.productable_name))
 
       respond_to do |format|
         if @product.save(context: :office)
@@ -74,33 +75,22 @@ module Office
       end
 
       def product_params
-        params.expect(product: [
-          :current_stock,
+        params.require(:product).permit(
           :comments,
+          :current_stock,
           :max_stock,
           :min_stock,
           :name,
           :price,
-        ])
-      end
-
-      def purchased_product_params
-        params.require(:product).expect(productable_attributes: [ :base_cost ])
-      end
-
-      def manufactured_product_params
-        {}
-      end
-
-      def productable_params(productable_name)
-        case productable_name.to_sym
-        when :purchased_product
-          purchased_product_params
-        when :manufactured_product
-          manufactured_product_params
-        else
-          {}
-        end
+          :supplier_id,
+          supplier_products_attributes: [
+            :id,
+            :code,
+            :price,
+            :supplier_id,
+            :_destroy,
+          ],
+        )
       end
 
       def default_sort

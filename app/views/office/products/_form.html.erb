@@ -12,44 +12,78 @@
       </div>
 
       <div>
+        <%= form.label :price, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.number_field :price, min: 0, step: 0.01, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <%= form.label :current_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :current_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+
+        <div>
+          <%= form.label :min_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :min_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+
+        <div>
+          <%= form.label :max_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :max_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+      </div>
+
+      <div>
         <%= form.label :comments, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
           <%= form.rich_textarea :comments, rows: 4, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
         </div>
       </div>
-
-      <div>
-        <%= form.label :min_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.number_field :min_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-        </div>
-      </div>
-
-      <div>
-        <%= form.label :max_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.number_field :max_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-        </div>
-      </div>
-
-      <div>
-        <%= form.label :current_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.number_field :current_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-        </div>
-      </div>
     </div>
 
     <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
-      <%= form.fields_for :productable, product.productable do |productable_fields| %>
-        <div>
-          <%= form.label :price, class: "block text-sm font-medium leading-6 text-gray-900" %>
-          <div class="mt-2">
-            <%= form.number_field :price, min: 0, step: 0.01, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-          </div>
-        </div>
 
-        <%= render "office/products/productables/#{product.productable_name}_fields", form: productable_fields %>
+      <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+        <div
+          data-controller="common--nested-form"
+          data-common--nested-form-deleted-class="text-red line-through italic"
+        >
+          <div class="border-b border-light-gray-500 bg-white py-6 mb-6">
+            <h3 class="text-base font-semibold text-gray-900"><%= Product.human_attribute_name(:suppliers) %></h3>
+          </div>
+          <!-- Template for new supplier product item -->
+          <template data-common--nested-form-target="template">
+            <%= render(
+              "office/products/supplier_product_item_fields",
+              form: form,
+              supplier_product_item: SupplierProduct.new,
+              child_index: "NEW_RECORD",
+            ) %>
+          </template>
+
+          <div class="grid grid-cols-1 gap-y-8 mb-8" data-common--nested-form-target="container">
+            <% product.supplier_products.each do |item| %>
+              <%= render(
+                "office/products/supplier_product_item_fields",
+                form: form,
+                supplier_product_item: item,
+              ) %>
+            <% end %>
+          </div>
+
+          <button type="button" data-action="common--nested-form#addItem" class="cursor-pointer p-2"><%= heroicon("plus-circle", options: { class: "h-8 w-8 text-blue" }) %></button>
+        </div>
+      </div>
+      <%= form.fields_for :productable, product.productable do |productable_fields| %>
+        <%= render "office/products/productables/#{product.productable_name}_fields", form: productable_fields, productable: product.productable %>
       <% end %>
     </div>
     <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">

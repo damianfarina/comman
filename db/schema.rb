@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_18_210527) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_22_230925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -65,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_210527) do
     t.integer "client_type", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tax_identification"], name: "index_clients_on_tax_identification", unique: true
   end
 
   create_table "discounts", force: :cascade do |t|
@@ -200,10 +201,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_210527) do
     t.integer "current_stock", default: 0, null: false
     t.integer "min_stock", default: 0, null: false
     t.integer "max_stock", default: 0, null: false
+    t.bigint "supplier_id"
+    t.text "comments_plain_text"
+    t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
   create_table "purchased_products", force: :cascade do |t|
-    t.decimal "base_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -217,6 +220,38 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_210527) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "supplier_products", force: :cascade do |t|
+    t.bigint "supplier_id", null: false
+    t.bigint "product_id", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_supplier_products_on_product_id"
+    t.index ["supplier_id"], name: "index_supplier_products_on_supplier_id"
+  end
+
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "tax_identification", null: false
+    t.string "address"
+    t.string "country"
+    t.string "province"
+    t.string "zipcode"
+    t.string "maps_url"
+    t.string "phone"
+    t.string "email"
+    t.string "bank_name"
+    t.string "bank_account_number"
+    t.string "routing_number"
+    t.integer "tax_type", default: 0
+    t.text "comments_plain_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "in_house"
+    t.index ["tax_identification"], name: "index_suppliers_on_tax_identification", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "password_digest", null: false
@@ -228,5 +263,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_210527) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "manufactured_products", "formulas"
+  add_foreign_key "products", "suppliers"
   add_foreign_key "sessions", "users"
+  add_foreign_key "supplier_products", "products"
+  add_foreign_key "supplier_products", "suppliers"
 end

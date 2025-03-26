@@ -14,7 +14,6 @@ FactoryBot.define do
 
   factory :purchased_productable, parent: :product do
     name { Faker::Commerce.product_name }
-    transient { base_cost { Faker::Commerce.price } }
-    productable { association :purchased_product, base_cost: base_cost }
+    productable { association :purchased_product }
   end
 end

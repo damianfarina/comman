@@ -1,0 +1,35 @@
+class SupplierProduct < ApplicationRecord
+  has_rich_text :comments
+
+  belongs_to :supplier
+  belongs_to :product
+
+  validates :price, numericality: { greater_than: 0 }
+  validates :code, uniqueness: { scope: :supplier_id }, allow_nil: true
+
+  delegate :name, to: :supplier, prefix: true, allow_nil: true
+  delegate :name, to: :product, prefix: true, allow_nil: true
+end
+
+# == Schema Information
+#
+# Table name: supplier_products
+#
+#  id          :bigint           not null, primary key
+#  code        :string
+#  price       :decimal(10, 2)   not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  product_id  :bigint           not null
+#  supplier_id :bigint           not null
+#
+# Indexes
+#
+#  index_supplier_products_on_product_id   (product_id)
+#  index_supplier_products_on_supplier_id  (supplier_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (product_id => products.id)
+#  fk_rails_...  (supplier_id => suppliers.id)
+#

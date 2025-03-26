@@ -5,12 +5,14 @@ class Supplier < ApplicationRecord
 
   has_many :supplier_products, dependent: :destroy
   has_many :purchased_products, through: :supplier_products
-  has_many :active_products, class_name: "PurchasedProduct", foreign_key: "main_supplier_id", dependent: :nullify
+  has_many :active_products, class_name: "Product", foreign_key: "supplier_id", dependent: :nullify
+
 
   validates :name, :tax_identification, :phone, :email, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, :tax_identification, uniqueness: true
   validates :tax_type, inclusion: { in: tax_types.keys }
+  validates :in_house, uniqueness: true, if: :in_house?
 
   def self.ransackable_attributes(auth_object = nil)
     [
@@ -46,6 +48,7 @@ end
 #  comments_plain_text :text
 #  country             :string
 #  email               :string
+#  in_house            :boolean
 #  maps_url            :string
 #  name                :string           not null
 #  phone               :string

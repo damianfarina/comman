@@ -7,6 +7,8 @@ es:
           duplicated_formula_elements: "No puede haber materias primas repetidas"
         product:
           name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
+          must_be_supplier: "%{supplier_name} debe ser un proveedor"
+          duplicated_supplier_products: "Hay proveedores repetidos"
         formula_element:
           formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
         making_order:
@@ -28,6 +30,9 @@ es:
       making_order_item:
         one: "Producto"
         other: "Productos"
+      supplier:
+        one: "Proveedor"
+        other: "Proveedores"
     attributes:
       formula_element:
         id: "ID"
@@ -79,8 +84,12 @@ es:
         max_stock: "Stock máximo"
         min_stock: "Stock mínimo"
         name: "Nombre"
+        stock: "Stock (min/max)"
         price: "Precio"
         updated_at: "Actualizado"
+        suppliers: "Proveedores"
+        supplier: "Proveedor principal"
+        main_supplier: "Proveedor principal"
       manufactured_product:
         formula_id: "Fórmula"
         formula: "Fórmula"
@@ -89,8 +98,6 @@ es:
         shape: "Forma"
         size: "Dimensiones"
         weight: "Peso"
-      purchased_product:
-        base_cost: "Costo"
       client:
         id: "ID"
         name: "Nombre"
@@ -139,6 +146,14 @@ es:
   messages:
     are_you_sure: "¿Estás seguro?"
     saving: "Guardando..."
+    no_suppliers: "No hay proveedores"
+    no_clients: "No hay clientes"
+    no_products: "No hay productos"
+    no_formula_elements: "No hay materias primas"
+    no_making_orders: "No hay órdenes de producción"
+    no_discounts: "No hay descuentos"
+    no_formulas: "No hay fórmulas"
+    purchased_products_only: "Sólo productos externos"
   actions:
     archive: "Archivar"
     save: "Guardar"
