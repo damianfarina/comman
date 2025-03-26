@@ -5,6 +5,7 @@ FactoryBot.define do
     bank_name { Faker::Bank.name }
     country { "Argentina" }
     email { Faker::Internet.email }
+    in_house { false }
     maps_url { Faker::Internet.url }
     name { Faker::Company.name }
     phone { Faker::PhoneNumber.cell_phone }

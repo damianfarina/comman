@@ -13,6 +13,9 @@ es:
           formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
         making_order:
           products_formula_is_different: "Algunos productos no tienen la misma fórmula"
+        supplier:
+          no_in_house_deletion: "No se puede eliminar el proveedor interno"
+          immutable_in_house_attributes: "No se puede modificar este atributo del proveedor interno"
     models:
       formula_element: "Materia prima"
       formula_item:

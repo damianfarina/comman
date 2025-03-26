@@ -24,4 +24,31 @@ RSpec.describe Supplier, type: :model do
     expect(product.supplier).to eq(suppliers.last)
     expect(product.main_supplier).to eq(suppliers.last)
   end
+
+  it "does not allow deleting the in-house supplier" do
+    in_house_supplier = create(:supplier, in_house: true)
+    expect { in_house_supplier.destroy }.not_to change(Supplier, :count)
+    expect(in_house_supplier.errors[:base]).to include("No se puede eliminar el proveedor interno")
+  end
+
+  context "when updating the in-house supplier" do
+    let(:in_house_supplier) { create(:supplier, in_house: true) }
+
+    it "adds an error to name when trying to change it" do
+      in_house_supplier.name = "New Name"
+      expect(in_house_supplier.save).to be_falsey
+      expect(in_house_supplier.errors[:name]).to include("No se puede modificar este atributo del proveedor interno")
+    end
+
+    it "adds an error to tax_identification when trying to change it" do
+      in_house_supplier.tax_identification = "67890"
+      expect(in_house_supplier.save).to be_falsey
+      expect(in_house_supplier.errors[:tax_identification]).to include("No se puede modificar este atributo del proveedor interno")
+    end
+
+    it "allows updating other fields" do
+      in_house_supplier.update!(email: "factory@example.com")
+      expect(in_house_supplier.reload.email).to eq("factory@example.com")
+    end
+  end
 end

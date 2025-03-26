@@ -7,6 +7,10 @@ class Supplier < ApplicationRecord
   has_many :purchased_products, through: :supplier_products
   has_many :active_products, class_name: "Product", foreign_key: "supplier_id", dependent: :nullify
 
+  scope :in_house, -> { find_by!(in_house: true) }
+
+  before_destroy :prevent_in_house_deletion, if: :in_house?
+  before_update :prevent_in_house_immutable_fields, if: :in_house?
 
   validates :name, :tax_identification, :phone, :email, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -35,6 +39,25 @@ class Supplier < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     []
   end
+
+  private
+
+    def prevent_in_house_deletion
+      errors.add(:base, I18n.t(:no_in_house_deletion, scope: [ :activerecord, :errors, :models, :supplier ]))
+      throw(:abort)
+    end
+
+    def prevent_in_house_immutable_fields
+      if name_changed?
+        errors.add(:name, I18n.t(:immutable_in_house_attributes, scope: [ :activerecord, :errors, :models, :supplier ]))
+      end
+
+      if tax_identification_changed?
+        errors.add(:tax_identification, I18n.t(:immutable_in_house_attributes, scope: [ :activerecord, :errors, :models, :supplier ]))
+      end
+
+      throw(:abort) if errors.any?
+    end
 end
 
 # == Schema Information
