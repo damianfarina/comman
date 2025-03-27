@@ -223,7 +223,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_22_230925) do
   create_table "supplier_products", force: :cascade do |t|
     t.bigint "supplier_id", null: false
     t.bigint "product_id", null: false
-    t.decimal "price", precision: 10, scale: 2, null: false
+    t.decimal "price", precision: 10, scale: 2
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -246,9 +246,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_22_230925) do
     t.string "routing_number"
     t.integer "tax_type", default: 0
     t.text "comments_plain_text"
+    t.boolean "in_house", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "in_house"
     t.index ["tax_identification"], name: "index_suppliers_on_tax_identification", unique: true
   end
 

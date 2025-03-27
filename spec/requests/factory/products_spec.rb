@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "/factory/products", type: :request do
+  let!(:in_house_supplier) { create(:supplier, :in_house) }
   let(:formula1) do
     create(
       :formula,
@@ -182,6 +183,11 @@ RSpec.describe "/factory/products", type: :request do
       end
     end
 
+    it "sets the supplier to in-house" do
+      post factory_products_url, params: { product: valid_attributes }
+      expect(Product.last.main_supplier).to eq(in_house_supplier)
+    end
+
     context "with invalid parameters" do
       it "does not create a new Product" do
         expect {
@@ -199,10 +205,13 @@ RSpec.describe "/factory/products", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let(:product) { create(:manufactured_productable) }
+
       let(:new_attributes) {
         {
           current_stock: 27,
           productable_attributes: {
+            id: product.productable.id,
             formula_id: formula1.id,
             shape: "OO",
           },
@@ -210,8 +219,6 @@ RSpec.describe "/factory/products", type: :request do
       }
 
       it "updates the requested product" do
-        product = create(:manufactured_productable)
-
         patch factory_product_url(product), params: { product: new_attributes }
         product.reload
         expect(product.current_stock).to eq(27)
@@ -220,7 +227,6 @@ RSpec.describe "/factory/products", type: :request do
       end
 
       it "redirects to the product" do
-        product = create(:manufactured_productable)
         patch factory_product_url(product), params: { product: new_attributes }
         product.reload
         expect(response).to redirect_to(factory_product_url(product))

@@ -4,7 +4,7 @@ class SupplierProduct < ApplicationRecord
   belongs_to :supplier
   belongs_to :product
 
-  validates :price, numericality: { greater_than: 0 }
+  validates :price, numericality: { greater_than: 0 }, if: -> { price.present? }
   validates :code, uniqueness: { scope: :supplier_id }, allow_nil: true
 
   delegate :name, to: :supplier, prefix: true, allow_nil: true
@@ -17,7 +17,7 @@ end
 #
 #  id          :bigint           not null, primary key
 #  code        :string
-#  price       :decimal(10, 2)   not null
+#  price       :decimal(10, 2)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  product_id  :bigint           not null

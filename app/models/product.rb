@@ -19,6 +19,7 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }, if: -> { price.present? }
   validate :supplier_must_be_valid
   validate :no_duplicated_supplier_products
+  validate :prevent_removal_of_in_house_supplier_product_for_manufactured
 
   accepts_nested_attributes_for :supplier_products, allow_destroy: true, reject_if: :all_blank
 
@@ -83,6 +84,18 @@ class Product < ApplicationRecord
           end
         end
         errors.add(:base, I18n.t(:duplicated_supplier_products, scope: [ :activerecord, :errors, :models, :product ]))
+      end
+    end
+
+    def prevent_removal_of_in_house_supplier_product_for_manufactured
+      return unless productable.is_a?(ManufacturedProduct)
+
+      supplier_products.each do |sp|
+        next unless sp.marked_for_destruction?
+        if sp.supplier&.in_house?
+          sp.errors.add(:base, I18n.t(:manufactured_in_house, scope: [ :activerecord, :errors, :models, :product ]))
+          errors.add(:base, I18n.t(:manufactured_in_house, scope: [ :activerecord, :errors, :models, :product ]))
+        end
       end
     end
 end

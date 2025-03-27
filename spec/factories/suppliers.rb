@@ -14,5 +14,9 @@ FactoryBot.define do
     tax_identification { Faker::Company.ein }
     tax_type { [ :simplified_regime, :general_regime ].sample }
     zipcode { Faker::Address.zip_code }
+
+    trait :in_house do
+      in_house { true }
+    end
   end
 end

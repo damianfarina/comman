@@ -9,6 +9,7 @@ es:
           name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
           must_be_supplier: "%{supplier_name} debe ser un proveedor"
           duplicated_supplier_products: "Hay proveedores repetidos"
+          manufactured_in_house: "No se puede quitar el proveedor de un producto interno"
         formula_element:
           formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
         making_order:
@@ -16,6 +17,10 @@ es:
         supplier:
           no_in_house_deletion: "No se puede eliminar el proveedor interno"
           immutable_in_house_attributes: "No se puede modificar este atributo del proveedor interno"
+        supplier_product:
+          attributes:
+            price:
+              not_a_number: "debe ser un número"
     models:
       formula_element: "Materia prima"
       formula_item:
@@ -93,6 +98,17 @@ es:
         suppliers: "Proveedores"
         supplier: "Proveedor principal"
         main_supplier: "Proveedor principal"
+        productable: "Producto"
+        supplier_products: "Proveedores"
+      productable/product/supplier_products:
+        price: "Precio del proveedor"
+      product/supplier_products:
+        price: "Precio del proveedor"
+      supplier_product:
+        price: "Precio"
+        code: "Código"
+        supplier: "Proveedor"
+        product: "Producto"
       manufactured_product:
         formula_id: "Fórmula"
         formula: "Fórmula"
@@ -204,3 +220,19 @@ es:
       comments_formula: "Buscar por observaciones o fórmula"
       name_or_email_or_phone_or_province_or_address_cont: "Buscar por nombre, email, teléfono, provincia o dirección"
 
+  office:
+    products:
+      create:
+        success: "Producto creado"
+      update:
+        success: "Producto actualizado"
+      destroy:
+        success: "Producto eliminado"
+  factory:
+    products:
+      create:
+        success: "Producto creado"
+      update:
+        success: "Producto actualizado"
+      destroy:
+        success: "Producto eliminado"

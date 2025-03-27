@@ -29,13 +29,13 @@ module Office
     # POST /products or /products.json
     def create
       @product = Product.new(
-        productable: PurchasedProduct.new,
         **product_params,
+        productable: PurchasedProduct.new,
       )
 
       respond_to do |format|
         if @product.save(context: :office)
-          format.html { redirect_to office_product_path(@product), notice: "Product was successfully created." }
+          format.html { redirect_to office_product_path(@product), notice: t(".success") }
           format.json { render :show, status: :created, location: @product }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -50,7 +50,7 @@ module Office
 
       respond_to do |format|
         if @product.save(context: :office)
-          format.html { redirect_to office_product_path(@product), notice: "Product was successfully updated." }
+          format.html { redirect_to office_product_path(@product), notice: t(".success") }
           format.json { render :show, status: :ok, location: @product }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -64,7 +64,7 @@ module Office
       @product.destroy!
 
       respond_to do |format|
-        format.html { redirect_to office_products_path, status: :see_other, notice: "Product was successfully destroyed." }
+        format.html { redirect_to office_products_path, status: :see_other, notice: t(".success") }
         format.json { head :no_content }
       end
     end

@@ -27,7 +27,7 @@
     </div>
   </div>
   <div>
-    <div class="overflow-hidden bg-white-100 shadow-sm sm:rounded-lg">
+    <div class="overflow-hidden mb-6 bg-white-100 shadow-sm sm:rounded-lg">
       <div class="px-4 py-6 sm:px-6">
         <h3 class="text-base/6 font-semibold text-gray-900"><%= Product.human_attribute_name(:suppliers) %></h3>
       </div>
@@ -63,8 +63,8 @@
         </div>
       <% end %>
     </div>
+    <%= render "office/products/productables/#{@product.productable_name}", productable: @product.productable %>
   </div>
-  <%= render "office/products/productables/#{@product.productable_name}", productable: @product.productable %>
   <div>
     <div class="border-b border-light-gray-500 bg-white py-6 mb-6">
       <h3 class="text-base font-semibold text-gray-900">Historial de cambios</h3>

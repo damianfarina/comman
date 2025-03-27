@@ -71,7 +71,7 @@ end
 #  comments_plain_text :text
 #  country             :string
 #  email               :string
-#  in_house            :boolean
+#  in_house            :boolean          default(FALSE)
 #  maps_url            :string
 #  name                :string           not null
 #  phone               :string
