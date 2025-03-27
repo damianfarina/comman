@@ -57,12 +57,14 @@ class Formula < ApplicationRecord
 
     def no_duplicated_formula_elements
       element_ids = formula_items.reject(&:marked_for_destruction?).map(&:formula_element_id)
-      duplicates = element_ids.select { |id| element_ids.count(id) > 1 }.uniq
+      duplicate_ids = element_ids.select { |id| element_ids.count(id) > 1 }.uniq
 
-      if duplicates.any?
+      if duplicate_ids.any?
         formula_items.each do |item|
-          if duplicates.include?(item.formula_element_id) && !item.marked_for_destruction?
-          item.errors.add(:base, I18n.t(:duplicated_formula_elements, scope: [ :activerecord, :errors, :models, :formula ]))
+          if duplicate_ids.include?(item.formula_element_id) && !item.marked_for_destruction?
+            item
+              .errors
+              .add(:base, I18n.t(:duplicated_formula_elements, scope: [ :activerecord, :errors, :models, :formula ]))
           end
         end
         errors.add(:base, I18n.t(:duplicated_formula_elements, scope: [ :activerecord, :errors, :models, :formula ]))

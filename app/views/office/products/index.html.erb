@@ -21,16 +21,16 @@
           controller: "common--submit-debounce",
           action: "input->common--submit-debounce#submit",
         },
-        class: "w-full max-w-lg lg:max-w-xs",
-      ) do |f| %>
-        <%= f.label :id_or_name_cont, t("placeholders.search_by.name"), class: "sr-only" %>
+        class: "flex-1 flex gap-4",
+      ) do |form| %>
+        <%= form.label :id_or_name_cont, t("placeholders.search_by.name"), class: "sr-only" %>
         <div class="relative text-gray-300 focus-within:text-gray">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
               <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
             </svg>
           </div>
-          <%= f.search_field(
+          <%= form.search_field(
             :id_or_name_cont,
             autofocus: true,
             autocomplete: "off",
@@ -38,54 +38,76 @@
             placeholder: t("placeholders.search_by.name"),
           ) %>
         </div>
+        <div class="flex items-center" data-controller="common--switch">
+          <%= form.check_box :productable_type_eq, { "data-common--switch-target": "input", hidden: true }, PurchasedProduct.name, nil %>
+          <button
+            type="button"
+            class="group relative flex h-7 w-14 cursor-pointer rounded-full bg-light-gray p-1 transition-colors duration-200 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-blue data-[checked]:bg-blue"
+            role="switch"
+            data-common--switch-target="button"
+            data-action="common--switch#toggle">
+            <span aria-hidden="true" class="pointer-events-none inline-block size-5 translate-x-0 rounded-full bg-white ring-0 shadow-lg transition duration-200 ease-in-out group-data-[checked]:translate-x-7"></span>
+          </button>
+          <span class="ml-3 text-sm cursor-pointer" data-action="click->common--switch#toggle">
+            <span class="font-medium text-gray-900"><%= t("messages.purchased_products_only") %></span>
+          </span>
+        </div>
       <% end %>
     </div>
 
     <%= turbo_frame_tag "products_table" do %>
-      <div class="inline-block min-w-full py-2 align-middle">
-        <table id="formulas" class="min-w-full divide-y divide-light-gray-900">
-          <thead>
-            <tr>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :id, Product.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :name, Product.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :price, Product.human_attribute_name(:price), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :created_at, Product.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-light-gray">
-            <% @products.each do |product| %>
-              <tr class="hover:bg-light-gray-50">
-                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-900">
-                  <%= link_to product.id, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
-                </td>
-                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= link_to product.name, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
-                </td>
-                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= link_to product.current_stock, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
-                </td>
-                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= number_to_currency product.price %>
-                </td>
-                <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%=l product.created_at, :format => :compact %>
-                </td>
+      <% if @products.any? %>
+        <div class="inline-block min-w-full py-2 align-middle">
+          <table id="formulas" class="min-w-full divide-y divide-light-gray-900">
+            <thead>
+              <tr>
+                <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :id, Product.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :name, Product.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :price, Product.human_attribute_name(:price), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :created_at, Product.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="divide-y divide-light-gray">
+              <% @products.each do |product| %>
+                <tr class="hover:bg-light-gray-50">
+                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-900">
+                    <%= link_to product.id, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
+                  </td>
+                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= link_to product.name, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
+                  </td>
+                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= link_to product.current_stock, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
+                  </td>
+                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= number_to_currency product.price %>
+                  </td>
+                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%=l product.created_at, :format => :compact %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
       </div>
+      <% else %>
+        <div class="flex items-center justify-center h-96">
+          <p class="px-4 py-6 sm:px-6 text-sm/6 text-light-gray-700 italic">
+            <%= t("messages.no_products") %>
+          </p>
+        </div>
+      <% end %>
       <%= paginate @products, total_count: @products.total_count %>
     <% end %>
   </div>

@@ -8,3 +8,12 @@
     { label: ManufacturedProduct.human_attribute_name(:weight), value: "#{number_with_precision productable.weight} kg" },
   ]
 ) %>
+<div class="mt-6 overflow-hidden rounded-lg bg-white-100 shadow-sm">
+  <div class="px-4 py-5 sm:p-6">
+    <p class="text-sm text-gray-300 text-pretty">
+      Este producto es fabricado por Unibras.
+      Para cambiar los parámetros de fabricación vaya a
+      <%= link_to "fábrica", factory_product_path(productable.product), class: "text-gray-900 hover:text-gray" %>
+    </p>
+  </div>
+</div>

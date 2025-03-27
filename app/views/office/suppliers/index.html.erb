@@ -1,0 +1,100 @@
+<%= render "common/headings/page",
+  title: t("titles.supplier.index"),
+  actions: [
+    { label: t("navigation.new"), path: new_office_supplier_path, method: :get },
+  ],
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.supplier.index"), path: office_suppliers_path },
+  ] %>
+
+<div class="w-full">
+  <div class="mt-8 flow-root">
+    <div class="flex flex-1">
+      <%= search_form_for(
+        @q,
+        url: office_suppliers_path,
+        method: :get,
+        data: {
+          turbo_frame: "suppliers_table",
+          turbo_action: "advance",
+          controller: "common--submit-debounce",
+          action: "input->common--submit-debounce#submit",
+        },
+        class: "w-full max-w-lg lg:max-w-xs",
+      ) do |f| %>
+        <%= f.label :id_or_name_or_email_or_phone_or_province_or_address_or_country_or_zipcode_or_bank_name_or_bank_account_number_or_comments_plain_text_or_routing_number_or_tax_identification_cont, t("placeholders.search_by.name_or_email_or_phone_or_province_or_address_cont"), class: "sr-only" %>
+        <div class="relative text-gray-300 focus-within:text-gray">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.search_field(
+            :id_or_name_or_email_or_phone_or_province_or_address_or_country_or_zipcode_or_bank_name_or_bank_account_number_or_comments_plain_text_or_routing_number_or_tax_identification_cont,
+            autofocus: true,
+            autocomplete: "off",
+            class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+            placeholder: t("placeholders.search_by.name_or_email_or_phone_or_province_or_address_cont"),
+          ) %>
+        </div>
+      <% end %>
+      </div>
+
+    <%= turbo_frame_tag "suppliers_table" do %>
+      <div class="inline-block min-w-full py-2 align-middle">
+        <table id="suppliers" class="min-w-full divide-y divide-light-gray-900">
+          <thead>
+            <tr>
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :id, Supplier.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :name, Supplier.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="hidden md:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :address, Supplier.human_attribute_name(:address), class: "flex", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :province, Supplier.human_attribute_name(:province), class: "flex", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="hidden md:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :email, Supplier.human_attribute_name(:email), class: "flex", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :tax_type, Supplier.human_attribute_name(:tax_type), class: "flex", data: { turbo_action: "advance"}) %>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-light-gray">
+            <% @suppliers.each do |supplier| %>
+              <tr id="<%= dom_id supplier %>">
+                <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
+                  <%= link_to supplier.id, office_supplier_path(supplier), data: { turbo_frame: "_top" } %>
+                </td>
+                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
+                  <%= link_to office_supplier_path(supplier), data: { turbo_frame: "_top" } do %>
+                    <span class="sr-only"><%= t("show_detail", scope: ["navigation"] ) %>r </span><span><%= supplier.name %></span>
+                  <% end %>
+                </td>
+                  <td class="hidden md:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                  <%= supplier.address %>
+                </td>
+                <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                  <%= supplier.province %>
+                </td>
+                <td class="hidden md:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                  <%= supplier.email %>
+                </td>
+                <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                  <%= t("#{supplier.tax_type}", scope: [:activerecord, :attributes, :supplier, :tax_type_values]) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= paginate @suppliers, total_count: @suppliers.total_count %>
+    <% end %>
+  </div>
+</div>

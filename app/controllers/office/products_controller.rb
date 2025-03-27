@@ -6,7 +6,8 @@ module Office
 
     # GET /products or /products.json
     def index
-      @q = Product.ransack(params[:q] || default_sort)
+      @q = Product.ransack(params[:q])
+      @q.sorts = default_sort if @q.sorts.empty?
       @products = @q.result.page(params[:page])
     end
 
@@ -17,22 +18,24 @@ module Office
     # GET /products/new
     def new
       @product = Product.new(productable: PurchasedProduct.new)
+      @product.supplier_products.build
     end
 
     # GET /products/1/edit
     def edit
+      @product.supplier_products.build
     end
 
     # POST /products or /products.json
     def create
       @product = Product.new(
         **product_params,
-        productable: PurchasedProduct.new(productable_params(:purchased_product)),
+        productable: PurchasedProduct.new,
       )
 
       respond_to do |format|
         if @product.save(context: :office)
-          format.html { redirect_to office_product_path(@product), notice: "Product was successfully created." }
+          format.html { redirect_to office_product_path(@product), notice: t(".success") }
           format.json { render :show, status: :created, location: @product }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -44,11 +47,10 @@ module Office
     # PATCH/PUT /products/1 or /products/1.json
     def update
       @product.assign_attributes(product_params)
-      @product.productable.assign_attributes(productable_params(@product.productable_name))
 
       respond_to do |format|
         if @product.save(context: :office)
-          format.html { redirect_to office_product_path(@product), notice: "Product was successfully updated." }
+          format.html { redirect_to office_product_path(@product), notice: t(".success") }
           format.json { render :show, status: :ok, location: @product }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -62,7 +64,7 @@ module Office
       @product.destroy!
 
       respond_to do |format|
-        format.html { redirect_to office_products_path, status: :see_other, notice: "Product was successfully destroyed." }
+        format.html { redirect_to office_products_path, status: :see_other, notice: t(".success") }
         format.json { head :no_content }
       end
     end
@@ -73,37 +75,26 @@ module Office
       end
 
       def product_params
-        params.expect(product: [
+        params.require(:product).permit(
+          :comments,
           :current_stock,
-          :description,
           :max_stock,
           :min_stock,
           :name,
           :price,
-        ])
-      end
-
-      def purchased_product_params
-        params.require(:product).expect(productable_attributes: [ :base_cost ])
-      end
-
-      def manufactured_product_params
-        {}
-      end
-
-      def productable_params(productable_name)
-        case productable_name.to_sym
-        when :purchased_product
-          purchased_product_params
-        when :manufactured_product
-          manufactured_product_params
-        else
-          {}
-        end
+          :supplier_id,
+          supplier_products_attributes: [
+            :id,
+            :code,
+            :price,
+            :supplier_id,
+            :_destroy,
+          ],
+        )
       end
 
       def default_sort
-        { s: "id asc" }
+        [ "id asc" ]
       end
   end
 end

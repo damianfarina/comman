@@ -3,14 +3,14 @@
 <% marked_for_destruction = formula_item.persisted? && formula_item.marked_for_destruction? %>
 <div
   data-common--nested-form-target="item" data-item-id="<%= formula_item.id || "" %>"
-  class="grid grid-cols-[1fr_80px_auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
+  class="grid grid-cols-[1fr_100px_auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
 >
   <%= form.fields_for :formula_items, formula_item, child_index: child_index do |ff| %>
     <%= ff.hidden_field :id if formula_item.persisted? %>
 
     <%= render("common/components/dropdown",
       placeholder: t("helpers.select.prompt", model: FormulaElement.model_name.human),
-      input_name: "formula[formula_items_attributes][#{ff.index}][formula_element_id]",
+      input_name: ff.field_name(:formula_element_id),
       input_value: formula_item.formula_element_id,
       search_value: formula_item&.formula_element&.name,
       input_classes: "text-xs #{'ring-red' if formula_item.errors.any?}",

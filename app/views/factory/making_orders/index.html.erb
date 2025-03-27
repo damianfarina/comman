@@ -91,7 +91,7 @@
                   <%= truncate making_order.comments.to_plain_text, :length => 55 %>
                 </td>
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= t("#{making_order.state}", :scope => [:activerecord, :attributes, :making_order, :state_values]) %>
+                  <%= t("#{making_order.state}", scope: [:activerecord, :attributes, :making_order, :state_values]) %>
                 </td>
               </tr>
             <% end %>

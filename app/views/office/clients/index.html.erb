@@ -87,7 +87,7 @@
                   <%= client.email %>
                 </td>
                 <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                  <%= t("#{client.client_type}", :scope => [:activerecord, :attributes, :client, :client_types]) %>
+                  <%= t("#{client.client_type}", scope: [:activerecord, :attributes, :client, :client_type_values]) %>
                 </td>
               </tr>
             <% end %>

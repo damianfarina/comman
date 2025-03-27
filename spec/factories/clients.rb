@@ -9,6 +9,6 @@ FactoryBot.define do
     maps_url { "https://maps.app.goo.gl/eFgrqGj8uBdXsgN87" }
     phone { Faker::PhoneNumber.cell_phone }
     email { Faker::Internet.email }
-    client_type { [ :regular, :distributor ].sample }
+    client_type { [ :regular, :hardware_store, :distributor ].sample }
   end
 end

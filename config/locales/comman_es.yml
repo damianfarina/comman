@@ -7,10 +7,20 @@ es:
           duplicated_formula_elements: "No puede haber materias primas repetidas"
         product:
           name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
+          must_be_supplier: "%{supplier_name} debe ser un proveedor"
+          duplicated_supplier_products: "Hay proveedores repetidos"
+          manufactured_in_house: "No se puede quitar el proveedor de un producto interno"
         formula_element:
           formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
         making_order:
           products_formula_is_different: "Algunos productos no tienen la misma fórmula"
+        supplier:
+          no_in_house_deletion: "No se puede eliminar el proveedor interno"
+          immutable_in_house_attributes: "No se puede modificar este atributo del proveedor interno"
+        supplier_product:
+          attributes:
+            price:
+              not_a_number: "debe ser un número"
     models:
       formula_element: "Materia prima"
       formula_item:
@@ -28,6 +38,9 @@ es:
       making_order_item:
         one: "Producto"
         other: "Productos"
+      supplier:
+        one: "Proveedor"
+        other: "Proveedores"
     attributes:
       formula_element:
         id: "ID"
@@ -74,13 +87,28 @@ es:
       product:
         created_at: "Ingresado"
         current_stock: "Stock actual"
-        description: "Descripción"
+        comments: "Descripción"
         id: "ID"
         max_stock: "Stock máximo"
         min_stock: "Stock mínimo"
         name: "Nombre"
+        stock: "Stock (min/max)"
         price: "Precio"
         updated_at: "Actualizado"
+        suppliers: "Proveedores"
+        supplier: "Proveedor principal"
+        main_supplier: "Proveedor principal"
+        productable: "Producto"
+        supplier_products: "Proveedores"
+      productable/product/supplier_products:
+        price: "Precio del proveedor"
+      product/supplier_products:
+        price: "Precio del proveedor"
+      supplier_product:
+        price: "Precio"
+        code: "Código"
+        supplier: "Proveedor"
+        product: "Producto"
       manufactured_product:
         formula_id: "Fórmula"
         formula: "Fórmula"
@@ -89,8 +117,6 @@ es:
         shape: "Forma"
         size: "Dimensiones"
         weight: "Peso"
-      purchased_product:
-        base_cost: "Costo"
       client:
         id: "ID"
         name: "Nombre"
@@ -115,10 +141,38 @@ es:
         percentage: "Porcentaje"
         created_at: "Ingresado"
         cash: "Pago Efectivo"
-
+      supplier:
+        tax_type_values:
+          general_regime: "Responsable Inscripto"
+          simplified_regime: "Monotributista"
+          exempt: "Exento"
+        name: "Nombre"
+        tax_identification: "CUIT"
+        email: "Email"
+        phone: "Teléfono"
+        country: "País"
+        province: "Provincia"
+        zipcode: "Código Postal"
+        address: "Dirección"
+        maps_url: "Enlace Mapa"
+        tax_type: "Inscripción Tributaria"
+        updated_at: "Actualizado"
+        created_at: "Ingresado"
+        comments: "Observaciones"
+        bank_name: "Banco"
+        bank_account_number: "Cuenta"
+        routing_number: "CBU"
   messages:
     are_you_sure: "¿Estás seguro?"
     saving: "Guardando..."
+    no_suppliers: "No hay proveedores"
+    no_clients: "No hay clientes"
+    no_products: "No hay productos"
+    no_formula_elements: "No hay materias primas"
+    no_making_orders: "No hay órdenes de producción"
+    no_discounts: "No hay descuentos"
+    no_formulas: "No hay fórmulas"
+    purchased_products_only: "Sólo productos externos"
   actions:
     archive: "Archivar"
     save: "Guardar"
@@ -130,31 +184,35 @@ es:
     dashboard: "Tablero"
     new: "Nuevo"
     print: "Imprimir"
+    show_detail: "Ver detalle"
   titles:
-    namespace:
-      index: "Departamentos"
-      office: "Oficina"
-      factory: "Fábrica"
-      sales: "Ventas"
-    making_order:
-      index: "Órdenes de producción"
-      new: "Nueva orden de producción"
-    product:
-      index: "Productos"
-      new: "Nuevo producto"
+    client:
+      index: "Clientes"
+      new: "Nuevo cliente"
+    discount:
+      index: "Descuentos"
     formula:
       index: "Fórmulas"
       new: "Nueva fórmula"
     formula_element:
       index: "Materias primas"
       new: "Nueva materia prima"
-    client:
-      index: "Clientes"
-      new: "Nuevo cliente"
+    making_order:
+      index: "Órdenes de producción"
+      new: "Nueva orden de producción"
+    namespace:
+      index: "Departamentos"
+      office: "Oficina"
+      factory: "Fábrica"
+      sales: "Ventas"
+    product:
+      index: "Productos"
+      new: "Nuevo producto"
     setting:
       index: "Ajustes"
-    discount:
-      index: "Descuentos"
+    supplier:
+      index: "Proveedores"
+      new: "Nuevo proveedor"
   placeholders:
     search_by:
       name: "Buscar por nombre"
@@ -162,3 +220,19 @@ es:
       comments_formula: "Buscar por observaciones o fórmula"
       name_or_email_or_phone_or_province_or_address_cont: "Buscar por nombre, email, teléfono, provincia o dirección"
 
+  office:
+    products:
+      create:
+        success: "Producto creado"
+      update:
+        success: "Producto actualizado"
+      destroy:
+        success: "Producto eliminado"
+  factory:
+    products:
+      create:
+        success: "Producto creado"
+      update:
+        success: "Producto actualizado"
+      destroy:
+        success: "Producto eliminado"

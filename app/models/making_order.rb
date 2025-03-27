@@ -1,5 +1,5 @@
 class MakingOrder < ApplicationRecord
-  has_rich_text :comments
+  include HasRichComments
 
   has_one :making_order_formula, dependent: :destroy
   delegate :formula, :formula_id, :formula_name, to: :making_order_formula, allow_nil: true
@@ -19,7 +19,6 @@ class MakingOrder < ApplicationRecord
   before_validation :set_rounds_count
   before_validation :set_weight_per_round
   before_update :set_formula_dirty, if: -> { self.total_weight_changed? }
-  before_save :set_comments_plain_text, if: -> { self.comments.present? }
 
   def self.ransackable_attributes(auth_object = nil)
     %w[id comments_plain_text mixer_capacity rounds_count state making_order_formula_name total_weight created_at]
@@ -54,10 +53,6 @@ class MakingOrder < ApplicationRecord
 
     def set_formula_dirty
       self.making_order_formula_items.each { |item| item.consumed_stock_will_change! }
-    end
-
-    def set_comments_plain_text
-      self.comments_plain_text = self.comments.to_plain_text
     end
 
     def products_belongs_to_the_same_formula

@@ -17,7 +17,7 @@
       items: [
         { label: Product.human_attribute_name(:id), value: @product.id },
         { label: Product.human_attribute_name(:name), value: @product.name },
-        { label: Product.human_attribute_name(:description), value: @product.description },
+        { label: Product.human_attribute_name(:comments), value: @product.comments },
         { label: Product.human_attribute_name(:min_stock), value: @product.min_stock },
         { label: Product.human_attribute_name(:max_stock), value: @product.max_stock },
         { label: Product.human_attribute_name(:current_stock), value: @product.current_stock },
@@ -63,7 +63,7 @@
                 <p class="text-sm text-gray-500">Producto ingresado</p>
               </div>
               <div class="whitespace-nowrap text-right text-sm text-gray-500">
-                <time title="<%= l(@product.created_at, format: :compact) %>" datetime="<%= l(@product.created_at, format: :machine) %>"><%= l(@product.created_at.to_date, format: :short) %></time>
+                <time title="<%= l(@product.created_at, format: :default) %>" datetime="<%= l(@product.created_at, format: :machine) %>"><%= l(@product.created_at, format: :short) %></time>
               </div>
             </div>
           </div>

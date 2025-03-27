@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "/office/products", type: :request do
+  let(:supplier1) { create(:supplier) }
+  let(:supplier2) { create(:supplier) }
   let(:valid_attributes) {
     {
       current_stock: 5,
@@ -8,10 +10,17 @@ RSpec.describe "/office/products", type: :request do
       min_stock: 5,
       name: "Product Name",
       price: 14.0,
-      productable_type: "PurchasedProduct",
-      productable_attributes: {
-        base_cost: 20.0,
-      },
+      supplier_id: supplier1.id,
+      supplier_products_attributes: [
+        {
+          supplier_id: supplier1.id,
+          price: 14.0,
+        },
+        {
+          supplier_id: supplier2.id,
+          price: 16.0,
+        },
+      ],
     }
   }
 
@@ -21,10 +30,16 @@ RSpec.describe "/office/products", type: :request do
       max_stock: "Ten",
       min_stock: "Five",
       name: nil,
-      productable_type: "PurchasedProduct",
-      productable_attributes: {
-        base_cost: "Twenty",
-      },
+      supplier_products_attributes: [
+        {
+          supplier_id: supplier1.id,
+          price: 14.0,
+        },
+        {
+          supplier_id: supplier1.id,
+          price: 20.0,
+        },
+      ],
     }
   }
 
@@ -41,7 +56,6 @@ RSpec.describe "/office/products", type: :request do
       let!(:product1) do
         create(
           :purchased_productable,
-          base_cost: 20.0,
           id: 1234,
           name: "Purchase One",
         )
@@ -50,7 +64,6 @@ RSpec.describe "/office/products", type: :request do
         create(
           :purchased_productable,
           id: 5678,
-          base_cost: 11.0,
           name: "Free Two",
         )
       end
@@ -72,9 +85,9 @@ RSpec.describe "/office/products", type: :request do
         end
       end
 
-      context "when params[:q] contains id_or_description_cont with #5678" do
+      context "when params[:q] contains id_or_comments_cont with #5678" do
         it "filters by ID" do
-          get office_products_url, params: { q: { "id_or_description_cont" => "#5678" } }, as: :json
+          get office_products_url, params: { q: { "id_or_comments_cont" => "#5678" } }, as: :json
 
           json_response = JSON.parse(response.body)
           expect(response).to be_successful
@@ -159,12 +172,13 @@ RSpec.describe "/office/products", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
+      let(:new_supplier) { create(:supplier) }
       let(:new_attributes) {
         {
           name: "New Product Name",
-          productable_attributes: {
-            base_cost: 55.5,
-          },
+          supplier_products_attributes: [
+            { supplier_id: new_supplier.id, price: 24.0 },
+          ],
         }
       }
 
@@ -173,7 +187,8 @@ RSpec.describe "/office/products", type: :request do
         patch office_product_url(product), params: { product: new_attributes }
         product.reload
         expect(product.name).to eq("New Product Name")
-        expect(product.productable.base_cost).to eq(55.5)
+        expect(product.supplier_products.first.supplier_id).to eq(new_supplier.id)
+        expect(product.supplier_products.first.price).to eq(24.0)
       end
 
       it "redirects to the product" do
@@ -205,12 +220,13 @@ RSpec.describe "/office/products", type: :request do
         patch office_product_url(product), params: {
           product: {
             current_stock: 1,
-            description: "New Description",
+            comments: "New comments",
             max_stock: 3,
             min_stock: 2,
             name: "not allowed",
             price: 66.6,
             productable_attributes: {
+              id: product.productable.id,
               formula_id: 4,
               pressure: "not allowed",
               shape: "not allowed",
@@ -221,7 +237,7 @@ RSpec.describe "/office/products", type: :request do
         }
         product.reload
         expect(product.current_stock).to eq(1)
-        expect(product.description.body.to_plain_text).to eq("New Description")
+        expect(product.comments.body.to_plain_text).to eq("New comments")
         expect(product.max_stock).to eq(3)
         expect(product.min_stock).to eq(2)
         expect(product.name).to eq(original_name)
@@ -233,35 +249,36 @@ RSpec.describe "/office/products", type: :request do
         expect(product.productable.weight).to eq(original_weight)
       end
 
-      it "updates manufactured product allowed attributes" do
+      it "updates purchased product allowed attributes" do
         product = create(:purchased_productable)
 
         patch office_product_url(product), params: {
           product: {
             current_stock: 1,
-            description: "New Description",
+            comments: "New comments",
             max_stock: 3,
             min_stock: 2,
             name: "New Name",
             price: 66.6,
-            productable_attributes: {
-              base_cost: 12.1,
-              pressure: "not allowed",
-              shape: "not allowed",
-              size: "not allowed",
-              weight: "not allowed",
-            },
+            supplier_id: supplier1.id,
+            supplier_products_attributes: [
+              {
+                supplier_id: supplier1.id,
+                price: 46.6,
+                code: "ABC123",
+              },
+            ],
           },
         }
 
         product.reload
         expect(product.current_stock).to eq(1)
-        expect(product.description.body.to_plain_text).to eq("New Description")
+        expect(product.comments.body.to_plain_text).to eq("New comments")
         expect(product.max_stock).to eq(3)
         expect(product.min_stock).to eq(2)
         expect(product.name).to eq("New Name")
         expect(product.price).to eq(66.6)
-        expect(product.productable.base_cost).to eq(12.1)
+        expect(product.supplier_id).to eq(supplier1.id)
       end
     end
   end
