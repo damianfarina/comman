@@ -42,58 +42,66 @@
       </div>
 
     <%= turbo_frame_tag "suppliers_table" do %>
-      <div class="inline-block min-w-full py-2 align-middle">
-        <table id="suppliers" class="min-w-full divide-y divide-light-gray-900">
-          <thead>
-            <tr>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :id, Supplier.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :name, Supplier.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="hidden md:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :address, Supplier.human_attribute_name(:address), class: "flex", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :province, Supplier.human_attribute_name(:province), class: "flex", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="hidden md:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :email, Supplier.human_attribute_name(:email), class: "flex", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :tax_type, Supplier.human_attribute_name(:tax_type), class: "flex", data: { turbo_action: "advance"}) %>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-light-gray">
-            <% @suppliers.each do |supplier| %>
-              <tr id="<%= dom_id supplier %>">
-                <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
-                  <%= link_to supplier.id, office_supplier_path(supplier), data: { turbo_frame: "_top" } %>
-                </td>
-                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
-                  <%= link_to office_supplier_path(supplier), data: { turbo_frame: "_top" } do %>
-                    <span class="sr-only"><%= t("show_detail", scope: ["navigation"] ) %>r </span><span><%= supplier.name %></span>
-                  <% end %>
-                </td>
-                  <td class="hidden md:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                  <%= supplier.address %>
-                </td>
-                <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                  <%= supplier.province %>
-                </td>
-                <td class="hidden md:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                  <%= supplier.email %>
-                </td>
-                <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                  <%= t("#{supplier.tax_type}", scope: [:activerecord, :attributes, :supplier, :tax_type_values]) %>
-                </td>
+      <% if @suppliers.any? %>
+        <div class="inline-block min-w-full py-2 align-middle">
+          <table id="suppliers" class="min-w-full divide-y divide-light-gray-900">
+            <thead>
+              <tr>
+                <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :id, Supplier.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :name, Supplier.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden md:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :address, Supplier.human_attribute_name(:address), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :province, Supplier.human_attribute_name(:province), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden md:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :email, Supplier.human_attribute_name(:email), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :tax_type, Supplier.human_attribute_name(:tax_type), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody class="divide-y divide-light-gray">
+              <% @suppliers.each do |supplier| %>
+                <tr id="<%= dom_id supplier %>">
+                  <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
+                    <%= link_to supplier.id, office_supplier_path(supplier), data: { turbo_frame: "_top" } %>
+                  </td>
+                  <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
+                    <%= link_to office_supplier_path(supplier), data: { turbo_frame: "_top" } do %>
+                      <span class="sr-only"><%= t("show_detail", scope: ["navigation"] ) %>r </span><span><%= supplier.name %></span>
+                    <% end %>
+                  </td>
+                    <td class="hidden md:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= supplier.address %>
+                  </td>
+                  <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= supplier.province %>
+                  </td>
+                  <td class="hidden md:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= supplier.email %>
+                  </td>
+                  <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= t("#{supplier.tax_type}", scope: [:activerecord, :attributes, :supplier, :tax_type_values]) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="flex items-center justify-center h-96">
+          <p class="px-4 py-6 sm:px-6 text-sm/6 text-light-gray-700 italic">
+            <%= t("messages.no_suppliers") %>
+          </p>
+        </div>
+      <% end %>
       <%= paginate @suppliers, total_count: @suppliers.total_count %>
     <% end %>
   </div>

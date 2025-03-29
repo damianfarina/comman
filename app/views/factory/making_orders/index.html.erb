@@ -42,62 +42,70 @@
     </div>
 
     <%= turbo_frame_tag "making_orders_table" do %>
-      <div class="inline-block min-w-full py-2 align-middle">
-        <table id="formulas" class="min-w-full divide-y divide-light-gray-900">
-          <thead>
-            <tr>
-              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :id, MakingOrder.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :created_at, MakingOrder.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :making_order_formula_name, MakingOrder.human_attribute_name(:making_order_formula), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="hidden sm:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group text-center">
-                <%= MakingOrder.human_attribute_name(:making_order_items) %>
-              </th>
-              <th scope="col" class="hidden md:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :total_weight, MakingOrder.human_attribute_name(:total_weight), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-              <th scope="col" class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= MakingOrder.human_attribute_name(:comments) %>
-              </th>
-              <th scope="col" class="hidden xl:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                <%= sort_link(@q, :state, MakingOrder.human_attribute_name(:state), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-light-gray">
-            <% @making_orders.each do |making_order| %>
-              <tr class="hover:bg-light-gray-50">
-                <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-900">
-                  <%= link_to making_order.id, factory_making_order_path(making_order), class: "flex justify-center", data: { turbo_frame: "_top" } %>
-                </td>
-                <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= l(making_order.created_at.to_datetime, format: :compact) %>
-                </td>
-                <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= making_order.making_order_formula.formula_name %>
-                </td>
-                <td class="hidden sm:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= making_order.making_order_items.size %>
-                </td>
-                <td class="hidden md:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= number_with_precision making_order.total_weight %> kg
-                </td>
-                <td class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= truncate making_order.comments.to_plain_text, :length => 55 %>
-                </td>
-                <td class="hidden xl:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
-                  <%= t("#{making_order.state}", scope: [:activerecord, :attributes, :making_order, :state_values]) %>
-                </td>
+      <% if @making_orders.any? %>
+        <div class="inline-block min-w-full py-2 align-middle">
+          <table id="formulas" class="min-w-full divide-y divide-light-gray-900">
+            <thead>
+              <tr>
+                <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :id, MakingOrder.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :created_at, MakingOrder.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :making_order_formula_name, MakingOrder.human_attribute_name(:making_order_formula), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden sm:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group text-center">
+                  <%= MakingOrder.human_attribute_name(:making_order_items) %>
+                </th>
+                <th scope="col" class="hidden md:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :total_weight, MakingOrder.human_attribute_name(:total_weight), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= MakingOrder.human_attribute_name(:comments) %>
+                </th>
+                <th scope="col" class="hidden xl:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :state, MakingOrder.human_attribute_name(:state), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
               </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody class="divide-y divide-light-gray">
+              <% @making_orders.each do |making_order| %>
+                <tr class="hover:bg-light-gray-50">
+                  <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-900">
+                    <%= link_to making_order.id, factory_making_order_path(making_order), class: "flex justify-center", data: { turbo_frame: "_top" } %>
+                  </td>
+                  <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= l(making_order.created_at.to_datetime, format: :compact) %>
+                  </td>
+                  <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= making_order.making_order_formula.formula_name %>
+                  </td>
+                  <td class="hidden sm:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= making_order.making_order_items.size %>
+                  </td>
+                  <td class="hidden md:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= number_with_precision making_order.total_weight %> kg
+                  </td>
+                  <td class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= truncate making_order.comments.to_plain_text, :length => 55 %>
+                  </td>
+                  <td class="hidden xl:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= t("#{making_order.state}", scope: [:activerecord, :attributes, :making_order, :state_values]) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="flex items-center justify-center h-96">
+          <p class="px-4 py-6 sm:px-6 text-sm/6 text-light-gray-700 italic">
+            <%= t("messages.no_making_orders") %>
+          </p>
+        </div>
+      <% end %>
       <%= paginate @making_orders, total_count: @making_orders.total_count %>
     <% end %>
   </div>
