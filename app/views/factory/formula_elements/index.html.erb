@@ -75,7 +75,7 @@
                   <% end %>
                 </td>
                 <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-right">
-                  <%= "#{number_with_precision formula_element.current_stock} kg" unless formula_element.current_stock.blank? %>
+                  <%= "#{number_with_precision formula_element.current_stock} kg" unless formula_element.infinite? %>
                 </td>
                 <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                   <div class="relative w-full bg-light-gray-300 h-4 rounded-md overflow-hidden">

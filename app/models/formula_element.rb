@@ -8,7 +8,6 @@ class FormulaElement < ApplicationRecord
   validates :min_stock, numericality: { greater_than_or_equal_to: 0 }, if: -> { min_stock.present? && !infinite }
   validates :current_stock, numericality: true, if: -> { current_stock.present? && !infinite }
 
-  before_validation :clear_current_stock_if_infinite
   before_destroy :confirm_no_formula_is_associated
 
   ransacker :stock_level do |parent|
@@ -52,10 +51,6 @@ class FormulaElement < ApplicationRecord
           errors.add(:base, I18n.t(:formula_exists, scope: [ :activerecord, :errors, :models, :formula_element ]))
           throw :abort
         end
-      end
-
-      def clear_current_stock_if_infinite
-        self.current_stock = nil if infinite?
       end
 end
 
