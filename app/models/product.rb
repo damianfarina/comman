@@ -28,7 +28,7 @@ class Product < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[productable]
+    %w[productable suppliers]
   end
 
   ransacker :stock_level do |parent|

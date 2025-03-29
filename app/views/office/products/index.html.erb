@@ -24,7 +24,7 @@
         class: "flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4",
       ) do |form| %>
         <div>
-          <%= form.label :id_or_name_cont, t("placeholders.search_by.name"), class: "sr-only" %>
+          <%= form.label :id_or_name_or_suppliers_name_cont, t("placeholders.search_by.name"), class: "sr-only" %>
           <div class="relative text-gray-300 focus-within:text-gray">
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -32,7 +32,7 @@
               </svg>
             </div>
             <%= form.search_field(
-              :id_or_name_cont,
+              :id_or_name_or_suppliers_name_cont,
               autofocus: true,
               autocomplete: "off",
               class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
