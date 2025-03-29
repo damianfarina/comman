@@ -1,5 +1,5 @@
 class Formula < ApplicationRecord
-  has_many :products, dependent: :destroy
+  has_many :manufactured_products, dependent: :destroy
   has_many :formula_items, -> { order(id: :asc) }, dependent: :destroy
   has_many :formula_elements, through: :formula_items
   has_many :making_order_formulas, dependent: :nullify
