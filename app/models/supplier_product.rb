@@ -5,7 +5,7 @@ class SupplierProduct < ApplicationRecord
   belongs_to :product
 
   validates :price, numericality: { greater_than: 0 }, if: -> { price.present? }
-  validates :code, uniqueness: { scope: :supplier_id }, allow_nil: true
+  validates :code, uniqueness: { scope: :supplier_id }, allow_nil: true, if: -> { code.present? }
 
   delegate :name, to: :supplier, prefix: true, allow_nil: true
   delegate :name, to: :product, prefix: true, allow_nil: true

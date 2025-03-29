@@ -93,6 +93,7 @@ es:
         min_stock: "Stock mínimo"
         name: "Nombre"
         stock: "Stock (min/max)"
+        stock_level: "Nivel de stock"
         price: "Precio"
         updated_at: "Actualizado"
         suppliers: "Proveedores"

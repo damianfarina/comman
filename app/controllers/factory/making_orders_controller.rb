@@ -12,6 +12,7 @@ module Factory
         .result(distinct: true)
         .joins(:making_order_formula)
         .includes(:making_order_formula, :making_order_items)
+        .with_rich_text_comments
         .page(params[:page])
     end
 
