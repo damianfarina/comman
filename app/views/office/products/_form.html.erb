@@ -79,7 +79,7 @@
             <% end %>
           </div>
 
-          <button type="button" data-action="common--nested-form#addItem" class="cursor-pointer p-2"><%= heroicon("plus-circle", options: { class: "h-8 w-8 text-blue" }) %></button>
+          <button type="button" data-action="common--nested-form#addItem" class="cursor-pointer"><%= heroicon("plus-circle", options: { class: "h-8 w-8 text-blue" }) %></button>
         </div>
       </div>
       <%= form.fields_for :productable, product.productable do |productable_fields| %>

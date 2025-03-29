@@ -338,6 +338,7 @@ trix-editor .attachment__metadata {
     white-space: nowrap; }
 
 .trix-content {
+  font-size: var(--text-sm);
   line-height: 1.5;
   overflow-wrap: break-word;
   word-break: break-word; }

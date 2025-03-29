@@ -21,22 +21,24 @@
           controller: "common--submit-debounce",
           action: "input->common--submit-debounce#submit",
         },
-        class: "flex-1 flex gap-4",
+        class: "flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4",
       ) do |form| %>
-        <%= form.label :id_or_name_cont, t("placeholders.search_by.name"), class: "sr-only" %>
-        <div class="relative text-gray-300 focus-within:text-gray">
-          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-            </svg>
+        <div>
+          <%= form.label :id_or_name_cont, t("placeholders.search_by.name"), class: "sr-only" %>
+          <div class="relative text-gray-300 focus-within:text-gray">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <%= form.search_field(
+              :id_or_name_cont,
+              autofocus: true,
+              autocomplete: "off",
+              class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+              placeholder: t("placeholders.search_by.name"),
+            ) %>
           </div>
-          <%= form.search_field(
-            :id_or_name_cont,
-            autofocus: true,
-            autocomplete: "off",
-            class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
-            placeholder: t("placeholders.search_by.name"),
-          ) %>
         </div>
         <div class="flex items-center" data-controller="common--switch">
           <%= form.check_box :productable_type_eq, { "data-common--switch-target": "input", hidden: true }, PurchasedProduct.name, nil %>
@@ -64,16 +66,22 @@
                 <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :id, Product.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
-                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :name, Product.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
-                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
-                </th>
-                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <th scope="col" class="hidden sm:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :price, Product.human_attribute_name(:price), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
-                <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden md:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :stock_level, Product.human_attribute_name(:stock_level), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :suppliers, Product.human_attribute_name(:suppliers), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden 2xl:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :created_at, Product.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
               </tr>
@@ -81,26 +89,50 @@
             <tbody class="divide-y divide-light-gray">
               <% @products.each do |product| %>
                 <tr class="hover:bg-light-gray-50">
-                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-900">
+                  <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-900">
                     <%= link_to product.id, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
                   </td>
-                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <td class="px-1 md:px-4 py-3 text-xs md:text-sm text-gray-500 text-center text-wrap">
                     <%= link_to product.name, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
                   </td>
-                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                    <%= link_to product.current_stock, office_product_path(product), class: "flex justify-center", data: { turbo_frame: "_top" } %>
-                  </td>
-                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                  <td class="hidden sm:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
                     <%= number_to_currency product.price %>
                   </td>
-                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                    <%=l product.created_at, :format => :compact %>
+                  <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-gray-500" style="background-color: <%= stock_level_color(product.stock_level) %>;">
+                      <%= product.current_stock %>
+                    </span>
+                  </td>
+                  <td class="hidden md:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500">
+                    <div class="relative w-full bg-light-gray-300 h-4 rounded-md overflow-hidden">
+                      <div
+                        class="absolute h-full rounded-md transition-all flex items-center justify-center text-white font-semibold"
+                        style="width: <%= product.stock_level %>%; background-color: <%= stock_level_color(product.stock_level) %>;">
+                      </div>
+                      <span class="absolute left-0 w-full text-center text-xs">
+                        <%= number_to_percentage(product.stock_level, precision: 0) %>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <div class="flex items-center justify-center gap-1 flex-wrap">
+                      <% product.suppliers.each do |supplier| %>
+                        <%= link_to office_supplier_path(supplier), class: "flex justify-center text-gray-500", data: { turbo_frame: "_top" } do %>
+                          <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-light-gray-100/50 text-gray-100 <%= "bg-light-green-100 text-gray-500" if supplier.id == product.main_supplier.id %>">
+                            <%= supplier.name %>
+                          </span>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </td>
+                  <td class="hidden 2xl:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= l product.created_at, format: :compact %>
                   </td>
                 </tr>
               <% end %>
             </tbody>
           </table>
-      </div>
+        </div>
       <% else %>
         <div class="flex items-center justify-center h-96">
           <p class="px-4 py-6 sm:px-6 text-sm/6 text-light-gray-700 italic">

@@ -176,6 +176,7 @@ RSpec.describe "/office/products", type: :request do
       let(:new_attributes) {
         {
           name: "New Product Name",
+          comments: "<b>New comments</b>",
           supplier_products_attributes: [
             { supplier_id: new_supplier.id, price: 24.0 },
           ],
@@ -187,6 +188,7 @@ RSpec.describe "/office/products", type: :request do
         patch office_product_url(product), params: { product: new_attributes }
         product.reload
         expect(product.name).to eq("New Product Name")
+        expect(product.comments_plain_text).to eq("New comments")
         expect(product.supplier_products.first.supplier_id).to eq(new_supplier.id)
         expect(product.supplier_products.first.price).to eq(24.0)
       end

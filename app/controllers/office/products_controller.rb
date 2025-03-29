@@ -8,7 +8,9 @@ module Office
     def index
       @q = Product.ransack(params[:q])
       @q.sorts = default_sort if @q.sorts.empty?
-      @products = @q.result.page(params[:page])
+      @products = @q.result
+        .includes(:suppliers, :supplier)
+        .page(params[:page])
     end
 
     # GET /products/1 or /products/1.json
@@ -94,7 +96,7 @@ module Office
       end
 
       def default_sort
-        [ "id asc" ]
+        [ "id desc" ]
       end
   end
 end

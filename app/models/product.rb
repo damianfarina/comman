@@ -31,11 +31,32 @@ class Product < ApplicationRecord
     %w[productable]
   end
 
+  ransacker :stock_level do |parent|
+    Arel.sql(
+      "CASE
+        WHEN max_stock = min_stock THEN 100
+        WHEN current_stock <= min_stock THEN 0
+        WHEN current_stock >= max_stock THEN 100
+        ELSE ROUND(((current_stock - min_stock) / NULLIF((max_stock - min_stock), 0.0)) * 100, 2)
+      END"
+    )
+  end
+
+  def stock_level
+    return 100 if max_stock == min_stock
+    return 0 if current_stock <= min_stock
+    return 100 if current_stock >= max_stock
+
+    ratio = (current_stock - min_stock).to_f / (max_stock - min_stock)
+    (ratio * 100).round(2)
+  end
+
   def main_supplier
     supplier || suppliers.first
   end
 
   private
+
     def set_name
       self.name = productable.name unless productable&.name.nil?
     end
@@ -124,7 +145,8 @@ end
 #
 # Indexes
 #
-#  index_products_on_supplier_id  (supplier_id)
+#  index_products_on_productable_type_and_productable_id  (productable_type,productable_id)
+#  index_products_on_supplier_id                          (supplier_id)
 #
 # Foreign Keys
 #
