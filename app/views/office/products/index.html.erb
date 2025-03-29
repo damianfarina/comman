@@ -75,7 +75,13 @@
                 <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
+                <th scope="col" class="hidden md:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :stock_level, Product.human_attribute_name(:stock_level), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
+                <th scope="col" class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :suppliers, Product.human_attribute_name(:suppliers), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden 2xl:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :created_at, Product.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
               </tr>
@@ -96,6 +102,28 @@
                     <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-gray-500" style="background-color: <%= stock_level_color(product.stock_level) %>;">
                       <%= product.current_stock %>
                     </span>
+                  </td>
+                  <td class="hidden md:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500">
+                    <div class="relative w-full bg-light-gray-300 h-4 rounded-md overflow-hidden">
+                      <div
+                        class="absolute h-full rounded-md transition-all flex items-center justify-center text-white font-semibold"
+                        style="width: <%= product.stock_level %>%; background-color: <%= stock_level_color(product.stock_level) %>;">
+                      </div>
+                      <span class="absolute left-0 w-full text-center text-xs">
+                        <%= number_to_percentage(product.stock_level, precision: 0) %>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="hidden lg:table-cell px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <div class="flex items-center justify-center gap-1 flex-wrap">
+                      <% product.suppliers.each do |supplier| %>
+                        <%= link_to office_supplier_path(supplier), class: "flex justify-center text-gray-500", data: { turbo_frame: "_top" } do %>
+                          <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium bg-light-gray-100/50 text-gray-100 <%= "bg-light-green-100 text-gray-500" if supplier.id == product.main_supplier.id %>">
+                            <%= supplier.name %>
+                          </span>
+                        <% end %>
+                      <% end %>
+                    </div>
                   </td>
                   <td class="hidden 2xl:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
                     <%= l product.created_at, format: :compact %>
