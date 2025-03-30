@@ -2,6 +2,11 @@ class Product < ApplicationRecord
   include Productables
   include HasRichComments
 
+  has_one_attached :cover do |attachable|
+    attachable.variant :hero, resize_to_fill: [ 400, 400 ]
+    attachable.variant :thumb, resize_to_fill: [ 100, 100 ]
+  end
+
   has_many :making_order_items, dependent: :nullify
   belongs_to :supplier, optional: true
   has_many :supplier_products

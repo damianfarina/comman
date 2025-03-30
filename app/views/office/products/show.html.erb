@@ -1,11 +1,12 @@
 <%= render(
-  "common/headings/page",
+  "common/headings/page_with_cover",
   breadcrumbs: [
     { title: t("navigation.dashboard"), path: office_root_path },
     { title: t("titles.product.index"), path: office_products_path },
     { title: @product.name, path: office_product_path(@product) },
   ],
   title: @product.name,
+  cover: @product.cover,
   actions: [
     { label: t("navigation.edit"), path: edit_office_product_path(@product), method: :get },
   ],
@@ -19,6 +20,7 @@
         { label: Product.human_attribute_name(:name), value: @product.name },
         { label: Product.human_attribute_name(:price), value: number_to_currency(@product.price) },
         { label: Product.human_attribute_name(:stock), value: "#{@product.current_stock} ( #{@product.min_stock} / #{@product.max_stock} )" },
+        { label: Product.human_attribute_name(:stock_level), value: render("common/products/stock_level", product: @product) },
       ]
     ) %>
     <div class="mb-6 overflow-hidden rounded-lg bg-white-100 shadow-sm px-4 py-5 sm:p-6">

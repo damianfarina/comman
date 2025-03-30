@@ -1,11 +1,12 @@
 <%= render(
-  "common/headings/page",
+  "common/headings/page_with_cover",
   breadcrumbs: [
     { title: t("navigation.dashboard"), path: factory_root_path },
     { title: t("titles.product.index"), path: factory_products_path },
     { title: @product.name, path: factory_product_path(@product) },
   ],
   title: @product.name,
+  cover: @product.cover,
   actions: [
     { label: t("navigation.edit"), path: edit_factory_product_path(@product), method: :get },
   ],
@@ -17,12 +18,14 @@
       items: [
         { label: Product.human_attribute_name(:id), value: @product.id },
         { label: Product.human_attribute_name(:name), value: @product.name },
-        { label: Product.human_attribute_name(:comments), value: @product.comments },
-        { label: Product.human_attribute_name(:min_stock), value: @product.min_stock },
-        { label: Product.human_attribute_name(:max_stock), value: @product.max_stock },
-        { label: Product.human_attribute_name(:current_stock), value: @product.current_stock },
+        { label: Product.human_attribute_name(:stock), value: "#{@product.current_stock} ( #{@product.min_stock} / #{@product.max_stock} )" },
+        { label: Product.human_attribute_name(:stock_level), value: render("common/products/stock_level", product: @product) },
       ]
     ) %>
+    <div class="mb-6 overflow-hidden rounded-lg bg-white-100 shadow-sm px-4 py-5 sm:p-6">
+      <div class="mb-6 text-sm font-medium leading-6 text-gray-100"><%= Product.human_attribute_name(:comments) %></div>
+      <%= @product.comments %>
+    </div>
   </div>
   <div>
     <%= render(
