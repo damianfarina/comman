@@ -33,43 +33,19 @@
         { label: MakingOrder.human_attribute_name(:created_at), value: l(@making_order.created_at, format: :long) },
       ]
     ) %>
-    <div class="border-b border-light-gray-500 py-6 mb-6">
-      <h3 class="text-base font-semibold text-gray-900">Historial de cambios</h3>
-    </div>
-    <ul role="list" class="-mb-8">
-      <li>
-        <div class="relative pb-8">
-          <div class="relative flex space-x-3">
-            <div>
-              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 ring-8 ring-white">
-                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                </svg>
-              </span>
-            </div>
-            <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
-              <div>
-                <p class="text-sm text-gray-500">Orden ingresada</p>
-              </div>
-              <div class="whitespace-nowrap text-right text-sm text-gray-500">
-                <time datetime="2020-10-04">Oct 4</time>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
   </div>
   <div class="flow-root">
-    <div>
-      <div class="border-b border-light-gray-500 py-6 mb-6">
-        <h3 class="text-base font-semibold text-gray-900"><%= MakingOrder.human_attribute_name(:making_order_items) %></h3>
-      </div>
+    <div class="mb-6 overflow-hidden rounded-lg bg-white-100 shadow-sm px-4 py-5 sm:p-6">
+      <div class="mb-6 text-sm font-medium leading-6 text-gray-100"><%= MakingOrder.human_attribute_name(:making_order_items) %></div>
       <div class="grid grid-cols-1 gap-6">
         <ul role="list" class="divide-y divide-light-gray">
           <% @making_order.making_order_items.each do |item| %>
             <li class="flex gap-x-4 py-5">
-              <img class="size-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1564182872950-978e194a05cd?q=80&w=300&h=300&fit=crop" alt="">
+              <% if item.product_id.present? && item.product.cover.present? %>
+                <%= image_tag item.product.cover.variant(:thumb), class: "size-12 flex-none rounded-full ring-1 ring-gray-900/10" %>
+              <% else %>
+                <%= image_tag "product.png", class: "size-12 flex-none rounded-full ring-1 ring-gray-900/10" %>
+              <% end %>
               <div class="min-w-0 grow flex items-center">
                 <div class="flex-1 grow text-sm/6 font-semibold text-gray-900">
                   <% if item.product_id.present? %>
@@ -86,7 +62,7 @@
       </div>
     </div>
     <div>
-      <div class="border-b border-light-gray-500 py-6 mb-6">
+      <div class="py-6">
         <h3 class="text-base font-semibold text-gray-900">Tipo y grano</h3>
       </div>
       <%= render(
@@ -98,6 +74,36 @@
           }
         end
       ) %>
+    </div>
+  </div>
+
+  <div>
+      <div class="border-b border-light-gray-500 py-6 mb-6">
+        <h3 class="text-base font-semibold text-gray-900">Historial de cambios</h3>
+      </div>
+      <ul role="list" class="-mb-8">
+        <li>
+          <div class="relative pb-8">
+            <div class="relative flex space-x-3">
+              <div>
+                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 ring-8 ring-white">
+                  <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+              </div>
+              <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                <div>
+                  <p class="text-sm text-gray-500">Orden ingresada</p>
+                </div>
+                <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                  <time datetime="2020-10-04">Oct 4</time>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
