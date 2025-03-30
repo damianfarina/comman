@@ -1,0 +1,11 @@
+<%# locals: (product:) -%>
+
+<div class="relative w-full bg-light-gray-300 h-4 rounded-md overflow-hidden">
+  <div
+    class="absolute h-full rounded-md transition-all flex items-center justify-center text-white font-semibold"
+    style="width: <%= product.stock_level %>%; background-color: <%= stock_level_color(product.stock_level) %>;">
+  </div>
+  <span class="absolute left-0 w-full text-center text-xs">
+    <%= number_to_percentage(product.stock_level, precision: 0) %>
+  </span>
+</div>

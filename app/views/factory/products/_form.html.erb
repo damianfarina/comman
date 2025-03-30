@@ -4,33 +4,10 @@
   <%= render "common/error_messages", model: product %>
   <%= render "common/forms/simple" do %>
     <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
-      <div>
-        <%= form.label :comments, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.rich_textarea :comments, rows: 4, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-        </div>
-      </div>
 
-      <div>
-        <%= form.label :min_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.number_field :min_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-        </div>
-      </div>
-
-      <div>
-        <%= form.label :max_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.number_field :max_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-        </div>
-      </div>
-
-      <div>
-        <%= form.label :current_stock, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="mt-2">
-          <%= form.number_field :current_stock, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
-        </div>
-      </div>
+      <%= render "common/products/form/cover", form: form, product: product %>
+      <%= render "common/products/form/stock", form: form %>
+      <%= render "common/products/form/comments", form: form %>
     </div>
 
     <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
@@ -43,7 +20,7 @@
               input_name: productable_fields.field_name(:formula_id),
               input_value: product.productable.formula_id,
               search_value: product&.productable&.formula_name,
-              input_classes: "text-xs #{'ring-red' if product.errors.any?}",
+              input_classes: "text-xs/6 #{'ring-red' if product.errors.any?}",
               url: factory_formulas_path,
             ) %>
           </div>
