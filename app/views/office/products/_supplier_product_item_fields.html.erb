@@ -13,7 +13,7 @@
       input_name: ff.field_name(:supplier_id),
       input_value: supplier_product_item.supplier_id,
       search_value: supplier_product_item&.supplier_name,
-      input_classes: supplier_product_item.errors.any? ? "ring-red text-xs" : "text-xs",
+      input_classes: supplier_product_item.errors.any? ? "ring-red text-xs/6" : "text-xs/6",
       url: office_suppliers_path,
     ) %>
 
@@ -21,7 +21,7 @@
       :code,
       placeholder: SupplierProduct.human_attribute_name(:code),
       disabled: marked_for_destruction,
-      class: "block w-full rounded-md border-0 py-1.5 text-xs text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:leading-6 #{ 'ring-red' if supplier_product_item.errors.any? }",
+      class: "block w-full rounded-md border-0 py-1.5 text-xs/6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:leading-6 #{ 'ring-red' if supplier_product_item.errors.any? }",
     ) %>
 
     <div>
@@ -31,7 +31,7 @@
         min: 0,
         step: 0.01,
         disabled: marked_for_destruction,
-        class: "block w-full rounded-md border-0 py-1.5 text-xs text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:leading-6 #{ 'ring-red' if supplier_product_item.errors.any? }",
+        class: "block w-full rounded-md border-0 py-1.5 text-xs/6 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:leading-6 #{ 'ring-red' if supplier_product_item.errors.any? }",
       ) %>
       <%= ff.hidden_field(
         :_destroy,
