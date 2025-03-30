@@ -175,7 +175,7 @@ es:
     no_discounts: "No hay descuentos"
     no_formulas: "No hay fórmulas"
     purchased_products_only: "Sólo productos externos"
-    in_house_supplier: "Este producto es fabricado por %{supplier_name}. Para cambiar los parámetros de fabricación vaya a %{supplier_link}"
+    in_house_supplier: "Este producto es fabricado por %{supplier_name}. Para cambiar los parámetros de fabricación vaya a fábrica"
     file_upload:
       upload: "Busca un archivo"
       drag_drop: "o arrastra y suelta aquí"

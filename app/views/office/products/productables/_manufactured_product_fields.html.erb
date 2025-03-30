@@ -3,7 +3,7 @@
 <div class="overflow-hidden rounded-lg bg-white-100 shadow-sm col-span-3">
   <div class="px-4 py-5 sm:p-6">
     <p class="text-sm text-gray-300 text-pretty">
-      <%= t("in_house_supplier", scope: "messages", supplier_name: Supplier.in_house.name, supplier_link: link_to("fábrica", factory_product_path(productable.product), class: "text-gray-900 hover:text-gray")).html_safe %>
+      <%= t("in_house_supplier", scope: "messages", supplier_name: Supplier.in_house.name, class: "text-gray-900 hover:text-gray") %>
     </p>
   </div>
 </div>
