@@ -77,6 +77,7 @@ module Factory
       def product_params
         params.require(:product).permit(
           :comments,
+          :cover,
           :current_stock,
           :max_stock,
           :min_stock,
