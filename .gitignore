@@ -39,3 +39,7 @@
 
 /node_modules
 .DS_Store
+
+# Ignore deploy environment files
+/config/deploy.*.yml
+!/config/deploy.yml

@@ -13,19 +13,19 @@
     ```
 1. Copy the db dump file to the server
 
-    `scp comman_db.backup user@comman.unibras.com.ar:`
+    `scp commanapp_db.backup user@commanapp.dev:`
 
-1. SSH into the server and copy the dump file to the comman_db container
+1. SSH into the server and copy the dump file to the commanapp_db container
 
-    `docker cp comman_db.backup comman-db:/tmp`
+    `docker cp commanapp_db.backup commanapp-db:/tmp`
 
 1. Log into the docker container
 
-    `docker exec -it comman-db bash`
+    `docker exec -it commanapp-db bash`
 
 1. Restore the tables needed
 
-    `pg_restore --data-only --table=formula_elements --table=formula_items --table=formulas --table=making_order_formula_items --table=making_order_formulas --table=making_order_items --table=making_orders --table=products -U comman -d comman_production /tmp/comman_db.backup`
+    `pg_restore --data-only --table=formula_elements --table=formula_items --table=formulas --table=making_order_formula_items --table=making_order_formulas --table=making_order_items --table=making_orders --table=products -U comman -d comman_production /tmp/commanapp_db.backup`
 
 1. Update sequences to point to the next available id
 
