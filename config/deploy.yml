@@ -104,7 +104,7 @@ builder:
 # Use a different ssh user than root
 ssh:
   keys_only: true
-  keys: [ "~/.ssh/hetzner_key" ]
+  keys: [ "~/.ssh/commanapp_key" ]
 #   user: app
 
 # Configure rolling deploys by setting a wait time between batches of restarts.
