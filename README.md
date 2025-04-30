@@ -1,7 +1,59 @@
 # Comman
 
-Company Manager
+**Comman** (short for "Company Manager") is a web application designed to streamline manufacturing, inventory, and sales operations for companies that produce and sell industrial products such as grinding stones, cutting discs, and hardware supplies.
 
-## Deployment
+## Features
 
-    kamal deploy
+- Client, Product, and Order management
+- Manufacturing tracking and formula management
+- Inventory control and supplier handling
+- Dashboard with production charts
+- Role-based access for administrators, salespeople, operators, and clients
+- Optimized for desktop and mobile usage
+
+## Tech Stack
+
+- Ruby on Rails 8
+- PostgreSQL
+- TailwindCSS
+- Hotwire (Turbo + Stimulus)
+- RSpec for testing
+
+## Setup Instructions
+
+#### Clone the repository
+```bash
+git clone https://github.com/damianfarina/comman.git && cd comman
+```
+#### Setup dependencies and database
+```bash
+bin/setup && bin/rails db:seed
+```
+- bin/setup installs Ruby gems, prepares the database, and runs migrations.
+- bin/rails db:seed populates the database with essential initial data, including:
+  - Default user
+  - Default discounts
+  - Default in-house supplier
+
+#### Run the server
+```bash
+bin/rails s
+```
+#### Run tests
+```bash
+bin/rspec
+```
+#### Deploy to production
+```bash
+kamal deploy
+```
+
+## Future Roadmap
+
+- Client request → Order flow:
+  - Create orders from client requests
+  - Automatically calculate stock availability
+  - Trigger Making Orders for missing stock
+- Billing and invoicing
+- Supplier price list importer
+- Quick access to resources using mobile camera + QR codes
