@@ -7,8 +7,6 @@
 - Client, Product, and Order management
 - Manufacturing tracking and formula management
 - Inventory control and supplier handling
-- Dashboard with production charts
-- Role-based access for administrators, salespeople, operators, and clients
 - Optimized for desktop and mobile usage
 
 ## Tech Stack
@@ -48,6 +46,19 @@ bin/rspec
 kamal deploy
 ```
 
+### Deploying to a New Instance
+Each deployment environment (e.g. a specific client or demo instance) uses its own config/deploy.[newserver].yml file.
+
+#### To set up a new instance:
+```bash
+cp config/deploy.yml config/deploy.newserver.yml
+```
+
+#### Customize the new file with environment-specific values:
+- Server IP or hostname
+- Docker image tag
+- Volumes, environment variables, secrets, etc.
+
 ## Future Roadmap
 
 - Client request → Order flow:
@@ -57,3 +68,5 @@ kamal deploy
 - Billing and invoicing
 - Supplier price list importer
 - Quick access to resources using mobile camera + QR codes
+- Dashboard with production charts
+- Role-based access for administrators, salespeople, and operators
