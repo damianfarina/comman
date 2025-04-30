@@ -8,7 +8,7 @@ image: damianfarina/comman
 servers:
   web:
     hosts:
-      - comman.unibras.com.ar
+      - commanapp.dev
     # options:
       # publish: "4001:4001"
   # job:
@@ -22,7 +22,7 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: comman.unibras.com.ar
+  host: commanapp.dev
 
 # Credentials for your image host.
 registry:
@@ -80,7 +80,7 @@ aliases:
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
-  - "comman_storage:/rails/storage"
+  - "/srv/comman/storage:/rails/storage"
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combines all files from new and old
@@ -117,7 +117,7 @@ ssh:
 accessories:
   db:
     image: postgres:17
-    host: comman.unibras.com.ar
+    host: commanapp.dev
     # Change to 5432 to expose port to the world instead of just local network.
     port: "127.0.0.1:5432:5432"
     env:
@@ -127,13 +127,13 @@ accessories:
       secret:
         - POSTGRES_PASSWORD
     directories:
-      - data:/var/lib/postgresql/data
+      - /srv/comman/postgres/data:/var/lib/postgresql/data
     files:
       - db/production_setup.sql:/docker-entrypoint-initdb.d/setup.sql
 
   postgres_backup:
     image: kartoza/pg-backup:17-3.5
-    host: comman.unibras.com.ar
+    host: commanapp.dev
     env:
       clear:
         POSTGRES_USER: comman
@@ -145,4 +145,4 @@ accessories:
       secret:
         - POSTGRES_PASS
     directories:
-      - backups:/backups
+      - /srv/comman/postgres/backups:/backups
