@@ -59,11 +59,11 @@ env:
     # Use comman-db for a db accessory server on same machine via local kamal docker network.
     DB_HOST: comman-db
     DB_PORT: 5432
-    POSTGRES_USER: comman
+    POSTGRES_USER: <%= ENV["POSTGRES_USER"] %>
     POSTGRES_DB: comman_production
-    REVISION_ID: "F1-PPU-6 REV0"
-    DEFAULT_COUNTRY: "Argentina"
-    DEFAULT_PROVINCE: "Mendoza"
+    REVISION_ID: <%= ENV["REVISION_ID"] %>
+    DEFAULT_COUNTRY: <%= ENV["DEFAULT_COUNTRY"] %>
+    DEFAULT_PROVINCE: <%= ENV["DEFAULT_PROVINCE"] %>
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
@@ -122,7 +122,7 @@ accessories:
     port: "127.0.0.1:5432:5432"
     env:
       clear:
-        POSTGRES_USER: comman
+        POSTGRES_USER: <%= ENV["POSTGRES_USER"] %>
         POSTGRES_DB: comman_production
       secret:
         - POSTGRES_PASSWORD
@@ -136,7 +136,7 @@ accessories:
     host: commanapp.dev
     env:
       clear:
-        POSTGRES_USER: comman
+        POSTGRES_USER: <%= ENV["POSTGRES_USER"] %>
         POSTGRES_DB: comman_production
         POSTGRES_HOST: comman-db
         POSTGRES_PORT: 5432

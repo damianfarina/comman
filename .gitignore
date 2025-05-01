@@ -43,3 +43,4 @@
 # Ignore deploy environment files
 /config/deploy.*.yml
 !/config/deploy.yml
+/.kamal/secrets.*
