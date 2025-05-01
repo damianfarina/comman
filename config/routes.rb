@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     mount MaintenanceTasks::Engine, at: "/maintenance_tasks"
   end
 
-  namespace :office do
+  namespace :office, defaults: { department: "office" } do
     root "dashboard#index"
     resources :clients
     get :settings, to: "settings#index"
@@ -15,11 +15,11 @@ Rails.application.routes.draw do
     resources :suppliers
   end
 
-  namespace :sales do
+  namespace :sales, defaults: { department: "sales" } do
     root "dashboard#index"
   end
 
-  namespace :factory do
+  namespace :factory, defaults: { department: "factory" } do
     root "dashboard#index"
     resources :formula_elements
     resources :formulas
