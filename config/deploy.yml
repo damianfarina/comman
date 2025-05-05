@@ -119,7 +119,6 @@ accessories:
     image: postgres:17
     host: commanapp.dev
     # Change to 5432 to expose port to the world instead of just local network.
-    port: "127.0.0.1:5432:5432"
     env:
       clear:
         POSTGRES_USER: <%= ENV["POSTGRES_USER"] %>
@@ -131,18 +130,17 @@ accessories:
     files:
       - db/production_setup.sql:/docker-entrypoint-initdb.d/setup.sql
 
-  postgres_backup:
-    image: kartoza/pg-backup:17-3.5
-    host: commanapp.dev
-    env:
-      clear:
-        POSTGRES_USER: <%= ENV["POSTGRES_USER"] %>
-        POSTGRES_DB: comman_production
-        POSTGRES_HOST: comman-db
-        POSTGRES_PORT: 5432
-        REMOVE_BEFORE: 30
-        CRON_SCHEDULE: "0 5 * * *" # run at 5am (host time)
-      secret:
-        - POSTGRES_PASS
-    directories:
-      - /srv/comman/postgres/backups:/backups
+  # Uncomment to enable a backup service for the database.
+  # postgres_backup:
+  #   image: kartoza/pg-backup:17-3.5
+  #   host: commanapp.dev
+  #   env:
+  #     clear:
+  #       POSTGRES_USER: <%= ENV["POSTGRES_USER"] %>
+  #       POSTGRES_DB: comman_production
+  #       REMOVE_BEFORE: 30
+  #       CRON_SCHEDULE: "0 5 * * *" # run at 5am (host time)
+  #     secret:
+  #       - POSTGRES_PASS
+  #   directories:
+  #     - /srv/comman/postgres/backups:/backups
