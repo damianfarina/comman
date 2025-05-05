@@ -47,6 +47,7 @@ gem "image_processing", "~> 1.2"
 gem "kaminari"
 gem "ransack"
 gem "chartkick"
+gem "paper_trail"
 gem "maintenance_tasks"
 
 group :development, :test do
