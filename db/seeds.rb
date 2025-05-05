@@ -8,20 +8,15 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-if User.count.zero?
-  User.create! email_address: "email@example.com", password: "password"
+unless User.any?
+  User.create! email_address: "admin@commanapp.dev", password: SecureRandom.hex(16), name: "Admin User"
 end
 
-unless Discount.exists?(discount_type: "cash")
+end
+
+unless Discount.any?
   Discount.create!(discount_type: "cash", percentage: 10.0)
-end
-
-unless Discount.exists?(discount_type: :client_type, client_type: :regular)
   Discount.create!(discount_type: :client_type, client_type: :regular, percentage: 10.0)
-end
-unless Discount.exists?(discount_type: :client_type, client_type: :hardware_store)
   Discount.create!(discount_type: :client_type, client_type: :hardware_store, percentage: 11.0)
-end
-unless Discount.exists?(discount_type: :client_type, client_type: :distributor)
   Discount.create!(discount_type: :client_type, client_type: :distributor, percentage: 12.0)
 end
