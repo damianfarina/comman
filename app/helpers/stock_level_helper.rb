@@ -1,4 +1,4 @@
-module Factory::FormulaElementsHelper
+module StockLevelHelper
   RED = "#EE6054".freeze
   YELLOW = "#FFC233".freeze
   GREEN = "#60D394".freeze
