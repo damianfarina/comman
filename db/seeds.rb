@@ -12,6 +12,14 @@ unless User.any?
   User.create! email_address: "admin@commanapp.dev", password: SecureRandom.hex(16), name: "Admin User"
 end
 
+unless Supplier.any?
+  Supplier.create!(
+    name: "In-House Supplier",
+    tax_identification: "12-34567890-1",
+    phone: "123 456 7890",
+    email: "supplier@example.com",
+    in_house: true,
+  )
 end
 
 unless Discount.any?

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "/factory/products", type: :request do
-  let!(:in_house_supplier) { create(:supplier, :in_house) }
+  let!(:in_house_supplier) { Supplier.in_house }
   let(:formula1) do
     create(
       :formula,
