@@ -41,9 +41,16 @@ bin/rails s
 ```bash
 bin/rspec
 ```
+
+#### Set environment variables
+```bash
+cp .env.sample .env
+```
+Adjust the variables in .env to fit your needs.
+
 #### Deploy to production
 ```bash
-kamal deploy
+dotenv kamal deploy
 ```
 
 ### Deploying to a New Instance
@@ -52,12 +59,19 @@ Each deployment environment (e.g. a specific client or demo instance) uses its o
 #### To set up a new instance:
 ```bash
 cp config/deploy.yml config/deploy.newserver.yml
+cp .env.sample .env.newserver
 ```
 
 #### Customize the new file with environment-specific values:
 - Server IP or hostname
 - Docker image tag
 - Volumes, environment variables, secrets, etc.
+
+#### Setup and deploy the new instance
+```bash
+dotenv -f .env.newserver kamal setup -d newserver
+dotenv -f .env.newserver kamal deploy -d newserver
+```
 
 ## Future Roadmap
 
