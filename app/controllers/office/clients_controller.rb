@@ -11,6 +11,11 @@ module Office
 
     # GET /clients/1
     def show
+      @recent_activities = PaperTrail::Version
+        .where(item_type: Client.name, item_id: @client.id)
+        .order(created_at: :desc)
+      user_ids = @recent_activities.pluck(:whodunnit).compact.uniq
+      @version_user_names = User.where(id: user_ids).pluck(:id, :name).to_h
     end
 
     # GET /clients/1/edit

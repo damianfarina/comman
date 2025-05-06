@@ -1,6 +1,8 @@
 class Client < ApplicationRecord
   enum :client_type, regular: 0, hardware_store: 2, distributor: 1
 
+  has_paper_trail ignore: [ :created_at, :updated_at ]
+
   validates :name, presence: true
   validates :client_type, presence: true
   validates :tax_identification, presence: true, uniqueness: true
