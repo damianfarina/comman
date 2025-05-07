@@ -1,5 +1,9 @@
 <div class="flex items-center justify-center min-h-screen -my-10">
-  <%= link_to new_session_path do %>
+  <% if authenticated? %>
     <%= image_tag("logo.svg", class: "mx-auto h-60 w-auto", alt: "COMMAN") %>
+  <% else %>
+    <%= link_to new_session_path do %>
+      <%= image_tag("logo.svg", class: "mx-auto h-60 w-auto", alt: "COMMAN") %>
+    <% end %>
   <% end %>
 </div>
