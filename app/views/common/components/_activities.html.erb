@@ -1,0 +1,89 @@
+<%# locals(:activities, :user_names) %>
+
+<ul role="list" class="space-y-6 mt-10">
+  <% if activities.any? %>
+    <% activities.each do |activity| %>
+
+      <% user_name = user_names[activity.whodunnit] || t('paper_trail.unknown_user') %>
+
+      <% item = activity.item || activity.reify %>
+      <% item_name = item&.name.presence || "#{activity.item_type} ##{activity.item_id}" %>
+      <% item_link = '#' %>
+      <% if item.present? %>
+        <% if activity.department.present? %>
+          <% namespace = activity.department.to_sym %>
+          <% item_link = polymorphic_path([namespace, item]) %>
+        <% else %>
+          <% item_link = polymorphic_path(item) rescue '#' %>
+        <% end %>
+      <% end %>
+
+      <% event_description = t("paper_trail.events.#{activity.event}", default: activity.event.humanize) %>
+      <% item_type_name = t(activity.item_type.underscore, scope: [:activerecord, :models], count: 1, default: activity.item_type.humanize) %>
+
+      <li class="relative flex gap-x-4">
+        <div>
+          <div class="absolute top-0 -bottom-6 left-0 flex w-6 justify-center">
+            <div class="w-px <%= 'bg-transparent' if activity == activities.last %> bg-light-gray-300"></div>
+          </div>
+          <div class="relative flex size-6 flex-none items-center justify-center bg-white">
+            <div class="size-1.5 rounded-full bg-light-gray-100 ring-1 ring-light-gray-500"></div>
+          </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-y-2">
+          <div class="flex flex-1 items-center">
+            <p class="flex-auto py-0.5 text-xs/5 text-gray-500">
+              <span class="font-medium text-gray-900"><%= user_name %></span>
+              <%= event_description %> <%= item_type_name.downcase %>:
+              <%= link_to item_name, item_link, class: "font-medium text-gray-900" %>
+            </p>
+            <time datetime="<%= activity.created_at.iso8601 %>" class="flex-none py-0.5 text-xs/5 text-gray-500" title="<%= l(activity.created_at, format: :long) %>">
+              <%= time_ago_in_words(activity.created_at) %>
+            </time>
+          </div>
+
+          <% if activity.event == "update" && activity.changeset.present? %>
+            <div
+              data-controller="common--expand-collapse"
+              class="p-3 rounded-md border border-light-gray-300"
+            >
+              <% changes = activity.changeset %>
+              <% changes.each do |field, values| %>
+                <% field_name = t(field, scope: [:activerecord, :attributes, activity.item_type.underscore.to_sym], default: field.humanize) %>
+                <% old_value = values[0] %>
+                <% new_value = values[1] %>
+
+                <div class="mb-2 last:mb-0">
+                  <div class="text-xs/5 font-bold text-gray-700 mb-1">
+                    <%= field_name %>
+                  </div>
+
+                  <% formatted_old_value = format_activity_value(activity.item_type, field, old_value) %>
+                  <% if formatted_old_value %>
+                    <div class="mb-1 flex gap-2 text-xs/5 text-gray-700 items-center">
+                      <div><%= heroicon("minus-circle", variant: "outline", options: { class: "h-4 w-4 text-red-500" }) %></div>
+                      <div class="break-all"><%= formatted_old_value %></div>
+                    </div>
+                  <% end %>
+
+                  <% formatted_new_value = format_activity_value(activity.item_type, field, new_value) %>
+                  <% if formatted_new_value %>
+                    <div class="mb-1 flex gap-2 text-xs/5 text-gray-900 items-center">
+                      <div><%= heroicon("plus-circle", variant: "outline", options: { class: "h-4 w-4 text-green-700" }) %></div>
+                      <div class="break-all"><%= formatted_new_value %></div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  <% else %>
+    <li class="text-center text-gray-500 py-4">
+      <%= t("paper_trail.no_activity") %>
+    </li>
+  <% end %>
+</ul>

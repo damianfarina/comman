@@ -11,7 +11,9 @@ RSpec.describe "/office/suppliers", type: :request do
     }
   end
 
-  before { sign_in create(:user) }
+  let(:user) { create(:user) }
+
+  before { sign_in user }
 
   describe "GET /index" do
     it "renders a successful response" do
@@ -26,6 +28,26 @@ RSpec.describe "/office/suppliers", type: :request do
       supplier = create(:supplier)
       get office_supplier_url(supplier)
       expect(response).to be_successful
+    end
+
+    context "tracking supplier changes" do
+      with_versioning do
+        it "displays recent activities" do
+          PaperTrail.request.whodunnit = user.id
+          supplier = create(:supplier, name: "Original Supplier Name", phone: "100123")
+          supplier.update!(name: "Updated Supplier Name", phone: "987654321")
+
+          get office_supplier_url(supplier)
+
+          expect(response.body).to include(I18n.t("titles.recent_activities"))
+          expect(response.body).to include(user.name)
+          expect(response.body).to include("100123")
+          expect(response.body).to include("Original Supplier Name")
+          expect(response.body).to include("Updated Supplier Name")
+          expect(response.body).to match(/#{I18n.t("paper_trail.events.create")}/i)
+          expect(response.body).to match(/#{I18n.t("paper_trail.events.update")}/i)
+        end
+      end
     end
   end
 

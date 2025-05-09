@@ -12,6 +12,8 @@ class Supplier < ApplicationRecord
   before_destroy :prevent_in_house_deletion, if: :in_house?
   before_update :prevent_in_house_immutable_fields, if: :in_house?
 
+  has_paper_trail ignore: [ :created_at, :updated_at, :comments ], on: %i[create update destroy]
+
   validates :name, :tax_identification, :phone, :email, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :name, :tax_identification, uniqueness: true

@@ -32,6 +32,8 @@ RSpec.describe "/office/clients", type: :request do
     )
   end
 
+  let(:user) { create(:user) }
+
   before { sign_in create(:user) }
 
   describe "GET index" do
@@ -78,6 +80,26 @@ RSpec.describe "/office/clients", type: :request do
       expect(response.body).to include(client.province)
       expect(response.body).to include(client.zipcode)
       expect(response.body).to include(client.maps_url)
+    end
+
+    context "tracking client changes" do
+      with_versioning do
+        it "displays recent activities" do
+          PaperTrail.request.whodunnit = user.id
+          client = create(:client, name: "Original Client Name", phone: "100123")
+          client.update!(name: "Updated Client Name", phone: "987654321")
+
+          get office_client_url(client)
+
+          expect(response.body).to include(I18n.t("titles.recent_activities"))
+          expect(response.body).to include(user.name)
+          expect(response.body).to include("100123")
+          expect(response.body).to include("Original Client Name")
+          expect(response.body).to include("Updated Client Name")
+          expect(response.body).to match(/#{I18n.t("paper_trail.events.create")}/i)
+          expect(response.body).to match(/#{I18n.t("paper_trail.events.update")}/i)
+        end
+      end
     end
   end
 

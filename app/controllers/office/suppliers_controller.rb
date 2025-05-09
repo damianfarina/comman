@@ -13,6 +13,11 @@ module Office
 
     # GET /office/suppliers/1 or /office/suppliers/1.json
     def show
+      @recent_activities = PaperTrail::Version
+        .where(item_type: Supplier.name, item_id: @supplier.id)
+        .order(created_at: :desc)
+      user_ids = @recent_activities.pluck(:whodunnit).compact.uniq
+      @version_user_names = User.where(id: user_ids).pluck(:id, :name).to_h
     end
 
     # GET /office/suppliers/new
