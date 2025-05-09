@@ -19,9 +19,9 @@
       data-common--options-dropdown-target="button"
       class="flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-blue-700"
     >
-      <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=<%= Current.user.email_address %>" alt="">
+      <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=<%= Current.user.name %>" alt="">
       <span class="sr-only">Tu perfil</span>
-      <span aria-hidden="true"><%= Current.user.email_address %></span>
+      <span aria-hidden="true"><%= Current.user.name %></span>
     </button>
     <div
       class="transition transform opacity-0 scale-95 absolute z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
