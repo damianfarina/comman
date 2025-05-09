@@ -32,7 +32,7 @@ RSpec.describe "/office/discounts", type: :request do
       end
 
       it "updates the requested product" do
-        expect(discount.percentage).to eq(5.0)
+        expect(discount.percentage).to eq(9.0)
         patch office_discount_url(discount), params: { discount: new_attributes }
         discount.reload
         expect(discount.percentage).to eq(20.0)

@@ -23,7 +23,7 @@ unless Supplier.any?
 end
 
 unless Discount.any?
-  Discount.create!(discount_type: "cash", percentage: 10.0)
+  Discount.create!(discount_type: "cash", percentage: 9.0)
   Discount.create!(discount_type: :client_type, client_type: :regular, percentage: 10.0)
   Discount.create!(discount_type: :client_type, client_type: :hardware_store, percentage: 11.0)
   Discount.create!(discount_type: :client_type, client_type: :distributor, percentage: 12.0)
