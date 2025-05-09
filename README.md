@@ -1,6 +1,6 @@
-# Comman
+# COMMAN
 
-**Comman** (short for "Company Manager") is a web application designed to streamline manufacturing, inventory, and sales operations for companies that produce and sell industrial products such as grinding stones, cutting discs, and hardware supplies.
+**COMMAN** (short for "Company Manager") is a web application designed to streamline manufacturing, inventory, and sales operations for companies that produce and sell industrial products such as grinding stones, cutting discs, and hardware supplies.
 
 ## Features
 
