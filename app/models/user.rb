@@ -3,6 +3,10 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  def name
+    super.presence || email_address.split("@").first.humanize
+  end
 end
 
 # == Schema Information
@@ -11,6 +15,7 @@ end
 #
 #  id              :bigint           not null, primary key
 #  email_address   :string           not null
+#  name            :string
 #  password_digest :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

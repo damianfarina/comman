@@ -26,13 +26,13 @@ RSpec.describe Supplier, type: :model do
   end
 
   it "does not allow deleting the in-house supplier" do
-    in_house_supplier = create(:supplier, in_house: true)
+    in_house_supplier = Supplier.in_house
     expect { in_house_supplier.destroy }.not_to change(Supplier, :count)
     expect(in_house_supplier.errors[:base]).to include("No se puede eliminar el proveedor interno")
   end
 
   context "when updating the in-house supplier" do
-    let(:in_house_supplier) { create(:supplier, in_house: true) }
+    let(:in_house_supplier) { Supplier.in_house }
 
     it "adds an error to name when trying to change it" do
       in_house_supplier.name = "New Name"

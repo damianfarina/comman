@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Factory::FormulaElementsHelper, type: :helper do
+describe StockLevelHelper, type: :helper do
   describe "#stock_level_color" do
     it "returns red for 0% stock level" do
       expect(helper.stock_level_color(0)).to eq("rgb(238,96,84)")

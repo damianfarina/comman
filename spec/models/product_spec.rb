@@ -62,9 +62,9 @@ RSpec.describe Product, type: :model do
     end
 
     it "adds error to supplier_product if in-house supplier is marked for destruction" do
-      in_house = create(:supplier, :in_house)
+      in_house_supplier = Supplier.in_house
       product = create(:manufactured_productable)
-      sp = product.supplier_products.create!(supplier: in_house)
+      sp = product.supplier_products.create!(supplier: in_house_supplier)
 
       sp.mark_for_destruction
       product.valid?

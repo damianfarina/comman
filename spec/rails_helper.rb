@@ -71,6 +71,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    require Rails.root.join("spec/support/seeds.rb")
+    require Rails.root.join("db/seeds.rb")
   end
 end

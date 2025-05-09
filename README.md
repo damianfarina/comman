@@ -33,6 +33,23 @@ bin/setup && bin/rails db:seed
   - Default discounts
   - Default in-house supplier
 
+#### Setup environment variables
+```bash
+cp .env.sample .env
+```
+Edit .env and set the environment variables as needed.
+
+You can also create environment-specific files:
+- .env.dev
+- .env.staging
+- .env.production
+- .env.demo
+
+To use them, specify it with the -f flag. For example:
+```bash
+dotenv -f .env.staging kamal deploy --destination staging
+```
+
 #### Run the server
 ```bash
 bin/rails s
@@ -42,15 +59,9 @@ bin/rails s
 bin/rspec
 ```
 
-#### Set environment variables
-```bash
-cp .env.sample .env
-```
-Adjust the variables in .env to fit your needs.
-
 #### Deploy to production
 ```bash
-dotenv kamal deploy
+dotenv -f .env.production kamal deploy
 ```
 
 ### Deploying to a New Instance
