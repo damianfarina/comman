@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include Authentication
+  include SetCurrentRequestDetails, Authentication
 
   helper_method :current_department
 
