@@ -5,8 +5,8 @@ RSpec.describe Supplier, type: :model do
 
   it "should set main supplier" do
     product = create(:purchased_productable)
-    product.supplier_products.create(supplier: suppliers.first)
-    product.supplier_products.create(supplier: suppliers.last)
+    product.supplied_by.create(supplier: suppliers.first)
+    product.supplied_by.create(supplier: suppliers.last)
     product.save
 
     expect(product.main_supplier).to eq(suppliers.first)
@@ -14,11 +14,11 @@ RSpec.describe Supplier, type: :model do
 
   it "should set main supplier when current is removed from suppliers list" do
     product = create(:purchased_productable)
-    product.supplier_products.create(supplier: suppliers.first)
-    product.supplier_products.create(supplier: suppliers.last)
+    product.supplied_by.create(supplier: suppliers.first)
+    product.supplied_by.create(supplier: suppliers.last)
     product.save
 
-    product.supplier_products.first.mark_for_destruction
+    product.supplied_by.first.mark_for_destruction
     product.save
 
     expect(product.supplier).to eq(suppliers.last)

@@ -11,7 +11,7 @@ RSpec.describe "/office/products", type: :request do
       name: "Product Name",
       price: 14.0,
       supplier_id: supplier1.id,
-      supplier_products_attributes: [
+      supplied_by_attributes: [
         {
           supplier_id: supplier1.id,
           price: 14.0,
@@ -30,7 +30,7 @@ RSpec.describe "/office/products", type: :request do
       max_stock: "Ten",
       min_stock: "Five",
       name: nil,
-      supplier_products_attributes: [
+      supplied_by_attributes: [
         {
           supplier_id: supplier1.id,
           price: 14.0,
@@ -177,7 +177,7 @@ RSpec.describe "/office/products", type: :request do
         {
           name: "New Product Name",
           comments: "<b>New comments</b>",
-          supplier_products_attributes: [
+          supplied_by_attributes: [
             { supplier_id: new_supplier.id, price: 24.0 },
           ],
         }
@@ -189,8 +189,8 @@ RSpec.describe "/office/products", type: :request do
         product.reload
         expect(product.name).to eq("New Product Name")
         expect(product.comments_plain_text).to eq("New comments")
-        expect(product.supplier_products.first.supplier_id).to eq(new_supplier.id)
-        expect(product.supplier_products.first.price).to eq(24.0)
+        expect(product.supplied_by.first.supplier_id).to eq(new_supplier.id)
+        expect(product.supplied_by.first.price).to eq(24.0)
       end
 
       it "redirects to the product" do
@@ -263,7 +263,7 @@ RSpec.describe "/office/products", type: :request do
             name: "New Name",
             price: 66.6,
             supplier_id: supplier1.id,
-            supplier_products_attributes: [
+            supplied_by_attributes: [
               {
                 supplier_id: supplier1.id,
                 price: 46.6,

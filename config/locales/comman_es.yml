@@ -8,7 +8,7 @@ es:
         product:
           name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
           must_be_supplier: "%{supplier_name} debe ser un proveedor"
-          duplicated_supplier_products: "Hay proveedores repetidos"
+          duplicated_supplied_by: "Hay proveedores repetidos"
           manufactured_in_house: "No se puede quitar el proveedor de un producto interno"
         formula_element:
           formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
@@ -101,10 +101,10 @@ es:
         supplier: "Proveedor principal"
         main_supplier: "Proveedor principal"
         productable: "Producto"
-        supplier_products: "Proveedores"
-      productable/product/supplier_products:
+        supplied_by: "Proveedores"
+      productable/product/supplied_by:
         price: "Precio del proveedor"
-      product/supplier_products:
+      product/supplied_by:
         price: "Precio del proveedor"
       supplier_product:
         price: "Precio"

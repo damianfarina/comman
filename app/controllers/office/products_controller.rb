@@ -20,12 +20,12 @@ module Office
     # GET /products/new
     def new
       @product = Product.new(productable: PurchasedProduct.new)
-      @product.supplier_products.build
+      @product.supplied_by.build
     end
 
     # GET /products/1/edit
     def edit
-      @product.supplier_products.build
+      @product.supplied_by.build
     end
 
     # POST /products or /products.json
@@ -86,7 +86,7 @@ module Office
           :name,
           :price,
           :supplier_id,
-          supplier_products_attributes: [
+          supplied_by_attributes: [
             :id,
             :code,
             :price,
