@@ -52,6 +52,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_203836) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "audit_logs", force: :cascade do |t|
+    t.string "auditable_type", null: false
+    t.bigint "auditable_id", null: false
+    t.string "action", null: false
+    t.jsonb "audited_changes", default: {}, null: false
+    t.string "audited_fields", default: [], null: false, array: true
+    t.bigint "user_id"
+    t.string "transaction_id"
+    t.datetime "created_at", null: false
+    t.index ["auditable_type", "auditable_id"], name: "index_audit_logs_on_auditable_type_and_auditable_id"
+    t.index ["audited_fields"], name: "index_audit_logs_on_audited_fields", using: :gin
+    t.index ["user_id"], name: "index_audit_logs_on_user_id"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.string "name", null: false
     t.string "tax_identification", null: false
@@ -260,21 +274,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_13_203836) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
-  create_table "versions", force: :cascade do |t|
-    t.bigint "whodunnit"
-    t.datetime "created_at"
-    t.bigint "item_id", null: false
-    t.string "item_type", null: false
-    t.string "event", null: false
-    t.jsonb "object"
-    t.jsonb "object_changes"
-    t.string "department"
-    t.index ["department"], name: "index_versions_on_department"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "audit_logs", "users"
   add_foreign_key "manufactured_products", "formulas"
   add_foreign_key "products", "suppliers"
   add_foreign_key "sessions", "users"
