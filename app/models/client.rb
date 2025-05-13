@@ -1,4 +1,6 @@
 class Client < ApplicationRecord
+  include HasRichComments
+
   enum :client_type, regular: 0, hardware_store: 2, distributor: 1
   enum :tax_type, final_consumer: 0, general_regime: 1, simplified_regime: 2
 
@@ -10,6 +12,7 @@ class Client < ApplicationRecord
     [
       "address",
       "client_type",
+      "comments_plain_text",
       "country",
       "email",
       "id",
@@ -35,21 +38,22 @@ end
 #
 # Table name: clients
 #
-#  id                 :bigint           not null, primary key
-#  address            :string
-#  client_type        :integer          default("regular")
-#  country            :string
-#  email              :string
-#  maps_url           :string
-#  name               :string           not null
-#  phone              :string
-#  province           :string
-#  seller_name        :string
-#  tax_identification :string           not null
-#  tax_type           :integer
-#  zipcode            :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                  :bigint           not null, primary key
+#  address             :string
+#  client_type         :integer          default("regular")
+#  comments_plain_text :text
+#  country             :string
+#  email               :string
+#  maps_url            :string
+#  name                :string           not null
+#  phone               :string
+#  province            :string
+#  seller_name         :string
+#  tax_identification  :string           not null
+#  tax_type            :integer
+#  zipcode             :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #

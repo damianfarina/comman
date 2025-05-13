@@ -126,6 +126,7 @@ es:
           regular: "Usuario"
           distributor: "Distribuidor"
           hardware_store: "Ferretería"
+        comments: "Observaciones"
         country: "País"
         created_at: "Ingresado"
         email: "Email"
@@ -231,7 +232,7 @@ es:
       name: "Buscar por nombre"
       name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
       comments_formula: "Buscar por observaciones o fórmula"
-      name_or_email_or_phone_or_province_or_address_cont: "Buscar por nombre, email, teléfono, provincia o dirección"
+      attributes: "Buscar por cualquier campo"
 
   office:
     products:

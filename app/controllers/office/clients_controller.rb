@@ -76,6 +76,7 @@ module Office
           client: [
             :address,
             :client_type,
+            :comments,
             :country,
             :email,
             :maps_url,

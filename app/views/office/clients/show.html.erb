@@ -20,12 +20,22 @@
         { label: Client.human_attribute_name(:tax_type), value: t(@client.tax_type, scope: [ :activerecord, :attributes, :client, :tax_type_values ]) },
         { label: Client.human_attribute_name(:tax_identification), value: @client.tax_identification },
         { label: Client.human_attribute_name(:client_type), value: t("#{@client.client_type}", scope: [ :activerecord, :attributes, :client, :client_type_values ]) },
-        { label: Client.human_attribute_name(:phone), value: @client.phone },
-        { label: Client.human_attribute_name(:email), value: @client.email },
-        { label: Client.human_attribute_name(:seller_name), value: @client.seller_name },
       ]
     ) %>
   </div>
+
+  <div>
+    <%= render(
+      "common/lists/description",
+      items: [
+        { label: Client.human_attribute_name(:phone), value: @client.phone },
+        { label: Client.human_attribute_name(:email), value: @client.email },
+        { label: Client.human_attribute_name(:seller_name), value: @client.seller_name },
+        { label: Client.human_attribute_name(:comments), value: @client.comments },
+      ]
+    ) %>
+  </div>
+
   <div>
     <%= render(
       "common/lists/description",
