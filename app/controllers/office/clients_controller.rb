@@ -82,6 +82,7 @@ module Office
             :name,
             :phone,
             :province,
+            :seller_name,
             :tax_identification,
             :tax_type,
             :zipcode,

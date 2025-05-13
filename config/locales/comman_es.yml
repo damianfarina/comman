@@ -134,6 +134,7 @@ es:
         name: "Nombre"
         phone: "Teléfono"
         province: "Provincia"
+        seller_name: "Vendedor"
         tax_identification: "CUIT"
         tax_type: "Inscripción tributaria"
         tax_type_values:

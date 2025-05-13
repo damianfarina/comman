@@ -22,6 +22,7 @@
         { label: Client.human_attribute_name(:client_type), value: t("#{@client.client_type}", scope: [ :activerecord, :attributes, :client, :client_type_values ]) },
         { label: Client.human_attribute_name(:phone), value: @client.phone },
         { label: Client.human_attribute_name(:email), value: @client.email },
+        { label: Client.human_attribute_name(:seller_name), value: @client.seller_name },
       ]
     ) %>
   </div>

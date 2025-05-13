@@ -16,6 +16,7 @@ class Client < ApplicationRecord
       "name",
       "phone",
       "province",
+      "seller_name",
       "tax_identification",
       "zipcode",
     ]
@@ -43,6 +44,7 @@ end
 #  name               :string           not null
 #  phone              :string
 #  province           :string
+#  seller_name        :string
 #  tax_identification :string           not null
 #  tax_type           :integer
 #  zipcode            :string

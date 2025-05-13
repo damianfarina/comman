@@ -68,6 +68,9 @@
                 <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :tax_type, Client.human_attribute_name(:tax_type), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
+                <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :seller_name, Client.human_attribute_name(:seller_name), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-light-gray">
@@ -95,6 +98,9 @@
                   </td>
                   <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                     <%= t(client.tax_type, scope: [:activerecord, :attributes, :client, :tax_type_values]) %>
+                  </td>
+                  <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= client.seller_name %>
                   </td>
                 </tr>
               <% end %>

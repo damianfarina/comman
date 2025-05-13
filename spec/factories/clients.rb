@@ -8,6 +8,7 @@ FactoryBot.define do
     name { Faker::Company.name }
     phone { Faker::PhoneNumber.cell_phone }
     province { "Mendoza" }
+    seller_name { Faker::Name.name }
     tax_identification { Faker::Company.ein }
     tax_type { [ :final_consumer, :simplified_regime, :general_regime ].sample }
     zipcode { Faker::Address.zip_code }
