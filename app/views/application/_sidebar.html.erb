@@ -38,7 +38,9 @@
         <!-- Sidebar content -->
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-blue px-6 pb-2">
           <div class="flex mt-6 shrink-0 items-center">
-            <%= image_tag("logo-dark.png", class: "h-16 w-auto", alt: "COMMAN") %>
+            <%= link_to root_path do %>
+              <%= image_tag("logo-dark.png", class: "h-16 w-auto", alt: "COMMAN") %>
+            <% end %>
           </div>
           <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -77,7 +79,9 @@
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-blue px-6">
       <div class="flex mt-6 shrink-0 items-center">
-        <%= image_tag("logo-dark.png", class: "h-16 w-auto", alt: "COMMAN") %>
+        <%= link_to root_path do %>
+          <%= image_tag("logo-dark.png", class: "h-16 w-auto", alt: "COMMAN") %>
+        <% end %>
       </div>
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
