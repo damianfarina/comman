@@ -74,16 +74,19 @@ module Office
       def client_params
         params.expect(
           client: [
-            :name,
-            :tax_identification,
             :address,
-            :zipcode,
-            :country,
-            :province,
-            :maps_url,
-            :phone,
-            :email,
             :client_type,
+            :comments,
+            :country,
+            :email,
+            :maps_url,
+            :name,
+            :phone,
+            :province,
+            :seller_name,
+            :tax_identification,
+            :tax_type,
+            :zipcode,
           ],
         )
       end

@@ -23,7 +23,7 @@
         },
         class: "w-full max-w-lg lg:max-w-xs",
       ) do |f| %>
-        <%= f.label :id_or_name_or_email_or_phone_or_province_or_address_or_country_or_zipcode_or_bank_name_or_bank_account_number_or_comments_plain_text_or_routing_number_or_tax_identification_cont, t("placeholders.search_by.name_or_email_or_phone_or_province_or_address_cont"), class: "sr-only" %>
+        <%= f.label :id_or_name_or_email_or_phone_or_province_or_address_or_country_or_zipcode_or_bank_name_or_bank_account_number_or_comments_plain_text_or_routing_number_or_tax_identification_cont, t("placeholders.search_by.attributes"), class: "sr-only" %>
         <div class="relative text-gray-300 focus-within:text-gray">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -35,7 +35,7 @@
             autofocus: true,
             autocomplete: "off",
             class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
-            placeholder: t("placeholders.search_by.name_or_email_or_phone_or_province_or_address_cont"),
+            placeholder: t("placeholders.search_by.attributes"),
           ) %>
         </div>
       <% end %>
@@ -88,7 +88,7 @@
                     <%= supplier.email %>
                   </td>
                   <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= t("#{supplier.tax_type}", scope: [:activerecord, :attributes, :supplier, :tax_type_values]) %>
+                    <%= t(supplier.tax_type, scope: [:activerecord, :attributes, :supplier, :tax_type_values]) %>
                   </td>
                 </tr>
               <% end %>
