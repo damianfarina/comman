@@ -7,11 +7,13 @@ module Auditable
   end
 
   class_methods do
+    # Make sure to call any of these methods in the model class
+    # after any other callbacks and association definitions
+
     def auditable(only: nil, except: nil)
       raise ArgumentError, "auditable or auditable_attributes already set" if _auditable_config[:attributes]
       self._auditable_config = resolve_auditable_config(only: only, except: except)
 
-      # Use before_update to capture destroyed associations
       before_update :capture_destroyed_associations_for_auditing
 
       after_commit :write_audit_log_on_create, on: :create

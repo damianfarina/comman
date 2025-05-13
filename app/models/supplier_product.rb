@@ -1,4 +1,6 @@
 class SupplierProduct < ApplicationRecord
+  include Auditable
+
   has_rich_text :comments
 
   belongs_to :supplier
@@ -9,6 +11,14 @@ class SupplierProduct < ApplicationRecord
 
   delegate :name, to: :supplier, prefix: true, allow_nil: true
   delegate :name, to: :product, prefix: true, allow_nil: true
+
+  auditable_attributes only: [ :code, :price ]
+
+  def audit_name
+    details = [ code, price ].compact
+    suffix = details.any? ? " (#{details.join(' - ')})" : ""
+    "#{supplier_name}#{suffix}"
+  end
 end
 
 # == Schema Information
