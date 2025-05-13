@@ -5,6 +5,7 @@ RSpec.describe "/office/clients", type: :request do
     {
       name: "Client name",
       tax_identification: "987879879",
+      tax_type: "final_consumer",
       client_type: :distributor,
     }
   }
@@ -19,16 +20,17 @@ RSpec.describe "/office/clients", type: :request do
   let(:client) do
     create(
       :client,
-      name: "Moises",
-      tax_identification: "123456789",
       address: "123 Main St",
-      zipcode: "12345",
-      country: "Argentina",
-      province: "Mendoza",
-      maps_url: "https://maps.app.goo.gl/eFgrqGj8uBdXsgN87",
-      phone: "123-456-7890",
-      email: "email@email.com",
       client_type: :distributor,
+      country: "Argentina",
+      email: "email@email.com",
+      maps_url: "https://maps.app.goo.gl/eFgrqGj8uBdXsgN87",
+      name: "Moises",
+      phone: "123-456-7890",
+      province: "Mendoza",
+      tax_identification: "123456789",
+      tax_type: "final_consumer",
+      zipcode: "12345",
     )
   end
 

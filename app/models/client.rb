@@ -1,9 +1,10 @@
 class Client < ApplicationRecord
   enum :client_type, regular: 0, hardware_store: 2, distributor: 1
+  enum :tax_type, final_consumer: 0, general_regime: 1, simplified_regime: 2
 
-  validates :name, presence: true
-  validates :client_type, presence: true
-  validates :tax_identification, presence: true, uniqueness: true
+  validates :name, :client_type, :tax_identification, :tax_type, presence: true
+  validates :tax_identification, uniqueness: true
+  validates :tax_type, inclusion: { in: tax_types.keys }, if: :tax_type?
 
   def self.ransackable_attributes(auth_object = nil)
     [
@@ -43,6 +44,7 @@ end
 #  phone              :string
 #  province           :string
 #  tax_identification :string           not null
+#  tax_type           :integer
 #  zipcode            :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

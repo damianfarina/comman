@@ -56,14 +56,17 @@
                 <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :address, Client.human_attribute_name(:address), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
-                <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :province, Client.human_attribute_name(:province), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :email, Client.human_attribute_name(:email), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
-                <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <th scope="col" class="table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :client_type, Client.human_attribute_name(:client_type), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :tax_type, Client.human_attribute_name(:tax_type), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
               </tr>
             </thead>
@@ -81,14 +84,17 @@
                     <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                     <%= client.address %>
                   </td>
-                  <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                  <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                     <%= client.province %>
                   </td>
                   <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                     <%= client.email %>
                   </td>
-                  <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= t("#{client.client_type}", scope: [:activerecord, :attributes, :client, :client_type_values]) %>
+                  <td class="table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= t(client.client_type, scope: [:activerecord, :attributes, :client, :client_type_values]) %>
+                  </td>
+                  <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= t(client.tax_type, scope: [:activerecord, :attributes, :client, :tax_type_values]) %>
                   </td>
                 </tr>
               <% end %>

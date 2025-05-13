@@ -88,7 +88,7 @@
                     <%= supplier.email %>
                   </td>
                   <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= t("#{supplier.tax_type}", scope: [:activerecord, :attributes, :supplier, :tax_type_values]) %>
+                    <%= t(supplier.tax_type, scope: [:activerecord, :attributes, :supplier, :tax_type_values]) %>
                   </td>
                 </tr>
               <% end %>

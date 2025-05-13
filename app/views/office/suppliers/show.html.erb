@@ -51,7 +51,7 @@
     <%= render(
       "common/lists/description",
       items: [
-        { label: Supplier.human_attribute_name(:tax_type), value: t("#{@supplier.tax_type}", scope: [ :activerecord, :attributes, :supplier, :tax_type_values ]) },
+        { label: Supplier.human_attribute_name(:tax_type), value: t(@supplier.tax_type, scope: [ :activerecord, :attributes, :supplier, :tax_type_values ]) },
         { label: Supplier.human_attribute_name(:tax_identification), value: @supplier.tax_identification },
         { label: Supplier.human_attribute_name(:bank_name), value: @supplier.bank_name },
         { label: Supplier.human_attribute_name(:bank_account_number), value: @supplier.bank_account_number },

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_04_131631) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_13_151925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -65,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_04_131631) do
     t.integer "client_type", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tax_type"
     t.index ["tax_identification"], name: "index_clients_on_tax_identification", unique: true
   end
 
