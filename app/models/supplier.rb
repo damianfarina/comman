@@ -1,5 +1,5 @@
 class Supplier < ApplicationRecord
-  include HasRichComments
+  include HasRichComments, Auditable
 
   enum :tax_type, general_regime: 0, simplified_regime: 1, exempt: 2
 

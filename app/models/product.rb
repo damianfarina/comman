@@ -25,7 +25,16 @@ class Product < ApplicationRecord
 
   accepts_nested_attributes_for :supplied_by, allow_destroy: true, reject_if: :all_blank
 
-  auditable only: %i[name current_stock max_stock min_stock price comments_plain_text supplied_by]
+  auditable only: %i[
+    name
+    current_stock
+    max_stock
+    min_stock
+    price
+    comments_plain_text
+    supplied_by
+    supplier
+  ]
 
   def self.ransackable_attributes(auth_object = nil)
     %w[id name current_stock price created_at productable_type stock_level]
