@@ -1,12 +1,36 @@
+# == Auditable
+#
+# Provides a standardized way to track changes (creation, update, deletion)
+# to ActiveRecord models and their associated records, logging these changes
+# to an +AuditLog+ model.
+#
+# The primary goal is to create a clear, historical record of modifications
+# made to key data within the application. By including this concern in a model,
+# developers can easily enable auditing for that model and specify which
+# attributes and associations are relevant for tracking.
 module Auditable
   extend ActiveSupport::Concern
 
   included do
+    # Class attribute to store the auditable configuration (attributes and associations).
+    # instance_accessor: false prevents instance methods like #_auditable_config.
+    # Default is an empty hash.
     class_attribute :_auditable_config, instance_accessor: false, default: {}
+
+    # Temporary storage for destroyed associated records' audit info during a transaction.
+    # This data is captured in a before_update callback and used in the after_commit.
     attr_accessor :_destroyed_associations_audit_data
   end
 
   class_methods do
+    # Configures the model to be actively auditable.
+    # This method includes the +has_many :audit_logs+ association and registers
+    # the necessary +before_update+ and +after_commit+ callbacks for tracking
+    # create, update, and destroy events.
+    #
+    # @param only [Array<Symbol>, nil] An array of attribute names and association names to explicitly track.
+    # @param except [Array<Symbol>, nil] An array of attribute names and association names to exclude from tracking.
+    # @raise [ArgumentError] If auditable or auditable_attributes has already been called on the model.
     def auditable(only: nil, except: nil)
       raise ArgumentError, "auditable or auditable_attributes already set" if _auditable_config[:attributes]
       self._auditable_config = resolve_auditable_config(only: only, except: except)
@@ -19,11 +43,27 @@ module Auditable
       after_commit :write_audit_log_on_destroy, on: :destroy
     end
 
+    # Configures the model to be passively auditable, typically as an associated
+    # record of a model using the +auditable+ method.
+    # This method configures which of the model's attributes and associations
+    # are relevant for auditing when a parent model collects changes from it.
+    # It does NOT register any callbacks on this model itself.
+    #
+    # @param only [Array<Symbol>, nil] An array of attribute names and association names to explicitly track when audited by a parent.
+    # @param except [Array<Symbol>, nil] An array of attribute names and association names to exclude from tracking when audited by a parent.
+    # @raise [ArgumentError] If auditable or auditable_attributes has already been called on the model.
     def auditable_attributes(only: nil, except: nil)
       raise ArgumentError, "auditable or auditable_attributes already set" if _auditable_config[:attributes]
       self._auditable_config = resolve_auditable_config(only: only, except: except)
     end
 
+    # Helper method to get a map of foreign key names to auditable belongs_to association names.
+    # This map is used to identify belongs_to foreign key changes in previous_changes
+    # and look up the corresponding association name for logging.
+    # Memoized for performance.
+    #
+    # @return [Hash<String, String>] A hash where keys are foreign key column names (strings)
+    #   and values are belongs_to association names (strings) that are configured for auditing.
     def _auditable_belongs_to_foreign_keys_map
       @_auditable_belongs_to_foreign_keys_map ||= begin
         keys = {}
@@ -39,6 +79,12 @@ module Auditable
 
     private
 
+    # Resolves the auditable configuration based on the provided only/except options.
+    # Determines which attributes and associations should be tracked.
+    #
+    # @param only [Array<Symbol>, nil]
+    # @param except [Array<Symbol>, nil]
+    # @return [Hash] A hash containing :attributes (Array<Symbol>) and :associations (Array<Symbol>) to track.
     def resolve_auditable_config(only:, except:)
       attrs = column_names.map(&:to_sym)
       tracked =
@@ -58,6 +104,16 @@ module Auditable
     end
   end
 
+  # == Instance Methods
+  #
+  # These methods are available on instances of models that include the Auditable concern.
+
+  # Called by parent models to extract changes from associated records.
+  # Also used internally to determine changes for the current record's audit log.
+  # Determines the raw changes and fields for auditing based on the record's state.
+  #
+  # @return [Hash] A hash containing "audited_changes" (Hash) and "audited_fields" (Array<String>).
+  #   The structure is compatible with the AuditLog model's jsonb columns.
   def audit_changes_raw
     if destroyed?
       collect_self_destruction_changes
@@ -68,13 +124,21 @@ module Auditable
     end
   end
 
-  # Override in your model if name is not meaningful
+  # Provides a human-readable name for the auditable record.
+  # This name is used in audit log entries.
+  # Can be overridden in individual models if the default is not suitable.
+  #
+  # @return [String] The name of the record for auditing purposes.
   def audit_name
     respond_to?(:name) ? name.to_s : "#{self.class.name}##{id}"
   end
 
   private
 
+  # Collects changes specific to the destruction of the record itself.
+  # Used when the record's after_commit on :destroy callback fires.
+  #
+  # @return [Hash] Formatted changes and fields for a destruction event.
   def collect_self_destruction_changes
     {
       "audited_changes" => { "_destroyed" => [ audit_name, nil ] },
@@ -82,6 +146,10 @@ module Auditable
     }
   end
 
+  # Collects changes specific to the creation of the record itself.
+  # Used when the record's after_commit on :create callback fires.
+  #
+  # @return [Hash] Formatted changes and fields for a creation event.
   def collect_self_creation_changes
     {
       "audited_changes" => { "_created" => [ nil, audit_name ] },
@@ -89,21 +157,22 @@ module Auditable
     }
   end
 
+  # Collects all changes for an updated record, including attribute and association changes.
+  # Used when the record's after_commit on :update callback fires.
+  #
+  # @return [Hash] Merged changes and fields from attributes and associations.
   def collect_update_changes
     audited_changes = {}
     audited_fields = []
 
-    # Collect changes from the record's own attributes (including belongs_to)
     attribute_changes, attribute_fields = collect_attribute_and_belongs_to_changes
     audited_changes.merge!(attribute_changes)
     audited_fields.concat(attribute_fields)
 
-    # Collect changes from has_many/has_one associations (creations/updates)
     assoc_changes, changed_fields = collect_association_changes
     audited_changes.merge!(assoc_changes)
     audited_fields.concat(changed_fields)
 
-    # Collect changes from destroyed has_many/has_one associations
     destroyed_assoc_changes, destroyed_fields = collect_destroyed_association_changes
     audited_changes.merge!(destroyed_assoc_changes)
     audited_fields.concat(destroyed_fields)
@@ -114,6 +183,12 @@ module Auditable
     }
   end
 
+  # Collects changes for the record's own attributes, including special handling for belongs_to associations.
+  # Iterates through previous_changes and formats attribute changes or belongs_to name changes.
+  #
+  # @return [Array<Hash, Array<String>>] A two-element array:
+  #   [0] Hash of attribute/belongs_to changes.
+  #   [1] Array of attribute/belongs_to field names.
   def collect_attribute_and_belongs_to_changes
     audited_changes = {}
     audited_fields = []
@@ -123,10 +198,10 @@ module Auditable
       belongs_to_assoc = belongs_to_association_for_foreign_key(attribute)
 
       if belongs_to_assoc
-        belongs_to_changes = process_belongs_to_change(belongs_to_assoc, change)
+        belongs_to_change_data = process_belongs_to_change(belongs_to_assoc, change)
 
-        audited_changes.merge!(belongs_to_changes[:changes])
-        audited_fields.concat(belongs_to_changes[:fields])
+        audited_changes.merge!(belongs_to_change_data[:changes])
+        audited_fields.concat(belongs_to_change_data[:fields])
       elsif tracked_attrs_strings.include?(attribute)
          audited_changes[attribute] = change
          audited_fields << attribute
@@ -136,6 +211,14 @@ module Auditable
     [ audited_changes, audited_fields ]
   end
 
+  # Helper method to process a change to a belongs_to foreign key.
+  # Finds the old and new associated records' names and formats the change for the audit log.
+  #
+  # @param belongs_to_assoc [ActiveRecord::Reflection::AssociationReflection] The reflection object for the belongs_to association.
+  # @param change [Array] The old and new values for the foreign key (e.g., [old_id, new_id]).
+  # @return [Hash] A hash containing :changes (Hash) and :fields (Array<String>).
+  #   Returns { changes: { "assoc_name" => [old_name, new_name] }, fields: ["assoc_name"] } if a significant change occurred,
+  #   or { changes: {}, fields: [] } if the old and new names are the same.
   def process_belongs_to_change(belongs_to_assoc, change)
     result = { changes: {}, fields: [] }
 
@@ -154,6 +237,13 @@ module Auditable
     result
   end
 
+  # Helper method to find an associated record by its ID and get its audit name.
+  # Handles cases where the ID is nil or the record doesn't respond to audit_name.
+  #
+  # @param belongs_to_assoc [ActiveRecord::Reflection::AssociationReflection] The reflection object for the belongs_to association.
+  # @param id [Integer, String, nil] The ID of the associated record.
+  # @return [String, nil] The audit name of the associated record, or nil if the ID is blank,
+  #   the record is not found, or the record does not respond to audit_name.
   def find_associated_record_name_by_id(belongs_to_assoc, id)
     return nil unless id.present?
 
@@ -161,11 +251,22 @@ module Auditable
     record.try(:audit_name)
   end
 
+  # Returns the reflection object for a belongs_to association corresponding to a given foreign key attribute.
+  # Looks up the association name using the class's _auditable_belongs_to_foreign_keys_map,
+  # and returns the association reflection if found, or nil otherwise.
+  #
+  # @param attribute [String] The name of the foreign key attribute (as a string).
+  # @return [ActiveRecord::Reflection::AssociationReflection, nil] The reflection object for the belongs_to association,
+  #   or nil if the attribute does not correspond to a tracked belongs_to association.
   def belongs_to_association_for_foreign_key(attribute)
     assoc_name = self.class._auditable_belongs_to_foreign_keys_map[attribute]
     assoc_name ? self.class.reflect_on_association(assoc_name.to_sym) : nil
   end
 
+  # Callback to capture information about associated records marked for destruction
+  # before they are actually destroyed in the database.
+  # This information is stored temporarily and used later in the after_commit :on_update callback.
+  # This method is called on the parent record's before_update callback.
   def capture_destroyed_associations_for_auditing
     self._destroyed_associations_audit_data = {}
     (self.class._auditable_config[:associations] || []).each do |assoc_name|
@@ -173,21 +274,27 @@ module Auditable
 
       if assoc && (assoc.macro == :has_many || assoc.macro == :has_one) && self.respond_to?("#{assoc_name}_attributes=")
         Array(send(assoc_name).target).each do |record|
-          if record.persisted? && record.marked_for_destruction? && record.respond_to?(:audit_name)
-            self._destroyed_associations_audit_data[assoc_name] ||= []
-            self._destroyed_associations_audit_data[assoc_name] << {
-              id: record.id,
-              audit_name: record.audit_name,
-            }
-          end
-        end
+         next unless record.respond_to?(:audit_changes_raw)
+
+         if record.persisted? && record.try(:marked_for_destruction?)
+           self._destroyed_associations_audit_data[assoc_name] ||= []
+           self._destroyed_associations_audit_data[assoc_name] << {
+             id: record.id,
+             audit_name: record.audit_name,
+           }
+         end
+       end
       end
     end
   end
 
+  # Writes an audit log entry for a create event.
+  # Triggered by the after_commit on :create callback.
+  #
+  # @param action [String] The action performed ('create').
+  # @param audited_changes [Hash] The changes to be logged.
+  # @param audited_fields [Array<String>] The names of the fields that changed.
   def write_audit_log_on_create
-    return unless self.class._auditable_config
-
     log_audit!(
       action: "create",
       audited_changes: audit_changes_raw["audited_changes"],
@@ -195,9 +302,13 @@ module Auditable
     )
   end
 
+  # Writes an audit log entry for an update event.
+  # Triggered by the after_commit on :update callback.
+  #
+  # @param action [String] The action performed ('update').
+  # @param audited_changes [Hash] The changes to be logged.
+  # @param audited_fields [Array<String>] The names of the fields that changed.
   def write_audit_log_on_update
-    return unless self.class._auditable_config
-
     raw_changes = audit_changes_raw
     all_changes = raw_changes["audited_changes"]
 
@@ -206,9 +317,13 @@ module Auditable
     log_audit!(action: "update", audited_changes: all_changes, audited_fields: raw_changes["audited_fields"])
   end
 
+  # Writes an audit log entry for a destroy event.
+  # Triggered by the after_commit on :destroy callback.
+  #
+  # @param action [String] The action performed ('destroy').
+  # @param audited_changes [Hash] The changes to be logged.
+  # @param audited_fields [Array<String>] The names of the fields that changed.
   def write_audit_log_on_destroy
-    return unless self.class._auditable_config
-
     log_audit!(
       action: "destroy",
       audited_changes: audit_changes_raw["audited_changes"],
@@ -216,6 +331,13 @@ module Auditable
     )
   end
 
+  # Collects changes for associated has_many or has_one records that were created or updated.
+  # This method is called by the parent record's collect_update_changes method.
+  # Excludes records marked for destruction (handled separately by collect_destroyed_association_changes).
+  #
+  # @return [Array<Hash, Array<String>>] A two-element array:
+  #   [0] Hash of associated record changes (e.g., { "association.id.attribute" => [old_value, new_value] }).
+  #   [1] Array of associated record field names (e.g., ["association.attribute"]).
   def collect_association_changes
     assoc_changes = {}
     changed_fields = []
@@ -246,6 +368,12 @@ module Auditable
     [ assoc_changes, changed_fields ]
   end
 
+  # Collects changes for has_many or has_one associations that were destroyed.
+  # This method uses the data captured in the before_update callback.
+  #
+  # @return [Array<Hash, Array<String>>] A two-element array:
+  #   [0] Hash of destroyed associated record changes (e.g., { "association.id._destroyed" => ["Old Name", nil] }).
+  #   [1] Array of destroyed associated record field names (e.g., ["association._destroyed"]).
   def collect_destroyed_association_changes
     destroyed_assoc_changes = {}
     destroyed_fields = []
@@ -261,6 +389,14 @@ module Auditable
     [ destroyed_assoc_changes, destroyed_fields ]
   end
 
+  # Creates an AuditLog record with the provided information.
+  # Ensures a transaction_id is present and prevents duplicate logs within the same transaction.
+  # Only creates a log if there are actual audited changes.
+  #
+  # @param action [String] The action performed ('create', 'update', 'destroy').
+  # @param audited_changes [Hash] A hash containing the changes to be logged.
+  # @param audited_fields [Array<String>] An array of the names of the fields that changed.
+  # @raise [RuntimeError] If a duplicate audit log is found for the same auditable record and transaction ID.
   def log_audit!(action:, audited_changes:, audited_fields: [])
     transaction_id = Current.request_id || SecureRandom.uuid
 
