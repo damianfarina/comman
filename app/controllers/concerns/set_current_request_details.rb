@@ -8,6 +8,7 @@ module SetCurrentRequestDetails
       Current.user_agent = request.user_agent
       Current.ip_address = request.ip
       Current.referrer = request.referrer
+      Current.department = current_department
      end
   end
 end

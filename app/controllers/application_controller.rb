@@ -9,6 +9,6 @@ class ApplicationController < ActionController::Base
   # allow_browser versions: :modern
 
   def current_department
-    @current_department ||= params[:department]
+    @current_department ||= params[:department].to_sym if params[:department].present?
   end
 end
