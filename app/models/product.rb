@@ -1,6 +1,5 @@
 class Product < ApplicationRecord
-  include Productables
-  include HasRichComments
+  include Productables, HasRichComments, Auditable
 
   has_one_attached :cover do |attachable|
     attachable.variant :hero, resize_to_fill: [ 400, 400 ]
@@ -9,8 +8,8 @@ class Product < ApplicationRecord
 
   has_many :making_order_items, dependent: :nullify
   belongs_to :supplier, optional: true
-  has_many :supplier_products
-  has_many :suppliers, through: :supplier_products
+  has_many :supplied_by, class_name: "SupplierProduct", dependent: :destroy
+  has_many :suppliers, through: :supplied_by
 
   before_validation :set_name
   before_validation :set_supplier
@@ -21,10 +20,21 @@ class Product < ApplicationRecord
   validates :price, presence: true, on: [ :office ]
   validates :price, numericality: { greater_than_or_equal_to: 0 }, if: -> { price.present? }
   validate :supplier_must_be_valid
-  validate :no_duplicated_supplier_products
+  validate :no_duplicated_supplied_by
   validate :prevent_removal_of_in_house_supplier_product_for_manufactured
 
-  accepts_nested_attributes_for :supplier_products, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :supplied_by, allow_destroy: true, reject_if: :all_blank
+
+  auditable only: %i[
+    name
+    current_stock
+    max_stock
+    min_stock
+    price
+    comments_plain_text
+    supplied_by
+    supplier
+  ]
 
   def self.ransackable_attributes(auth_object = nil)
     %w[id name current_stock price created_at productable_type stock_level]
@@ -60,68 +70,68 @@ class Product < ApplicationRecord
 
   private
 
-    def set_name
-      self.name = productable.name unless productable&.name.nil?
+  def set_name
+    self.name = productable.name unless productable&.name.nil?
+  end
+
+  def name_is_unique
+    other_product = Product.where.not(id: id).find_by(name: name)
+    if other_product.present?
+      errors.add(:base, I18n.t(:name_must_be_unique, scope: [ :activerecord, :errors, :models, :product ], other_product_id: other_product.id, other_product_name: other_product.name))
     end
+  end
 
-    def name_is_unique
-      other_product = Product.where.not(id: id).find_by(name: name)
-      if other_product.present?
-        errors.add(:base, I18n.t(:name_must_be_unique, scope: [ :activerecord, :errors, :models, :product ], other_product_id: other_product.id, other_product_name: other_product.name))
-      end
+  def set_supplier
+    available_suppliers = supplied_by.reject(&:marked_for_destruction?).map(&:supplier).compact
+
+    return if supplier.present? && available_suppliers.include?(supplier)
+
+    first_supplier = available_suppliers.first
+    self.supplier = first_supplier if first_supplier.present?
+  end
+
+  def supplier_must_be_valid
+    return unless supplier_id.present?
+
+    all_supplier_ids = supplied_by.map(&:supplier_id).compact
+
+    unless all_supplier_ids.include?(supplier_id)
+      errors.add(
+        :main_supplier,
+        I18n.t(:must_be_supplier, scope: [
+          :activerecord, :errors, :models, :product
+        ], supplier_name: supplier&.name)
+      )
     end
+  end
 
-    def set_supplier
-      available_suppliers = supplier_products.reject(&:marked_for_destruction?).map(&:supplier).compact
+  def no_duplicated_supplied_by
+    supplier_ids = supplied_by.reject(&:marked_for_destruction?).map(&:supplier_id)
+    duplicate_ids = supplier_ids.select { |id| supplier_ids.count(id) > 1 }.uniq
 
-      return if supplier.present? && available_suppliers.include?(supplier)
-
-      first_supplier = available_suppliers.first
-      self.supplier = first_supplier if first_supplier.present?
-    end
-
-    def supplier_must_be_valid
-      return unless supplier_id.present?
-
-      all_supplier_ids = supplier_products.map(&:supplier_id).compact
-
-      unless all_supplier_ids.include?(supplier_id)
-        errors.add(
-          :main_supplier,
-          I18n.t(:must_be_supplier, scope: [
-            :activerecord, :errors, :models, :product
-          ], supplier_name: supplier&.name)
-        )
-      end
-    end
-
-    def no_duplicated_supplier_products
-      supplier_ids = supplier_products.reject(&:marked_for_destruction?).map(&:supplier_id)
-      duplicate_ids = supplier_ids.select { |id| supplier_ids.count(id) > 1 }.uniq
-
-      if duplicate_ids.any?
-        supplier_products.each do |supplier_product|
-          if duplicate_ids.include?(supplier_product.supplier_id) && !supplier_product.marked_for_destruction?
-            supplier_product
-              .errors
-              .add(:base, I18n.t(:duplicated_supplier_products, scope: [ :activerecord, :errors, :models, :product ]))
-          end
-        end
-        errors.add(:base, I18n.t(:duplicated_supplier_products, scope: [ :activerecord, :errors, :models, :product ]))
-      end
-    end
-
-    def prevent_removal_of_in_house_supplier_product_for_manufactured
-      return unless productable.is_a?(ManufacturedProduct)
-
-      supplier_products.each do |sp|
-        next unless sp.marked_for_destruction?
-        if sp.supplier&.in_house?
-          sp.errors.add(:base, I18n.t(:manufactured_in_house, scope: [ :activerecord, :errors, :models, :product ]))
-          errors.add(:base, I18n.t(:manufactured_in_house, scope: [ :activerecord, :errors, :models, :product ]))
+    if duplicate_ids.any?
+      supplied_by.each do |supplier_product|
+        if duplicate_ids.include?(supplier_product.supplier_id) && !supplier_product.marked_for_destruction?
+          supplier_product
+            .errors
+            .add(:base, I18n.t(:duplicated_supplied_by, scope: [ :activerecord, :errors, :models, :product ]))
         end
       end
+      errors.add(:base, I18n.t(:duplicated_supplied_by, scope: [ :activerecord, :errors, :models, :product ]))
     end
+  end
+
+  def prevent_removal_of_in_house_supplier_product_for_manufactured
+    return unless productable.is_a?(ManufacturedProduct)
+
+    supplied_by.each do |sp|
+      next unless sp.marked_for_destruction?
+      if sp.supplier&.in_house?
+        sp.errors.add(:base, I18n.t(:manufactured_in_house, scope: [ :activerecord, :errors, :models, :product ]))
+        errors.add(:base, I18n.t(:manufactured_in_house, scope: [ :activerecord, :errors, :models, :product ]))
+      end
+    end
+  end
 end
 
 # == Schema Information

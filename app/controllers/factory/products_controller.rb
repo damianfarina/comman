@@ -20,7 +20,7 @@ module Factory
     # GET /products/new
     def new
       @product = Product.new(productable: ManufacturedProduct.new)
-      @product.supplier_products.build(supplier: Supplier.in_house)
+      @product.supplied_by.build(supplier: Supplier.in_house)
     end
 
     # GET /products/1/edit
@@ -30,7 +30,7 @@ module Factory
     # POST /products or /products.json
     def create
       @product = Product.new(productable: ManufacturedProduct.new)
-      @product.supplier_products.build(supplier: Supplier.in_house)
+      @product.supplied_by.build(supplier: Supplier.in_house)
       @product.assign_attributes(product_params)
 
       respond_to do |format|

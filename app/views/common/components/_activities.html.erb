@@ -1,0 +1,65 @@
+<%# locals(:audit_logs) %>
+
+<ul role="list" class="space-y-6 mt-10">
+  <% if audit_logs.any? %>
+    <% audit_logs.each do |audit_log| %>
+
+      <li class="relative flex gap-x-4">
+        <div>
+          <div class="absolute top-0 -bottom-6 left-0 flex w-6 justify-center">
+            <div class="w-px <%= "bg-transparent" if audit_log == audit_logs.last %> bg-light-gray-300"></div>
+          </div>
+          <div class="relative flex size-6 flex-none items-center justify-center bg-white">
+            <div class="size-1.5 rounded-full bg-light-gray-100 ring-1 ring-light-gray-500"></div>
+          </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-y-2">
+          <div class="flex flex-1 items-center">
+            <p class="flex-auto py-0.5 text-xs/5 text-gray-500">
+              <span class="font-medium text-gray-900"><%= activity_user_name(audit_log.user) %></span>
+              <%= activity_event(audit_log.action) %> <%= auditable_type_name(audit_log.auditable).downcase %>:
+              <%= link_to_auditable(audit_log.auditable, class: "font-medium text-gray-900") %>
+            </p>
+            <time datetime="<%= audit_log.created_at.iso8601 %>" class="flex-none py-0.5 text-xs/5 text-gray-500" title="<%= l(audit_log.created_at, format: :long) %>">
+              <%= time_ago_in_words(audit_log.created_at) %>
+            </time>
+          </div>
+
+          <% if audit_log.action == "update" && audit_log.audited_changes.keys.any? %>
+            <div
+              data-controller="common--expand-collapse"
+              class="p-3 rounded-md border border-light-gray-300"
+            >
+              <% audit_log.audited_changes.each do |field, values| %>
+                <div class="mb-2 last:mb-0">
+                  <div class="text-xs/5 font-bold text-gray-700 mb-1">
+                    <%= auditable_field_name(audit_log.auditable, field) %>
+                  </div>
+
+                  <% if formatted_old_value = activity_change_value(audit_log.auditable, field, values[0]) %>
+                    <div class="mb-1 flex gap-2 text-xs/5 text-gray-700 items-center">
+                      <div><%= heroicon("minus-circle", variant: "outline", options: { class: "h-4 w-4 text-red-500", "aria-label": "minus" }) %></div>
+                      <div class="break-all"><%= formatted_old_value %></div>
+                    </div>
+                  <% end %>
+
+                  <% if formatted_new_value = activity_change_value(audit_log.auditable, field, values[1]) %>
+                    <div class="mb-1 flex gap-2 text-xs/5 text-gray-900 items-center">
+                      <div><%= heroicon("plus-circle", variant: "outline", options: { class: "h-4 w-4 text-green-700", "aria-label": "plus" }) %></div>
+                      <div class="break-all"><%= formatted_new_value %></div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  <% else %>
+    <li class="text-center text-gray-500 py-4">
+      <%= t("auditable.no_activity") %>
+    </li>
+  <% end %>
+</ul>

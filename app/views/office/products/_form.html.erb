@@ -46,7 +46,7 @@
           </template>
 
           <div class="grid grid-cols-1 gap-y-8 mb-8" data-common--nested-form-target="container">
-            <% product.supplier_products.each do |item| %>
+            <% product.supplied_by.each do |item| %>
               <%= render(
                 "office/products/supplier_product_item_fields",
                 form: form,

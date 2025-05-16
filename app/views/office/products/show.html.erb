@@ -33,11 +33,11 @@
       <div class="px-4 py-6 sm:px-6">
         <h3 class="text-base/6 font-semibold text-gray-900"><%= Product.human_attribute_name(:suppliers) %></h3>
       </div>
-      <%= turbo_frame_tag "supplier_products_list" do %>
+      <%= turbo_frame_tag "supplied_by_list" do %>
         <div class="border-t border-light-gray-300">
           <dl class="divide-y divide-light-gray-100">
-            <% if @product.supplier_products.any? %>
-              <% @product.supplier_products.each do |supplier_product| %>
+            <% if @product.supplied_by.any? %>
+              <% @product.supplied_by.each do |supplier_product| %>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-6">
                   <dt class="text-sm font-medium text-gray-900"><%= supplier_product.supplier_name %></dt>
                   <dd class="mt-1 text-sm/6 text-gray-700 flex gap-4 items-center sm:mt-0">

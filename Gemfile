@@ -65,6 +65,7 @@ group :development, :test do
   gem "faker"
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
+  gem "hotwire-spark"
 end
 
 group :development do

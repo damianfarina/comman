@@ -5,7 +5,7 @@
   data-common--nested-form-target="item" data-item-id="<%= supplier_product_item.id || "" %>"
   class="grid grid-cols-[1fr_1fr_100px_auto] gap-x-6 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
 >
-  <%= form.fields_for :supplier_products, supplier_product_item, child_index: child_index do |ff| %>
+  <%= form.fields_for :supplied_by, supplier_product_item, child_index: child_index do |ff| %>
     <%= ff.hidden_field :id if supplier_product_item.persisted? %>
 
     <%= render("common/components/dropdown",
