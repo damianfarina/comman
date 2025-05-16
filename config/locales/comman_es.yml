@@ -200,6 +200,7 @@ es:
     print: "Imprimir"
     show_detail: "Ver detalle"
   titles:
+    recent_activities: "Historial de actividad"
     client:
       index: "Clientes"
       new: "Nuevo cliente"
@@ -250,3 +251,14 @@ es:
         success: "Producto actualizado"
       destroy:
         success: "Producto eliminado"
+  auditable:
+    boolean_true: "Sí"
+    boolean_false: "No"
+    boolean_nil: "No definido"
+    unknown_user: "Sistema"
+    no_activity: "No hay actividad reciente."
+    blank_value: "vacio"
+    events:
+      create: "creó"
+      update: "actualizó"
+      destroy: "eliminó"
