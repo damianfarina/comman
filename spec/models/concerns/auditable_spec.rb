@@ -4,6 +4,12 @@ require "rails_helper"
 RSpec.describe "Auditable", type: :model do
   let(:user) { create(:user) }
 
+  around do |example|
+    Auditable.with_auditing do
+      example.run
+    end
+  end
+
   before do
     allow(Current).to receive(:user).and_return(user)
     allow(Current).to receive(:request_id) { SecureRandom.uuid }
@@ -167,6 +173,57 @@ RSpec.describe "Auditable", type: :model do
         expect(fields).not_to include("supplier")
         expect(changes).to have_key("name")
       end
+    end
+  end
+
+  describe "Auditable.without_auditing" do
+    let!(:product) { create(:product, name: "Initial Name", productable: build(:purchased_product)) }
+
+    it "suppresses audit logging within the block" do
+      expect {
+        Auditable.without_auditing do
+          product.update!(name: "Suppressed Change")
+          product.destroy!
+        end
+      }.not_to change { AuditLog.count }
+    end
+
+    it "resumes audit logging after the block" do
+      Auditable.without_auditing do
+        product.update!(name: "Suppressed Change")
+      end
+
+      # Ensure no audit log was created for the suppressed change
+      expect(AuditLog.count).to eq(1)
+
+      # Make a change outside the suppress block
+      expect {
+        product.update!(name: "Unsuppressed Change")
+      }.to change { AuditLog.count }.by(1)
+
+      # Verify the log for the unsuppressed change
+      audit_log = product.audit_logs.recent.first
+      expect(audit_log.action).to eq("update")
+      expect(audit_log.audited_changes).to include("name" => [ "Suppressed Change", "Unsuppressed Change" ])
+    end
+
+    it "restores the original suppression state even if an error occurs" do
+      ActiveSupport::IsolatedExecutionState[:auditing_suppressed] = false
+
+      expect {
+        Auditable.without_auditing do
+          product.update!(name: "Suppressed Change")
+          raise "Something went wrong"
+        end
+      }.to raise_error("Something went wrong")
+
+      expect(AuditLog.count).to eq(1)
+
+      expect(ActiveSupport::IsolatedExecutionState[:auditing_suppressed]).to eq(false)
+
+      expect {
+        product.update!(name: "Unsuppressed Change After Error")
+      }.to change { AuditLog.count }.by(1)
     end
   end
 end

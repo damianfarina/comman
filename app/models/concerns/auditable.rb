@@ -22,6 +22,32 @@ module Auditable
     attr_accessor :_destroyed_associations_audit_data
   end
 
+  # Temporarily suppresses audit logging within the given block.
+  #
+  # @yield The block of code to execute with auditing suppressed.
+  def self.without_auditing
+    original_suppression_state = ActiveSupport::IsolatedExecutionState[:auditing_suppressed]
+    ActiveSupport::IsolatedExecutionState[:auditing_suppressed] = true
+    begin
+      yield
+    ensure
+      ActiveSupport::IsolatedExecutionState[:auditing_suppressed] = original_suppression_state
+    end
+  end
+
+  # Temporarily enables audit logging within the given block.
+  #
+  # @yield The block of code to execute with auditing enabled.
+  def self.with_auditing
+    original_suppression_state = ActiveSupport::IsolatedExecutionState[:auditing_suppressed]
+    ActiveSupport::IsolatedExecutionState[:auditing_suppressed] = false
+    begin
+      yield
+    ensure
+      ActiveSupport::IsolatedExecutionState[:auditing_suppressed] = original_suppression_state
+    end
+  end
+
   class_methods do
     # Configures the model to be actively auditable.
     # This method includes the +has_many :audit_logs+ association and registers
@@ -398,6 +424,8 @@ module Auditable
   # @param audited_fields [Array<String>] An array of the names of the fields that changed.
   # @raise [RuntimeError] If a duplicate audit log is found for the same auditable record and transaction ID.
   def log_audit!(action:, audited_changes:, audited_fields: [])
+    return if ActiveSupport::IsolatedExecutionState[:auditing_suppressed]
+
     transaction_id = Current.request_id || SecureRandom.uuid
 
     if AuditLog.exists?(auditable: self, transaction_id: transaction_id)
