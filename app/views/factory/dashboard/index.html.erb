@@ -1,4 +1,8 @@
-<div>
-  <h1 class="font-bold text-4xl">Tablero</h1>
-  <p>Aquí pondremos información del estado de la producción</p>
+<div class="col-span-1 xl:col-span-2">
+  <div class="border-b border-light-gray-500 bg-white py-6 mb-6">
+    <h3 class="text-base font-semibold text-gray-900"><%= t("titles.recent_activities") %></h3>
+  </div>
+  <div class="grid gap-8 grid-cols-1 lg:grid-cols-2">
+    <%= render("common/components/activities", audit_logs: @audit_logs) %>
+  </div>
 </div>

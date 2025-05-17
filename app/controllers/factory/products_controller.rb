@@ -15,6 +15,7 @@ module Factory
 
     # GET /products/1 or /products/1.json
     def show
+      @audit_logs = @product.audit_logs.includes(:user).recent
     end
 
     # GET /products/new
