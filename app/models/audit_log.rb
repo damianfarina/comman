@@ -6,7 +6,7 @@ class AuditLog < ApplicationRecord
   validates :audited_changes, presence: true
   validates :audited_fields, presence: true
 
-  scope :recent, -> { order(created_at: :desc) }
+  scope :recent, ->(limit = 20) { order(created_at: :desc).limit(limit) }
   scope :for_model, ->(model_class) { where(auditable_type: model_class.name) }
   scope :for_instance, ->(record) { where(auditable_type: record.class.name, auditable_id: record.id) }
 
