@@ -1,6 +1,8 @@
 class Supplier < ApplicationRecord
   include HasRichComments, Auditable
 
+  auditable
+
   enum :tax_type, general_regime: 0, simplified_regime: 1, exempt: 2
 
   has_many :products_supplied, class_name: "SupplierProduct", dependent: :destroy

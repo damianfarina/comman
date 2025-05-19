@@ -13,6 +13,7 @@ module Office
 
     # GET /office/suppliers/1 or /office/suppliers/1.json
     def show
+      @audit_logs = @supplier.audit_logs.recent.includes(:user)
     end
 
     # GET /office/suppliers/new
