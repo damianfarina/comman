@@ -189,12 +189,14 @@ RSpec.describe "Auditable", type: :model do
     end
 
     it "resumes audit logging after the block" do
+      audit_logs_count = AuditLog.count
+
       Auditable.without_auditing do
         product.update!(name: "Suppressed Change")
       end
 
       # Ensure no audit log was created for the suppressed change
-      expect(AuditLog.count).to eq(1)
+      expect(AuditLog.count).to eq(audit_logs_count)
 
       # Make a change outside the suppress block
       expect {
@@ -209,6 +211,7 @@ RSpec.describe "Auditable", type: :model do
 
     it "restores the original suppression state even if an error occurs" do
       ActiveSupport::IsolatedExecutionState[:auditing_suppressed] = false
+      audit_logs_count = AuditLog.count
 
       expect {
         Auditable.without_auditing do
@@ -217,7 +220,7 @@ RSpec.describe "Auditable", type: :model do
         end
       }.to raise_error("Something went wrong")
 
-      expect(AuditLog.count).to eq(1)
+      expect(AuditLog.count).to eq(audit_logs_count)
 
       expect(ActiveSupport::IsolatedExecutionState[:auditing_suppressed]).to eq(false)
 
