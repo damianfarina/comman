@@ -1,6 +1,17 @@
 class Product < ApplicationRecord
   include Productables, HasRichComments, Auditable
 
+  auditable only: %i[
+    name
+    current_stock
+    max_stock
+    min_stock
+    price
+    comments_plain_text
+    supplied_by
+    supplier
+  ]
+
   has_one_attached :cover do |attachable|
     attachable.variant :hero, resize_to_fill: [ 400, 400 ]
     attachable.variant :thumb, resize_to_fill: [ 100, 100 ]
@@ -24,17 +35,6 @@ class Product < ApplicationRecord
   validate :prevent_removal_of_in_house_supplier_product_for_manufactured
 
   accepts_nested_attributes_for :supplied_by, allow_destroy: true, reject_if: :all_blank
-
-  auditable only: %i[
-    name
-    current_stock
-    max_stock
-    min_stock
-    price
-    comments_plain_text
-    supplied_by
-    supplier
-  ]
 
   def self.ransackable_attributes(auth_object = nil)
     %w[id name current_stock price created_at productable_type stock_level]

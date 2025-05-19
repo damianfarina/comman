@@ -11,6 +11,7 @@ module Office
 
     # GET /clients/1
     def show
+      @audit_logs = @client.audit_logs.recent.includes(:user)
     end
 
     # GET /clients/1/edit
