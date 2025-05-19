@@ -12,10 +12,12 @@ module Auditable
   extend ActiveSupport::Concern
 
   included do
-    # Class attribute to store the auditable configuration (attributes and associations).
-    # instance_accessor: false prevents instance methods like #_auditable_config.
-    # Default is an empty hash.
-    class_attribute :_auditable_config, instance_accessor: false, default: {}
+    # Class attribute to store the raw auditable configuration (only/except options).
+    class_attribute :_auditable_raw_config, instance_accessor: false, default: nil
+
+    # Class attribute to store the resolved auditable configuration ({ attributes: [...], associations: [...] }).
+    # This is calculated lazily the first time the config is needed.
+    class_attribute :_resolved_auditable_config, instance_accessor: false, default: nil
 
     # Temporary storage for destroyed associated records' audit info during a transaction.
     # This data is captured in a before_update callback and used in the after_commit.
@@ -58,8 +60,8 @@ module Auditable
     # @param except [Array<Symbol>, nil] An array of attribute names and association names to exclude from tracking.
     # @raise [ArgumentError] If auditable or auditable_attributes has already been called on the model.
     def auditable(only: nil, except: nil)
-      raise ArgumentError, "auditable or auditable_attributes already set" if _auditable_config[:attributes]
-      self._auditable_config = resolve_auditable_config(only: only, except: except)
+      raise ArgumentError, "auditable or auditable_attributes already set" if _auditable_raw_config
+      self._auditable_raw_config = { only: only, except: except }
 
       has_many :audit_logs, as: :auditable
 
@@ -79,8 +81,20 @@ module Auditable
     # @param except [Array<Symbol>, nil] An array of attribute names and association names to exclude from tracking when audited by a parent.
     # @raise [ArgumentError] If auditable or auditable_attributes has already been called on the model.
     def auditable_attributes(only: nil, except: nil)
-      raise ArgumentError, "auditable or auditable_attributes already set" if _auditable_config[:attributes]
-      self._auditable_config = resolve_auditable_config(only: only, except: except)
+      raise ArgumentError, "auditable or auditable_attributes already set" if _auditable_raw_config
+      self._auditable_raw_config = { only: only, except: except }
+    end
+
+    # Lazily resolves and returns the auditable configuration.
+    # This method is called the first time the configuration is accessed,
+    # ensuring all associations are defined when reflect_on_all_associations is called.
+    #
+    # @return [Hash] A hash containing :attributes (Array<Symbol>) and :associations (Array<Symbol>) to track.
+    def _get_resolved_auditable_config
+      @_resolved_auditable_config ||= resolve_auditable_config(
+        only: _auditable_raw_config[:only],
+        except: _auditable_raw_config[:except]
+      )
     end
 
     # Helper method to get a map of foreign key names to auditable belongs_to association names.
@@ -93,7 +107,7 @@ module Auditable
     def _auditable_belongs_to_foreign_keys_map
       @_auditable_belongs_to_foreign_keys_map ||= begin
         keys = {}
-        (_auditable_config[:associations] || []).each do |assoc_name|
+        (_get_resolved_auditable_config[:associations] || []).each do |assoc_name|
           assoc = reflect_on_association(assoc_name)
           if assoc && assoc.macro == :belongs_to
             keys[assoc.foreign_key.to_s] = assoc_name.to_s
@@ -203,9 +217,11 @@ module Auditable
     audited_changes.merge!(destroyed_assoc_changes)
     audited_fields.concat(destroyed_fields)
 
+    audited_fields.uniq!
+
     {
       "audited_changes" => audited_changes,
-      "audited_fields" => audited_fields.uniq,
+      "audited_fields" => audited_fields,
     }
   end
 
@@ -218,7 +234,7 @@ module Auditable
   def collect_attribute_and_belongs_to_changes
     audited_changes = {}
     audited_fields = []
-    tracked_attrs_strings = self.class._auditable_config[:attributes].map(&:to_s)
+    tracked_attrs_strings = self.class._get_resolved_auditable_config[:attributes].map(&:to_s)
 
     previous_changes.each do |attribute, change|
       belongs_to_assoc = belongs_to_association_for_foreign_key(attribute)
@@ -295,21 +311,21 @@ module Auditable
   # This method is called on the parent record's before_update callback.
   def capture_destroyed_associations_for_auditing
     self._destroyed_associations_audit_data = {}
-    (self.class._auditable_config[:associations] || []).each do |assoc_name|
+    (self.class._get_resolved_auditable_config[:associations] || []).each do |assoc_name|
       assoc = self.class.reflect_on_association(assoc_name.to_sym)
 
       if assoc && (assoc.macro == :has_many || assoc.macro == :has_one) && self.respond_to?("#{assoc_name}_attributes=")
         Array(send(assoc_name).target).each do |record|
-         next unless record.respond_to?(:audit_changes_raw)
+          next unless record.respond_to?(:audit_changes_raw)
 
-         if record.persisted? && record.try(:marked_for_destruction?)
-           self._destroyed_associations_audit_data[assoc_name] ||= []
-           self._destroyed_associations_audit_data[assoc_name] << {
-             id: record.id,
-             audit_name: record.audit_name,
-           }
-         end
-       end
+          if record.persisted? && record.try(:marked_for_destruction?)
+            self._destroyed_associations_audit_data[assoc_name] ||= []
+            self._destroyed_associations_audit_data[assoc_name] << {
+              id: record.id,
+              audit_name: record.audit_name,
+            }
+          end
+        end
       end
     end
   end
@@ -368,7 +384,7 @@ module Auditable
     assoc_changes = {}
     changed_fields = []
 
-    (self.class._auditable_config[:associations] || []).each do |assoc_name|
+    (self.class._get_resolved_auditable_config[:associations] || []).each do |assoc_name|
       assoc = self.class.reflect_on_association(assoc_name.to_sym)
       next unless assoc && (assoc.macro == :has_many || assoc.macro == :has_one)
 
