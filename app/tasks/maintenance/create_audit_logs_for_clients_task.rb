@@ -3,8 +3,9 @@
 module Maintenance
   class CreateAuditLogsForClientsTask < MaintenanceTasks::Task
     def collection
-      Client.left_outer_joins(:audit_logs).where(audit_logs: { id: nil })
-        .or(Client.left_outer_joins(:audit_logs).where.not(audit_logs: { action: "create" }))
+      Client.left_outer_joins(:audit_logs)
+        .where(audit_logs: { id: nil })
+        .or(Client.where.not(audit_logs: { action: "create" }))
         .distinct
     end
 
