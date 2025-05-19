@@ -5,9 +5,9 @@ class Supplier < ApplicationRecord
 
   enum :tax_type, general_regime: 0, simplified_regime: 1, exempt: 2
 
-  has_many :products_supplied, class_name: "SupplierProduct", dependent: :destroy
-  has_many :purchased_products, through: :products_supplied
-  has_many :active_products, class_name: "Product", foreign_key: "supplier_id", dependent: :nullify
+  has_many :supplier_products, dependent: :destroy
+  has_many :supplied_products, through: :supplier_products
+  has_many :main_products, class_name: "Product", foreign_key: "supplier_id", dependent: :nullify
 
   scope :in_house, -> { find_by!(in_house: true) }
 
