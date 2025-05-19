@@ -1,5 +1,7 @@
 class Client < ApplicationRecord
-  include HasRichComments
+  include HasRichComments, Auditable
+
+  auditable
 
   enum :client_type, regular: 0, hardware_store: 2, distributor: 1
   enum :tax_type, final_consumer: 0, general_regime: 1, simplified_regime: 2
