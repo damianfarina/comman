@@ -5,8 +5,7 @@
     { title: t("titles.product.index"), path: factory_products_path },
     { title: @product.name, path: factory_product_path(@product) },
   ],
-  title: @product.name,
-  cover: @product.cover,
+  object: @product,
   actions: [
     { label: t("navigation.edit"), path: edit_factory_product_path(@product), method: :get },
   ],

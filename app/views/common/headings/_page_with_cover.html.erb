@@ -1,6 +1,6 @@
-<%# locals: (title:, actions: [], breadcrumbs:, options_dropdown: nil, cover: nil) -%>
+<%# locals: (object:, actions: [], breadcrumbs:, options_dropdown: nil) -%>
 
-<% provide(:title, title) %>
+<% provide(:title, object.name) %>
 
 <div>
   <%= render "common/headings/breadcrumbs", breadcrumbs: breadcrumbs %>
@@ -16,12 +16,8 @@
     <div class="px-4 py-10 sm:px-6 xl:px-8">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-x-8">
         <div class="flex flex-col md:flex-row items-center gap-x-6">
-          <% if cover.present? %>
-            <%= image_tag cover.variant(:hero), class: "size-60 flex-none rounded-full ring-1 ring-gray-900/10" %>
-          <% else %>
-            <%= image_tag "product.png", class: "size-60 flex-none rounded-full ring-1 ring-gray-900/10" %>
-          <% end %>
-          <h1 class="text-2xl font-bold leading-10 text-gray-900 text-pretty sm:text-3xl sm:tracking-tight"><%= title %></h1>
+          <%= image_tag object.cover_hero, class: "size-60 flex-none rounded-full ring-1 ring-gray-900/10" %>
+          <h1 class="text-2xl font-bold leading-10 text-gray-900 text-pretty sm:text-3xl sm:tracking-tight"><%= object.name %></h1>
         </div>
 
         <div class="flex items-center gap-x-4 sm:gap-x-6 self-end">
