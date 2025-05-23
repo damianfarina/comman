@@ -10,6 +10,7 @@ class Product < ApplicationRecord
     comments_plain_text
     supplied_by
     supplier
+    cover_filename
   ]
 
   has_many :making_order_items, dependent: :nullify
