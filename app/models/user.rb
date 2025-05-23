@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   def name
     super.presence || email_address.split("@").first.humanize
+  validates :name, :email_address, presence: true
+  validates :email_address, format: { with: URI::MailTo::EMAIL_REGEXP }
   end
 end
 
