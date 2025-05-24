@@ -133,7 +133,7 @@ module Auditable
         elsif except
           attrs - except.map(&:to_sym)
         else
-          attrs - [ :created_at, :updated_at, :id ]
+          attrs - [ :created_at, :updated_at, :id, :password_digest ]
         end
 
       associations = reflect_on_all_associations.map(&:name)

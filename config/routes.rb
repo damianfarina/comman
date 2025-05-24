@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :discounts, only: %i[ show edit update ]
     resources :products
     resources :suppliers
+    resources :users, only: %i[ index show new create edit update destroy ]
   end
 
   namespace :sales, defaults: { department: "sales" } do

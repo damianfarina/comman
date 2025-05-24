@@ -1,0 +1,96 @@
+<%= render "common/headings/page",
+  title: t("titles.user.index"),
+  actions: [
+    { label: t("navigation.new"), path: new_office_user_path, method: :get },
+  ],
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.user.index"), path: office_users_path },
+  ] %>
+
+<div class="w-full">
+  <div class="mt-8 flow-root">
+    <div class="flex flex-1">
+      <%= search_form_for(
+        @q,
+        url: office_users_path,
+        method: :get,
+        data: {
+          turbo_frame: "users_table",
+          turbo_action: "advance",
+          controller: "common--submit-debounce",
+          action: "input->common--submit-debounce#submit",
+        },
+        class: "flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4",
+      ) do |form| %>
+        <div>
+          <%= form.label :id_or_name_or_email_address_cont, t("placeholders.search_by.name"), class: "sr-only" %>
+          <div class="relative text-gray-300 focus-within:text-gray">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <%= form.search_field(
+              :id_or_name_or_email_address_cont,
+              autofocus: true,
+              autocomplete: "off",
+              class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+              placeholder: t("placeholders.search_by.attributes"),
+            ) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= turbo_frame_tag "users_table" do %>
+      <% if @users.any? %>
+        <div class="inline-block min-w-full py-2 align-middle">
+          <table id="formulas" class="min-w-full divide-y divide-light-gray-900">
+            <thead>
+              <tr>
+                <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :id, User.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :name, User.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden sm:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :email_address, User.human_attribute_name(:email_address), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden 2xl:table-cell px-1 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :created_at, User.human_attribute_name(:created_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-light-gray">
+              <% @users.each do |user| %>
+                <tr class="hover:bg-light-gray-50">
+                  <td class="whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-900">
+                    <%= link_to user.id, office_user_path(user), class: "flex justify-center", data: { turbo_frame: "_top" } %>
+                  </td>
+                  <td class="px-1 md:px-4 py-3 text-xs md:text-sm text-gray-500 text-center text-wrap">
+                    <%= link_to user.name, office_user_path(user), class: "flex justify-center", data: { turbo_frame: "_top" } %>
+                  </td>
+                  <td class="hidden sm:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= user.email_address %>
+                  </td>
+                  <td class="hidden 2xl:table-cell whitespace-nowrap px-1 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= l user.created_at, format: :compact %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="flex items-center justify-center h-96">
+          <p class="px-4 py-6 sm:px-6 text-sm/6 text-light-gray-700 italic">
+            <%= t("messages.no_products") %>
+          </p>
+        </div>
+      <% end %>
+      <%= paginate @users, total_count: @users.total_count %>
+    <% end %>
+  </div>
+</div>

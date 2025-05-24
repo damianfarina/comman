@@ -43,6 +43,7 @@ module ApplicationHelper
         { name: t("titles.client.index"), path: office_clients_path, icon: "user-group" },
         { name: t("titles.supplier.index"), path: office_suppliers_path, icon: "truck" },
         { name: t("titles.product.index"), path: office_products_path, icon: "cube" },
+        { name: t("titles.user.index"), path: office_users_path, icon: "user" },
         { name: t("titles.setting.index"), path: office_settings_path, icon: "cog-8-tooth" },
       ]
     when /^\/sales/

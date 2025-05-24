@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  include Productables, HasRichComments, Auditable
+  include Productables, HasRichComments, Auditable, Coverable
 
   auditable only: %i[
     name
@@ -10,12 +10,8 @@ class Product < ApplicationRecord
     comments_plain_text
     supplied_by
     supplier
+    cover_filename
   ]
-
-  has_one_attached :cover do |attachable|
-    attachable.variant :hero, resize_to_fill: [ 400, 400 ]
-    attachable.variant :thumb, resize_to_fill: [ 100, 100 ]
-  end
 
   has_many :making_order_items, dependent: :nullify
   belongs_to :supplier, optional: true
