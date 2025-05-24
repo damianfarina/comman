@@ -1,0 +1,13 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.user.index"), path: office_users_path },
+    { title: t("navigation.new"), path: new_office_user_path },
+  ],
+  title: t("titles.user.new"),
+) %>
+
+<div class="w-full">
+  <%= render "form", user: @user %>
+</div>

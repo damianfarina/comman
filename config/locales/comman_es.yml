@@ -22,6 +22,9 @@ es:
             price:
               not_a_number: "debe ser un número"
     models:
+      client:
+        one: "Cliente"
+        other: "Clientes"
       formula_element: "Materia prima"
       formula_item:
         one: "Ingrediente"
@@ -87,6 +90,7 @@ es:
         quantity: "Cantidad de producto"
       product:
         cover: "Portada"
+        cover_filename: "Archivo de la portada"
         created_at: "Ingresado"
         current_stock: "Stock actual"
         comments: "Observaciones"
@@ -154,27 +158,37 @@ es:
         created_at: "Ingresado"
         cash: "Pago Efectivo"
       supplier:
+        address: "Dirección"
+        bank_account_number: "Cuenta"
+        bank_name: "Banco"
+        comments_plain_text: "Observaciones"
+        comments: "Observaciones"
+        country: "País"
+        created_at: "Ingresado"
+        email: "Email"
+        id: "ID"
+        maps_url: "Enlace Mapa"
+        name: "Nombre"
+        phone: "Teléfono"
+        province: "Provincia"
+        routing_number: "CBU"
+        tax_identification: "CUIT"
+        tax_type: "Inscripción Tributaria"
         tax_type_values:
           general_regime: "Responsable Inscripto"
           simplified_regime: "Monotributista"
           exempt: "Exento"
-        name: "Nombre"
-        tax_identification: "CUIT"
-        email: "Email"
-        phone: "Teléfono"
-        country: "País"
-        province: "Provincia"
-        zipcode: "Código Postal"
-        address: "Dirección"
-        maps_url: "Enlace Mapa"
-        tax_type: "Inscripción Tributaria"
         updated_at: "Actualizado"
+        zipcode: "Código Postal"
+      user:
+        cover: "Portada"
+        cover_filename: "Archivo de la portada"
         created_at: "Ingresado"
-        comments: "Observaciones"
-        comments_plain_text: "Observaciones"
-        bank_name: "Banco"
-        bank_account_number: "Cuenta"
-        routing_number: "CBU"
+        email_address: "Email"
+        id: "ID"
+        name: "Nombre"
+        password: "Contraseña"
+        updated_at: "Actualizado"
   messages:
     are_you_sure: "¿Estás seguro?"
     saving: "Guardando..."
@@ -232,6 +246,9 @@ es:
     supplier:
       index: "Proveedores"
       new: "Nuevo proveedor"
+    user:
+      index: "Usuarios"
+      new: "Nuevo usuario"
   placeholders:
     search_by:
       name: "Buscar por nombre"
@@ -240,6 +257,20 @@ es:
       attributes: "Buscar por cualquier campo"
 
   office:
+    clients:
+      create:
+        success: "Cliente creado."
+      update:
+        success: "Cliente actualizado."
+      destroy:
+        success: "Cliente eliminado."
+    users:
+      create:
+        success: "Usuario creado."
+      update:
+        success: "Usuario actualizado."
+      destroy:
+        success: "Usuario eliminado."
     products:
       create:
         success: "Producto creado"

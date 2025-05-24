@@ -1,0 +1,31 @@
+<%= render(
+  "common/headings/page_with_cover",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: office_root_path },
+    { title: t("titles.user.index"), path: office_users_path },
+    { title: @user.name, path: office_user_path(@user) },
+  ],
+  object: @user,
+  actions: [
+    { label: t("navigation.edit"), path: edit_office_user_path(@user), method: :get },
+  ],
+) %>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-6">
+  <div>
+    <%= render(
+      "common/lists/description",
+      items: [
+        { label: User.human_attribute_name(:name), value: @user.name },
+        { label: User.human_attribute_name(:email_address), value: @user.email_address },
+      ]
+    ) %>
+  </div>
+  <div class="col-span-1 xl:col-span-2">
+    <div class="border-b border-light-gray-500 bg-white py-6 mb-6">
+      <h3 class="text-base font-semibold text-gray-900"><%= t("titles.recent_activities") %></h3>
+    </div>
+    <div class="grid gap-8 grid-cols-1 lg:grid-cols-2">
+      <%= render("common/components/activities", audit_logs: @audit_logs) %>
+    </div>
+  </div>
+</div>

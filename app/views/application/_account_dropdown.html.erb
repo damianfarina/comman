@@ -19,7 +19,7 @@
       data-common--options-dropdown-target="button"
       class="flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-blue-700"
     >
-      <img class="h-8 w-8 rounded-full bg-blue-700" src="https://api.dicebear.com/9.x/avataaars-neutral/svg?seed=<%= Current.user.name %>" alt="">
+      <%= image_tag Current.user.cover_thumbnail, class: "size-8 inline-block rounded-full ring-1 ring-gray-900/10 object-cover" %>
       <span class="sr-only">Tu perfil</span>
       <span aria-hidden="true"><%= Current.user.name %></span>
     </button>

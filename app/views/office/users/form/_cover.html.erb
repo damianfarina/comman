@@ -1,0 +1,10 @@
+<%# locals: (form:, user:)  %>
+
+<%= render "common/forms/cover", form: form do %>
+  <div class="mt-2">
+    <%= image_tag user.cover_thumbnail,
+      "data-common--image-preview-target": "canvas",
+      class: "size-14 inline-block rounded-full bg-gradient-to-r from-green-500 to-light-green-100 ring-1 ring-gray-900/10 object-cover"
+    %>
+  </div>
+<% end %>

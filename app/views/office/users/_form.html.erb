@@ -1,0 +1,29 @@
+<%# locals: (user:)  %>
+
+<%= form_with(model: [:office, user], class: "contents") do |form| %>
+  <%= render "common/error_messages", model: user %>
+  <%= render "common/forms/simple" do %>
+    <div class="col-span-6 md:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+
+      <%= render "office/users/form/cover", form: form, user: user %>
+
+      <div>
+        <%= form.label :name, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.text_field :name, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :email_address, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= form.email_field :email_address, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit t("actions.save"), class: "btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

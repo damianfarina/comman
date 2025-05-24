@@ -22,7 +22,7 @@ module Office
     def update
       respond_to do |format|
         if @client.update(client_params)
-          format.html { redirect_to office_client_path(@client), notice: "El cliente fue actualizado." }
+          format.html { redirect_to office_client_path(@client), notice: t(".success") }
           format.json { render :show, status: :ok, location: office_client_url(@client) }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -42,7 +42,7 @@ module Office
 
       respond_to do |format|
         if @client.save
-          format.html { redirect_to office_client_path(@client), notice: "El cliente fue creado." }
+          format.html { redirect_to office_client_path(@client), notice: t(".success") }
           format.json { render :show, status: :created, location: office_client_url(@client) }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -54,10 +54,11 @@ module Office
     # DELETE /clients/1 or /clients/1.json
     def destroy
       raise "Clients cannot be destroyed! They are part of the company history. Implement archiving instead."
-      @client.destroy!
+      # Uncomment the line below to actually destroy the client
+      # @client.destroy!
 
       respond_to do |format|
-        format.html { redirect_to office_clients_path, status: :see_other, notice: "Cliente eliminado." }
+        format.html { redirect_to office_clients_path, status: :see_other, notice: t(".success") }
         format.json { head :no_content }
       end
     end
