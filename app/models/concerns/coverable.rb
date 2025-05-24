@@ -13,7 +13,7 @@ module Coverable
   end
 
   def cover_thumbnail
-    if cover.attached?
+    if cover.attached? && cover.persisted?
       cover.variant(:thumb)
     else
       default_cover
@@ -21,7 +21,7 @@ module Coverable
   end
 
   def cover_hero
-    if cover.attached?
+    if cover.attached? && cover.persisted?
       cover.variant(:hero)
     else
       default_cover
