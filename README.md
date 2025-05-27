@@ -86,10 +86,6 @@ dotenv -f .env.newserver kamal deploy -d newserver
 
 ## Future Roadmap
 
-- Client request → Order flow:
-  - Create orders from client requests
-  - Automatically calculate stock availability
-  - Trigger Making Orders for missing stock
 - Billing and invoicing
 - Supplier price list importer
 - Quick access to resources using mobile camera + QR codes
