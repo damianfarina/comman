@@ -140,7 +140,7 @@ end
 #  max_stock           :integer          default(0), not null
 #  min_stock           :integer          default(0), not null
 #  name                :string
-#  price               :decimal(, )
+#  price               :decimal(10, 2)   default(0.0), not null
 #  productable_type    :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
