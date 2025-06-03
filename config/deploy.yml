@@ -40,10 +40,12 @@ env:
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
-    - SENDGRID_API_KEY
-    - SENDGRID_DOMAIN
-    - SENDGRID_FROM_EMAIL
-    - SENDGRID_FROM_NAME
+    - EMAIL_SMTP_ADDRESS
+    - EMAIL_DOMAIN
+    - EMAIL_PASSWORD
+    - EMAIL_USER_NAME
+    - EMAIL_FROM_ADDRESS
+    - EMAIL_FROM_NAME
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
