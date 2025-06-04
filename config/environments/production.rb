@@ -59,17 +59,17 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("SENDGRID_DOMAIN", "SENDGRID_DOMAIN") }
+  config.action_mailer.default_url_options = { host: ENV.fetch("EMAIL_DOMAIN", "EMAIL_DOMAIN") }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   config.action_mailer.smtp_settings = {
-    user_name: "apikey",
-    password: ENV.fetch("SENDGRID_API_KEY", "SENDGRID_API_KEY"),
-    domain: ENV.fetch("SENDGRID_DOMAIN", "SENDGRID_DOMAIN"),
-    address: "smtp.sendgrid.net",
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true,
+    address:              ENV.fetch("EMAIL_SMTP_ADDRESS", "EMAIL_SMTP_ADDRESS"),
+    authentication:       :plain,
+    domain:               ENV.fetch("EMAIL_DOMAIN", "EMAIL_DOMAIN"),
+    enable_starttls:      true,
+    password:             ENV.fetch("EMAIL_PASSWORD", "EMAIL_PASSWORD"),
+    port:                 587,
+    user_name:            ENV.fetch("EMAIL_USER_NAME", "EMAIL_USER_NAME"),
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
