@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_29_193603) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_211958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -228,7 +228,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_193603) do
     t.bigint "sales_order_id", null: false
     t.bigint "product_id", null: false
     t.integer "quantity"
-    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "unit_price", precision: 10, scale: 2
     t.string "status", default: "quote", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -245,9 +245,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_193603) do
     t.datetime "cancelled_at"
     t.decimal "total_price", precision: 12, scale: 2
     t.text "comments_plain_text"
-    t.decimal "discount_percentage", precision: 5, scale: 2, default: "0.0", null: false
+    t.decimal "cash_discount_percentage", precision: 5, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "client_discount_percentage", precision: 5, scale: 2, default: "0.0", null: false
     t.index ["client_id"], name: "index_sales_orders_on_client_id"
     t.index ["status"], name: "index_sales_orders_on_status"
   end

@@ -21,6 +21,16 @@ es:
           attributes:
             price:
               not_a_number: "debe ser un número"
+        sales_order:
+          not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
+          not_cancellable: "El pedido no puede ser cancelado en su estado actual."
+          not_fulfillable: "El pedido no puede ser despachado en su estado actual."
+          attributes:
+            base:
+              confirmation_failed: "Falló la confirmación del pedido: %{details}"
+              cancellation_failed: "Falló la cancelación del pedido: %{details}"
+              fulfillment_failed: "Falló el despacho del pedido: %{details}"
+
     models:
       client:
         one: "Cliente"
