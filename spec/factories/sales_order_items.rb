@@ -3,7 +3,7 @@ FactoryBot.define do
     sales_order { association :sales_order }
     product { association :product }
     quantity { 2 }
-    unit_price { product.price * quantity }
-    status { SalesOrderItem.statuses.keys.sample }
+    unit_price { nil }
+    status { :quote }
   end
 end
