@@ -228,7 +228,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_193603) do
     t.bigint "sales_order_id", null: false
     t.bigint "product_id", null: false
     t.integer "quantity"
-    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "unit_price", precision: 10, scale: 2
     t.string "status", default: "quote", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

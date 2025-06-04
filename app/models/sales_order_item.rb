@@ -93,7 +93,7 @@ end
 #  id             :bigint           not null, primary key
 #  quantity       :integer
 #  status         :string           default("quote"), not null
-#  unit_price     :decimal(10, 2)   not null
+#  unit_price     :decimal(10, 2)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  product_id     :bigint           not null
