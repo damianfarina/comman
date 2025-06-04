@@ -42,8 +42,7 @@ class SalesOrder < ApplicationRecord
 
     confirmable_items.all? do |item|
       effective_price = item.effective_unit_price
-      effective_price.present? && effective_price >= BigDecimal('0')
-      # item.quantity.to_i > 0 and item.product.present? are checked by the :confirmable scope
+      effective_price.present? && effective_price >= 0
     end
   end
 
@@ -56,12 +55,11 @@ class SalesOrder < ApplicationRecord
 
       sales_order_items.confirmable.each(&:confirm!)
 
-      # Sum subtotals only from items that were successfully confirmed and are now 'in_progress'
-      subtotal_before_order_discount = sales_order_items.reload.where(status: SalesOrderItem.statuses[:in_progress]).sum(&:subtotal)
+      subtotal_before_order_discount = sales_order_items.reload.in_progress.sum(&:subtotal)
 
-      order_discount_value = BigDecimal('0')
-      if self.discount_percentage.present? && self.discount_percentage > BigDecimal('0')
-        order_discount_value = subtotal_before_order_discount * (self.discount_percentage / BigDecimal('100.0'))
+      order_discount_value = BigDecimal("0")
+      if self.discount_percentage.present? && self.discount_percentage > 0
+        order_discount_value = subtotal_before_order_discount * (self.discount_percentage / BigDecimal("100.0"))
       end
 
       self.total_price = subtotal_before_order_discount - order_discount_value
@@ -99,10 +97,7 @@ class SalesOrder < ApplicationRecord
       self.status = SalesOrder.statuses[:fulfilled]
       self.fulfilled_at = Time.current
 
-      sales_order_items.where(status: [SalesOrderItem.statuses[:in_progress], SalesOrderItem.statuses[:ready]]).find_each do |item|
-        item.status = SalesOrderItem.statuses[:delivered]
-        item.save!
-      end
+      sales_order_items.deliverable.each(&:deliver!)
 
       save!
     end
