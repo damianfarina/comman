@@ -57,6 +57,20 @@ class SalesOrderItem < ApplicationRecord
     save!
   end
 
+  def can_deliver?
+    [
+      SalesOrderItem.statuses[:in_progress],
+      SalesOrderItem.statuses[:ready],
+    ].include?(status)
+  end
+
+  def deliver!
+    raise StandardError, "SalesOrderItem cannot be delivered in its current state." unless can_deliver?
+
+    self.status = SalesOrderItem.statuses[:delivered]
+    save!
+  end
+
   def resolved?
     delivered? || cancelled?
   end
