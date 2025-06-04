@@ -26,11 +26,91 @@ class SalesOrder < ApplicationRecord
     cancelled: "cancelled",
   }
 
-  validates :discount_percentage, numericality: { greater_than_or_equal_to: 0 }
+  validates :discount_percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :total_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :status, presence: true, inclusion: { in: SalesOrder.statuses.values }
-end
+  validates :status, presence: true, inclusion: { in: statuses.values }
 
+  def editable?
+    quote?
+  end
+
+  def can_confirm?
+    return false unless quote?
+
+    confirmable_items = sales_order_items.confirmable
+    return false if confirmable_items.empty?
+
+    confirmable_items.all? do |item|
+      effective_price = item.effective_unit_price
+      effective_price.present? && effective_price >= BigDecimal('0')
+      # item.quantity.to_i > 0 and item.product.present? are checked by the :confirmable scope
+    end
+  end
+
+  def confirm!
+    raise StandardError, "SalesOrder cannot be confirmed in its current state or items are not valid." unless can_confirm?
+
+    transaction do
+      self.status = SalesOrder.statuses[:confirmed]
+      self.confirmed_at = Time.current
+
+      sales_order_items.confirmable.each(&:confirm!)
+
+      # Sum subtotals only from items that were successfully confirmed and are now 'in_progress'
+      subtotal_before_order_discount = sales_order_items.reload.where(status: SalesOrderItem.statuses[:in_progress]).sum(&:subtotal)
+
+      order_discount_value = BigDecimal('0')
+      if self.discount_percentage.present? && self.discount_percentage > BigDecimal('0')
+        order_discount_value = subtotal_before_order_discount * (self.discount_percentage / BigDecimal('100.0'))
+      end
+
+      self.total_price = subtotal_before_order_discount - order_discount_value
+
+      save!
+    end
+  rescue ActiveRecord::RecordInvalid, StandardError => e
+    errors.add(:base, "Failed to confirm order: #{e.message}")
+    false
+  end
+
+  def can_cancel?
+    quote? || confirmed?
+  end
+
+  def cancel!
+    raise StandardError, "Order cannot be cancelled in its current state." unless can_cancel?
+
+    self.status = SalesOrder.statuses[:cancelled]
+    self.cancelled_at = Time.current
+    save!
+  rescue ActiveRecord::RecordInvalid, StandardError => e
+    errors.add(:base, "Failed to cancel order: #{e.message}")
+    false
+  end
+
+  def can_fulfill?
+    confirmed?
+  end
+
+  def fulfill!
+    raise StandardError, "Order cannot be fulfilled in its current state." unless can_fulfill?
+
+    transaction do
+      self.status = SalesOrder.statuses[:fulfilled]
+      self.fulfilled_at = Time.current
+
+      sales_order_items.where(status: [SalesOrderItem.statuses[:in_progress], SalesOrderItem.statuses[:ready]]).find_each do |item|
+        item.status = SalesOrderItem.statuses[:delivered]
+        item.save!
+      end
+
+      save!
+    end
+  rescue ActiveRecord::RecordInvalid, StandardError => e
+    errors.add(:base, "Failed to fulfill order: #{e.message}")
+    false
+  end
+end
 
 # == Schema Information
 #
