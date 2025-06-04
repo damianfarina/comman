@@ -18,6 +18,12 @@ class SalesOrderItem < ApplicationRecord
       .where("quantity > 0")
   }
   scope :in_progress, -> { where(status: SalesOrderItem.statuses[:in_progress]) }
+  scope :deliverable, -> {
+    where(status: [
+      SalesOrderItem.statuses[:in_progress],
+      SalesOrderItem.statuses[:ready],
+    ])
+  }
 
   validates :quantity, numericality: { greater_than: 0 }, allow_nil: true
   validates :unit_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
