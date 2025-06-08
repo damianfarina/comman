@@ -34,6 +34,10 @@ class Client < ApplicationRecord
   def client_type_discount
     Discount.find_by(discount_type: :client_type, client_type: client_type)&.percentage || 0
   end
+
+  def full_address
+    [ address, province, zipcode, country ].compact_blank.join(", ")
+  end
 end
 
 # == Schema Information

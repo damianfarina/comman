@@ -53,22 +53,19 @@
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :name, Client.human_attribute_name(:name), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
-                <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                <th scope="col" class="hidden md:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :address, Client.human_attribute_name(:address), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
-                <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :province, Client.human_attribute_name(:province), class: "flex", data: { turbo_action: "advance"}) %>
-                </th>
-                <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :email, Client.human_attribute_name(:email), class: "flex", data: { turbo_action: "advance"}) %>
-                </th>
                 <th scope="col" class="table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :client_type, Client.human_attribute_name(:client_type), class: "flex", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :tax_identification, Client.human_attribute_name(:tax_identification), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :tax_type, Client.human_attribute_name(:tax_type), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="hidden lg:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
+                  <%= sort_link(@q, :client_type, Client.human_attribute_name(:client_type), class: "flex", data: { turbo_action: "advance"}) %>
+                </th>
+                <th scope="col" class="hidden 2xl:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :seller_name, Client.human_attribute_name(:seller_name), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
               </tr>
@@ -84,22 +81,26 @@
                       <span class="sr-only">Ver client </span><span><%= client.name %></span>
                     <% end %>
                   </td>
-                    <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= client.address %>
-                  </td>
-                  <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= client.province %>
-                  </td>
-                  <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= client.email %>
+                  <td class="hidden md:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <% if client.maps_url.present? %>
+                      <%= link_to(safe_url(client.maps_url), class: "flex items-center gap-2", target: "_blank") do %>
+                        <%= heroicon("map-pin", options: { class: "h-4 w-4 shrink-0 transition text-gray-300 hover:text-gray-700" }) +
+                        client.full_address %>
+                      <% end %>
+                    <% else %>
+                      <%= client.full_address %>
+                    <% end %>
                   </td>
                   <td class="table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= t(client.client_type, scope: [:activerecord, :attributes, :client, :client_type_values]) %>
+                    <%= client.tax_identification %>
                   </td>
                   <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                     <%= t(client.tax_type, scope: [:activerecord, :attributes, :client, :tax_type_values]) %>
                   </td>
                   <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                    <%= t(client.client_type, scope: [:activerecord, :attributes, :client, :client_type_values]) %>
+                  </td>
+                  <td class="hidden 2xl:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
                     <%= client.seller_name %>
                   </td>
                 </tr>
