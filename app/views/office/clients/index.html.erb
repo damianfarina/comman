@@ -78,7 +78,7 @@
                   </td>
                   <td class="py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
                     <%= link_to office_client_path(client), data: { turbo_frame: "_top" } do %>
-                      <span class="sr-only">Ver client </span><span><%= client.name %></span>
+                      <span class="sr-only"><%= t(".view_client") %> </span><span><%= client.name %></span>
                     <% end %>
                   </td>
                   <td class="hidden md:table-cell px-2 md:px-4 py-3 text-sm text-gray-500">

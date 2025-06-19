@@ -32,6 +32,16 @@ class SalesOrder < ApplicationRecord
   validates :total_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :status, presence: true, inclusion: { in: statuses.values }
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id comments_plain_text]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[client]
+  end
+
+  delegate :name, to: :client, prefix: true
+
   after_initialize :set_default_discounts, if: :new_record?
 
   def editable?
