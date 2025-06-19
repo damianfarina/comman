@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   namespace :sales, defaults: { department: "sales" } do
     root "dashboard#index"
+    resources :orders, controller: "sales_orders"
   end
 
   namespace :factory, defaults: { department: "factory" } do
