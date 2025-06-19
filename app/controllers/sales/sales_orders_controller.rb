@@ -1,10 +1,16 @@
 module Sales
   class SalesOrdersController < ApplicationController
+    include IdSearchQueryProcessor
+
     before_action :set_sales_order, only: %i[ show edit update destroy ]
 
     # GET /sales_orders or /sales_orders.json
     def index
-      @sales_orders = SalesOrder.all
+      @q = SalesOrder.ransack(params[:q])
+      @q.sorts = default_sort if @q.sorts.empty?
+      @sales_orders = @q.result
+        .includes(:products, :client, :sales_order_items)
+        .page(params[:page])
     end
 
     # GET /sales_orders/1 or /sales_orders/1.json
@@ -59,25 +65,28 @@ module Sales
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_sales_order
-        @sales_order = SalesOrder.find(params.expect(:id))
-      end
 
-      # Only allow a list of trusted parameters through.
-      def sales_order_params
-        params.expect(
-          sales_order: [
-            :client_id,
-            :status,
-            :confirmed_at,
-            :fulfilled_at,
-            :cancelled_at,
-            :total_price,
-            :comments_plain_text,
-            :cash_discount_percentage,
-            :client_discount_percentage,
-          ])
-      end
+    def set_sales_order
+      @sales_order = SalesOrder.find(params.expect(:id))
+    end
+
+    def sales_order_params
+      params.expect(
+        sales_order: [
+          :client_id,
+          :status,
+          :confirmed_at,
+          :fulfilled_at,
+          :cancelled_at,
+          :total_price,
+          :comments_plain_text,
+          :cash_discount_percentage,
+          :client_discount_percentage,
+        ])
+    end
+
+    def default_sort
+      [ "id desc" ]
+    end
   end
 end
