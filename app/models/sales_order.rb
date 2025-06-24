@@ -31,6 +31,7 @@ class SalesOrder < ApplicationRecord
   validates :cash_discount_percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :total_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :status, presence: true, inclusion: { in: statuses.values }
+  validates :sales_order_items, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
     %w[id comments_plain_text]
@@ -40,7 +41,7 @@ class SalesOrder < ApplicationRecord
     %w[client]
   end
 
-  delegate :name, to: :client, prefix: true
+  delegate :name, to: :client, prefix: true, allow_nil: true
 
   after_initialize :set_default_discounts, if: :new_record?
 
