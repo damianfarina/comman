@@ -49,6 +49,7 @@ module ApplicationHelper
     when /^\/sales/
       [
         { name: t("navigation.dashboard"), path: sales_root_path, icon: "home", exact: true },
+        { name: t("sales.clients.index.title"), path: sales_clients_path, icon: "user-group" },
       ]
     when /^\/factory/
       [
