@@ -4,7 +4,6 @@ RSpec.describe SalesOrder, type: :model do
   let!(:client) { create(:client) }
   let!(:product1) { create(:purchased_productable, name: "Product A", price: 100.00) }
   let!(:product2) { create(:purchased_productable, name: "Product B", price: 50.00) }
-  let!(:item_for_error) { create(:sales_order_item, product: product1) }
 
   describe "associations" do
     it "belongs to a client" do
@@ -14,30 +13,38 @@ RSpec.describe SalesOrder, type: :model do
     end
 
     it "has many sales_order_items" do
-      order = create(:sales_order, client: client)
-      item1 = create(:sales_order_item, sales_order: order, product: product1, quantity: 1, unit_price: product1.price)
-      item2 = create(:sales_order_item, sales_order: order, product: product2, quantity: 1, unit_price: product2.price)
+      order = create(:sales_order, client: client, sales_order_items: [
+        build(:sales_order_item, product: product1, quantity: 1, unit_price: product1.price),
+        build(:sales_order_item, product: product2, quantity: 1, unit_price: product2.price),
+      ])
+      item1 = order.sales_order_items[0]
+      item2 = order.sales_order_items[1]
       expect(order.sales_order_items.count).to eq(2)
       expect(order.sales_order_items).to include(item1, item2)
     end
 
     it "destroys associated sales_order_items when destroyed" do
-      order = create(:sales_order, client: client)
-      create_list(:sales_order_item, 2, sales_order: order, product: product1, quantity: 1, unit_price: product1.price)
+      order = create(:sales_order, client: client, sales_order_items: [
+        build(:sales_order_item, product: product1, quantity: 1, unit_price: product1.price),
+        build(:sales_order_item, product: product2, quantity: 1, unit_price: product2.price),
+      ])
       expect { order.destroy }.to change(SalesOrderItem, :count).by(-2)
     end
 
     it "has many products through sales_order_items" do
-      order = create(:sales_order, client: client)
-      create(:sales_order_item, sales_order: order, product: product1, quantity: 1, unit_price: product1.price)
-      create(:sales_order_item, sales_order: order, product: product2, quantity: 1, unit_price: product2.price)
+      order = create(:sales_order, client: client, sales_order_items: [
+        build(:sales_order_item, product: product1, quantity: 1, unit_price: product1.price),
+        build(:sales_order_item, product: product2, quantity: 1, unit_price: product2.price),
+      ])
       expect(order.products).to include(product1, product2)
       expect(order.products.count).to eq(2)
     end
   end
 
   describe "validations" do
-    subject { build(:sales_order, client: client) }
+    subject { build(:sales_order, client: client, sales_order_items: [
+      build(:sales_order_item, product: product1, quantity: 1, unit_price: product1.price),
+    ]) }
 
     it "is valid with valid attributes" do
       expect(subject).to be_valid
@@ -47,6 +54,12 @@ RSpec.describe SalesOrder, type: :model do
       subject.client = nil
       expect(subject).not_to be_valid
       expect(subject.errors[:client]).to include("debe existir")
+    end
+
+    it "is invalid without products" do
+      subject.sales_order_items = []
+      expect(subject).not_to be_valid
+      expect(subject.errors[:sales_order_items]).to include("no puede estar en blanco")
     end
 
     context "for discounts" do
@@ -107,7 +120,7 @@ RSpec.describe SalesOrder, type: :model do
   end
 
   describe "#can_confirm?" do
-    let(:order) { create(:sales_order, client: client, status: "quote") }
+    let!(:order) { create(:sales_order, products_count: 1, client: client, status: "quote") }
 
     context "when order is a quote" do
       it "returns true if it has confirmable items with valid prices" do
@@ -116,6 +129,7 @@ RSpec.describe SalesOrder, type: :model do
       end
 
       it "returns false if it has no items" do
+        order.sales_order_items.destroy_all
         expect(order.can_confirm?).to be false
       end
 
@@ -133,9 +147,12 @@ RSpec.describe SalesOrder, type: :model do
   end
 
   describe "#confirm!" do
-    let!(:order) { create(:sales_order, client: client, status: "quote", client_discount_percentage: 10.0) }
-    let!(:item1) { create(:sales_order_item, sales_order: order, product: product1, quantity: 2, status: "quote", unit_price: nil) }
-    let!(:item2) { create(:sales_order_item, sales_order: order, product: product2, quantity: 1, status: "quote", unit_price: 40.00) }
+    let!(:order) { create(:sales_order, client: client, status: "quote", client_discount_percentage: 10.0, sales_order_items: [
+      build(:sales_order_item, product: product1, quantity: 2, status: "quote", unit_price: nil),
+      build(:sales_order_item, product: product2, quantity: 1, status: "quote", unit_price: 40.00),
+    ]) }
+    let!(:item1) { order.sales_order_items.first }
+    let!(:item2) { order.sales_order_items.second }
 
     context "when order can be confirmed" do
       before do
@@ -200,7 +217,7 @@ RSpec.describe SalesOrder, type: :model do
   end
 
   describe "#cancel!" do
-    let(:order) { create(:sales_order, client: client, status: "confirmed") }
+    let(:order) { create(:sales_order, products_count: 1, client: client, status: "confirmed") }
 
     context "when order can be cancelled" do
       before { allow(order).to receive(:can_cancel?).and_return(true) }
@@ -242,8 +259,10 @@ RSpec.describe SalesOrder, type: :model do
   end
 
   describe "#fulfill!" do
-    let!(:order) { create(:sales_order, client: client, status: "confirmed") }
-    let!(:item_in_progress) { create(:sales_order_item, sales_order: order, product: product1, status: "in_progress") }
+    let!(:order) { create(:sales_order, client: client, status: "confirmed", sales_order_items: [
+      build(:sales_order_item, product: product1, status: "in_progress"),
+    ]) }
+    let!(:item_in_progress) { order.sales_order_items.first }
 
     context "when order can be fulfilled" do
       before { allow(order).to receive(:can_fulfill?).and_return(true) }
