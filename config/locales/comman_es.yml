@@ -299,6 +299,10 @@ es:
       destroy:
         success: "Producto eliminado"
   sales:
+    clients:
+      index:
+        title: "Clientes"
+        no_clients: "No hay clientes"
     sales_orders:
       index:
         title: "Pedidos"
