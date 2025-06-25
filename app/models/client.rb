@@ -6,6 +6,13 @@ class Client < ApplicationRecord
   enum :client_type, regular: 0, hardware_store: 2, distributor: 1
   enum :tax_type, final_consumer: 0, general_regime: 1, simplified_regime: 2
 
+  has_many :sales_orders
+  scope :with_last_sales_order_at, -> {
+    left_joins(:sales_orders)
+      .select("clients.*, MAX(sales_orders.created_at) AS last_sales_order_at")
+      .group("clients.id")
+  }
+
   validates :name, :client_type, :tax_identification, :tax_type, presence: true
   validates :tax_identification, uniqueness: true
   validates :tax_type, inclusion: { in: tax_types.keys }, if: :tax_type?
@@ -18,6 +25,7 @@ class Client < ApplicationRecord
       "country",
       "email",
       "id",
+      "last_sales_order_at",
       "name",
       "phone",
       "province",
@@ -29,6 +37,14 @@ class Client < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     []
+  end
+
+  ransacker :last_sales_order_at, formatter: proc { |v| v } do |parent|
+    Arel.sql(
+      "(SELECT MAX(sales_orders.created_at)
+        FROM sales_orders
+        WHERE sales_orders.client_id = clients.id)"
+    )
   end
 
   def client_type_discount
