@@ -46,6 +46,8 @@ env:
     - EMAIL_USER_NAME
     - EMAIL_FROM_ADDRESS
     - EMAIL_FROM_NAME
+    - APPSIGNAL_PUSH_API_KEY
+    - APPSIGNAL_FRONTEND_API_KEY
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
@@ -66,6 +68,9 @@ env:
     REVISION_ID: <%= ENV["REVISION_ID"] %>
     DEFAULT_COUNTRY: <%= ENV["DEFAULT_COUNTRY"] %>
     DEFAULT_PROVINCE: <%= ENV["DEFAULT_PROVINCE"] %>
+    APPSIGNAL_APP_ENV: <%= ENV["APPSIGNAL_APP_ENV"] %>
+    APPSIGNAL_APP_NAME: <%= ENV["APPSIGNAL_APP_NAME"] %>
+    APPSIGNAL_ACTIVE: <%= ENV["APPSIGNAL_ACTIVE"] %>
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
