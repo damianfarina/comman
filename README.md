@@ -84,6 +84,20 @@ dotenv -f .env.newserver kamal setup -d newserver
 dotenv -f .env.newserver kamal deploy -d newserver
 ```
 
+## Monitoring
+
+This project uses [AppSignal](https://appsignal.com/) for error tracking and performance monitoring.
+
+To enable AppSignal, set the following environment variables in your `.env` or environment-specific file:
+
+- `APPSIGNAL_APP_NAME` (required): Your AppSignal project name
+- `APPSIGNAL_ACTIVE` (optional): Set to 'true' to enable, 'false' to disable (default: true in production)
+- `APPSIGNAL_APP_ENV` (optional): The environment name (e.g. production, staging)
+- `APPSIGNAL_PUSH_API_KEY` (required): Your AppSignal project API key
+- `APPSIGNAL_FRONTEND_API_KEY` (required): Your AppSignal frontend API key
+
+For more details, see the [AppSignal documentation](https://docs.appsignal.com/).
+
 ## Future Roadmap
 
 - Client request → Order flow:
