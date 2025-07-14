@@ -27,9 +27,12 @@ class SalesOrderItem < ApplicationRecord
     ])
   }
 
-  validates :quantity, numericality: { greater_than: 0 }, allow_nil: true
+  validates :quantity, presence: true
+  validates :quantity, numericality: { greater_than: 0 }, if: -> { quantity.present? }
   validates :unit_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :status, presence: true, inclusion: { in: statuses.values }
+
+  delegate :name, to: :product, prefix: true, allow_nil: true
 
   def subtotal
     (effective_unit_price || BigDecimal("0")) * (quantity || 0)
@@ -39,7 +42,7 @@ class SalesOrderItem < ApplicationRecord
     if unit_price.present?
       unit_price
     else
-      product&.price
+      current_unit_price
     end
   end
 

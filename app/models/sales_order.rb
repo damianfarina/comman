@@ -20,6 +20,8 @@ class SalesOrder < ApplicationRecord
   has_many :sales_order_items, dependent: :destroy
   has_many :products, through: :sales_order_items
 
+  accepts_nested_attributes_for :sales_order_items, allow_destroy: true, reject_if: :all_blank
+
   enum :status, {
     quote: "quote",
     confirmed: "confirmed",
@@ -49,6 +51,14 @@ class SalesOrder < ApplicationRecord
     quote?
   end
 
+  def name
+    "#{client_name} (#{I18n.l(status_changed_at.to_date, format: :short)})"
+  end
+
+  def status_changed_at
+    cancelled_at || fulfilled_at || confirmed_at || created_at
+  end
+
   def can_confirm?
     return false unless quote?
 
@@ -61,6 +71,40 @@ class SalesOrder < ApplicationRecord
     end
   end
 
+  def subtotal_before_order_discount
+    sales_order_items.sum do |item|
+      if item.marked_for_destruction? ||
+        item.status == SalesOrderItem.statuses[:cancelled] ||
+        item.quantity.nil? ||
+        item.quantity <= 0
+
+        next BigDecimal("0")
+      end
+
+      item.subtotal
+    end
+  end
+
+  def subtotal_after_order_discount
+    subtotal_before_order_discount - client_discount_value
+  end
+
+  def subtotal_after_cash_discount
+    subtotal_after_order_discount - cash_discount_value
+  end
+
+  def client_discount_value
+    return BigDecimal("0") unless client_discount_percentage.present? && client_discount_percentage > 0
+
+    subtotal_before_order_discount * (client_discount_percentage / BigDecimal("100.0"))
+  end
+
+  def cash_discount_value
+    return BigDecimal("0") unless cash_discount_percentage.present? && cash_discount_percentage > 0
+
+    subtotal_after_order_discount * (cash_discount_percentage / BigDecimal("100.0"))
+  end
+
   def confirm!
     raise StandardError, I18n.t("activerecord.errors.models.sales_order.not_confirmable") unless can_confirm?
 
@@ -70,14 +114,7 @@ class SalesOrder < ApplicationRecord
 
       sales_order_items.confirmable.each(&:confirm!)
 
-      subtotal_before_order_discount = sales_order_items.reload.in_progress.sum(&:subtotal)
-
-      client_discount_value = BigDecimal("0")
-      if self.client_discount_percentage.present? && self.client_discount_percentage > 0
-        client_discount_value = subtotal_before_order_discount * (self.client_discount_percentage / BigDecimal("100.0"))
-      end
-
-      self.total_price = subtotal_before_order_discount - client_discount_value
+      self.total_price = subtotal_after_order_discount
 
       save!
     end
@@ -151,8 +188,8 @@ end
 #
 #  id                         :bigint           not null, primary key
 #  cancelled_at               :datetime
-#  cash_discount_percentage   :decimal(5, 2)    default(0.0), not null
-#  client_discount_percentage :decimal(5, 2)    default(0.0), not null
+#  cash_discount_percentage   :decimal(5, 2)    not null
+#  client_discount_percentage :decimal(5, 2)    not null
 #  comments_plain_text        :text
 #  confirmed_at               :datetime
 #  fulfilled_at               :datetime
