@@ -245,10 +245,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_211958) do
     t.datetime "cancelled_at"
     t.decimal "total_price", precision: 12, scale: 2
     t.text "comments_plain_text"
-    t.decimal "cash_discount_percentage", precision: 5, scale: 2, default: "0.0", null: false
+    t.decimal "cash_discount_percentage", precision: 5, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "client_discount_percentage", precision: 5, scale: 2, default: "0.0", null: false
+    t.decimal "client_discount_percentage", precision: 5, scale: 2, null: false
     t.index ["client_id"], name: "index_sales_orders_on_client_id"
     t.index ["status"], name: "index_sales_orders_on_status"
   end

@@ -8,7 +8,7 @@ class CreateSalesOrders < ActiveRecord::Migration[8.0]
       t.datetime :cancelled_at
       t.decimal :total_price, precision: 12, scale: 2, null: true
       t.text :comments_plain_text
-      t.decimal :discount_percentage, precision: 5, scale: 2, null: false, default: 0.0
+      t.decimal :discount_percentage, precision: 5, scale: 2, null: false
 
       t.timestamps
     end
