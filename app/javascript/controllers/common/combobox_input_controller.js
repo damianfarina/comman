@@ -8,11 +8,11 @@ export default class extends Controller {
 
   connect() {
     this.open = false;
-    document.addEventListener("click", this._handleClickOutside);
+    document.addEventListener("click", this.#handleClickOutside);
   }
 
   disconnect() {
-    document.removeEventListener("click", this._handleClickOutside);
+    document.removeEventListener("click", this.#handleClickOutside);
   }
 
   initialize() {
@@ -21,13 +21,13 @@ export default class extends Controller {
 
   toggle(event) {
     this.open = !this.open;
-    this._updateMenu();
+    this.#updateMenu();
     this.focusNext(event);
   }
 
   close() {
     this.open = false;
-    this._updateMenu();
+    this.#updateMenu();
   }
 
   select(event) {
@@ -39,7 +39,7 @@ export default class extends Controller {
     selectedOption.classList.add(...this.selectedClasses);
     this.searchInputTarget.focus();
     this.close();
-    this._updateInputs(selectedOption);
+    this.#updateInputs(selectedOption);
   }
 
   filter(event) {
@@ -49,7 +49,7 @@ export default class extends Controller {
       option.classList.toggle(...this.hiddenClasses, !text.includes(query));
     });
     this.open = true;
-    this._updateMenu();
+    this.#updateMenu();
   }
 
   searchMore(event) {
@@ -92,7 +92,7 @@ export default class extends Controller {
 
   focus() {
     this.open = true;
-    this._updateMenu();
+    this.#updateMenu();
   }
 
   focusNext(event) {
@@ -123,9 +123,7 @@ export default class extends Controller {
     requestAnimationFrame(() => visibleOptions[currentIndex - 1].focus());
   }
 
-  private;
-
-  _updateMenu() {
+  #updateMenu() {
     if (this.open) {
       this.menuTarget.classList.remove(...this.hiddenClasses);
       this.buttonTarget.setAttribute("aria-expanded", "true");
@@ -135,14 +133,14 @@ export default class extends Controller {
     }
   }
 
-  _updateInputs(option) {
+  #updateInputs(option) {
     if (option) {
       this.searchInputTarget.value = option.dataset.value;
       this.valueInputTarget.value = option.dataset.id;
     }
   }
 
-  _handleClickOutside = (event) => {
+  #handleClickOutside = (event) => {
     if (!this.element.contains(event.target)) {
       this.close();
     }

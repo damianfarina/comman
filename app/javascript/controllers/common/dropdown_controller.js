@@ -20,7 +20,7 @@ export default class extends Controller {
 
   connect() {
     this.open = false;
-    document.addEventListener("click", this._handleClickOutside);
+    document.addEventListener("click", this.#handleClickOutside);
   }
 
   initialize() {
@@ -28,7 +28,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    document.removeEventListener("click", this._handleClickOutside);
+    document.removeEventListener("click", this.#handleClickOutside);
     if (this.controller) {
       this.controller.abort();
       this.controller = null;
@@ -111,7 +111,7 @@ export default class extends Controller {
 
     if (keyword.length < this.minKeywordLengthValue) {
       this.open = false;
-      this._updateMenu();
+      this.#updateMenu();
       return;
     }
 
@@ -127,17 +127,15 @@ export default class extends Controller {
       if (error.name === "AbortError") {
         return;
       }
-      throw error
+      throw error;
     }
     this.controller = null;
     this.itemTargets.forEach((item) => item.remove());
     const items = await response.json;
-    items.forEach((item) => {
-      this._addItem({ value: item.id, label: item.name });
-    });
+    items.forEach(this.#addItem);
 
     this.open = items.length > 0;
-    this._updateMenu();
+    this.#updateMenu();
   }
 
   select(event) {
@@ -149,7 +147,7 @@ export default class extends Controller {
     selectedItem.classList.add(...this.selectedClasses);
     this.searchInputTarget.focus();
     this.close();
-    this._updateInputs(selectedItem);
+    this.#updateInputs(selectedItem);
   }
 
   close() {
@@ -159,19 +157,19 @@ export default class extends Controller {
     } else {
       this.searchInputTarget.value = this.valueInputTarget.dataset.label;
     }
-    this._updateMenu();
+    this.#updateMenu();
   }
 
-  private;
+  // private
 
-  _addItem(item) {
+  #addItem = (item) => {
     const content = this.itemTemplateTarget.innerHTML
-      .replace(/ITEM_VALUE/g, item.value)
-      .replace(/ITEM_LABEL/g, item.label);
+      .replace(/ITEM_VALUE/g, item.id)
+      .replace(/ITEM_LABEL/g, item.name);
     this.menuTarget.insertAdjacentHTML("beforeend", content);
   }
 
-  _updateMenu() {
+  #updateMenu() {
     if (this.open) {
       this.menuTarget.classList.remove(...this.hiddenClasses);
       this.buttonTarget.setAttribute("aria-expanded", "true");
@@ -181,13 +179,13 @@ export default class extends Controller {
     }
   }
 
-  _handleClickOutside = (event) => {
+  #handleClickOutside = (event) => {
     if (!this.element.contains(event.target)) {
       this.close();
     }
   };
 
-  _updateInputs(item) {
+  #updateInputs(item) {
     if (item) {
       this.searchInputTarget.value = item.dataset.label;
       this.valueInputTarget.value = item.dataset.value;
