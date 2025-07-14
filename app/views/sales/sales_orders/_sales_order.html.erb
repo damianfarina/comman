@@ -1,0 +1,55 @@
+<div id="<%= dom_id sales_order %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">Client:</strong>
+    <%= sales_order.client_id %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Status:</strong>
+    <%= sales_order.status %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Confirmed at:</strong>
+    <%= sales_order.confirmed_at %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Fulfilled at:</strong>
+    <%= sales_order.fulfilled_at %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Cancelled at:</strong>
+    <%= sales_order.cancelled_at %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Total price cents:</strong>
+    <%= sales_order.total_price %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Comments</strong>
+    <%= sales_order.comments %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Cash discount percentage:</strong>
+    <%= sales_order.cash_discount_percentage %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Client discount percentage:</strong>
+    <%= sales_order.client_discount_percentage %>
+  </div>
+
+  <div>
+    <% sales_order.sales_order_items.each do |item| %>
+      <div>
+        <strong class="block font-medium mb-1">Product:</strong>
+        <%= item.product.name %>
+      </div>
+      <div>
+        <strong class="block font-medium mb-1">Quantity:</strong>
+        <%= item.quantity %>
+      </div>
+      <div>
+        <strong class="block font-medium mb-1">Price:</strong>
+        <%= item.effective_unit_price %>
+      </div>
+    <% end %>
+  </div>
+</div>

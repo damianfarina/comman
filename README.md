@@ -100,10 +100,6 @@ For more details, see the [AppSignal documentation](https://docs.appsignal.com/)
 
 ## Future Roadmap
 
-- Client request → Order flow:
-  - Create orders from client requests
-  - Automatically calculate stock availability
-  - Trigger Making Orders for missing stock
 - Billing and invoicing
 - Supplier price list importer
 - Quick access to resources using mobile camera + QR codes
