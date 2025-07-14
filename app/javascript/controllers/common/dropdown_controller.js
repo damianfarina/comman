@@ -190,6 +190,11 @@ export default class extends Controller {
       this.searchInputTarget.value = item.dataset.label;
       this.valueInputTarget.value = item.dataset.value;
       this.valueInputTarget.dataset.label = item.dataset.label;
+
+      this.dispatch("itemSelected", { detail: { itemId: item.dataset.value } });
+      this.valueInputTarget.dispatchEvent(
+        new Event("change", { bubbles: true }),
+      );
     }
   }
 }
