@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SalesOrderItem, type: :model do
   let(:client) { create(:client) }
-  let(:sales_order) { create(:sales_order, client: client) }
+  let(:sales_order) { create(:sales_order, products_count: 1, client: client) }
   let(:product_with_price) { create(:purchased_productable, price: BigDecimal("100.50")) }
 
   describe "scopes" do
@@ -60,11 +60,6 @@ RSpec.describe SalesOrderItem, type: :model do
         subject.quantity = -1
         expect(subject).not_to be_valid
         expect(subject.errors[:quantity]).to include("debe ser mayor que 0")
-      end
-
-      it "is valid when quantity is nil (due to allow_nil)" do
-        subject.quantity = nil
-        expect(subject).to be_valid
       end
 
       it "is invalid when quantity is not a number" do

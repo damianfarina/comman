@@ -94,6 +94,8 @@
   --color-light-gray-700: #c5c1be;
   --color-light-gray-900: #b2aca9;
   --color-light-gray: #d6d3d1;
+
+  --animate-change: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) 1;
 }
 
 /*

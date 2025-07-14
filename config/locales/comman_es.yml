@@ -21,11 +21,19 @@ es:
           attributes:
             price:
               not_a_number: "debe ser un número"
+        sales_order_item:
+          attributes:
+            quantity:
+              blank: "es requerida"
         sales_order:
           not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
           not_cancellable: "El pedido no puede ser cancelado en su estado actual."
           not_fulfillable: "El pedido no puede ser despachado en su estado actual."
           attributes:
+            sales_order_items:
+              quantity:
+                not_a_number: "El producto debe tener una cantidad válida"
+                blank: "El producto debe tener una cantidad"
             base:
               confirmation_failed: "Falló la confirmación del pedido: %{details}"
               cancellation_failed: "Falló la cancelación del pedido: %{details}"
@@ -54,6 +62,7 @@ es:
       supplier:
         one: "Proveedor"
         other: "Proveedores"
+
     attributes:
       formula_element:
         id: "ID"
@@ -200,6 +209,37 @@ es:
         name: "Nombre"
         password: "Contraseña"
         updated_at: "Actualizado"
+      sales_order:
+        cancelled_at: "Cancelado"
+        cash_discount_percentage: "Descuento por pago al contado"
+        client_discount_percentage: "Descuento del cliente"
+        client_name: "Cliente"
+        client: "Cliente"
+        comments_plain_text: "Observaciones"
+        comments: "Observaciones"
+        confirmed_at: "Confirmado"
+        created_at: "Ingresado"
+        fulfilled_at: "Completado"
+        id: "ID"
+        items_count: "Cantidad de ítems"
+        number: "Número de pedido"
+        sales_order_items: "Productos"
+        status_changed_at: "Fecha"
+        status: "Estado"
+        total_price: "Precio total"
+        status_values:
+          quote: "Cotización"
+          confirmed: "Confirmado"
+          canceled: "Cancelado"
+          fulfilled: "Completado"
+        subtotal_before_order_discount: "Subtotal"
+        subtotal_after_order_discount: "Subtotal después del descuento"
+        subtotal_after_cash_discount: "Total contado"
+        cash_discount_value: "Descuento por pago al contado"
+        client_discount_value: "Descuento del cliente"
+        updated_at: "Actualizado"
+      sales_order_items:
+        quantity: "Cantidad de producto"
   messages:
     are_you_sure: "¿Estás seguro?"
     saving: "Guardando..."
@@ -217,10 +257,11 @@ es:
       drag_drop: "o arrastra y suelta aquí"
       formats: "PNG, JPG, GIF hasta 10MB"
   actions:
-    archive: "Archivar"
-    save: "Guardar"
-    cancel: "Cancelar"
     add_new_model: "Agregar %{model}"
+    archive: "Archivar"
+    cancel: "Cancelar"
+    update_totals: "Actualizar totales"
+    save: "Guardar"
     sign_out: "Salir"
   navigation:
     edit: "Editar"
@@ -308,6 +349,13 @@ es:
       index:
         title: "Pedidos"
         no_sales_orders: "No hay pedidos"
+        view_sales_order: "Ver pedido"
+      new:
+        title: "Nuevo pedido"
+      edit:
+        title: "Editar pedido de %{client_name} (%{status})"
+      update:
+        success: "Pedido actualizado."
   auditable:
     boolean_true: "Sí"
     boolean_false: "No"
@@ -319,3 +367,16 @@ es:
       create: "creó"
       update: "actualizó"
       destroy: "eliminó"
+
+  helpers:
+    placeholder:
+      user:
+        name: "Nombre del usuario"
+        email_address: "Email del usuario"
+      sales_order:
+        cash_discount_percentage: "Porcentaje de descuento por pago al contado"
+        client_discount_percentage: "Porcentaje de descuento del cliente"
+      sales_order_item:
+        product: "Producto"
+        quantity: "Cantidad"
+        unit_price: "Precio"
