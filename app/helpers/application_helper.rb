@@ -50,6 +50,7 @@ module ApplicationHelper
       [
         { name: t("navigation.dashboard"), path: sales_root_path, icon: "home", exact: true },
         { name: t("sales.clients.index.title"), path: sales_clients_path, icon: "user-group" },
+        { name: t("sales.sales_orders.index.title"), path: sales_sales_orders_path, icon: "shopping-bag" },
       ]
     when /^\/factory/
       [
@@ -69,5 +70,17 @@ module ApplicationHelper
     uri.scheme.in?(%w[http https]) ? url : "#"
   rescue URI::InvalidURIError
     "#"
+  end
+
+  def status_container_for(status)
+    color_classes = {
+      "quote" => "text-yellow outline-yellow",
+      "confirmed" => "text-light-blue outline-light-blue",
+      "fulfilled" => "text-light-green outline-light-green",
+      "cancelled" => "text-light-red outline-light-red",
+    }
+    content_tag(:span, class: "p-2 rounded-md shadow-sm outline-1 -outline-offset-1 bg-white-100 #{color_classes[status.to_s]}") do
+      block_given? ? yield : status.to_s.humanize
+    end
   end
 end

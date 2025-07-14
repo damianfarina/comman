@@ -287,4 +287,59 @@ RSpec.describe SalesOrder, type: :model do
       end
     end
   end
+
+  describe "#subtotal_before_order_discount" do
+    it "returns the sum of subtotals for not-cancelled items" do
+      order = create(:sales_order, client: client, status: "confirmed", sales_order_items: [
+        build(:sales_order_item, product: product1, quantity: 2, status: "in_progress", unit_price: 10),
+        build(:sales_order_item, product: product2, quantity: 1, status: "cancelled", unit_price: 20),
+        build(:sales_order_item, product: product2, quantity: 2, status: "quote", unit_price: 5),
+        build(:sales_order_item, product: product2, quantity: 1, status: "ready", unit_price: 5),
+        build(:sales_order_item, product: product2, quantity: 1, status: "delivered", unit_price: 5),
+      ])
+      expect(order.subtotal_before_order_discount).to eq(2*10 + 2*5 + 1*5 + 1*5)
+    end
+  end
+
+  describe "#subtotal_after_order_discount" do
+    it "returns subtotal_before_order_discount minus client_discount_value" do
+      order = create(:sales_order, client: client, status: "confirmed", client_discount_percentage: 10.0, sales_order_items: [
+        build(:sales_order_item, product: product1, quantity: 2, status: "in_progress", unit_price: 100),
+      ])
+      expected_subtotal = 2*100
+      expected_discount = expected_subtotal * 0.10
+      expect(order.subtotal_after_order_discount).to eq(expected_subtotal - expected_discount)
+    end
+  end
+
+  describe "#client_discount_value" do
+    it "returns 0 if client_discount_percentage is blank or 0" do
+      order = build(:sales_order, client: client, client_discount_percentage: nil, sales_order_items: [ build(:sales_order_item, product: product1, quantity: 1, status: "in_progress", unit_price: 100) ])
+      expect(order.client_discount_value).to eq(0)
+      order.client_discount_percentage = 0
+      expect(order.client_discount_value).to eq(0)
+    end
+
+    it "returns the correct discount value if present and > 0" do
+      order = build(:sales_order, client: client, client_discount_percentage: 25, sales_order_items: [ build(:sales_order_item, product: product1, quantity: 2, status: "in_progress", unit_price: 100) ])
+      expect(order.client_discount_value).to eq(200 * 0.25)
+    end
+  end
+
+  describe "#cash_discount_value" do
+    it "returns 0 if cash_discount_percentage is blank or 0" do
+      order = build(:sales_order, client: client, cash_discount_percentage: nil, client_discount_percentage: 0, sales_order_items: [ build(:sales_order_item, product: product1, quantity: 1, status: "in_progress", unit_price: 100) ])
+      expect(order.cash_discount_value).to eq(0)
+      order.cash_discount_percentage = 0
+      expect(order.cash_discount_value).to eq(0)
+    end
+
+    it "returns the correct cash discount value if present and > 0" do
+      order = build(:sales_order, client: client, client_discount_percentage: 10, cash_discount_percentage: 5, sales_order_items: [ build(:sales_order_item, product: product1, quantity: 2, status: "in_progress", unit_price: 100) ])
+      subtotal = 200
+      client_discount = subtotal * 0.10
+      subtotal_after = subtotal - client_discount
+      expect(order.cash_discount_value).to eq(subtotal_after * 0.05)
+    end
+  end
 end

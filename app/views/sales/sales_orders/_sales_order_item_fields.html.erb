@@ -1,0 +1,64 @@
+<%# locals: (child_index: nil, form:, sales_order_item:)  %>
+
+<% marked_for_destruction = sales_order_item.persisted? && sales_order_item.marked_for_destruction? %>
+<div
+  data-common--nested-form-target="item" data-item-id="<%= sales_order_item.id || "" %>"
+  data-action="common--dropdown:itemSelected->sales--sales-orders--form-product#itemSelected"
+  data-controller="sales--sales-orders--form-product"
+  data-sales--sales-orders--form-product-products-url-value="<%= sales_products_path %>"
+  class="grid grid-cols-[1fr_100px_80px_auto] gap-x-4 gap-y-8 <%= marked_for_destruction ? "text-red line-through italic" : "" %>"
+>
+  <%= form.fields_for :sales_order_items, sales_order_item, child_index: child_index do |ff| %>
+    <%= ff.hidden_field :id if sales_order_item.persisted? %>
+
+    <%= render("common/components/dropdown",
+      placeholder: t("helpers.select.prompt", model: Product.model_name.human),
+      input_name: ff.field_name(:product_id),
+      input_value: sales_order_item.product_id,
+      search_value: sales_order_item&.product_name,
+      input_classes: sales_order_item.errors.any? ? "outline-red text-xs/6" : "text-xs/6",
+      url: factory_products_path,
+    ) %>
+    <div>
+      <div class="grid grid-cols-1">
+        <%= ff.number_field(
+          :unit_price,
+          value: sales_order_item.effective_unit_price,
+          placeholder: true,
+          min: 1,
+          step: 1,
+          disabled: marked_for_destruction,
+          class: "col-start-1 row-start-1 block w-full rounded-md border-0 pl-5 py-1.5 text-xs/6 text-gray-900 shadow-sm outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-300 focus:outline-1 focus:-outline-offset-1 focus:outline-blue-300 sm:leading-6 #{ 'outline-red' if sales_order_item.errors.any? }",
+          data: {
+            "sales--sales-orders--form-product-target": "price",
+            "action": "sales--sales-orders--form#updateTotals",
+          },
+        ) %>
+        <div class="pointer-events-none col-start-1 row-start-1 ml-2 self-center justify-self-start text-gray-100 font-light">$</div>
+      </div>
+    </div>
+    <div>
+      <%= ff.number_field(
+        :quantity,
+        placeholder: true,
+        min: 1,
+        step: 1,
+        disabled: marked_for_destruction,
+        class: "block w-full rounded-md border-0 py-1.5 text-xs/6 text-gray-900 shadow-sm outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-300 focus:outline-1 focus:-outline-offset-1 focus:outline-blue-300 sm:leading-6 #{ 'outline-red' if sales_order_item.errors.any? }",
+        data: {
+          "sales--sales-orders--form-product-target": "quantity",
+          "action": "sales--sales-orders--form#updateTotals",
+        },
+      ) %>
+      <%= ff.hidden_field(
+        :_destroy,
+        value: marked_for_destruction,
+        data: { "common--nested-form-target": "destroyField" },
+      ) %>
+    </div>
+
+    <button type="button" class="group cursor-pointer" data-action="common--nested-form#removeItem">
+      <%= heroicon("trash", options: { class: "h-4 w-4 shrink-0 transition text-light-red group-hover:text-red" }) %>
+    </button>
+  <% end %>
+</div>
