@@ -41,7 +41,7 @@ export default class extends Controller {
       this.menuTarget.classList.remove(...this.menuCloseClasses);
       this.menuTarget.classList.add(
         ...this.menuOpenClasses,
-        ...this._calculatePositionClasses(),
+        ...this.#calculatePositionClasses(),
       );
       this.buttonTarget.classList.add(...this.buttonOpenClasses);
     });
@@ -76,9 +76,7 @@ export default class extends Controller {
     }
   }
 
-  private;
-
-  _calculatePositionClasses() {
+  #calculatePositionClasses() {
     const { top, right, bottom, left } =
       this.buttonTarget.getBoundingClientRect();
     const horizontalCenter = (left + right) / 2;
