@@ -55,13 +55,13 @@
                   <%= sort_link(@q, :products, SalesOrder.human_attribute_name(:sales_order_items), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :status, SalesOrder.human_attribute_name(:status), class: "flex", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :status, SalesOrder.human_attribute_name(:status), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :status_changed_at, SalesOrder.human_attribute_name(:status_changed_at), class: "flex", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :status_changed_at, SalesOrder.human_attribute_name(:status_changed_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :total_price, SalesOrder.human_attribute_name(:total_price), class: "flex", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :total_price, SalesOrder.human_attribute_name(:total_price), class: "flex justify-end", data: { turbo_action: "advance"}) %>
                 </th>
               </tr>
             </thead>
@@ -78,16 +78,18 @@
                     <%= sales_order.client_name %>
                   </td>
                   <td class="py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
-                    <%= sales_order.products.map(&:name).to_sentence %> (<%= sales_order.sales_order_items.map(&:quantity).sum %>)
+                    <%= sales_order.products.map(&:name).uniq.to_sentence %> (<%= sales_order.sales_order_items.map(&:quantity).sum %>)
                   </td>
-                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= t(sales_order.status, scope: [:activerecord, :attributes, :sales_order, :status_values]) %>
+                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
+                    <%= status_container_for sales_order.status do %>
+                      <%= t(sales_order.status, scope: [:activerecord, :attributes, :sales_order, :status_values]) %>
+                    <% end %>
                   </td>
-                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
+                  <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
                     <%= l(sales_order.status_changed_at, format: :short) %>
                   </td>
-                  <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= number_to_currency sales_order.total_price %>
+                  <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-right tabular-nums">
+                    <%= number_to_currency sales_order.subtotal_after_order_discount %>
                   </td>
                 </tr>
               <% end %>
