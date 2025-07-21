@@ -26,6 +26,9 @@ class SalesOrderItem < ApplicationRecord
       SalesOrderItem.statuses[:ready],
     ])
   }
+  scope :ordered_by_product, -> {
+    order("product_id")
+  }
 
   validates :quantity, presence: true
   validates :quantity, numericality: { greater_than: 0 }, if: -> { quantity.present? }
@@ -33,6 +36,22 @@ class SalesOrderItem < ApplicationRecord
   validates :status, presence: true, inclusion: { in: statuses.values }
 
   delegate :name, to: :product, prefix: true, allow_nil: true
+
+  def split(quantity)
+    new_item = self.dup
+    new_item.quantity = quantity
+
+    if quantity > 0 && quantity < self.quantity
+      new_item.save
+      self.quantity -= quantity
+      self.save
+    else
+      errors.add(:quantity, "must be greater than 0 and less than the current quantity")
+      new_item.errors.add(:quantity, "must be greater than 0 and less than the current quantity")
+    end
+
+    new_item
+  end
 
   def subtotal
     (effective_unit_price || BigDecimal("0")) * (quantity || 0)

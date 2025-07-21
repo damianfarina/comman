@@ -1,0 +1,12 @@
+<%# locals: (sales_order:, sales_order_item:) %>
+
+<div class="flex items-center gap-1">
+  <%= turbo_frame_tag "sales_order_item_split_form_#{sales_order_item.id}", class: "contents" do %>
+    <% if sales_order_item.quantity > 1 %>
+      <%= link_to new_sales_sales_order_sales_order_item_split_path(sales_order, sales_order_item), class: "text-blue hover:text-blue-900 transition" do %>
+        <%= heroicon("document-duplicate", variant: "outline", options: { class: "size-6", "aria-label": "plus" }) %>
+        <span class="sr-only"><%= t(".split") %></span>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

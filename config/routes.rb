@@ -24,6 +24,9 @@ Rails.application.routes.draw do
       collection do
         post :preview_totals
       end
+      resources :sales_order_items, only: %i[] do
+        resource :split, only: %i[ new create ], controller: "sales_orders/splits"
+      end
     end
   end
 
