@@ -168,11 +168,11 @@ RSpec.describe SalesOrder, type: :model do
         expect(order.confirmed_at).to be_within(1.second).of(Time.current)
       end
 
-      it "updates items to 'in_progress' and freezes their prices" do
+      it "updates items to 'confirmed' and freezes their prices" do
         order.confirm!
-        expect(item1.reload.status).to eq("in_progress")
+        expect(item1.reload.status).to eq("confirmed")
         expect(item1.unit_price).to eq(product1.price)
-        expect(item2.reload.status).to eq("in_progress")
+        expect(item2.reload.status).to eq("confirmed")
         expect(item2.unit_price).to eq(40.00)
       end
 
