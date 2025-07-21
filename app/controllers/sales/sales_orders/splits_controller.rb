@@ -12,13 +12,15 @@ module Sales
         @new_sales_order_item = @sales_order_item.split(quantity)
 
         respond_to do |format|
-          if @new_sales_order_item.valid? && @sales_order_item.errors.empty?
-            format.html { redirect_to sales_sales_order_path(@sales_order), notice: t(".success") }
+          if @new_sales_order_item.valid? && @new_sales_order_item.errors.empty? && @sales_order_item.errors.empty?
+            flash[:notice] = t(".success")
             format.turbo_stream
+            format.html { redirect_to sales_sales_order_path(@sales_order) }
             format.json { head :created }
           else
+            flash[:alert] = @sales_order_item.errors.full_messages.join(", ")
+            format.turbo_stream
             format.html { render :new, status: :unprocessable_entity }
-            format.turbo_stream { render :new, status: :unprocessable_entity }
             format.json { render json: @sales_order_item.errors, status: :unprocessable_entity }
           end
         end
@@ -35,7 +37,7 @@ module Sales
       end
 
       def set_sales_order_item
-        @sales_order_item = @sales_order.sales_order_items.find(params[:sales_order_item_id])
+        @sales_order_item = @sales_order.sales_order_items.find(params[:id])
       end
     end
   end

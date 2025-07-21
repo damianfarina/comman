@@ -250,6 +250,35 @@ RSpec.describe SalesOrderItem, type: :model do
     end
   end
 
+  describe "#split" do
+    let(:item) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, quantity: 2, status: :in_progress) }
+
+    context "when splitting is valid" do
+      it "creates a new sales order item with the specified quantity" do
+        new_item = item.split(1)
+        expect(new_item).to be_persisted
+        expect(new_item.quantity).to eq(1)
+      end
+
+      it "reduces the quantity of the original item" do
+        item.split(1)
+        expect(item.reload.quantity).to eq(1)
+      end
+    end
+
+    context "when splitting is invalid" do
+      it "does not create a new sales order item if quantity is invalid" do
+        new_item = item.split(3)
+        expect(new_item).not_to be_persisted
+      end
+
+      it "adds an error to the original item if quantity is invalid" do
+        item.split(3)
+        expect(item.errors.added?(:base, :split_quantity_invalid)).to be true
+      end
+    end
+  end
+
   describe "#work_on!" do
     let(:item) do
       create(:sales_order_item,
