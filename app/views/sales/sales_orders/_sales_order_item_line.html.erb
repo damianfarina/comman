@@ -1,7 +1,7 @@
 <%# locals: (sales_order:, sales_order_item:) %>
 
 <tr id="sales_order_item_line_<%= sales_order_item.id %>">
-  <td class="pl-0 pr-2 sm:pr-3 text-sm">
+  <td class="pl-0 pr-2 py-3 sm:pr-3 text-sm">
     <div class="flex items-center">
       <div class="size-11 shrink-0">
         <%= link_to [:office, sales_order_item.product] do %>

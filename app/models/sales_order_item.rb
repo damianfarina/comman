@@ -97,6 +97,10 @@ class SalesOrderItem < ApplicationRecord
     self.status = SalesOrderItem.statuses[:in_progress]
 
     save!
+  rescue StandardError
+    reload
+    errors.add(:base, :in_progress_invalid)
+    false
   end
 
   def can_progress?
