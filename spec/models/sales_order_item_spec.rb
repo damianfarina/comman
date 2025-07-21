@@ -250,6 +250,35 @@ RSpec.describe SalesOrderItem, type: :model do
     end
   end
 
+  describe "#work_on!" do
+    let(:item) do
+      create(:sales_order_item,
+        sales_order: sales_order,
+        product: product_with_price,
+        status: "confirmed",
+        quantity: 2,
+        unit_price: 10,
+      )
+    end
+
+    context "when item can be marked as in_progress" do
+      it "changes status to 'in_progress'" do
+        item.work_on!
+        expect(item.reload.status).to eq("in_progress")
+      end
+    end
+
+    context "when item cannot be marked as in_progress" do
+      before do
+        item.update(status: "cancelled")
+      end
+
+      it "raises a StandardError" do
+        expect { item.work_on! }.to raise_error(StandardError, "SalesOrderItem not in a workable state.")
+      end
+    end
+  end
+
   describe "#can_deliver?" do
     it "returns true if status is 'in_progress'" do
       item = build(:sales_order_item, status: "in_progress", product: product_with_price)
