@@ -90,6 +90,18 @@ class SalesOrderItem < ApplicationRecord
     ].include?(status)
   end
 
+  def work_on!
+    raise StandardError, "SalesOrderItem not in a workable state." unless can_progress?
+
+    self.status = SalesOrderItem.statuses[:in_progress]
+
+    save!
+  end
+
+  def can_progress?
+    [ SalesOrderItem.statuses[:confirmed] ].include?(status)
+  end
+
   def deliver!
     raise StandardError, "SalesOrderItem cannot be delivered in its current state." unless can_deliver?
 
