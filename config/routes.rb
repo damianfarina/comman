@@ -28,7 +28,10 @@ Rails.application.routes.draw do
         post :confirm, to: "sales_orders/confirmations#create"
       end
       resources :sales_order_items, only: %i[] do
-        resource :split, only: %i[ new create ], controller: "sales_orders/splits"
+        member do
+          get :split, to: "sales_orders/splits#new"
+          post :split, to: "sales_orders/splits#create"
+        end
       end
     end
   end

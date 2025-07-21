@@ -28,7 +28,7 @@ class SalesOrderItem < ApplicationRecord
     ])
   }
   scope :ordered_by_product, -> {
-    order("product_id")
+    order(:product_id, :id)
   }
 
   validates :quantity, presence: true
@@ -47,8 +47,8 @@ class SalesOrderItem < ApplicationRecord
       self.quantity -= quantity
       self.save
     else
-      errors.add(:quantity, "must be greater than 0 and less than the current quantity")
-      new_item.errors.add(:quantity, "must be greater than 0 and less than the current quantity")
+      errors.add(:base, :split_quantity_invalid)
+      new_item.errors.add(:base, :split_quantity_invalid)
     end
 
     new_item

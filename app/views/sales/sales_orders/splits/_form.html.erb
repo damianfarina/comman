@@ -2,7 +2,7 @@
 
 <%= form_with(
   model: sales_order_item,
-  url: sales_sales_order_sales_order_item_split_path(@sales_order, sales_order_item),
+  url: split_sales_sales_order_sales_order_item_path(@sales_order, sales_order_item),
   method: :post,
 ) do |form| %>
   <div class="flex gap-1">

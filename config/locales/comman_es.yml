@@ -25,6 +25,8 @@ es:
           attributes:
             quantity:
               blank: "es requerida"
+            base:
+              split_quantity_invalid: "Cantidad a dividir debe ser mayor que 0 y menor que la cantidad total"
         sales_order:
           not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
           not_cancellable: "El pedido no puede ser cancelado en su estado actual."
@@ -376,6 +378,8 @@ es:
       sales_order_item_actions:
         split: "Dividir pedido"
       splits:
+        create:
+          success: "Ítem separado correctamente."
         form:
           split: "Dividir pedido"
           cancel: "Cancelar división"
