@@ -27,6 +27,7 @@ es:
               blank: "es requerida"
             base:
               split_quantity_invalid: "Cantidad a dividir debe ser mayor que 0 y menor que la cantidad total"
+              in_progress_invalid: "El pedido no puede ser preparado en su estado actual"
         sales_order:
           not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
           not_cancellable: "El pedido no puede ser cancelado en su estado actual."
@@ -383,6 +384,9 @@ es:
         form:
           split: "Dividir pedido"
           cancel: "Cancelar división"
+      works:
+        create:
+          success: "Pedido en proceso."
   auditable:
     boolean_true: "Sí"
     boolean_false: "No"

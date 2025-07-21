@@ -10,5 +10,14 @@
         <span class="sr-only"><%= t(".split") %></span>
       <% end %>
     <% end %>
+    <% if sales_order_item.confirmed? %>
+      <%= button_to(work_on_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
+        class: "cursor-pointer text-yellow hover:text-yellow-900 transition",
+        method: :post,
+        form_class: "contents",
+      ) do %>
+        <%= heroicon("hand-raised", variant: "outline", options: { class: "size-6", "aria-label": "hand-raised" }) %>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
