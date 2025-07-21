@@ -356,6 +356,14 @@ es:
         title: "Editar pedido de %{client_name} (%{status})"
       update:
         success: "Pedido actualizado."
+      sales_order:
+        actions: "Acciones"
+      sales_order_item_actions:
+        split: "Dividir pedido"
+      splits:
+        form:
+          split: "Dividir pedido"
+          cancel: "Cancelar división"
   auditable:
     boolean_true: "Sí"
     boolean_false: "No"
