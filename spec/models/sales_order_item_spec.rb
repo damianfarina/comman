@@ -264,6 +264,12 @@ RSpec.describe SalesOrderItem, type: :model do
         item.split(1)
         expect(item.reload.quantity).to eq(1)
       end
+
+      it "sets the status of the new item to 'confirmed'" do
+        new_item = item.split(1)
+        expect(item.status).to eq("in_progress")
+        expect(new_item.status).to eq("confirmed")
+      end
     end
 
     context "when splitting is invalid" do
