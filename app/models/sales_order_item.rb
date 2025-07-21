@@ -41,6 +41,7 @@ class SalesOrderItem < ApplicationRecord
   def split(quantity)
     new_item = self.dup
     new_item.quantity = quantity
+    new_item.status = SalesOrderItem.statuses[:confirmed]
 
     if quantity > 0 && quantity < self.quantity
       new_item.save
