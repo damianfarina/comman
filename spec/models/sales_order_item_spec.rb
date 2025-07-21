@@ -231,9 +231,9 @@ RSpec.describe SalesOrderItem, type: :model do
         expect(item_with_nil_product.unit_price).to eq(BigDecimal("0"))
       end
 
-      it "changes status to 'in_progress'" do
+      it "changes status to 'confirmed'" do
         item.confirm!
-        expect(item.status).to eq("in_progress")
+        expect(item.status).to eq("confirmed")
       end
 
       it "saves the item" do

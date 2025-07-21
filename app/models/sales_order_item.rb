@@ -8,6 +8,7 @@ class SalesOrderItem < ApplicationRecord
 
   enum :status, {
     quote: "quote",
+    confirmed: "confirmed",
     in_progress: "in_progress",
     ready: "ready",
     delivered: "delivered",
@@ -76,13 +77,14 @@ class SalesOrderItem < ApplicationRecord
 
     price_to_freeze = effective_unit_price
     self.unit_price = price_to_freeze || BigDecimal("0")
-    self.status = SalesOrderItem.statuses[:in_progress]
+    self.status = SalesOrderItem.statuses[:confirmed]
 
     save!
   end
 
   def can_deliver?
     [
+      SalesOrderItem.statuses[:confirmed],
       SalesOrderItem.statuses[:in_progress],
       SalesOrderItem.statuses[:ready],
     ].include?(status)

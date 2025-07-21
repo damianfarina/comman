@@ -240,6 +240,18 @@ es:
         updated_at: "Actualizado"
       sales_order_items:
         quantity: "Cantidad de producto"
+      sales_order_item:
+        product: "Producto"
+        quantity: "Cantidad"
+        status: "Estado"
+        status_values:
+          quote: "Cotización"
+          confirmed: "Confirmado"
+          in_progress: "Preparando"
+          ready: "Listo"
+          delivered: "Entregado"
+          cancelled: "Cancelado"
+        unit_price: "Precio"
   messages:
     are_you_sure: "¿Estás seguro?"
     saving: "Guardando..."
