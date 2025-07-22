@@ -9,7 +9,7 @@ RSpec.describe "Sales::SalesOrders::Splits", type: :request do
     sales_order = build(:sales_order, client: client)
     sales_order
       .sales_order_items
-      .build(attributes_for(:sales_order_item, product_id: product.id, quantity: 10))
+      .build(attributes_for(:sales_order_item, product_id: product.id, quantity: 10, status: :in_progress))
     sales_order.save!
     sales_order
   end
