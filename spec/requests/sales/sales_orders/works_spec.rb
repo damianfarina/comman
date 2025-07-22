@@ -45,13 +45,13 @@ RSpec.describe "Sales::SalesOrders::Works", type: :request do
 
     context "with invalid status" do
       before do
-        sales_order_item.update(status: "cancelled")
+        sales_order_item.update(status: "canceled")
       end
 
       it "does not change the sales order item status" do
         post work_on_sales_sales_order_sales_order_item_path(sales_order, sales_order_item)
         sales_order_item.reload
-        expect(sales_order_item.status).to eq("cancelled")
+        expect(sales_order_item.status).to eq("canceled")
         expect(flash[:alert]).to be_present
       end
 

@@ -75,7 +75,7 @@ RSpec.describe "Sales::SalesOrders::Confirmations", type: :request do
 
       context "because it has no confirmable items" do
         before do
-          sales_order_item.update!(status: 'cancelled')
+          sales_order_item.update!(status: 'canceled')
         end
 
         it "redirects with error message" do
@@ -108,8 +108,8 @@ RSpec.describe "Sales::SalesOrders::Confirmations", type: :request do
     end
 
     context "with different sales order statuses" do
-      it "cannot confirm a cancelled order" do
-        sales_order.update!(status: 'cancelled', cancelled_at: 1.day.ago)
+      it "cannot confirm a canceled order" do
+        sales_order.update!(status: 'canceled', canceled_at: 1.day.ago)
 
         post confirm_sales_sales_order_path(sales_order)
 

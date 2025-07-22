@@ -12,7 +12,7 @@ class SalesOrderItem < ApplicationRecord
     in_progress: "in_progress",
     ready: "ready",
     delivered: "delivered",
-    cancelled: "cancelled",
+    canceled: "canceled",
   }
 
   scope :confirmable, -> {
@@ -141,7 +141,7 @@ class SalesOrderItem < ApplicationRecord
   end
 
   def resolved?
-    delivered? || cancelled?
+    delivered? || canceled?
   end
 
   def current_unit_price
