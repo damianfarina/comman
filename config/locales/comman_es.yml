@@ -378,6 +378,7 @@ es:
         actions: "Acciones"
       sales_order_item_actions:
         split: "Dividir pedido"
+        work_on: "Trabajar en pedido"
       splits:
         create:
           success: "Ítem separado correctamente."
