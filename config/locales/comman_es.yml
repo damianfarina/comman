@@ -215,7 +215,7 @@ es:
         password: "Contraseña"
         updated_at: "Actualizado"
       sales_order:
-        cancelled_at: "Cancelado"
+        canceled_at: "Cancelado"
         cash_discount_percentage: "Descuento por pago al contado"
         cash_discount_value: "Descuento por pago al contado"
         client_discount_percentage: "Descuento del cliente"
@@ -255,7 +255,7 @@ es:
           in_progress: "Preparando"
           ready: "Preparado"
           delivered: "Entregado"
-          cancelled: "Cancelado"
+          canceled: "Cancelado"
         unit_price: "Precio"
   messages:
     are_you_sure: "¿Estás seguro?"
@@ -422,3 +422,7 @@ es:
         product: "Producto"
         quantity: "Cantidad"
         unit_price: "Precio"
+  common:
+    components:
+      options_dropdown:
+        cancel: "Cancelar"

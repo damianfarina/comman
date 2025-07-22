@@ -18,7 +18,7 @@
         { label: SalesOrder.human_attribute_name(:created_at), value: l(sales_order.created_at, format: :long) },
         { label: SalesOrder.human_attribute_name(:confirmed_at), value: (l(sales_order.confirmed_at, format: :long) rescue "--") },
         { label: SalesOrder.human_attribute_name(:fulfilled_at), value: (l(sales_order.fulfilled_at, format: :long) rescue "--") },
-        { label: SalesOrder.human_attribute_name(:cancelled_at), value: (l(sales_order.cancelled_at, format: :long) rescue "--") },
+        { label: SalesOrder.human_attribute_name(:canceled_at), value: (l(sales_order.canceled_at, format: :long) rescue "--") },
       ]
     ) %>
   </div>

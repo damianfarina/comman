@@ -219,20 +219,20 @@ RSpec.describe SalesOrder, type: :model do
   describe "#cancel!" do
     let(:order) { create(:sales_order, products_count: 1, client: client, status: "confirmed") }
 
-    context "when order can be cancelled" do
+    context "when order can be canceled" do
       before { allow(order).to receive(:can_cancel?).and_return(true) }
 
-      it "changes status to 'cancelled'" do
-        expect { order.cancel! }.to change { order.status }.to("cancelled")
+      it "changes status to 'canceled'" do
+        expect { order.cancel! }.to change { order.status }.to("canceled")
       end
 
-      it "sets cancelled_at" do
+      it "sets canceled_at" do
         order.cancel!
-        expect(order.cancelled_at).to be_within(1.second).of(Time.current)
+        expect(order.canceled_at).to be_within(1.second).of(Time.current)
       end
     end
 
-    context "when order cannot be cancelled" do
+    context "when order cannot be canceled" do
       before { allow(order).to receive(:can_cancel?).and_return(false) }
 
       it "returns false and adds a combined error message" do
@@ -254,7 +254,7 @@ RSpec.describe SalesOrder, type: :model do
     it "returns false if status is not 'confirmed'" do
       expect(build(:sales_order, status: "quote").can_fulfill?).to be false
       expect(build(:sales_order, status: "fulfilled").can_fulfill?).to be false
-      expect(build(:sales_order, status: "cancelled").can_fulfill?).to be false
+      expect(build(:sales_order, status: "canceled").can_fulfill?).to be false
     end
   end
 
@@ -289,10 +289,10 @@ RSpec.describe SalesOrder, type: :model do
   end
 
   describe "#subtotal_before_order_discount" do
-    it "returns the sum of subtotals for not-cancelled items" do
+    it "returns the sum of subtotals for not-canceled items" do
       order = create(:sales_order, client: client, status: "confirmed", sales_order_items: [
         build(:sales_order_item, product: product1, quantity: 2, status: "in_progress", unit_price: 10),
-        build(:sales_order_item, product: product2, quantity: 1, status: "cancelled", unit_price: 20),
+        build(:sales_order_item, product: product2, quantity: 1, status: "canceled", unit_price: 20),
         build(:sales_order_item, product: product2, quantity: 2, status: "quote", unit_price: 5),
         build(:sales_order_item, product: product2, quantity: 1, status: "ready", unit_price: 5),
         build(:sales_order_item, product: product2, quantity: 1, status: "delivered", unit_price: 5),

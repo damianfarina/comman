@@ -2,7 +2,7 @@ class SalesOrder < ApplicationRecord
   include Auditable, HasRichComments
 
   auditable only: [
-    :cancelled_at,
+    :canceled_at,
     :comments_plain_text,
     :confirmed_at,
     :client_discount_percentage,
@@ -26,7 +26,7 @@ class SalesOrder < ApplicationRecord
     quote: "quote",
     confirmed: "confirmed",
     fulfilled: "fulfilled",
-    cancelled: "cancelled",
+    canceled: "canceled",
   }
 
   validates :client_discount_percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
@@ -56,7 +56,7 @@ class SalesOrder < ApplicationRecord
   end
 
   def status_changed_at
-    cancelled_at || fulfilled_at || confirmed_at || created_at
+    canceled_at || fulfilled_at || confirmed_at || created_at
   end
 
   def can_confirm?
@@ -74,7 +74,7 @@ class SalesOrder < ApplicationRecord
   def subtotal_before_order_discount
     sales_order_items.sum do |item|
       if item.marked_for_destruction? ||
-        item.status == SalesOrderItem.statuses[:cancelled] ||
+        item.status == SalesOrderItem.statuses[:canceled] ||
         item.quantity.nil? ||
         item.quantity <= 0
 
@@ -139,8 +139,8 @@ class SalesOrder < ApplicationRecord
   def cancel!
     raise StandardError, I18n.t("activerecord.errors.models.sales_order.not_cancellable") unless can_cancel?
 
-    self.status = SalesOrder.statuses[:cancelled]
-    self.cancelled_at = Time.current
+    self.status = SalesOrder.statuses[:canceled]
+    self.canceled_at = Time.current
     save!
   rescue ActiveRecord::RecordInvalid, StandardError => e
     reload
@@ -187,7 +187,7 @@ end
 # Table name: sales_orders
 #
 #  id                         :bigint           not null, primary key
-#  cancelled_at               :datetime
+#  canceled_at               :datetime
 #  cash_discount_percentage   :decimal(5, 2)    not null
 #  client_discount_percentage :decimal(5, 2)    not null
 #  comments_plain_text        :text

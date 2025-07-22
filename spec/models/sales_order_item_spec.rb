@@ -305,13 +305,13 @@ RSpec.describe SalesOrderItem, type: :model do
 
     context "when item cannot be marked as in_progress" do
       before do
-        item.update(status: "cancelled")
+        item.update(status: "canceled")
       end
 
       it "sets an error on the model" do
         item.work_on!
         expect(item.errors.added?(:base, :in_progress_invalid)).to be true
-        expect(item.status).to eq("cancelled")
+        expect(item.status).to eq("canceled")
       end
     end
   end
@@ -337,8 +337,8 @@ RSpec.describe SalesOrderItem, type: :model do
       expect(item.can_deliver?).to be false
     end
 
-    it "returns false if status is 'cancelled'" do
-      item = build(:sales_order_item, status: "cancelled", product: product_with_price)
+    it "returns false if status is 'canceled'" do
+      item = build(:sales_order_item, status: "canceled", product: product_with_price)
       expect(item.can_deliver?).to be false
     end
   end
@@ -360,13 +360,13 @@ RSpec.describe SalesOrderItem, type: :model do
 
     context "when item cannot be delivered" do
       before do
-        item.update(status: "cancelled")
+        item.update(status: "canceled")
       end
 
       it "sets an error on the model" do
         item.deliver!
         expect(item.errors.added?(:base, :delivery_invalid)).to be true
-        expect(item.status).to eq("cancelled")
+        expect(item.status).to eq("canceled")
       end
     end
   end
@@ -377,8 +377,8 @@ RSpec.describe SalesOrderItem, type: :model do
       expect(item.resolved?).to be true
     end
 
-    it "returns true if status is 'cancelled'" do
-      item = build(:sales_order_item, status: "cancelled", product: product_with_price)
+    it "returns true if status is 'canceled'" do
+      item = build(:sales_order_item, status: "canceled", product: product_with_price)
       expect(item.resolved?).to be true
     end
 

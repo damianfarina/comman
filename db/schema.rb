@@ -242,7 +242,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_211958) do
     t.string "status", default: "quote", null: false
     t.datetime "confirmed_at"
     t.datetime "fulfilled_at"
-    t.datetime "cancelled_at"
+    t.datetime "canceled_at"
     t.decimal "total_price", precision: 12, scale: 2
     t.text "comments_plain_text"
     t.decimal "cash_discount_percentage", precision: 5, scale: 2, null: false
