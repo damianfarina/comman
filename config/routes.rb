@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       resources :sales_order_items, only: %i[] do
         member do
           post :work_on, to: "sales_orders/works#create"
+          post :complete, to: "sales_orders/completes#create"
           get :split, to: "sales_orders/splits#new"
           post :split, to: "sales_orders/splits#create"
         end

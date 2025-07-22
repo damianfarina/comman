@@ -21,5 +21,15 @@
         <%= heroicon("hand-raised", variant: "outline", options: { class: "size-6", "aria-label": "hand-raised" }) %>
       <% end %>
     <% end %>
+    <% if sales_order_item.in_progress? %>
+      <%= button_to(complete_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
+        class: "cursor-pointer text-blue hover:text-blue-900 transition",
+        method: :post,
+        form_class: "contents",
+        title: t(".complete"),
+      ) do %>
+        <%= heroicon("cube", variant: "outline", options: { class: "size-6", "aria-label": "cube" }) %>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
