@@ -30,6 +30,7 @@ es:
               in_progress_invalid: "El pedido no puede ser preparado en su estado actual"
               ready_invalid: "El pedido no puede ser completado en su estado actual"
               delivery_invalid: "El pedido no puede ser entregado en su estado actual"
+              cancellation_failed: "No se puede cancelar el producto"
         sales_order:
           not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
           not_cancellable: "El pedido no puede ser cancelado en su estado actual."
@@ -363,6 +364,8 @@ es:
         title: "Clientes"
         no_clients: "No hay clientes"
     sales_orders:
+      create:
+        success: "Pedido creado."
       index:
         title: "Pedidos"
         no_sales_orders: "No hay pedidos"
@@ -383,6 +386,9 @@ es:
         work_on: "Preparar productos"
         complete: "Completar productos"
         deliver: "Entregar producto"
+      cancels:
+        create:
+          success: "Pedido cancelado."
       completes:
         create:
           success: "Producto completado."

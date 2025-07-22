@@ -44,5 +44,18 @@
         <%= heroicon("truck", variant: "outline", options: { class: "size-6", "aria-label": "truck" }) %>
       <% end %>
     <% end %>
+
+    <% items = [
+        (->(classes, index:) do
+          button_to(
+            t(".cancel"),
+            cancel_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
+            method: :post,
+            data: { turbo_confirm: t("messages.are_you_sure") },
+            class: "#{classes} text-red-500",
+          )
+        end if sales_order_item.can_cancel?)
+      ] %>
+    <%= render("common/components/options_dropdown", items: items) if items.any? %>
   <% end %>
 </div>

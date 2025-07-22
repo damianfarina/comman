@@ -371,6 +371,23 @@ RSpec.describe SalesOrderItem, type: :model do
     end
   end
 
+  describe "#can_cancel?" do
+    it "returns true if status is not canceled or delivered" do
+      item_quote = build(:sales_order_item, status: "quote", product: product_with_price, quantity: 1)
+      expect(item_quote.can_cancel?).to be true
+      item_confirmed = build(:sales_order_item, status: "confirmed", product: product_with_price, quantity: 1)
+      expect(item_confirmed.can_cancel?).to be true
+      item_in_progress = build(:sales_order_item, status: "in_progress", product: product_with_price, quantity: 1)
+      expect(item_in_progress.can_cancel?).to be true
+      item_ready = build(:sales_order_item, status: "ready", product: product_with_price, quantity: 1)
+      expect(item_ready.can_cancel?).to be true
+      item_delivered = build(:sales_order_item, status: "delivered", product: product_with_price, quantity: 1)
+      expect(item_delivered.can_cancel?).to be false
+      item_canceled = build(:sales_order_item, status: "canceled", product: product_with_price, quantity: 1)
+      expect(item_canceled.can_cancel?).to be false
+    end
+  end
+
   describe "#resolved?" do
     it "returns true if status is 'delivered'" do
       item = build(:sales_order_item, status: "delivered", product: product_with_price)
