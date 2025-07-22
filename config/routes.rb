@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         member do
           post :work_on, to: "sales_orders/works#create"
           post :complete, to: "sales_orders/completes#create"
+          post :deliver, to: "sales_orders/deliveries#create"
           get :split, to: "sales_orders/splits#new"
           post :split, to: "sales_orders/splits#create"
         end

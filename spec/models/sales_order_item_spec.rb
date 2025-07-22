@@ -308,7 +308,7 @@ RSpec.describe SalesOrderItem, type: :model do
         item.update(status: "cancelled")
       end
 
-      it "raises a StandardError" do
+      it "sets an error on the model" do
         item.work_on!
         expect(item.errors.added?(:base, :in_progress_invalid)).to be true
         expect(item.status).to eq("cancelled")
@@ -344,13 +344,9 @@ RSpec.describe SalesOrderItem, type: :model do
   end
 
   describe "#deliver!" do
-    let(:item) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "in_progress") }
+    let(:item) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "ready") }
 
     context "when item can be delivered" do
-      before do
-        allow(item).to receive(:can_deliver?).and_return(true)
-      end
-
       it "changes status to 'delivered'" do
         item.deliver!
         expect(item.status).to eq("delivered")
@@ -363,9 +359,14 @@ RSpec.describe SalesOrderItem, type: :model do
     end
 
     context "when item cannot be delivered" do
-      it "raises a StandardError" do
-        allow(item).to receive(:can_deliver?).and_return(false)
-        expect { item.deliver! }.to raise_error(StandardError, "SalesOrderItem cannot be delivered in its current state.")
+      before do
+        item.update(status: "cancelled")
+      end
+
+      it "sets an error on the model" do
+        item.deliver!
+        expect(item.errors.added?(:base, :delivery_invalid)).to be true
+        expect(item.status).to eq("cancelled")
       end
     end
   end

@@ -115,15 +115,14 @@ class SalesOrderItem < ApplicationRecord
   end
 
   def complete!
-    raise StandardError, "SalesOrderItem not in a completable state." unless can_complete?
-
-    self.status = SalesOrderItem.statuses[:ready]
-
-    save!
-  rescue StandardError
-    reload
-    errors.add(:base, :ready_invalid)
-    false
+    if can_complete?
+      self.status = SalesOrderItem.statuses[:ready]
+      save!
+    else
+      reload
+      errors.add(:base, :ready_invalid)
+      false
+    end
   end
 
   def can_complete?
@@ -131,10 +130,14 @@ class SalesOrderItem < ApplicationRecord
   end
 
   def deliver!
-    raise StandardError, "SalesOrderItem cannot be delivered in its current state." unless can_deliver?
-
-    self.status = SalesOrderItem.statuses[:delivered]
-    save!
+    if can_deliver?
+      self.status = SalesOrderItem.statuses[:delivered]
+      save!
+    else
+      reload
+      errors.add(:base, :delivery_invalid)
+      false
+    end
   end
 
   def resolved?

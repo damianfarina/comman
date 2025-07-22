@@ -33,5 +33,16 @@
         <%= heroicon("cube", variant: "outline", options: { class: "size-6", "aria-label": "cube" }) %>
       <% end %>
     <% end %>
+
+    <% if sales_order_item.ready? %>
+      <%= button_to(deliver_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
+        class: "cursor-pointer text-green hover:text-green-900 transition",
+        method: :post,
+        form_class: "contents",
+        title: t(".deliver"),
+      ) do %>
+        <%= heroicon("truck", variant: "outline", options: { class: "size-6", "aria-label": "truck" }) %>
+      <% end %>
+    <% end %>
   <% end %>
 </div>

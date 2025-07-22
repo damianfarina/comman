@@ -29,6 +29,7 @@ es:
               split_quantity_invalid: "Cantidad a dividir debe ser mayor que 0 y menor que la cantidad total"
               in_progress_invalid: "El pedido no puede ser preparado en su estado actual"
               ready_invalid: "El pedido no puede ser completado en su estado actual"
+              delivery_invalid: "El pedido no puede ser entregado en su estado actual"
         sales_order:
           not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
           not_cancellable: "El pedido no puede ser cancelado en su estado actual."
@@ -381,6 +382,7 @@ es:
         split: "Dividir cantidad"
         work_on: "Preparar productos"
         complete: "Completar productos"
+        deliver: "Entregar producto"
       completes:
         create:
           success: "Producto completado."
@@ -393,6 +395,9 @@ es:
       works:
         create:
           success: "Preparando productos."
+      deliveries:
+        create:
+          success: "Producto entregado."
   auditable:
     boolean_true: "Sí"
     boolean_false: "No"
