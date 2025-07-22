@@ -5,6 +5,7 @@
     <% if sales_order_item.quantity > 0 %>
       <%= link_to(split_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
         class: "text-blue hover:text-blue-900 transition",
+        title: t(".split"),
       ) do %>
         <%= heroicon("document-duplicate", variant: "outline", options: { class: "size-6", "aria-label": "plus" }) %>
         <span class="sr-only"><%= t(".split") %></span>
@@ -15,6 +16,7 @@
         class: "cursor-pointer text-yellow hover:text-yellow-900 transition",
         method: :post,
         form_class: "contents",
+        title: t(".work_on"),
       ) do %>
         <%= heroicon("hand-raised", variant: "outline", options: { class: "size-6", "aria-label": "hand-raised" }) %>
       <% end %>
