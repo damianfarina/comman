@@ -4,7 +4,7 @@
   <%= turbo_frame_tag "sales_order_item_split_actions_#{sales_order_item.id}", class: "contents" do %>
     <% if sales_order_item.can_split? %>
       <%= link_to(split_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
-        class: "text-blue hover:text-blue-900 transition",
+        class: "text-gray-300 hover:text-gray-700 transition",
         title: t(".split"),
       ) do %>
         <%= heroicon("document-duplicate", variant: "outline", options: { class: "size-6", "aria-label": "plus" }) %>
