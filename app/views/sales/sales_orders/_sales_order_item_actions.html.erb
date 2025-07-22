@@ -2,7 +2,7 @@
 
 <div class="flex items-center gap-1">
   <%= turbo_frame_tag "sales_order_item_split_actions_#{sales_order_item.id}", class: "contents" do %>
-    <% if sales_order_item.quantity > 0 %>
+    <% if sales_order_item.can_split? %>
       <%= link_to(split_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
         class: "text-blue hover:text-blue-900 transition",
         title: t(".split"),
@@ -11,6 +11,7 @@
         <span class="sr-only"><%= t(".split") %></span>
       <% end %>
     <% end %>
+
     <% if sales_order_item.confirmed? %>
       <%= button_to(work_on_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
         class: "cursor-pointer text-yellow hover:text-yellow-900 transition",
@@ -21,6 +22,7 @@
         <%= heroicon("hand-raised", variant: "outline", options: { class: "size-6", "aria-label": "hand-raised" }) %>
       <% end %>
     <% end %>
+
     <% if sales_order_item.in_progress? %>
       <%= button_to(complete_sales_sales_order_sales_order_item_path(sales_order, sales_order_item),
         class: "cursor-pointer text-blue hover:text-blue-900 transition",

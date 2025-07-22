@@ -250,23 +250,23 @@ RSpec.describe SalesOrderItem, type: :model do
     end
   end
 
-  describe "#split" do
+  describe "#split!" do
     let(:item) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, quantity: 2, status: :in_progress) }
 
     context "when splitting is valid" do
       it "creates a new sales order item with the specified quantity" do
-        new_item = item.split(1)
+        new_item = item.split!(1)
         expect(new_item).to be_persisted
         expect(new_item.quantity).to eq(1)
       end
 
       it "reduces the quantity of the original item" do
-        item.split(1)
+        item.split!(1)
         expect(item.reload.quantity).to eq(1)
       end
 
       it "sets the status of the new item to 'confirmed'" do
-        new_item = item.split(1)
+        new_item = item.split!(1)
         expect(item.status).to eq("in_progress")
         expect(new_item.status).to eq("confirmed")
       end
@@ -274,12 +274,12 @@ RSpec.describe SalesOrderItem, type: :model do
 
     context "when splitting is invalid" do
       it "does not create a new sales order item if quantity is invalid" do
-        new_item = item.split(3)
+        new_item = item.split!(3)
         expect(new_item).not_to be_persisted
       end
 
       it "adds an error to the original item if quantity is invalid" do
-        item.split(3)
+        item.split!(3)
         expect(item.errors.added?(:base, :split_quantity_invalid)).to be true
       end
     end
@@ -309,7 +309,9 @@ RSpec.describe SalesOrderItem, type: :model do
       end
 
       it "raises a StandardError" do
-        expect { item.work_on! }.to raise_error(StandardError, "SalesOrderItem not in a workable state.")
+        item.work_on!
+        expect(item.errors.added?(:base, :in_progress_invalid)).to be true
+        expect(item.status).to eq("cancelled")
       end
     end
   end

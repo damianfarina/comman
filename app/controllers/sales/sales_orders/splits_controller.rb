@@ -9,7 +9,7 @@ module Sales
 
       def create
         quantity = split_params[:quantity].to_i
-        @new_sales_order_item = @sales_order_item.split(quantity)
+        @new_sales_order_item = @sales_order_item.split!(quantity)
 
         respond_to do |format|
           if @new_sales_order_item.valid? && @new_sales_order_item.errors.empty? && @sales_order_item.errors.empty?

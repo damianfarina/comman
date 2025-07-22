@@ -38,12 +38,12 @@ class SalesOrderItem < ApplicationRecord
 
   delegate :name, to: :product, prefix: true, allow_nil: true
 
-  def split(quantity)
+  def split!(quantity)
     new_item = self.dup
     new_item.quantity = quantity
     new_item.status = SalesOrderItem.statuses[:confirmed]
 
-    if quantity > 0 && quantity < self.quantity
+    if can_split? && quantity < self.quantity
       new_item.save
       self.quantity -= quantity
       self.save
@@ -53,6 +53,13 @@ class SalesOrderItem < ApplicationRecord
     end
 
     new_item
+  end
+
+  def can_split?
+    quantity.to_i > 0 && [
+      SalesOrderItem.statuses[:confirmed],
+      SalesOrderItem.statuses[:in_progress],
+    ].include?(status)
   end
 
   def subtotal
