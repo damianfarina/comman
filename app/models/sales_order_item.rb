@@ -107,6 +107,22 @@ class SalesOrderItem < ApplicationRecord
     [ SalesOrderItem.statuses[:confirmed] ].include?(status)
   end
 
+  def complete!
+    raise StandardError, "SalesOrderItem not in a completable state." unless can_complete?
+
+    self.status = SalesOrderItem.statuses[:ready]
+
+    save!
+  rescue StandardError
+    reload
+    errors.add(:base, :ready_invalid)
+    false
+  end
+
+  def can_complete?
+    [ SalesOrderItem.statuses[:in_progress] ].include?(status)
+  end
+
   def deliver!
     raise StandardError, "SalesOrderItem cannot be delivered in its current state." unless can_deliver?
 
