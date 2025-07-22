@@ -74,6 +74,23 @@ class SalesOrderItem < ApplicationRecord
     end
   end
 
+  def can_cancel?
+    ![
+      SalesOrderItem.statuses[:delivered],
+      SalesOrderItem.statuses[:canceled],
+    ].include?(status)
+  end
+
+  def cancel!
+    unless can_cancel?
+      errors.add(:base, :cancellation_failed)
+      raise StandardError, "SalesOrderItem not in a cancelable state."
+    end
+
+    self.status = SalesOrderItem.statuses[:canceled]
+    save!
+  end
+
   def can_confirm?
     status == SalesOrderItem.statuses[:quote] &&
       product.present? &&

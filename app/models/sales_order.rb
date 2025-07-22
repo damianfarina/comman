@@ -148,6 +148,15 @@ class SalesOrder < ApplicationRecord
     false
   end
 
+  def cancel_item!(sales_order_item)
+    sales_order_item.cancel!
+    self.total_price = subtotal_after_order_discount
+    save!
+  rescue ActiveRecord::RecordInvalid, StandardError
+    reload
+    false
+  end
+
   def can_fulfill?
     confirmed?
   end
