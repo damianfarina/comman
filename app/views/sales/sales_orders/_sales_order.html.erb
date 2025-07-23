@@ -101,11 +101,4 @@
       </table>
     </div>
   </div>
-
-  <% if sales_order.quote? %>
-    <%= button_to t(".confirm_order"),
-      confirm_sales_sales_order_path(sales_order),
-      method: :post,
-      class: "btn-primary" %>
-  <% end %>
 </div>
