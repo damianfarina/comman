@@ -278,6 +278,7 @@ es:
     add_new_model: "Agregar %{model}"
     archive: "Archivar"
     cancel: "Cancelar"
+    confirm: "Confirmar"
     update_totals: "Actualizar totales"
     save: "Guardar"
     sign_out: "Salir"

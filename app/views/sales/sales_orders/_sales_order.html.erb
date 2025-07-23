@@ -103,10 +103,9 @@
   </div>
 
   <% if sales_order.quote? %>
-    <%= button_to t(".confirm_order", default: "Confirmar pedido"),
+    <%= button_to t(".confirm_order"),
       confirm_sales_sales_order_path(sales_order),
       method: :post,
-      data: { turbo: true, turbo_confirm: t(".are_you_sure", default: "¿Confirmar este pedido?") },
       class: "btn-primary" %>
   <% end %>
 </div>

@@ -7,7 +7,7 @@
   ],
   title: @sales_order.name,
   actions: [
-    { label: t("navigation.edit"), path: edit_sales_sales_order_path(@sales_order), method: :get },
+    ({ label: t("navigation.edit"), path: edit_sales_sales_order_path(@sales_order), method: :get } if @sales_order.quote?),
   ],
 ) %>
 

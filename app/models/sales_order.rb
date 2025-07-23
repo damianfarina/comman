@@ -51,6 +51,10 @@ class SalesOrder < ApplicationRecord
     quote?
   end
 
+  def workable?
+    !editable?
+  end
+
   def name
     "#{client_name} (#{I18n.l(status_changed_at.to_date, format: :short)})"
   end

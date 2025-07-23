@@ -3,6 +3,8 @@ module Sales
     include IdSearchQueryProcessor
 
     before_action :set_sales_order, only: %i[ show edit update destroy ]
+    before_action :check_editable_status, only: %i[ edit update ]
+    before_action :check_workable_status, only: %i[ show ]
 
     # GET /sales_orders or /sales_orders.json
     def index
@@ -32,7 +34,7 @@ module Sales
       @sales_order = SalesOrder.new(sales_order_params)
 
       respond_to do |format|
-        if @sales_order.save
+        if @sales_order.save && confirm_if_requested
           format.html { redirect_to [ :sales, @sales_order ], notice: t(".success") }
           format.json { render :show, status: :created, location: [ :sales, @sales_order ] }
         else
@@ -61,8 +63,8 @@ module Sales
     # PATCH/PUT /sales_orders/1 or /sales_orders/1.json
     def update
       respond_to do |format|
-        if @sales_order.update(sales_order_params)
-          format.html { redirect_to [ :sales, @sales_order ], notice: t(".success") }
+        if @sales_order.update(sales_order_params) && confirm_if_requested
+          format.html { redirect_to [ :edit, :sales, @sales_order ], notice: t(".success") }
           format.json { render :show, status: :ok, location: [ :sales, @sales_order ] }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -82,6 +84,24 @@ module Sales
     end
 
     private
+
+    def confirm_if_requested
+      return true unless confirm_param?
+
+      @sales_order.confirm!
+    end
+
+    def check_workable_status
+      unless @sales_order.workable?
+        redirect_to edit_sales_sales_order_path(@sales_order)
+      end
+    end
+
+    def check_editable_status
+      unless @sales_order.editable?
+        redirect_to sales_sales_order_path(@sales_order)
+      end
+    end
 
     def set_sales_order
       @sales_order = SalesOrder.find(params.expect(:id))
@@ -118,8 +138,8 @@ module Sales
       end
     end
 
-    def preview_param?
-      params[:commit] == "preview"
+    def confirm_param?
+      params[:commit] == "confirm"
     end
   end
 end
