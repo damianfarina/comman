@@ -57,7 +57,12 @@
   <% end %>
 
   <div class="flex gap-4 mt-6">
-    <%= form.button t("actions.save"), type: :submit, class: "btn-primary" %>
+    <%= form.button t("actions.save"), type: :submit, class: "btn-default" %>
+    <%= form.button t("actions.confirm"),
+      type: :submit,
+      value: "confirm",
+      name: "commit",
+      class: "btn-primary" %>
     <%= form.button t("actions.update_totals"),
       type: :submit,
       formmethod: :post,
