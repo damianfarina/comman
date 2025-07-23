@@ -7,10 +7,9 @@ module Sales
       def create
         respond_to do |format|
           if @sales_order.cancel_item!(@sales_order_item)
-            format.turbo_stream do
-              flash[:notice] = t(".success")
-            end
-            format.html { redirect_to sales_sales_order_path(@sales_order), notice: t(".success") }
+            flash[:notice] = t(".success")
+            format.turbo_stream
+            format.html { redirect_to sales_sales_order_path(@sales_order) }
           else
             flash[:alert] = @sales_order.errors.full_messages.join(", ") + " " + @sales_order_item.errors.full_messages.join(", ")
             format.turbo_stream
