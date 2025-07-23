@@ -24,9 +24,6 @@ Rails.application.routes.draw do
       collection do
         post :preview_totals
       end
-      member do
-        post :confirm, to: "sales_orders/confirmations#create"
-      end
       resources :sales_order_items, only: %i[] do
         member do
           post :work_on, to: "sales_orders/works#create"

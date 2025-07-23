@@ -377,9 +377,6 @@ es:
         title: "Editar pedido de %{client_name} (%{status})"
       update:
         success: "Pedido actualizado."
-      confirmations:
-        create:
-          success: "Pedido confirmado."
       sales_order:
         actions: "Acciones"
       sales_order_item_actions:
