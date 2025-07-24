@@ -65,6 +65,12 @@ es:
       making_order_item:
         one: "Producto"
         other: "Productos"
+      sales_order:
+        one: "Pedido"
+        other: "Pedidos"
+      sales_order_item:
+        one: "Producto"
+        other: "Productos"
       supplier:
         one: "Proveedor"
         other: "Proveedores"
