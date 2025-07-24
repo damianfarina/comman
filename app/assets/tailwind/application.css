@@ -94,6 +94,8 @@
   --color-light-gray-700: #c5c1be;
   --color-light-gray-900: #b2aca9;
   --color-light-gray: #d6d3d1;
+
+  --animate-change: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) 1;
 }
 
 /*
@@ -115,15 +117,19 @@
 }
 
 @utility btn-primary {
-  @apply block rounded-md bg-blue px-3 py-2 text-center text-sm text-white-500 shadow-xs hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:opacity-50;
+  @apply block cursor-pointer rounded-md bg-blue px-3 py-2 text-center text-sm text-white-500 shadow-xs hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 disabled:opacity-50;
 }
 
 @utility btn-default {
-  @apply block rounded-md bg-white px-3 py-2 text-center text-sm text-gray-900 shadow-xs hover:bg-light-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-gray-700 ring-1 ring-inset ring-gray-300 disabled:opacity-50;
+  @apply block cursor-pointer rounded-md bg-white px-3 py-2 text-center text-sm text-gray-900 shadow-xs hover:bg-light-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-gray-700 ring-1 ring-inset ring-gray-300 disabled:opacity-50;
 }
 
 @utility btn-success {
-  @apply block rounded-md bg-green-500 px-3 py-2 text-center text-sm text-white-500 shadow-xs hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50;
+  @apply block cursor-pointer rounded-md bg-green-500 px-3 py-2 text-center text-sm text-white-500 shadow-xs hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700 disabled:opacity-50;
+}
+
+@utility btn-danger {
+  @apply block cursor-pointer rounded-md bg-red-500 px-3 py-2 text-center text-sm text-white-500 shadow-xs hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 disabled:opacity-50;
 }
 
 @layer utilities {

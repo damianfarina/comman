@@ -1,17 +1,25 @@
 <div>
   <%= turbo_frame_tag @discount do %>
-    <div class="pt-4 pb-4 sm:flex flex-1 items-center">
-      <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+    <div class="h-18 flex flex-1 items-center">
+      <dt class="font-medium text-gray-900 w-64 flex-none pr-6">
         <% if @discount.cash? %>
           <%= t("activerecord.attributes.discount.cash") %>
         <% else %>
           <%= t("activerecord.attributes.client.client_type_values.#{@discount.client_type}") %>
         <% end %>
       </dt>
-      <dd class="mt-1 flex flex-1">
+      <dd class="flex flex-1">
         <%= form_with(model: [:office, @discount], class: "contents flex-1") do |form| %>
-          <div class="flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-            <%= form.text_field :percentage, autofocus: true, class: "block rounded-md bg-black/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-black/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6 #{@discount.errors[:percentage].present? ? 'border-red-500' : 'border-gray-300'}" %>
+          <div class="flex justify-between gap-x-6 mt-0 flex-auto">
+            <%= form.text_field :percentage, class: "block w-20 rounded-md bg-black/5 px-3 py-1.5 text-base text-black ring-0 outline-1 -outline-offset-1 outline-black/10 placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-blue-500 text-sm/6 #{@discount.errors[:percentage].present? ? 'outline-red-500 focus:outline-red-500' : ''}" %>
+            <div class="mt-2 grid grid-cols-1">
+              <%= form.number_field :percentage,
+                placeholder: true,
+                autofocus: true,
+                class: "col-start-1 row-start-1 block w-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-300 focus:outline-1 focus:-outline-offset-1 focus:outline-blue-300 sm:text-sm sm:leading-6 #{@discount.errors[:percentage].present? ? 'outline-red-500 focus:outline-red-500' : ''}"
+              %>
+              <span class="pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-gray-100 sm:size-5 font-light">%</span>
+            </div>
             <%= form.submit t("actions.save"), data: { turbo_submits_with: t("messages.saving") }, class: "btn-primary" %>
           </div>
         <% end %>

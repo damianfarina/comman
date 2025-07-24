@@ -22,20 +22,6 @@ FactoryBot.define do
           association :making_order_item, :with_product, making_order: instance, formula: formula
         end
       end
-
-      # after(:build) do |making_order, evaluator|
-      #   # making_order.making_order_formula = build(
-      #   #   :making_order_formula,
-      #   #   formula: create(:formula, :with_items),
-      #   # )
-
-      #   # making_order.making_order_items = build_list(
-      #   #   :making_order_item,
-      #   #   evaluator.products_count,
-      #   #   :with_product,
-      #   #   making_order: making_order,
-      #   # )
-      # end
     end
   end
 end

@@ -14,7 +14,7 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <%= render 'application/favicon' %>
+    <%= render "application/favicon" %>
 
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <style>@page { size: A4 }</style>
@@ -26,11 +26,11 @@
   <body class="h-full A4">
     <div class="web">
       <% if authenticated? %>
-        <%= render 'application/sidebar' %>
+        <%= render "application/sidebar" %>
       <% end %>
       <main class="py-10 <%= "xl:pl-72" if authenticated? %>">
         <div class="px-4 sm:px-6 xl:px-8">
-          <%= render 'common/flash' %>
+          <%= render "common/flash" %>
           <%= yield %>
         </div>
       </main>

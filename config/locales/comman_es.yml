@@ -21,6 +21,30 @@ es:
           attributes:
             price:
               not_a_number: "debe ser un número"
+        sales_order_item:
+          attributes:
+            quantity:
+              blank: "es requerida"
+            base:
+              split_quantity_invalid: "Cantidad a dividir debe ser mayor que 0 y menor que la cantidad total"
+              in_progress_invalid: "El pedido no puede ser preparado en su estado actual"
+              ready_invalid: "El pedido no puede ser completado en su estado actual"
+              delivery_invalid: "El pedido no puede ser entregado en su estado actual"
+              cancellation_failed: "No se puede cancelar el producto"
+        sales_order:
+          not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
+          not_cancellable: "El pedido no puede ser cancelado en su estado actual."
+          not_fulfillable: "El pedido no puede ser despachado en su estado actual."
+          attributes:
+            sales_order_items:
+              quantity:
+                not_a_number: "El producto debe tener una cantidad válida"
+                blank: "El producto debe tener una cantidad"
+            base:
+              confirmation_failed: "Falló la confirmación del pedido: %{details}"
+              cancellation_failed: "Falló la cancelación del pedido: %{details}"
+              fulfillment_failed: "Falló el despacho del pedido: %{details}"
+
     models:
       client:
         one: "Cliente"
@@ -41,9 +65,16 @@ es:
       making_order_item:
         one: "Producto"
         other: "Productos"
+      sales_order:
+        one: "Pedido"
+        other: "Pedidos"
+      sales_order_item:
+        one: "Producto"
+        other: "Productos"
       supplier:
         one: "Proveedor"
         other: "Proveedores"
+
     attributes:
       formula_element:
         id: "ID"
@@ -132,12 +163,13 @@ es:
           regular: "Usuario"
           distributor: "Distribuidor"
           hardware_store: "Ferretería"
-        comments: "Observaciones"
         comments_plain_text: "Observaciones"
+        comments: "Observaciones"
         country: "País"
         created_at: "Ingresado"
         email: "Email"
         id: "ID"
+        last_sales_order_at: "Último pedido"
         maps_url: "Enlace Mapa"
         name: "Nombre"
         phone: "Teléfono"
@@ -189,6 +221,49 @@ es:
         name: "Nombre"
         password: "Contraseña"
         updated_at: "Actualizado"
+      sales_order:
+        canceled_at: "Cancelado"
+        cash_discount_percentage: "Descuento por pago al contado"
+        cash_discount_value: "Descuento por pago al contado"
+        client_discount_percentage: "Descuento del cliente"
+        client_discount_value: "Descuento del cliente"
+        client_name: "Cliente"
+        client: "Cliente"
+        comments_plain_text: "Observaciones"
+        comments: "Observaciones"
+        confirmed_at: "Confirmado"
+        created_at: "Ingresado"
+        fulfilled_at: "Completado"
+        id: "ID"
+        items_count: "Cantidad de ítems"
+        number: "Número de pedido"
+        sales_order_items: "Productos"
+        status_changed_at: "Fecha"
+        status: "Estado"
+        status_values:
+          quote: "Cotización"
+          confirmed: "Confirmado"
+          canceled: "Cancelado"
+          fulfilled: "Completado"
+        subtotal_after_cash_discount: "Total contado"
+        subtotal_after_order_discount: "Subtotal después del descuento"
+        subtotal_before_order_discount: "Subtotal"
+        total_price: "Precio total"
+        updated_at: "Actualizado"
+      sales_order_items:
+        quantity: "Cantidad de producto"
+      sales_order_item:
+        product: "Producto"
+        quantity: "Cantidad"
+        status: "Estado"
+        status_values:
+          quote: "Cotización"
+          confirmed: "Confirmado"
+          in_progress: "Preparando"
+          ready: "Preparado"
+          delivered: "Entregado"
+          canceled: "Cancelado"
+        unit_price: "Precio"
   messages:
     are_you_sure: "¿Estás seguro?"
     saving: "Guardando..."
@@ -206,10 +281,12 @@ es:
       drag_drop: "o arrastra y suelta aquí"
       formats: "PNG, JPG, GIF hasta 10MB"
   actions:
-    archive: "Archivar"
-    save: "Guardar"
-    cancel: "Cancelar"
     add_new_model: "Agregar %{model}"
+    archive: "Archivar"
+    cancel: "Cancelar"
+    confirm: "Confirmar"
+    update_totals: "Actualizar totales"
+    save: "Guardar"
     sign_out: "Salir"
   navigation:
     edit: "Editar"
@@ -258,6 +335,8 @@ es:
 
   office:
     clients:
+      index:
+        view_client: "Ver cliente"
       create:
         success: "Cliente creado."
       update:
@@ -286,6 +365,49 @@ es:
         success: "Producto actualizado"
       destroy:
         success: "Producto eliminado"
+  sales:
+    clients:
+      index:
+        title: "Clientes"
+        no_clients: "No hay clientes"
+    sales_orders:
+      create:
+        success: "Pedido creado."
+      index:
+        title: "Pedidos"
+        no_sales_orders: "No hay pedidos"
+        view_sales_order: "Ver pedido"
+      new:
+        title: "Nuevo pedido"
+      edit:
+        title: "Editar pedido de %{client_name} (%{status})"
+      update:
+        success: "Pedido actualizado."
+      sales_order:
+        actions: "Acciones"
+      sales_order_item_actions:
+        split: "Dividir cantidad"
+        work_on: "Preparar productos"
+        complete: "Completar productos"
+        deliver: "Entregar producto"
+      cancels:
+        create:
+          success: "Pedido cancelado."
+      completes:
+        create:
+          success: "Producto completado."
+      splits:
+        create:
+          success: "Ítem separado."
+        form:
+          split: "Dividir pedido"
+          cancel: "Cancelar división"
+      works:
+        create:
+          success: "Preparando productos."
+      deliveries:
+        create:
+          success: "Producto entregado."
   auditable:
     boolean_true: "Sí"
     boolean_false: "No"
@@ -297,3 +419,20 @@ es:
       create: "creó"
       update: "actualizó"
       destroy: "eliminó"
+
+  helpers:
+    placeholder:
+      user:
+        name: "Nombre del usuario"
+        email_address: "Email del usuario"
+      sales_order:
+        cash_discount_percentage: "Porcentaje de descuento por pago al contado"
+        client_discount_percentage: "Porcentaje de descuento del cliente"
+      sales_order_item:
+        product: "Producto"
+        quantity: "Cantidad"
+        unit_price: "Precio"
+  common:
+    components:
+      options_dropdown:
+        cancel: "Cancelar"
