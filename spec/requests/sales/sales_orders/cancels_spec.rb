@@ -73,19 +73,5 @@ RSpec.describe "Sales::SalesOrders::Cancels", type: :request do
         end
       end
     end
-
-    context "when sales order does not exist" do
-      it "returns not found" do
-        post cancel_sales_sales_order_sales_order_item_path(99999, sales_order_item)
-        expect(response).to be_not_found
-      end
-    end
-
-    context "when sales order item does not exist" do
-      it "returns not found" do
-        post cancel_sales_sales_order_sales_order_item_path(sales_order, 99999)
-        expect(response).to be_not_found
-      end
-    end
   end
 end

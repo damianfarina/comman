@@ -34,5 +34,9 @@ RSpec.describe Sales::SalesOrdersController, type: :routing do
     it "routes to #destroy" do
       expect(delete: "/sales/orders/1").to route_to("sales/sales_orders#destroy", id: "1", department: "sales")
     end
+
+    it "routes to #preview_totals" do
+      expect(post: "/sales/orders/preview_totals").to route_to("sales/sales_orders#preview_totals", department: "sales")
+    end
   end
 end

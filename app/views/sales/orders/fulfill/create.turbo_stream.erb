@@ -1,0 +1,5 @@
+<%= turbo_stream.replace dom_id(@sales_order) do %>
+  <%= render "sales/sales_orders/sales_order", sales_order: @sales_order %>
+<% end %>
+
+<%= turbo_stream.replace "flash", partial: "common/flash" %>

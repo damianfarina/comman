@@ -23,6 +23,7 @@ class SalesOrderItem < ApplicationRecord
   scope :in_progress, -> { where(status: SalesOrderItem.statuses[:in_progress]) }
   scope :deliverable, -> {
     where(status: [
+      SalesOrderItem.statuses[:confirmed],
       SalesOrderItem.statuses[:in_progress],
       SalesOrderItem.statuses[:ready],
     ])

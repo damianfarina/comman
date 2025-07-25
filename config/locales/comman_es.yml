@@ -3,6 +3,7 @@ es:
     errors:
       models:
         formula:
+          name_must_be_unique: 'Ya existe una formula con la misma descripcion, es la <a href="/factory/formulas/%{other_formula_id}" target="_blank">%{other_formula_name}</a>'
           proportion_must_be_one_hundred: "La suma de los porcentajes debe ser 100. La diferencia es %{difference}"
           duplicated_formula_elements: "No puede haber materias primas repetidas"
         product:
@@ -34,7 +35,7 @@ es:
         sales_order:
           not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
           not_cancellable: "El pedido no puede ser cancelado en su estado actual."
-          not_fulfillable: "El pedido no puede ser despachado en su estado actual."
+          not_fulfillable: "El pedido no puede ser completado en su estado actual."
           attributes:
             sales_order_items:
               quantity:
@@ -370,6 +371,10 @@ es:
       index:
         title: "Clientes"
         no_clients: "No hay clientes"
+    orders:
+      fulfill:
+        create:
+          success: "Pedido completado."
     sales_orders:
       create:
         success: "Pedido creado."
@@ -385,6 +390,7 @@ es:
         success: "Pedido actualizado."
       sales_order:
         actions: "Acciones"
+        fulfill: "Completar"
       sales_order_item_actions:
         split: "Dividir cantidad"
         work_on: "Preparar productos"

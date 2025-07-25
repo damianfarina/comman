@@ -71,15 +71,15 @@
 
         ]
       ) %>
-      <div class="mb-6 overflow-hidden rounded-lg bg-white-100 shadow-sm px-4 py-5 sm:p-6">
-        <div class="mb-6 text-sm font-medium leading-6 text-gray-100"><%= SalesOrder.human_attribute_name(:comments) %></div>
+      <div class="overflow-hidden rounded-lg bg-white-100 shadow-sm px-4 py-5 sm:p-6">
+        <div class="text-sm font-medium leading-6 text-gray-100"><%= SalesOrder.human_attribute_name(:comments) %></div>
         <%= sales_order.comments %>
       </div>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 gap-8 mt-6">
-    <div class="grid grid-cols-1 mb-6 px-4 sm:px-6 overflow-hidden rounded-lg bg-white-100 shadow-sm">
+  <div class="grid grid-cols-1 gap-8">
+    <div class="grid grid-cols-1 px-4 sm:px-6 overflow-hidden rounded-lg bg-white-100 shadow-sm">
       <table class="min-w-full divide-y divide-light-gray-300 bg-white-100">
         <thead>
           <tr>
@@ -100,5 +100,14 @@
         </tbody>
       </table>
     </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-8 mt-6">
+    <% if sales_order.confirmed? %>
+      <%= button_to t(".fulfill"),
+        fulfill_sales_sales_order_path(sales_order),
+        method: :post,
+        class: "btn-primary" %>
+    <% end %>
   </div>
 </div>
