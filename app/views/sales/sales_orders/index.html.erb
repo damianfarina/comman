@@ -55,10 +55,10 @@
                   <%= sort_link(@q, :products, SalesOrder.human_attribute_name(:sales_order_items), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :status, SalesOrder.human_attribute_name(:status), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :status_order, SalesOrder.human_attribute_name(:status), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :status_changed_at, SalesOrder.human_attribute_name(:status_changed_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :status_changed_at_order, SalesOrder.human_attribute_name(:status_changed_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
                   <%= sort_link(@q, :total_price, SalesOrder.human_attribute_name(:total_price), class: "flex justify-end", data: { turbo_action: "advance"}) %>

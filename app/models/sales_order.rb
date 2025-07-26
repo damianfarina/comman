@@ -20,6 +20,27 @@ class SalesOrder < ApplicationRecord
   has_many :sales_order_items, dependent: :destroy
   has_many :products, through: :sales_order_items
 
+  ransacker :status_order do
+    Arel.sql(
+      "CASE status " \
+      "WHEN 'confirmed' THEN 1 " \
+      "WHEN 'quote' THEN 2 " \
+      "WHEN 'fulfilled' THEN 3 " \
+      "WHEN 'canceled' THEN 4 " \
+      "ELSE 5 END"
+    )
+  end
+
+  ransacker :status_changed_at_order do
+    Arel.sql(
+      "CASE status " \
+      "WHEN 'confirmed' THEN confirmed_at " \
+      "WHEN 'fulfilled' THEN fulfilled_at " \
+      "WHEN 'canceled' THEN canceled_at " \
+      "ELSE created_at END"
+    )
+  end
+
   accepts_nested_attributes_for :sales_order_items, allow_destroy: true, reject_if: :all_blank
 
   enum :status, {
@@ -36,7 +57,7 @@ class SalesOrder < ApplicationRecord
   validates :sales_order_items, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id comments_plain_text]
+    %w[id comments_plain_text status_order status_changed_at_order total_price]
   end
 
   def self.ransackable_associations(auth_object = nil)
