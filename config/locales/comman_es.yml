@@ -372,59 +372,58 @@ es:
         title: "Clientes"
         no_clients: "No hay clientes"
     orders:
-      fulfill:
-        create:
-          success: "Pedido completado."
-    sales_orders:
-      create:
-        success: "Pedido creado."
-      index:
-        title: "Pedidos"
-        no_sales_orders: "No hay pedidos"
-        view_sales_order: "Ver pedido"
-      new:
-        title: "Nuevo pedido"
-      edit:
-        title: "Editar pedido de %{client_name} (%{status})"
-      update:
-        success: "Pedido actualizado."
-      sales_order:
-        actions: "Acciones"
-        fulfill: "Completar"
-      sales_order_item_actions:
-        split: "Dividir cantidad"
-        work_on: "Preparar productos"
-        complete: "Completar productos"
-        deliver: "Entregar producto"
       cancels:
         create:
-          success: "Pedido cancelado."
+          success: Pedido cancelado.
       completes:
         create:
-          success: "Producto completado."
-      splits:
-        create:
-          success: "Ítem separado."
-        form:
-          split: "Dividir pedido"
-          cancel: "Cancelar división"
-      works:
-        create:
-          success: "Preparando productos."
+          success: Producto completado.
+      create:
+        success: Pedido creado.
       deliveries:
         create:
-          success: "Producto entregado."
+          success: Producto entregado.
+      edit:
+        title: Editar pedido de %{client_name} (%{status})
+      fulfill:
+        create:
+          success: Pedido completado.
+      index:
+        no_sales_orders: No hay pedidos
+        title: Pedidos
+        view_sales_order: Ver pedido
+      new:
+        title: Nuevo pedido
+      sales_order:
+        actions: Acciones
+        fulfill: Completar
+      sales_order_item_actions:
+        complete: Completar productos
+        deliver: Entregar producto
+        split: Dividir cantidad
+        work_on: Preparar productos
+      splits:
+        create:
+          success: Ítem separado.
+        form:
+          cancel: Cancelar división
+          split: Dividir pedido
+      update:
+        success: Pedido actualizado.
+      works:
+        create:
+          success: Preparando productos.
   auditable:
-    boolean_true: "Sí"
-    boolean_false: "No"
-    boolean_nil: "No definido"
-    unknown_user: "Sistema"
-    no_activity: "No hay actividad reciente."
-    blank_value: "vacio"
+    blank_value: vacio
+    boolean_false: 'No'
+    boolean_nil: No definido
+    boolean_true: Sí
     events:
-      create: "creó"
-      update: "actualizó"
-      destroy: "eliminó"
+      create: creó
+      destroy: eliminó
+      update: actualizó
+    no_activity: No hay actividad reciente.
+    unknown_user: Sistema
 
   helpers:
     placeholder:

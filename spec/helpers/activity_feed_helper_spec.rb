@@ -130,13 +130,13 @@ RSpec.describe ActivityFeedHelper, type: :helper do
     context "when polymorphic path exists" do
       before do
         allow(Current).to receive(:department).and_return(:sales)
-        allow(helper).to receive(:polymorphic_path).with([ :sales, sales_order ]).and_return("/sales/sales_orders/1")
+        allow(helper).to receive(:polymorphic_path).with([ :sales, sales_order ]).and_return("/sales/orders/1")
         allow(sales_order).to receive(:audit_name).and_return("Sales Order #123")
       end
 
       it "returns link to auditable object" do
         result = helper.link_to_auditable(sales_order)
-        expect(result).to include('href="/sales/sales_orders/1"')
+        expect(result).to include('href="/sales/orders/1"')
         expect(result).to include("Sales Order #123")
       end
 

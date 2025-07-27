@@ -1,0 +1,65 @@
+<%# locals: (sales_order:, sales_order_item:) %>
+
+<tr id="sales_order_item_line_<%= sales_order_item.id %>">
+  <td class="pl-0 pr-2 py-3 sm:pr-3 text-sm">
+    <div class="flex items-center">
+      <div class="size-11 shrink-0">
+        <%= link_to [:office, sales_order_item.product] do %>
+          <%= image_tag(sales_order_item.product.cover_thumbnail, class: "size-11 rounded-full") %>
+        <% end %>
+      </div>
+      <div class="ml-4 flex flex-col gap-2 flex-1">
+        <div class="font-medium text-gray-900 sm:whitespace-nowrap">
+          <%= link_to [:office, sales_order_item.product] do %>
+            <%= sales_order_item.product_name %>
+          <% end %>
+        </div>
+        <div class="md:hidden flex items-center gap-2">
+          <div class="text-gray-900 tabular-nums text-sm whitespace-nowrap">
+            <%= number_to_currency sales_order_item.effective_unit_price %>
+          </div>
+          <%= heroicon("x-mark", options: { class: "size-4" }) %>
+          <div class="tabular-nums text-sm whitespace-nowrap">
+            <%= sales_order_item.quantity %>
+          </div>
+          <div class="flex items-center">
+            <span class="inline-flex items-center rounded-full size-4 text-xs font-medium text-gray-500" style="background-color: <%= stock_level_color(sales_order_item.product.stock_level) %>;"></span>
+          </div>
+        </div>
+        <div class="md:hidden flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <%= status_container_for sales_order_item.status, class: "md:hidden" do %>
+              <%= t("activerecord.attributes.sales_order_item.status_values.#{sales_order_item.status}") %>
+            <% end %>
+          </div>
+          <div class="flex">
+            <%= render "sales/orders/sales_order_item_actions", sales_order: sales_order, sales_order_item: sales_order_item %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </td>
+  <td class="hidden md:table-cell px-3 py-5 text-right">
+    <div class="text-gray-900 tabular-nums text-sm whitespace-nowrap"><%= number_to_currency sales_order_item.effective_unit_price %></div>
+  </td>
+  <td class="hidden md:table-cell px-3 py-5 text-right">
+    <div class="tabular-nums text-sm whitespace-nowrap">
+      <%= sales_order_item.quantity %>
+    </div>
+  </td>
+  <td class="hidden md:table-cell px-3 py-5 text-center text-sm whitespace-nowrap text-gray-500">
+    <%= status_container_for sales_order_item.status do %>
+      <%= t("activerecord.attributes.sales_order_item.status_values.#{sales_order_item.status}") %>
+    <% end %>
+  </td>
+  <td class="hidden md:table-cell px-3 py-5 text-center">
+    <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-gray-500" style="background-color: <%= stock_level_color(sales_order_item.product.stock_level) %>;">
+      <%= sales_order_item.product.current_stock %>
+    </span>
+  </td>
+  <td class="hidden md:table-cell py-5 pr-4 pl-3 sm:pr-0">
+    <div class="flex justify-end">
+      <%= render "sales/orders/sales_order_item_actions", sales_order: sales_order, sales_order_item: sales_order_item %>
+    </div>
+  </td>
+</tr>

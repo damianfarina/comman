@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     root "dashboard#index"
     resources :clients, only: %i[ index ]
     resources :products, only: %i[ index show ]
-    resources :orders, controller: "sales_orders", as: "sales_orders" do
+    resources :orders do
       collection do
         post :preview_totals
       end
@@ -29,12 +29,12 @@ Rails.application.routes.draw do
       end
       resources :sales_order_items, only: %i[] do
         member do
-          post :work_on, to: "sales_orders/works#create"
-          post :complete, to: "sales_orders/completes#create"
-          post :deliver, to: "sales_orders/deliveries#create"
-          post :cancel, to: "sales_orders/cancels#create"
-          get :split, to: "sales_orders/splits#new"
-          post :split, to: "sales_orders/splits#create"
+          post :work_on, to: "orders/works#create"
+          post :complete, to: "orders/completes#create"
+          post :deliver, to: "orders/deliveries#create"
+          post :cancel, to: "orders/cancels#create"
+          get :split, to: "orders/splits#new"
+          post :split, to: "orders/splits#create"
         end
       end
     end

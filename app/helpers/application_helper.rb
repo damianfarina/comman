@@ -50,7 +50,7 @@ module ApplicationHelper
       [
         { name: t("navigation.dashboard"), path: sales_root_path, icon: "home", exact: true },
         { name: t("sales.clients.index.title"), path: sales_clients_path, icon: "user-group" },
-        { name: t("sales.sales_orders.index.title"), path: sales_sales_orders_path, icon: "shopping-bag" },
+        { name: t("sales.orders.index.title"), path: sales_orders_path, icon: "shopping-bag" },
       ]
     when /^\/factory/
       [

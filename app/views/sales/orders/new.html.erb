@@ -1,0 +1,13 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: sales_root_path },
+    { title: t("sales.orders.index.title"), path: sales_orders_path },
+    { title: t("navigation.new"), path: new_sales_order_path },
+  ],
+  title: t(".title"),
+) %>
+
+<div class="w-full">
+  <%= render "form", sales_order: @sales_order %>
+</div>

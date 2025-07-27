@@ -1,0 +1,27 @@
+<%# locals: sales_order_item: @sales_order_item %>
+
+<%= form_with(
+  model: sales_order_item,
+  url: split_sales_order_sales_order_item_path(@sales_order, sales_order_item),
+  method: :post,
+) do |form| %>
+  <div class="flex gap-1">
+    <%= form.number_field :quantity,
+      autofocus: true,
+      autocomplete: "off",
+      class: "w-14 rounded-md border-0 ring-0 py-0 text-gray-900 text-sm shadow-sm outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-300 focus:outline-1 focus:-outline-offset-1 focus:outline-blue-300 #{sales_order_item.errors.any? ? "outline-red focus:outline-red" : ""}",
+      max: sales_order_item.quantity - 1,
+      min: 1,
+      placeholder: true,
+      required: true,
+      value: 1 %>
+    <%= button_to({ type: :submit }, { class: "cursor-pointer text-blue transition focus:text-blue-900 hover:text-blue-900" }) do %>
+      <%= heroicon("check-circle", variant: "solid", options: { class: "size-7" }) %>
+      <span class="sr-only"><%= t(".split") %></span>
+    <% end %>
+    <%= link_to "#", class: "flex justify-center items-center text-red transition focus:text-red-900 hover:text-red-900" do %>
+      <%= heroicon("x-circle", options: { class: "size-7" }) %>
+      <span class="sr-only"><%= t(".cancel") %></span>
+    <% end %>
+  </div>
+<% end %>

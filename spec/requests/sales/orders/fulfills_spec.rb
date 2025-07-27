@@ -18,7 +18,7 @@ RSpec.describe "Sales::Orders::Fulfills", type: :request do
   describe "POST /create" do
     it "returns http success" do
       post "/sales/orders/#{sales_order.id}/fulfill"
-      expect(response).to redirect_to(sales_sales_order_path(sales_order))
+      expect(response).to redirect_to(sales_order_path(sales_order))
       expect(flash[:notice]).to be_present
       expect(sales_order.reload.status).to eq("fulfilled")
       expect(sales_order.fulfilled_at).to within(1.second).of(Time.current)
@@ -31,7 +31,7 @@ RSpec.describe "Sales::Orders::Fulfills", type: :request do
       end
 
       it "does not change the sales order status" do
-        post fulfill_sales_sales_order_path(sales_order)
+        post fulfill_sales_order_path(sales_order)
         sales_order.reload
         expect(sales_order.status).to eq("canceled")
         expect(flash[:alert]).to be_present
