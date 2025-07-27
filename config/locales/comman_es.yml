@@ -372,17 +372,8 @@ es:
         title: "Clientes"
         no_clients: "No hay clientes"
     orders:
-      cancels:
-        create:
-          success: Pedido cancelado.
-      completes:
-        create:
-          success: Producto completado.
       create:
         success: Pedido creado.
-      deliveries:
-        create:
-          success: Producto entregado.
       edit:
         title: Editar pedido de %{client_name} (%{status})
       fulfill:
@@ -392,6 +383,25 @@ es:
         no_sales_orders: No hay pedidos
         title: Pedidos
         view_sales_order: Ver pedido
+      items:
+        cancels:
+          create:
+            success: Pedido cancelado.
+        completes:
+          create:
+            success: Producto completado.
+        deliveries:
+          create:
+            success: Producto entregado.
+        splits:
+          create:
+            success: Ítem separado.
+          form:
+            cancel: Cancelar división
+            split: Dividir pedido
+        works:
+          create:
+            success: Preparando productos.
       new:
         title: Nuevo pedido
       sales_order:
@@ -402,17 +412,8 @@ es:
         deliver: Entregar producto
         split: Dividir cantidad
         work_on: Preparar productos
-      splits:
-        create:
-          success: Ítem separado.
-        form:
-          cancel: Cancelar división
-          split: Dividir pedido
       update:
         success: Pedido actualizado.
-      works:
-        create:
-          success: Preparando productos.
   auditable:
     blank_value: vacio
     boolean_false: 'No'

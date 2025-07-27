@@ -29,12 +29,12 @@ Rails.application.routes.draw do
       end
       resources :sales_order_items, only: %i[] do
         member do
-          post :work_on, to: "orders/works#create"
-          post :complete, to: "orders/completes#create"
-          post :deliver, to: "orders/deliveries#create"
-          post :cancel, to: "orders/cancels#create"
-          get :split, to: "orders/splits#new"
-          post :split, to: "orders/splits#create"
+          post :work_on, to: "orders/items/works#create"
+          post :complete, to: "orders/items/completes#create"
+          post :deliver, to: "orders/items/deliveries#create"
+          post :cancel, to: "orders/items/cancels#create"
+          get :split, to: "orders/items/splits#new"
+          post :split, to: "orders/items/splits#create"
         end
       end
     end

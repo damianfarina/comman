@@ -17,7 +17,7 @@ RSpec.describe "/sales/clients", type: :request do
 
     it "points to new sales order path" do
       get sales_clients_url
-      expect(response.body).to include(new_sales_sales_order_path(client_id: user1.id))
+      expect(response.body).to include(new_sales_order_path(client_id: user1.id))
     end
   end
 end

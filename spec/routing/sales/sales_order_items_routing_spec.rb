@@ -8,7 +8,7 @@ RSpec.describe "Sales::SalesOrderItems routing", type: :routing do
     describe "work_on routes" do
       it "routes POST to works#create" do
         expect(post: "/sales/orders/#{order_id}/sales_order_items/#{sales_order_item_id}/work_on").to route_to(
-          controller: "sales/orders/works",
+          controller: "sales/orders/items/works",
           action: "create",
           order_id: order_id,
           id: sales_order_item_id,
@@ -26,7 +26,7 @@ RSpec.describe "Sales::SalesOrderItems routing", type: :routing do
     describe "complete routes" do
       it "routes POST to completes#create" do
         expect(post: "/sales/orders/#{order_id}/sales_order_items/#{sales_order_item_id}/complete").to route_to(
-          controller: "sales/orders/completes",
+          controller: "sales/orders/items/completes",
           action: "create",
           order_id: order_id,
           id: sales_order_item_id,
@@ -44,7 +44,7 @@ RSpec.describe "Sales::SalesOrderItems routing", type: :routing do
     describe "deliver routes" do
       it "routes POST to deliveries#create" do
         expect(post: "/sales/orders/#{order_id}/sales_order_items/#{sales_order_item_id}/deliver").to route_to(
-          controller: "sales/orders/deliveries",
+          controller: "sales/orders/items/deliveries",
           action: "create",
           order_id: order_id,
           id: sales_order_item_id,
@@ -62,7 +62,7 @@ RSpec.describe "Sales::SalesOrderItems routing", type: :routing do
     describe "cancel routes" do
       it "routes POST to cancels#create" do
         expect(post: "/sales/orders/#{order_id}/sales_order_items/#{sales_order_item_id}/cancel").to route_to(
-          controller: "sales/orders/cancels",
+          controller: "sales/orders/items/cancels",
           action: "create",
           order_id: order_id,
           id: sales_order_item_id,
@@ -80,7 +80,7 @@ RSpec.describe "Sales::SalesOrderItems routing", type: :routing do
     describe "split routes" do
       it "routes GET to splits#new" do
         expect(get: "/sales/orders/#{order_id}/sales_order_items/#{sales_order_item_id}/split").to route_to(
-          controller: "sales/orders/splits",
+          controller: "sales/orders/items/splits",
           action: "new",
           order_id: order_id,
           id: sales_order_item_id,
@@ -90,7 +90,7 @@ RSpec.describe "Sales::SalesOrderItems routing", type: :routing do
 
       it "routes POST to splits#create" do
         expect(post: "/sales/orders/#{order_id}/sales_order_items/#{sales_order_item_id}/split").to route_to(
-          controller: "sales/orders/splits",
+          controller: "sales/orders/items/splits",
           action: "create",
           order_id: order_id,
           id: sales_order_item_id,

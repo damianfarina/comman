@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Sales::Orders::Splits", type: :request do
+RSpec.describe "Sales::Orders::Items::Splits", type: :request do
   before { sign_in create(:user) }
 
   let(:client) { create(:client) }
