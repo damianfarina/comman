@@ -129,7 +129,7 @@ module Sales
     end
 
     def default_sort
-      [ "status_order asc", "status_changed_at_order desc" ]
+      [ "status_changed_at_order desc" ]
     end
 
     def client_id_from_params
