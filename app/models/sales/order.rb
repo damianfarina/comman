@@ -45,12 +45,14 @@ module Sales
     end
 
     ransacker :products_count do
-      Arel.sql(
-        "(SELECT SUM(sales_order_items.quantity) " \
-        "FROM sales_order_items " \
-        "WHERE sales_order_items.order_id = sales_orders.id " \
-        "AND sales_order_items.status != '#{Sales::Order::Item.statuses[:canceled]}')"
-      )
+      query  = [
+        "(SELECT SUM(sales_order_items.quantity)
+          FROM sales_order_items
+          WHERE sales_order_items.order_id = sales_orders.id
+          AND sales_order_items.status != ?)",
+        Sales::Order::Item.statuses[:canceled],
+      ]
+      Arel.sql(ActiveRecord::Base.send(:sanitize_sql_array, query))
     end
 
     accepts_nested_attributes_for :items, allow_destroy: true, reject_if: :all_blank
