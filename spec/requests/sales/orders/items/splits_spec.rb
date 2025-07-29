@@ -39,7 +39,7 @@ RSpec.describe "Sales::Orders::Items::Splits", type: :request do
   end
 
   describe "POST /create" do
-    let(:split_params) { { item: { quantity: 3 } } }
+    let(:split_params) { { sales_order_item: { quantity: 3 } } }
 
     context "with valid parameters" do
       it "successfully splits the sales order item" do
@@ -88,7 +88,7 @@ RSpec.describe "Sales::Orders::Items::Splits", type: :request do
     end
 
     context "with invalid parameters" do
-      let(:invalid_split_params) { { item: { quantity: 0 } } }
+      let(:invalid_split_params) { { sales_order_item: { quantity: 0 } } }
 
       it "does not split the sales order item" do
         expect {
@@ -129,7 +129,7 @@ RSpec.describe "Sales::Orders::Items::Splits", type: :request do
     end
 
     context "when split quantity is greater than or equal to current quantity" do
-      let(:invalid_split_params) { { item: { quantity: 15 } } }
+      let(:invalid_split_params) { { sales_order_item: { quantity: 15 } } }
 
       it "does not split the sales order item" do
         expect {
