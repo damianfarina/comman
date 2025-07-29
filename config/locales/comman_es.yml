@@ -97,6 +97,7 @@ es:
   sales:
     clients:
       index:
+        create_sales_order: "Crear pedido"
         no_clients: "No hay clientes"
         title: "Clientes"
     orders:

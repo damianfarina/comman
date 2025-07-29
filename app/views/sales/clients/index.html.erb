@@ -107,8 +107,13 @@
                     <%= l(client.last_sales_order_at, format: :compact) if client.last_sales_order_at.present? %>
                   </td>
                   <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
-                    <%= link_to new_sales_order_path(client_id: client.id), data: { turbo_frame: "_top" } do %>
-                      <%= heroicon("shopping-bag", options: { class: "h-4 w-4", "aria-label": "shopping-bag" }) %>
+                    <%= link_to(
+                      new_sales_order_path(client_id: client.id),
+                      title: t(".create_sales_order"),
+                      class: "transition text-blue-300 hover:text-blue-900",
+                      data: { turbo_frame: "_top" },
+                    ) do %>
+                      <%= heroicon("shopping-bag", variant: "outline", options: { class: "size-7", "aria-label": "shopping-bag" }) %>
                     <% end %>
                   </td>
                 </tr>
