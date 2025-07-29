@@ -178,9 +178,12 @@ module Sales
     def cancel!
       raise StandardError, I18n.t("activerecord.errors.models.sales/order.not_cancellable") unless can_cancel?
 
-      self.status = Sales::Order.statuses[:canceled]
-      self.canceled_at = Time.current
-      save!
+      transaction do
+        items.cancelable.each(&:cancel!)
+        self.status = Sales::Order.statuses[:canceled]
+        self.canceled_at = Time.current
+        save!
+      end
     rescue ActiveRecord::RecordInvalid, StandardError => e
       reload
       errors.add(:base, :cancellation_failed, details: e.message)
@@ -191,7 +194,7 @@ module Sales
       item.cancel!
       self.total_price = subtotal_after_order_discount
       save!
-    rescue ActiveRecord::RecordInvalid, StandardError => e
+    rescue ActiveRecord::RecordInvalid, StandardError
       reload
       false
     end

@@ -23,6 +23,7 @@ module Sales
         .where.not(product_id: nil)
         .where("quantity > 0")
     }
+    scope :cancelable, -> { where.not(status: Sales::Order::Item.statuses[:canceled]) }
     scope :in_progress, -> { where(status: Sales::Order::Item.statuses[:in_progress]) }
     scope :deliverable, -> {
       where(status: [

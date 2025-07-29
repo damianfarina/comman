@@ -75,11 +75,15 @@ module Sales
 
     # DELETE /orders/1 or /orders/1.json
     def destroy
-      @order.destroy!
-
       respond_to do |format|
-        format.html { redirect_to orders_path, status: :see_other, notice: t(".success") }
-        format.json { head :no_content }
+        if @order.cancel!
+          format.html { redirect_to @order, notice: t(".success") }
+          format.json { head :no_content }
+        else
+          flash[:alert] = @order.errors.full_messages.join(", ")
+          format.html { redirect_to @order }
+          format.json { render json: @order.errors, status: :unprocessable_entity }
+        end
       end
     end
 

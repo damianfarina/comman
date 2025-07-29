@@ -39,6 +39,30 @@ RSpec.describe Sales::Order::Item, type: :model do
         expect(Sales::Order::Item.deliverable).not_to include(item_quote)
       end
     end
+
+    describe ".cancelable" do
+      let!(:item_delivered) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "delivered", quantity: 1) }
+      let!(:item_canceled) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "canceled", quantity: 1) }
+      let!(:item_confirmed) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "confirmed", quantity: 1) }
+
+      it "includes all statuses except canceled" do
+        expect(Sales::Order::Item.cancelable).to include(
+          item_quote, item_confirmed, item_in_progress, item_ready, item_delivered
+        )
+        expect(Sales::Order::Item.cancelable).not_to include(item_canceled)
+      end
+
+      it "handles edge cases correctly" do
+        # Test empty collection when all items are canceled
+        Sales::Order::Item.update_all(status: "canceled")
+        expect(Sales::Order::Item.cancelable).to be_empty
+
+        # Reset and verify count accuracy
+        Sales::Order::Item.update_all(status: "quote")
+        total_items = Sales::Order::Item.count
+        expect(Sales::Order::Item.cancelable.count).to eq(total_items)
+      end
+    end
   end
 
   describe "validations" do

@@ -96,4 +96,26 @@ RSpec.describe "/orders", type: :request do
       expect(response).to redirect_to(edit_sales_order_url(sales_order))
     end
   end
+
+  describe "DELETE /destroy" do
+    let(:sales_order) { create(:sales_order, products_count: 1, status: "confirmed") }
+
+    it "cancels the Order" do
+      delete sales_order_url(sales_order)
+      sales_order.reload
+      expect(sales_order).to be_canceled
+      expect(sales_order.items.all?(&:canceled?)).to be true
+      expect(sales_order.items.count).to eq(1)
+      expect(response).to redirect_to(sales_order_url(sales_order))
+      follow_redirect!
+      expect(response.body).to include("Cancelado")
+    end
+
+    it "does not allow canceling a fulfilled order" do
+      sales_order.fulfill!
+      delete sales_order_url(sales_order)
+      expect(response).to redirect_to(sales_order_url(sales_order))
+      expect(flash[:alert]).to include("Falló la cancelación del pedido")
+    end
+  end
 end
