@@ -14,7 +14,7 @@
         url: sales_orders_path,
         method: :get,
         data: {
-          turbo_frame: "sales_orders_table",
+          turbo_frame: "orders_table",
           turbo_action: "advance",
           controller: "common--submit-debounce",
           action: "input->common--submit-debounce#submit",
@@ -39,57 +39,57 @@
       <% end %>
     </div>
 
-    <%= turbo_frame_tag "sales_orders_table" do %>
-      <% if @sales_orders.any? %>
+    <%= turbo_frame_tag "orders_table" do %>
+      <% if @orders.any? %>
         <div class="inline-block min-w-full py-2 align-middle">
-          <table id="sales_orders" class="min-w-full divide-y divide-light-gray-900">
+          <table id="orders" class="min-w-full divide-y divide-light-gray-900">
             <thead>
               <tr>
                 <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :id, SalesOrder.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :id, Sales::Order.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :client_name, SalesOrder.human_attribute_name(:client_name), class: "flex", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :client_name, Sales::Order.human_attribute_name(:client_name), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :products, SalesOrder.human_attribute_name(:sales_order_items), class: "flex", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :products, Sales::Order.human_attribute_name(:items), class: "flex", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :status_order, SalesOrder.human_attribute_name(:status), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :status_order, Sales::Order.human_attribute_name(:status), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :status_changed_at_order, SalesOrder.human_attribute_name(:status_changed_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :status_changed_at_order, Sales::Order.human_attribute_name(:status_changed_at), class: "flex justify-center", data: { turbo_action: "advance"}) %>
                 </th>
                 <th scope="col" class="hidden sm:table-cell px-2 md:px-4 py-3 text-sm font-semibold text-gray-900 group">
-                  <%= sort_link(@q, :total_price, SalesOrder.human_attribute_name(:total_price), class: "flex justify-end", data: { turbo_action: "advance"}) %>
+                  <%= sort_link(@q, :total_price, Sales::Order.human_attribute_name(:total_price), class: "flex justify-end", data: { turbo_action: "advance"}) %>
                 </th>
               </tr>
             </thead>
 
             <tbody class="divide-y divide-light-gray">
-              <% @sales_orders.each do |sales_order| %>
-                <tr id="<%= dom_id sales_order %>">
+              <% @orders.each do |order| %>
+                <tr id="<%= dom_id order %>">
                   <td class="whitespace-nowrap px-3 py-3 text-center text-sm text-gray-900">
-                    <%= link_to sales_order_path(sales_order), data: { turbo_frame: "_top" } do %>
-                      <span class="sr-only"><%= t(".view_sales_order") %> </span><span><%= sales_order.id %></span>
+                    <%= link_to sales_order_path(order), data: { turbo_frame: "_top" } do %>
+                      <span class="sr-only"><%= t(".view_order") %> </span><span><%= order.id %></span>
                     <% end %>
                   </td>
                   <td class="hidden sm:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500">
-                    <%= sales_order.client_name %>
+                    <%= order.client_name %>
                   </td>
                   <td class="py-3 pl-4 pr-3 text-sm font-medium text-gray-900">
-                    <%= sales_order.products.map(&:name).uniq.to_sentence %> (<%= sales_order.sales_order_items.map(&:quantity).sum %>)
+                    <%= order.products.map(&:name).uniq.to_sentence %> (<%= order.items.map(&:quantity).sum %>)
                   </td>
                   <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                    <%= status_container_for sales_order.status do %>
-                      <%= t(sales_order.status, scope: [:activerecord, :attributes, :sales_order, :status_values]) %>
+                    <%= status_container_for order.status do %>
+                      <%= t(order.status, scope: ["activerecord.attributes.sales/order.status_values"]) %>
                     <% end %>
                   </td>
                   <td class="whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-center">
-                    <%= l(sales_order.status_changed_at, format: :short) %>
+                    <%= l(order.status_changed_at, format: :short) %>
                   </td>
                   <td class="hidden lg:table-cell whitespace-nowrap px-2 md:px-4 py-3 text-sm text-gray-500 text-right tabular-nums">
-                    <%= number_to_currency sales_order.subtotal_after_order_discount %>
+                    <%= number_to_currency order.subtotal_after_order_discount %>
                   </td>
                 </tr>
               <% end %>
@@ -99,11 +99,11 @@
       <% else %>
         <div class="flex items-center justify-center h-96">
           <p class="px-4 py-6 sm:px-6 text-sm/6 text-light-gray-700 italic">
-            <%= t(".no_sales_orders") %>
+            <%= t(".no_orders") %>
           </p>
         </div>
       <% end %>
-      <%= paginate @sales_orders, total_count: @sales_orders.total_count %>
+      <%= paginate @orders, total_count: @orders.total_count %>
     <% end %>
   </div>
 </div>

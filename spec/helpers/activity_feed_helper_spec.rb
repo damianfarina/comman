@@ -23,7 +23,7 @@ RSpec.describe ActivityFeedHelper, type: :helper do
     context "with enum values" do
       it "returns translated enum value" do
         result = helper.activity_change_value(sales_order, :status, "confirmed")
-        expect(result).to eq(I18n.t("activerecord.attributes.sales_order.status_values.confirmed"))
+        expect(result).to eq(I18n.t("activerecord.attributes.sales/order.status_values.confirmed"))
       end
 
       it "falls back to string value for untranslated enums" do
@@ -52,7 +52,7 @@ RSpec.describe ActivityFeedHelper, type: :helper do
 
       it "handles unit_price fields" do
         product_with_price = create(:purchased_productable, price: BigDecimal("100.50"))
-        sales_order_item = create(:sales_order_item, sales_order: sales_order, product: product_with_price)
+        sales_order_item = create(:sales_order_item, order: sales_order, product: product_with_price)
         result = helper.activity_change_value(sales_order_item, :unit_price, 99.99)
         expect(result).to eq("$99,99")
       end
@@ -181,17 +181,17 @@ RSpec.describe ActivityFeedHelper, type: :helper do
   describe "#auditable_field_name" do
     it "returns translated field name" do
       result = helper.auditable_field_name(sales_order, "total_price")
-      expect(result).to eq(I18n.t("activerecord.attributes.sales_order.total_price"))
+      expect(result).to eq(I18n.t("activerecord.attributes.sales/order.total_price"))
     end
 
     it "handles nested field names" do
       result = helper.auditable_field_name(sales_order, "client.name")
-      expect(result).to eq(I18n.t("activerecord.attributes.sales_order.client"))
+      expect(result).to eq(I18n.t("activerecord.attributes.sales/order.client"))
     end
 
     it "handles complex field paths" do
-      result = helper.auditable_field_name(sales_order, "sales_order_items.product.name")
-      expect(result).to eq(I18n.t("activerecord.attributes.sales_order.sales_order_items"))
+      result = helper.auditable_field_name(sales_order, "items.product.name")
+      expect(result).to eq(I18n.t("activerecord.attributes.sales/order.items"))
     end
   end
 
@@ -199,7 +199,7 @@ RSpec.describe ActivityFeedHelper, type: :helper do
     it "returns translated model name" do
       result = helper.auditable_type_name(sales_order)
       expected = I18n.t(
-        :sales_order,
+        "sales/order",
         scope: [ :activerecord, :models ],
         count: 1,
         default: "Sales order"

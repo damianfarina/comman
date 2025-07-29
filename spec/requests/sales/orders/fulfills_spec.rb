@@ -6,7 +6,7 @@ RSpec.describe "Sales::Orders::Fulfills", type: :request do
   let(:sales_order) do
     sales_order = build(:sales_order, client: client, status: :confirmed)
     sales_order
-      .sales_order_items
+      .items
       .build(attributes_for(:sales_order_item, product_id: product.id, quantity: 10, status: :confirmed))
     sales_order.total_price = sales_order.subtotal_after_order_discount
     sales_order.save!
@@ -22,7 +22,7 @@ RSpec.describe "Sales::Orders::Fulfills", type: :request do
       expect(flash[:notice]).to be_present
       expect(sales_order.reload.status).to eq("fulfilled")
       expect(sales_order.fulfilled_at).to within(1.second).of(Time.current)
-      expect(sales_order.sales_order_items.all?(&:delivered?)).to be true
+      expect(sales_order.items.all?(&:delivered?)).to be true
     end
 
     context "with invalid status" do

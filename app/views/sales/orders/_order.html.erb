@@ -1,0 +1,113 @@
+<%# locals: (order:) %>
+
+<div id="<%= dom_id(order) %>">
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-6">
+    <div>
+      <%= render(
+        "common/lists/description",
+        items: [
+          { label: Sales::Order.human_attribute_name(:id), value: order.id },
+          { label: Sales::Order.human_attribute_name(:client_name), value: order.client_name },
+          {
+            label: Sales::Order.human_attribute_name(:status),
+            block: -> {
+              status_container_for order.status do
+                t("activerecord.attributes.sales/order.status_values.#{order.status}")
+              end
+            },
+          },
+          { label: Sales::Order.human_attribute_name(:created_at), value: l(order.created_at, format: :long) },
+          { label: Sales::Order.human_attribute_name(:confirmed_at), value: (l(order.confirmed_at, format: :long) rescue "--") },
+          { label: Sales::Order.human_attribute_name(:fulfilled_at), value: (l(order.fulfilled_at, format: :long) rescue "--") },
+          { label: Sales::Order.human_attribute_name(:canceled_at), value: (l(order.canceled_at, format: :long) rescue "--") },
+        ]
+      ) %>
+    </div>
+
+    <div>
+      <%= render(
+        "common/lists/description",
+        items: [
+          {
+            label: Sales::Order.human_attribute_name(:subtotal_before_order_discount),
+            block: -> {
+              content_tag :div, class: "text-right tabular-nums" do
+                number_to_currency(order.subtotal_before_order_discount)
+              end
+            },
+          },
+          {
+            label: Sales::Order.human_attribute_name(:client_discount_value),
+            block: -> {
+              content_tag :div, class: "text-right tabular-nums" do
+                number_to_currency(order.client_discount_value)
+              end
+            },
+          },
+          {
+            label: Sales::Order.human_attribute_name(:total_price),
+            block: -> {
+              content_tag :div, class: "text-right text-gray-900 font-bold tabular-nums" do
+                number_to_currency(order.subtotal_after_order_discount)
+              end
+            },
+          },
+          {
+            label: Sales::Order.human_attribute_name(:cash_discount_value),
+            block: -> {
+              content_tag :div, class: "text-right tabular-nums" do
+                number_to_currency(order.cash_discount_value)
+              end
+            },
+          },
+          {
+            label: Sales::Order.human_attribute_name(:subtotal_after_cash_discount),
+            block: -> {
+              content_tag :div, class: "text-right tabular-nums" do
+                number_to_currency(order.subtotal_after_cash_discount)
+              end
+            },
+          },
+
+        ]
+      ) %>
+      <div class="overflow-hidden rounded-lg bg-white-100 shadow-sm px-4 py-5 sm:p-6">
+        <div class="text-sm font-medium leading-6 text-gray-100"><%= Sales::Order.human_attribute_name(:comments) %></div>
+        <%= order.comments %>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-8">
+    <div class="grid grid-cols-1 px-4 sm:px-6 overflow-hidden rounded-lg bg-white-100 shadow-sm">
+      <table class="min-w-full divide-y divide-light-gray-300 bg-white-100">
+        <thead>
+          <tr>
+            <th scope="col" class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0"><%= Sales::Order::Item.human_attribute_name(:product) %></th>
+            <th scope="col" class="hidden md:table-cell w-0 px-3 py-3.5 text-right text-sm font-semibold text-gray-900"><%= Sales::Order::Item.human_attribute_name(:unit_price) %></th>
+            <th scope="col" class="hidden md:table-cell w-0 px-3 py-3.5 text-right text-sm font-semibold text-gray-900"><%= Sales::Order::Item.human_attribute_name(:quantity) %></th>
+            <th scope="col" class="hidden md:table-cell w-0 px-3 py-3.5 text-center text-sm font-semibold text-gray-900"><%= Sales::Order::Item.human_attribute_name(:status) %></th>
+            <th scope="col" class="hidden md:table-cell w-0 px-3 py-3.5 text-center text-sm font-semibold text-gray-900"><%= Product.human_attribute_name(:current_stock) %></th>
+            <th scope="col" class="hidden md:table-cell w-36 py-3.5 pr-4 pl-3 sm:pr-0">
+              <span class="sr-only"><%= t(".actions") %></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-light-gray-300 bg-white-100">
+          <% order.items.ordered_by_product.each do |item| %>
+            <%= render "sales/orders/item_line", order: order, item: item %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-8 mt-6">
+    <% if order.confirmed? %>
+      <%= button_to t(".fulfill"),
+        fulfill_sales_order_path(order),
+        method: :post,
+        class: "btn-primary" %>
+    <% end %>
+  </div>
+</div>

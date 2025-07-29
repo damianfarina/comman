@@ -11,6 +11,16 @@ RSpec.describe "/orders", type: :request do
     end
   end
 
+  describe "GET /new" do
+    let(:client) { create(:client, name: "Test Client") }
+    it "renders a successful response" do
+      create(:sales_order, products_count: 1)
+      get new_sales_order_url(client_id: client.id)
+      expect(response).to be_successful
+      expect(response.body).to include("Test Client")
+    end
+  end
+
   describe "POST /create" do
     let(:client) { create(:client) }
     let(:product) { create(:product, name: "Test Product", productable: build(:purchased_product)) }
@@ -20,7 +30,7 @@ RSpec.describe "/orders", type: :request do
         client_discount_percentage: 5,
         client_id: client.id,
         comments: "Test order",
-        sales_order_items_attributes: [
+        items_attributes: [
           {
             product_id: product.id,
             quantity: 2,
@@ -30,17 +40,17 @@ RSpec.describe "/orders", type: :request do
       }
     end
 
-    it "creates a new SalesOrder" do
+    it "creates a new Order" do
       expect {
         post sales_orders_url, params: { sales_order: valid_attributes }
-      }.to change(SalesOrder, :count).by(1)
-      expect(response).to redirect_to(sales_order_url(SalesOrder.last))
+      }.to change(Sales::Order, :count).by(1)
+      expect(response).to redirect_to(sales_order_url(Sales::Order.last))
     end
 
     it "confirms the order" do
       post sales_orders_url, params: { sales_order: valid_attributes, commit: "confirm" }
-      expect(response).to redirect_to(sales_order_url(SalesOrder.last))
-      expect(SalesOrder.last).to be_confirmed
+      expect(response).to redirect_to(sales_order_url(Sales::Order.last))
+      expect(Sales::Order.last).to be_confirmed
     end
   end
 
@@ -54,7 +64,7 @@ RSpec.describe "/orders", type: :request do
       }
     end
 
-    it "updates the SalesOrder" do
+    it "updates the Order" do
       patch sales_order_url(sales_order), params: { sales_order: valid_attributes }
       sales_order.reload
       expect(sales_order.cash_discount_percentage).to eq(50)

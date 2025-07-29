@@ -2,27 +2,27 @@ module Sales
   module Orders
     module Items
       class SplitsController < ApplicationController
-        before_action :set_sales_order, only: %i[ new create ]
-        before_action :set_sales_order_item, only: %i[ new create ]
+        before_action :set_order, only: %i[ new create ]
+        before_action :set_item, only: %i[ new create ]
 
         def new
         end
 
         def create
           quantity = split_params[:quantity].to_i
-          @new_sales_order_item = @sales_order_item.split!(quantity)
+          @new_item = @item.split!(quantity)
 
           respond_to do |format|
-            if @new_sales_order_item.valid? && @new_sales_order_item.errors.empty? && @sales_order_item.errors.empty?
+            if @new_item.valid? && @new_item.errors.empty? && @item.errors.empty?
               flash[:notice] = t(".success")
               format.turbo_stream
-              format.html { redirect_to sales_order_path(@sales_order) }
+              format.html { redirect_to sales_order_path(@order) }
               format.json { head :created }
             else
-              flash[:alert] = @sales_order_item.errors.full_messages.join(", ")
+              flash[:alert] = @item.errors.full_messages.join(", ")
               format.turbo_stream
               format.html { render :new, status: :unprocessable_entity }
-              format.json { render json: @sales_order_item.errors, status: :unprocessable_entity }
+              format.json { render json: @item.errors, status: :unprocessable_entity }
             end
           end
         end
@@ -33,12 +33,12 @@ module Sales
           params.require(:sales_order_item).permit(:quantity)
         end
 
-        def set_sales_order
-          @sales_order = SalesOrder.find_by_id!(params[:order_id])
+        def set_order
+          @order = Sales::Order.find_by_id!(params[:order_id])
         end
 
-        def set_sales_order_item
-          @sales_order_item = @sales_order.sales_order_items.find(params[:id])
+        def set_item
+          @item = @order.items.find(params[:id])
         end
       end
     end

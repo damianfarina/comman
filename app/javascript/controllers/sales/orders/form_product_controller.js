@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import { get } from "@rails/request.js";
 
-// Connects to data-controller="sales--sales-orders--form-product"
+// Connects to data-controller="sales--orders--form-product"
 export default class extends Controller {
   static values = {
     productsUrl: String,

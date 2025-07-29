@@ -1,48 +1,48 @@
 require "rails_helper"
 
-RSpec.describe SalesOrderItem, type: :model do
+RSpec.describe Sales::Order::Item, type: :model do
   let(:client) { create(:client) }
   let(:sales_order) { create(:sales_order, products_count: 1, client: client) }
   let(:product_with_price) { create(:purchased_productable, price: BigDecimal("100.50")) }
 
   describe "scopes" do
-    let!(:item_quote) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "quote", quantity: 1) }
-    let!(:item_in_progress) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "in_progress", quantity: 1) }
-    let!(:item_ready) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "ready", quantity: 1) }
-    let!(:item_initially_with_valid_quantity) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "quote", quantity: 1) }
+    let!(:item_quote) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "quote", quantity: 1) }
+    let!(:item_in_progress) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "in_progress", quantity: 1) }
+    let!(:item_ready) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "ready", quantity: 1) }
+    let!(:item_initially_with_valid_quantity) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "quote", quantity: 1) }
 
     describe ".confirmable" do
       it "includes items in 'quote' status with a product and quantity > 0" do
-        expect(SalesOrderItem.confirmable).to include(item_quote)
+        expect(Sales::Order::Item.confirmable).to include(item_quote)
       end
 
       it "excludes items not in 'quote' status" do
-        expect(SalesOrderItem.confirmable).not_to include(item_in_progress)
+        expect(Sales::Order::Item.confirmable).not_to include(item_in_progress)
       end
 
       it "excludes items with quantity 0 or less" do
         item_initially_with_valid_quantity.update_column(:quantity, 0)
-        expect(SalesOrderItem.confirmable).not_to include(item_initially_with_valid_quantity)
+        expect(Sales::Order::Item.confirmable).not_to include(item_initially_with_valid_quantity)
       end
     end
 
     describe ".in_progress" do
       it "includes items in 'in_progress' status" do
-        expect(SalesOrderItem.in_progress).to include(item_in_progress)
-        expect(SalesOrderItem.in_progress).not_to include(item_quote)
+        expect(Sales::Order::Item.in_progress).to include(item_in_progress)
+        expect(Sales::Order::Item.in_progress).not_to include(item_quote)
       end
     end
 
     describe ".deliverable" do
       it "includes items in 'in_progress' or 'ready' status" do
-        expect(SalesOrderItem.deliverable).to include(item_in_progress, item_ready)
-        expect(SalesOrderItem.deliverable).not_to include(item_quote)
+        expect(Sales::Order::Item.deliverable).to include(item_in_progress, item_ready)
+        expect(Sales::Order::Item.deliverable).not_to include(item_quote)
       end
     end
   end
 
   describe "validations" do
-    subject { build(:sales_order_item, sales_order: sales_order, product: product_with_price) }
+    subject { build(:sales_order_item, order: sales_order, product: product_with_price) }
 
     context "for quantity" do
       it "is valid when quantity is greater than 0" do
@@ -112,7 +112,7 @@ RSpec.describe SalesOrderItem, type: :model do
         expect { subject.status = "invalid_status" }.to raise_error(ArgumentError)
       end
 
-      SalesOrderItem.statuses.each_value do |valid_status|
+      Sales::Order::Item.statuses.each_value do |valid_status|
         it "is valid when status is '#{valid_status}'" do
           subject.status = valid_status
           expect(subject).to be_valid
@@ -199,7 +199,7 @@ RSpec.describe SalesOrderItem, type: :model do
   end
 
   describe "#confirm!" do
-    let(:item) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "quote", quantity: 2, unit_price: nil) }
+    let(:item) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "quote", quantity: 2, unit_price: nil) }
 
     context "when item can be confirmed" do
       before do
@@ -212,7 +212,7 @@ RSpec.describe SalesOrderItem, type: :model do
       end
 
       it "keeps existing unit_price if already set" do
-        item_with_price = create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "quote", quantity: 1, unit_price: BigDecimal("99.0"))
+        item_with_price = create(:sales_order_item, order: sales_order, product: product_with_price, status: "quote", quantity: 1, unit_price: BigDecimal("99.0"))
         allow(item_with_price).to receive(:can_confirm?).and_return(true)
         item_with_price.confirm!
         expect(item_with_price.unit_price).to eq(BigDecimal("99.0"))
@@ -220,7 +220,7 @@ RSpec.describe SalesOrderItem, type: :model do
 
       it "sets unit_price to BigDecimal('0') if effective_unit_price is nil (e.g. product is nil and item.unit_price is nil)" do
         item_with_nil_product = build(:sales_order_item,
-                                      sales_order: sales_order,
+                                      order: sales_order,
                                       product: nil,
                                       status: "quote",
                                       quantity: 1,
@@ -245,13 +245,13 @@ RSpec.describe SalesOrderItem, type: :model do
     context "when item cannot be confirmed" do
       it "raises a StandardError" do
         allow(item).to receive(:can_confirm?).and_return(false)
-        expect { item.confirm! }.to raise_error(StandardError, "SalesOrderItem not in a confirmable state.")
+        expect { item.confirm! }.to raise_error(StandardError, "Sales::Order::Item not in a confirmable state.")
       end
     end
   end
 
   describe "#split!" do
-    let(:item) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, quantity: 2, status: :in_progress) }
+    let(:item) { create(:sales_order_item, order: sales_order, product: product_with_price, quantity: 2, status: :in_progress) }
 
     context "when splitting is valid" do
       it "creates a new sales order item with the specified quantity" do
@@ -288,7 +288,7 @@ RSpec.describe SalesOrderItem, type: :model do
   describe "#work_on!" do
     let(:item) do
       create(:sales_order_item,
-        sales_order: sales_order,
+        order: sales_order,
         product: product_with_price,
         status: "confirmed",
         quantity: 2,
@@ -344,7 +344,7 @@ RSpec.describe SalesOrderItem, type: :model do
   end
 
   describe "#deliver!" do
-    let(:item) { create(:sales_order_item, sales_order: sales_order, product: product_with_price, status: "ready") }
+    let(:item) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "ready") }
 
     context "when item can be delivered" do
       it "changes status to 'delivered'" do

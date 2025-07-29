@@ -1,16 +1,16 @@
-<%# locals: sales_order_item: @sales_order_item %>
+<%# locals: (item:) %>
 
 <%= form_with(
-  model: sales_order_item,
-  url: split_sales_order_sales_order_item_path(@sales_order, sales_order_item),
+  model: item,
+  url: split_sales_order_item_path(item.order, item),
   method: :post,
 ) do |form| %>
   <div class="flex gap-1">
     <%= form.number_field :quantity,
       autofocus: true,
       autocomplete: "off",
-      class: "w-14 rounded-md border-0 ring-0 py-0 text-gray-900 text-sm shadow-sm outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-300 focus:outline-1 focus:-outline-offset-1 focus:outline-blue-300 #{sales_order_item.errors.any? ? "outline-red focus:outline-red" : ""}",
-      max: sales_order_item.quantity - 1,
+      class: "w-14 rounded-md border-0 ring-0 py-0 text-gray-900 text-sm shadow-sm outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-300 focus:outline-1 focus:-outline-offset-1 focus:outline-blue-300 #{item.errors.any? ? "outline-red focus:outline-red" : ""}",
+      max: item.quantity - 1,
       min: 1,
       placeholder: true,
       required: true,

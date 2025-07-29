@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       member do
         post :fulfill, to: "orders/fulfill#create"
       end
-      resources :sales_order_items, only: %i[] do
+      resources :items, only: %i[] do
         member do
           post :work_on, to: "orders/items/works#create"
           post :complete, to: "orders/items/completes#create"

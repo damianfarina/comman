@@ -2,20 +2,20 @@ module Sales
   module Orders
     module Items
       class CancelsController < ApplicationController
-        before_action :set_sales_order
-        before_action :set_sales_order_item
+        before_action :set_order
+        before_action :set_item
 
         def create
           respond_to do |format|
-            if @sales_order.cancel_item!(@sales_order_item)
+            if @order.cancel_item!(@item)
               flash[:notice] = t(".success")
               format.turbo_stream
-              format.html { redirect_to sales_order_path(@sales_order) }
+              format.html { redirect_to sales_order_path(@order) }
             else
-              flash[:alert] = @sales_order.errors.full_messages.join(", ") + " " + @sales_order_item.errors.full_messages.join(", ")
+              flash[:alert] = @order.errors.full_messages.join(", ") + " " + @item.errors.full_messages.join(", ")
               format.turbo_stream
               format.html do
-                redirect_to sales_order_path(@sales_order)
+                redirect_to sales_order_path(@order)
               end
             end
           end
@@ -23,12 +23,12 @@ module Sales
 
         private
 
-        def set_sales_order
-          @sales_order = SalesOrder.find(params[:order_id])
+        def set_order
+          @order = Sales::Order.find(params[:order_id])
         end
 
-        def set_sales_order_item
-          @sales_order_item = @sales_order.sales_order_items.find(params[:id])
+        def set_item
+          @item = @order.items.find(params[:id])
         end
       end
     end

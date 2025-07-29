@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_17_211958) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_28_151647) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -225,15 +225,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_211958) do
   end
 
   create_table "sales_order_items", force: :cascade do |t|
-    t.bigint "sales_order_id", null: false
+    t.bigint "order_id", null: false
     t.bigint "product_id", null: false
     t.integer "quantity"
     t.decimal "unit_price", precision: 10, scale: 2
     t.string "status", default: "quote", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_sales_order_items_on_order_id"
     t.index ["product_id"], name: "index_sales_order_items_on_product_id"
-    t.index ["sales_order_id"], name: "index_sales_order_items_on_sales_order_id"
     t.index ["status"], name: "index_sales_order_items_on_status"
   end
 
@@ -309,7 +309,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_211958) do
   add_foreign_key "manufactured_products", "formulas"
   add_foreign_key "products", "suppliers"
   add_foreign_key "sales_order_items", "products"
-  add_foreign_key "sales_order_items", "sales_orders"
+  add_foreign_key "sales_order_items", "sales_orders", column: "order_id"
   add_foreign_key "sales_orders", "clients"
   add_foreign_key "sessions", "users"
   add_foreign_key "supplier_products", "products"

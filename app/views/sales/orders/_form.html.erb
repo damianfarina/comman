@@ -1,19 +1,19 @@
-<%# locals: (sales_order:)  %>
+<%# locals: (order:)  %>
 
 <%= form_with(
-  model: [sales_order],
+  model: order,
   class: "contents",
   data: {
-    "controller": "sales--sales-orders--form",
-    "sales--sales-orders--form-animation-class": "animate-change rounded shadow-xl/30 shadow-light-yellow-100 bg-light-yellow-100",
+    "controller": "sales--orders--form",
+    "sales--orders--form-animation-class": "animate-change rounded shadow-xl/30 shadow-light-yellow-100 bg-light-yellow-100",
   },
 ) do |form| %>
-  <%= render "common/error_messages", model: sales_order %>
+  <%= render "common/error_messages", model: order %>
   <%= render "common/forms/simple" do %>
     <div class="col-span-6">
       <div>
-        <%= status_container_for sales_order.status do %>
-          <%= t("activerecord.attributes.sales_order.status_values.#{sales_order.status}") %>
+        <%= status_container_for order.status do %>
+          <%= t("activerecord.attributes.sales/order.status_values.#{order.status}") %>
         <% end %>
       </div>
     </div>
@@ -29,18 +29,18 @@
           <!-- Template for new sales order item -->
           <template data-common--nested-form-target="template">
             <%= render(
-              "sales_order_item_fields",
+              "item_fields",
               form: form,
-              sales_order_item: SalesOrderItem.new,
+              item: Sales::Order::Item.new,
               child_index: "NEW_RECORD",
             ) %>
           </template>
 
-          <% sales_order.sales_order_items.each do |item| %>
+          <% order.items.each do |item| %>
             <%= render(
-              "sales_order_item_fields",
+              "item_fields",
               form: form,
-              sales_order_item: item,
+              item: item,
             ) %>
           <% end %>
         </div>
@@ -49,10 +49,10 @@
       </div>
     </div>
 
-    <%= render "sales_order_fields", form: form, sales_order: sales_order %>
+    <%= render "order_fields", form: form, order: order %>
 
-    <div data-sales--sales-orders--form-target="totals" class="col-span-6">
-      <%= render "sales_order_totals", sales_order: sales_order %>
+    <div data-sales--orders--form-target="totals" class="col-span-6">
+      <%= render "order_totals", order: order %>
     </div>
   <% end %>
 
@@ -69,6 +69,6 @@
       formaction: preview_totals_sales_orders_path,
       class: "btn-default",
       hidden: true,
-      data: { "sales--sales-orders--form-target": "previewButton" } %>
+      data: { "sales--orders--form-target": "previewButton" } %>
   </div>
 <% end %>

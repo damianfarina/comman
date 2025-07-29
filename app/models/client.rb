@@ -6,7 +6,7 @@ class Client < ApplicationRecord
   enum :client_type, regular: 0, hardware_store: 2, distributor: 1
   enum :tax_type, final_consumer: 0, general_regime: 1, simplified_regime: 2
 
-  has_many :sales_orders
+  has_many :sales_orders, class_name: "Sales::Order"
   scope :with_last_sales_order_at, -> {
     left_joins(:sales_orders)
       .select("clients.*, MAX(sales_orders.created_at) AS last_sales_order_at")

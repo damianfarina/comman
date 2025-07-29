@@ -1,0 +1,16 @@
+<%# locals: (order:)  %>
+
+<%= content_tag :div, id: "order_totals_preview", class: "grid grid-cols-2 gap-6 p-4 sm:px-6 overflow-hidden rounded-lg bg-white-100 shadow-sm" do %>
+  <div class="grid grid-cols-[1fr_auto] gap-x-10 gap-y-4">
+    <span class="text-right font-normal text-gray-700"><%= Sales::Order.human_attribute_name(:subtotal_before_order_discount) %></span>
+    <span class="text-right text-gray-900 tabular-nums"><%= number_to_currency(order.subtotal_before_order_discount) %></span>
+    <span class="text-right font-normal text-gray-700"><%= Sales::Order.human_attribute_name(:client_discount_value) %></span>
+    <span class="text-right text-gray-900 tabular-nums"><%= number_to_currency(order.client_discount_value) %></span>
+    <span class="text-right font-semibold text-gray-900"><%= Sales::Order.human_attribute_name(:total_price) %></span>
+    <span class="text-right font-semibold text-gray-900 tabular-nums"><%= number_to_currency(order.subtotal_after_order_discount) %></span>
+    <span class="text-right font-normal text-gray-700"><%= Sales::Order.human_attribute_name(:cash_discount_value) %></span>
+    <span class="text-right text-gray-900 tabular-nums"><%= number_to_currency(order.cash_discount_value) %></span>
+    <span class="text-right font-normal text-gray-700"><%= Sales::Order.human_attribute_name(:subtotal_after_cash_discount) %></span>
+    <span class="text-right text-gray-900 tabular-nums"><%= number_to_currency(order.subtotal_after_cash_discount) %></span>
+  </div>
+<% end %>

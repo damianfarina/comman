@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import debounce from "lib/debounce";
 
-// Connects to data-controller="sales--sales-orders--form"
+// Connects to data-controller="sales--orders--form"
 export default class extends Controller {
   static classes = ["animation"];
   static values = {
@@ -16,8 +16,12 @@ export default class extends Controller {
   updateTotals() {
     this.previewButtonTarget.click();
     this.totalsTarget.classList.add(...this.animationClasses);
-    this.totalsTarget.addEventListener("animationend", () => {
-      this.totalsTarget.classList.remove(...this.animationClasses);
-    }, { once: true });
+    this.totalsTarget.addEventListener(
+      "animationend",
+      () => {
+        this.totalsTarget.classList.remove(...this.animationClasses);
+      },
+      { once: true },
+    );
   }
 }

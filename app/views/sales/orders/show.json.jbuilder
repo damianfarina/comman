@@ -1,1 +1,1 @@
-json.partial! "sales_orders/sales_order", sales_order: @sales_order
+json.partial! "sales/orders/order", order: @order

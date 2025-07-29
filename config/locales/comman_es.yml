@@ -22,7 +22,7 @@ es:
           attributes:
             price:
               not_a_number: "debe ser un número"
-        sales_order_item:
+        sales/order/item:
           attributes:
             quantity:
               blank: "es requerida"
@@ -32,12 +32,12 @@ es:
               ready_invalid: "El pedido no puede ser completado en su estado actual"
               delivery_invalid: "El pedido no puede ser entregado en su estado actual"
               cancellation_failed: "No se puede cancelar el producto"
-        sales_order:
-          not_confirmable: "El pedido no puede ser confirmado en su estado actual o sus ítems no son válidos."
+        sales/order:
+          not_confirmable: "El pedido no puede ser confirmado en su estado actual o los productos no son válidos."
           not_cancellable: "El pedido no puede ser cancelado en su estado actual."
           not_fulfillable: "El pedido no puede ser completado en su estado actual."
           attributes:
-            sales_order_items:
+            items:
               quantity:
                 not_a_number: "El producto debe tener una cantidad válida"
                 blank: "El producto debe tener una cantidad"
@@ -66,10 +66,10 @@ es:
       making_order_item:
         one: "Producto"
         other: "Productos"
-      sales_order:
+      sales/order:
         one: "Pedido"
         other: "Pedidos"
-      sales_order_item:
+      sales/order/item:
         one: "Producto"
         other: "Productos"
       supplier:
@@ -222,7 +222,7 @@ es:
         name: "Nombre"
         password: "Contraseña"
         updated_at: "Actualizado"
-      sales_order:
+      sales/order:
         canceled_at: "Cancelado"
         cash_discount_percentage: "Descuento por pago al contado"
         cash_discount_value: "Descuento por pago al contado"
@@ -236,9 +236,9 @@ es:
         created_at: "Ingresado"
         fulfilled_at: "Completado"
         id: "ID"
-        items_count: "Cantidad de ítems"
+        items_count: "Cantidad de productos"
         number: "Número de pedido"
-        sales_order_items: "Productos"
+        items: "Productos"
         status_changed_at: "Fecha"
         status: "Estado"
         status_values:
@@ -251,9 +251,9 @@ es:
         subtotal_before_order_discount: "Subtotal"
         total_price: "Precio total"
         updated_at: "Actualizado"
-      sales_order_items:
+      sales/order/items:
         quantity: "Cantidad de producto"
-      sales_order_item:
+      sales/order/item:
         product: "Producto"
         quantity: "Cantidad"
         status: "Estado"
@@ -380,9 +380,9 @@ es:
         create:
           success: Pedido completado.
       index:
-        no_sales_orders: No hay pedidos
+        no_orders: No hay pedidos
         title: Pedidos
-        view_sales_order: Ver pedido
+        view_order: Ver pedido
       items:
         cancels:
           create:
@@ -395,7 +395,7 @@ es:
             success: Producto entregado.
         splits:
           create:
-            success: Ítem separado.
+            success: Producto separado.
           form:
             cancel: Cancelar división
             split: Dividir pedido
@@ -404,10 +404,10 @@ es:
             success: Preparando productos.
       new:
         title: Nuevo pedido
-      sales_order:
+      order:
         actions: Acciones
         fulfill: Completar
-      sales_order_item_actions:
+      item_actions:
         complete: Completar productos
         deliver: Entregar producto
         split: Dividir cantidad
@@ -431,10 +431,10 @@ es:
       user:
         name: "Nombre del usuario"
         email_address: "Email del usuario"
-      sales_order:
+      sales/order:
         cash_discount_percentage: "Porcentaje de descuento por pago al contado"
         client_discount_percentage: "Porcentaje de descuento del cliente"
-      sales_order_item:
+      sales/order/item:
         product: "Producto"
         quantity: "Cantidad"
         unit_price: "Precio"
