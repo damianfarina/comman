@@ -56,6 +56,11 @@ class Product < ApplicationRecord
     save!
   end
 
+  def increment_stock!(quantity)
+    self.current_stock += quantity
+    save!
+  end
+
   def stock_level
     return 100 if max_stock == min_stock
     return 0 if current_stock <= min_stock

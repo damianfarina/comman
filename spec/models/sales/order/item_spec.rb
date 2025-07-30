@@ -412,6 +412,28 @@ RSpec.describe Sales::Order::Item, type: :model do
     end
   end
 
+  describe "#cancel!" do
+    let(:item) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "confirmed", quantity: 3) }
+
+    context "when item can be canceled" do
+      it "changes status to 'canceled'" do
+        item.cancel!
+        expect(item.status).to eq("canceled")
+      end
+    end
+
+    context "when item cannot be canceled" do
+      before do
+        item.update!(status: "canceled")
+      end
+
+      it "raises StandardError and does not change stock" do
+        expect { item.cancel! }.to raise_error(StandardError, /not in a cancelable state/)
+        expect(product_with_price.reload.current_stock).to eq(100)
+      end
+    end
+  end
+
   describe "#resolved?" do
     it "returns true if status is 'delivered'" do
       item = build(:sales_order_item, status: "delivered", product: product_with_price)

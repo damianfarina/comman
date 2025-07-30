@@ -53,6 +53,20 @@ RSpec.describe Product, type: :model do
     end
   end
 
+  describe "#increment_stock!" do
+    let(:product) { create(:purchased_productable, current_stock: 50) }
+
+    it "increases current_stock by the specified quantity" do
+      expect { product.increment_stock!(25) }.to change { product.current_stock }.from(50).to(75)
+    end
+
+    it "can increase stock from negative values" do
+      product.update!(current_stock: -10)
+      product.increment_stock!(30)
+      expect(product.current_stock).to eq(20)
+    end
+  end
+
   describe "validations" do
     it "is valid with valid attributes" do
       product = build(:product, name: "ValidName", productable: build(:purchased_product))
