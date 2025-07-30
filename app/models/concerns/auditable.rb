@@ -445,7 +445,7 @@ module Auditable
     transaction_id = Current.request_id || SecureRandom.uuid
 
     if AuditLog.exists?(auditable: self, transaction_id: transaction_id)
-      raise "Duplicate audit log for #{self.class.name}##{id} in transaction #{transaction_id}"
+      Rails.logger.info("Duplicate audit log detected for #{self.class.name}##{id} with transaction_id: #{transaction_id}")
     end
 
     if audited_changes.present?

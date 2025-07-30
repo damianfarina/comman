@@ -1,224 +1,154 @@
 es:
-  activerecord:
-    errors:
-      models:
-        formula:
-          proportion_must_be_one_hundred: "La suma de los porcentajes debe ser 100. La diferencia es %{difference}"
-          duplicated_formula_elements: "No puede haber materias primas repetidas"
-        product:
-          name_must_be_unique: 'Ya existe un producto con la misma descripcion, es el <a href="/factory/products/%{other_product_id}" target="_blank">%{other_product_name}</a>'
-          must_be_supplier: "%{supplier_name} debe ser un proveedor"
-          duplicated_supplied_by: "Hay proveedores repetidos"
-          manufactured_in_house: "No se puede quitar el proveedor de un producto interno"
-        formula_element:
-          formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
-        making_order:
-          products_formula_is_different: "Algunos productos no tienen la misma fórmula"
-        supplier:
-          no_in_house_deletion: "No se puede eliminar el proveedor interno"
-          immutable_in_house_attributes: "No se puede modificar este atributo del proveedor interno"
-        supplier_product:
-          attributes:
-            price:
-              not_a_number: "debe ser un número"
-    models:
-      client:
-        one: "Cliente"
-        other: "Clientes"
-      formula_element: "Materia prima"
-      formula_item:
-        one: "Ingrediente"
-        other: "Ingredientes"
-      formula:
-        one: "Fórmula"
-        other: "Fórmulas"
-      product:
-        one: "Producto"
-        other: "Productos"
-      making_order:
-        one: "Orden de producción"
-        other: "Órdenes de producción"
-      making_order_item:
-        one: "Producto"
-        other: "Productos"
-      supplier:
-        one: "Proveedor"
-        other: "Proveedores"
-    attributes:
-      formula_element:
-        id: "ID"
-        name: "Nombre"
-        min_stock: "Stock mínimo"
-        current_stock: "Stock actual"
-        stock_level: "Nivel de stock"
-        infinite: "Recurso Ilimitado"
-        updated_at: "Actualizado"
-        created_at: "Ingresado"
-      formula_items:
-        id: "ID"
-        proportion: "Proporción"
-      formula:
-        id: "ID"
-        name: "Nombre"
-        abrasive: "Abrasivo"
-        grain: "Grano"
-        hardness: "Dureza"
-        porosity: "Porosidad"
-        alloy: "Liga"
-        formula_items: "Ingredientes"
-        updated_at: "Actualizado"
-        created_at: "Ingresado"
-      making_order:
-        comments: "Observaciones"
-        comments_plain_text: "Observaciones"
-        created_at: "Ingresado"
-        id: "ID"
-        making_order_formula: "Fórmula"
-        making_order_items: "Productos"
-        mixer_capacity: "Mezcladora"
-        quantity: "Cantidad"
-        rounds_count: "Mezclas"
-        state: "Estado"
-        state_values:
-          "in_progress": "En producción"
-          "completed": "Terminada"
-          "canceled": "Anulada"
-        total_weight: "Peso total"
-        updated_at: "Actualizado"
-        weight_per_round: "Peso por mezcla"
-      making_order_items:
-        quantity: "Cantidad de producto"
-      product:
-        cover: "Portada"
-        cover_filename: "Archivo de la portada"
-        created_at: "Ingresado"
-        current_stock: "Stock actual"
-        comments: "Observaciones"
-        comments_plain_text: "Observaciones"
-        id: "ID"
-        max_stock: "Stock máximo"
-        min_stock: "Stock mínimo"
-        name: "Nombre"
-        stock: "Stock (min/max)"
-        stock_level: "Nivel de stock"
-        price: "Precio"
-        updated_at: "Actualizado"
-        suppliers: "Proveedores"
-        supplier: "Proveedor principal"
-        main_supplier: "Proveedor principal"
-        productable: "Producto"
-        supplied_by: "Proveedores"
-      productable/product/supplied_by:
-        price: "Precio del proveedor"
-      product/supplied_by:
-        price: "Precio del proveedor"
-      supplier_product:
-        price: "Precio"
-        code: "Código"
-        supplier: "Proveedor"
+  actions:
+    add_new_model: "Agregar %{model}"
+    archive: "Archivar"
+    cancel: "Cancelar"
+    confirm: "Confirmar"
+    save: "Guardar"
+    sign_out: "Salir"
+    update_totals: "Actualizar totales"
+  auditable:
+    blank_value: "vacio"
+    boolean_false: "No"
+    boolean_nil: "No definido"
+    boolean_true: "Sí"
+    events:
+      create: "creó"
+      destroy: "eliminó"
+      update: "actualizó"
+    no_activity: "No hay actividad reciente."
+    unknown_user: "Sistema"
+  common:
+    components:
+      options_dropdown:
+        cancel: "Cancelar"
+  factory:
+    products:
+      create:
+        success: "Producto creado"
+      destroy:
+        success: "Producto eliminado"
+      update:
+        success: "Producto actualizado"
+  helpers:
+    placeholder:
+      sales/order:
+        cash_discount_percentage: "Porcentaje de descuento por pago al contado"
+        client_discount_percentage: "Porcentaje de descuento del cliente"
+      sales/order/item:
         product: "Producto"
-      manufactured_product:
-        formula_id: "Fórmula"
-        formula: "Fórmula"
-        pressure: "Presión"
-        product_detail: "Detalle"
-        shape: "Forma"
-        size: "Dimensiones"
-        weight: "Peso"
-      client:
-        address: "Dirección"
-        client_type: "Tipo de cliente"
-        client_type_values:
-          regular: "Usuario"
-          distributor: "Distribuidor"
-          hardware_store: "Ferretería"
-        comments: "Observaciones"
-        comments_plain_text: "Observaciones"
-        country: "País"
-        created_at: "Ingresado"
-        email: "Email"
-        id: "ID"
-        maps_url: "Enlace Mapa"
-        name: "Nombre"
-        phone: "Teléfono"
-        province: "Provincia"
-        seller_name: "Vendedor"
-        tax_identification: "CUIT"
-        tax_type: "Inscripción tributaria"
-        tax_type_values:
-          final_consumer: "Consumidor final"
-          general_regime: "Responsable Inscripto"
-          simplified_regime: "Monotributista"
-        updated_at: "Actualizado"
-        zipcode: "Código Postal"
-      discount:
-        client_type: "Tipo de cliente"
-        discount_type: "Tipo de descuento"
-        percentage: "Porcentaje"
-        created_at: "Ingresado"
-        cash: "Pago Efectivo"
-      supplier:
-        address: "Dirección"
-        bank_account_number: "Cuenta"
-        bank_name: "Banco"
-        comments_plain_text: "Observaciones"
-        comments: "Observaciones"
-        country: "País"
-        created_at: "Ingresado"
-        email: "Email"
-        id: "ID"
-        maps_url: "Enlace Mapa"
-        name: "Nombre"
-        phone: "Teléfono"
-        province: "Provincia"
-        routing_number: "CBU"
-        tax_identification: "CUIT"
-        tax_type: "Inscripción Tributaria"
-        tax_type_values:
-          general_regime: "Responsable Inscripto"
-          simplified_regime: "Monotributista"
-          exempt: "Exento"
-        updated_at: "Actualizado"
-        zipcode: "Código Postal"
+        quantity: "Cantidad"
+        unit_price: "Precio"
       user:
-        cover: "Portada"
-        cover_filename: "Archivo de la portada"
-        created_at: "Ingresado"
-        email_address: "Email"
-        id: "ID"
-        name: "Nombre"
-        password: "Contraseña"
-        updated_at: "Actualizado"
+        email_address: "Email del usuario"
+        name: "Nombre del usuario"
   messages:
     are_you_sure: "¿Estás seguro?"
-    saving: "Guardando..."
-    no_suppliers: "No hay proveedores"
-    no_clients: "No hay clientes"
-    no_products: "No hay productos"
-    no_formula_elements: "No hay materias primas"
-    no_making_orders: "No hay órdenes de producción"
-    no_discounts: "No hay descuentos"
-    no_formulas: "No hay fórmulas"
-    purchased_products_only: "Sólo productos externos"
-    in_house_supplier: "Este producto es fabricado por %{supplier_name}. Para cambiar los parámetros de fabricación vaya a fábrica"
     file_upload:
-      upload: "Busca un archivo"
       drag_drop: "o arrastra y suelta aquí"
       formats: "PNG, JPG, GIF hasta 10MB"
-  actions:
-    archive: "Archivar"
-    save: "Guardar"
-    cancel: "Cancelar"
-    add_new_model: "Agregar %{model}"
-    sign_out: "Salir"
+      upload: "Busca un archivo"
+    in_house_supplier: "Este producto es fabricado por %{supplier_name}. Para cambiar los parámetros de fabricación vaya a fábrica"
+    no_clients: "No hay clientes"
+    no_discounts: "No hay descuentos"
+    no_formula_elements: "No hay materias primas"
+    no_formulas: "No hay fórmulas"
+    no_making_orders: "No hay órdenes de producción"
+    no_products: "No hay productos"
+    no_suppliers: "No hay proveedores"
+    purchased_products_only: "Sólo productos externos"
+    saving: "Guardando..."
   navigation:
-    edit: "Editar"
     dashboard: "Tablero"
+    edit: "Editar"
     new: "Nuevo"
     print: "Imprimir"
     show_detail: "Ver detalle"
+  office:
+    clients:
+      create:
+        success: "Cliente creado."
+      destroy:
+        success: "Cliente eliminado."
+      index:
+        view_client: "Ver cliente"
+      update:
+        success: "Cliente actualizado."
+    products:
+      create:
+        success: "Producto creado"
+      destroy:
+        success: "Producto eliminado"
+      update:
+        success: "Producto actualizado"
+    users:
+      create:
+        success: "Usuario creado."
+      destroy:
+        success: "Usuario eliminado."
+      update:
+        success: "Usuario actualizado."
+  placeholders:
+    search_by:
+      attributes: "Buscar por cualquier campo"
+      comments_formula: "Buscar por observaciones o fórmula"
+      name: "Buscar por nombre"
+      name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
+  sales:
+    clients:
+      index:
+        create_sales_order: "Crear pedido"
+        no_clients: "No hay clientes"
+        title: "Clientes"
+    orders:
+      create:
+        success: "Pedido creado."
+      destroy:
+        success: "Pedido cancelado."
+      edit:
+        title: "Editar pedido de %{client_name} (%{status})"
+      form:
+        cancel: "Cancelar"
+      fulfill:
+        create:
+          success: "Pedido completado."
+      index:
+        no_orders: "No hay pedidos"
+        title: "Pedidos"
+        view_order: "Ver pedido"
+      item_actions:
+        complete: "Completar productos"
+        deliver: "Entregar producto"
+        split: "Dividir cantidad"
+        work_on: "Preparar productos"
+      items:
+        cancels:
+          create:
+            success: "Pedido cancelado."
+        completes:
+          create:
+            success: "Producto completado."
+        deliveries:
+          create:
+            success: "Producto entregado."
+        splits:
+          create:
+            success: "Producto separado."
+          form:
+            cancel: "Cancelar división"
+            split: "Dividir pedido"
+        works:
+          create:
+            success: "Preparando productos."
+      new:
+        title: "Nuevo pedido"
+      order:
+        actions: "Acciones"
+        cancel: "Cancelar"
+        fulfill: "Completar"
+      update:
+        success: "Pedido actualizado."
   titles:
-    recent_activities: "Historial de actividad"
     client:
       index: "Clientes"
       new: "Nuevo cliente"
@@ -234,13 +164,14 @@ es:
       index: "Órdenes de producción"
       new: "Nueva orden de producción"
     namespace:
+      factory: "Fábrica"
       index: "Departamentos"
       office: "Oficina"
-      factory: "Fábrica"
       sales: "Ventas"
     product:
       index: "Productos"
       new: "Nuevo producto"
+    recent_activities: "Historial de actividad"
     setting:
       index: "Ajustes"
     supplier:
@@ -249,51 +180,3 @@ es:
     user:
       index: "Usuarios"
       new: "Nuevo usuario"
-  placeholders:
-    search_by:
-      name: "Buscar por nombre"
-      name_abrasive_grain_hardness_porosity_alloy: "Buscar por nombre, abrasivo, grano, dureza, porosidad o liga"
-      comments_formula: "Buscar por observaciones o fórmula"
-      attributes: "Buscar por cualquier campo"
-
-  office:
-    clients:
-      create:
-        success: "Cliente creado."
-      update:
-        success: "Cliente actualizado."
-      destroy:
-        success: "Cliente eliminado."
-    users:
-      create:
-        success: "Usuario creado."
-      update:
-        success: "Usuario actualizado."
-      destroy:
-        success: "Usuario eliminado."
-    products:
-      create:
-        success: "Producto creado"
-      update:
-        success: "Producto actualizado"
-      destroy:
-        success: "Producto eliminado"
-  factory:
-    products:
-      create:
-        success: "Producto creado"
-      update:
-        success: "Producto actualizado"
-      destroy:
-        success: "Producto eliminado"
-  auditable:
-    boolean_true: "Sí"
-    boolean_false: "No"
-    boolean_nil: "No definido"
-    unknown_user: "Sistema"
-    no_activity: "No hay actividad reciente."
-    blank_value: "vacio"
-    events:
-      create: "creó"
-      update: "actualizó"
-      destroy: "eliminó"

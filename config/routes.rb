@@ -18,6 +18,26 @@ Rails.application.routes.draw do
 
   namespace :sales, defaults: { department: "sales" } do
     root "dashboard#index"
+    resources :clients, only: %i[ index ]
+    resources :products, only: %i[ index show ]
+    resources :orders do
+      collection do
+        post :preview_totals
+      end
+      member do
+        post :fulfill, to: "orders/fulfill#create"
+      end
+      resources :items, only: %i[] do
+        member do
+          post :work_on, to: "orders/items/works#create"
+          post :complete, to: "orders/items/completes#create"
+          post :deliver, to: "orders/items/deliveries#create"
+          post :cancel, to: "orders/items/cancels#create"
+          get :split, to: "orders/items/splits#new"
+          post :split, to: "orders/items/splits#create"
+        end
+      end
+    end
   end
 
   namespace :factory, defaults: { department: "factory" } do

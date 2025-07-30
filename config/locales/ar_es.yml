@@ -1,0 +1,267 @@
+es:
+  activerecord:
+    errors:
+      models:
+        formula:
+          duplicated_formula_elements: "No puede haber materias primas repetidas"
+          name_must_be_unique: "Ya existe una formula con la misma descripcion, es la <a href=\"/factory/formulas/%{other_formula_id}\" target=\"_blank\">%{other_formula_name}</a>"
+          proportion_must_be_one_hundred: "La suma de los porcentajes debe ser 100. La diferencia es %{difference}"
+        formula_element:
+          formula_exists: "No se puede eliminar porque al menos una fórmula depende de esta materia prima"
+        making_order:
+          products_formula_is_different: "Algunos productos no tienen la misma fórmula"
+        product:
+          duplicated_supplied_by: "Hay proveedores repetidos"
+          manufactured_in_house: "No se puede quitar el proveedor de un producto interno"
+          must_be_supplier: "%{supplier_name} debe ser un proveedor"
+          name_must_be_unique: "Ya existe un producto con la misma descripcion, es el <a href=\"/factory/products/%{other_product_id}\" target=\"_blank\">%{other_product_name}</a>"
+        sales/order:
+          attributes:
+            base:
+              cancellation_failed: "Falló la cancelación del pedido: %{details}"
+              confirmation_failed: "Falló la confirmación del pedido: %{details}"
+              fulfillment_failed: "Falló el despacho del pedido: %{details}"
+            items:
+              quantity:
+                blank: "El producto debe tener una cantidad"
+                not_a_number: "El producto debe tener una cantidad válida"
+          not_cancellable: "El pedido no puede ser cancelado en su estado actual."
+          not_confirmable: "El pedido no puede ser confirmado en su estado actual o los productos no son válidos."
+          not_fulfillable: "El pedido no puede ser completado en su estado actual."
+        sales/order/item:
+          attributes:
+            base:
+              cancellation_failed: "No se puede cancelar el producto"
+              delivery_invalid: "El pedido no puede ser entregado en su estado actual"
+              in_progress_invalid: "El pedido no puede ser preparado en su estado actual"
+              ready_invalid: "El pedido no puede ser completado en su estado actual"
+              split_quantity_invalid: "Cantidad a dividir debe ser mayor que 0 y menor que la cantidad total"
+            quantity:
+              blank: "es requerida"
+        supplier:
+          immutable_in_house_attributes: "No se puede modificar este atributo del proveedor interno"
+          no_in_house_deletion: "No se puede eliminar el proveedor interno"
+        supplier_product:
+          attributes:
+            price:
+              not_a_number: "debe ser un número"
+
+    models:
+      client:
+        one: "Cliente"
+        other: "Clientes"
+      formula:
+        one: "Fórmula"
+        other: "Fórmulas"
+      formula_element: "Materia prima"
+      formula_item:
+        one: "Ingrediente"
+        other: "Ingredientes"
+      making_order:
+        one: "Orden de producción"
+        other: "Órdenes de producción"
+      making_order_item:
+        one: "Producto"
+        other: "Productos"
+      product:
+        one: "Producto"
+        other: "Productos"
+      sales/order:
+        one: "Pedido"
+        other: "Pedidos"
+      sales/order/item:
+        one: "Producto"
+        other: "Productos"
+      supplier:
+        one: "Proveedor"
+        other: "Proveedores"
+
+    attributes:
+      client:
+        address: "Dirección"
+        client_type: "Tipo de cliente"
+        client_type_values:
+          distributor: "Distribuidor"
+          hardware_store: "Ferretería"
+          regular: "Usuario"
+        comments: "Observaciones"
+        comments_plain_text: "Observaciones"
+        country: "País"
+        created_at: "Ingresado"
+        email: "Email"
+        id: "ID"
+        last_sales_order_at: "Último pedido"
+        maps_url: "Enlace Mapa"
+        name: "Nombre"
+        phone: "Teléfono"
+        province: "Provincia"
+        seller_name: "Vendedor"
+        tax_identification: "CUIT"
+        tax_type: "Inscripción tributaria"
+        tax_type_values:
+          final_consumer: "Consumidor final"
+          general_regime: "Responsable Inscripto"
+          simplified_regime: "Monotributista"
+        updated_at: "Actualizado"
+        zipcode: "Código Postal"
+      discount:
+        cash: "Pago Efectivo"
+        client_type: "Tipo de cliente"
+        created_at: "Ingresado"
+        discount_type: "Tipo de descuento"
+        percentage: "Porcentaje"
+      formula:
+        abrasive: "Abrasivo"
+        alloy: "Liga"
+        created_at: "Ingresado"
+        formula_items: "Ingredientes"
+        grain: "Grano"
+        hardness: "Dureza"
+        id: "ID"
+        name: "Nombre"
+        porosity: "Porosidad"
+        updated_at: "Actualizado"
+      formula_element:
+        created_at: "Ingresado"
+        current_stock: "Stock actual"
+        id: "ID"
+        infinite: "Recurso Ilimitado"
+        min_stock: "Stock mínimo"
+        name: "Nombre"
+        stock_level: "Nivel de stock"
+        updated_at: "Actualizado"
+      formula_items:
+        id: "ID"
+        proportion: "Proporción"
+      making_order:
+        comments: "Observaciones"
+        comments_plain_text: "Observaciones"
+        created_at: "Ingresado"
+        id: "ID"
+        making_order_formula: "Fórmula"
+        making_order_items: "Productos"
+        mixer_capacity: "Mezcladora"
+        quantity: "Cantidad"
+        rounds_count: "Mezclas"
+        state: "Estado"
+        state_values:
+          canceled: "Anulada"
+          completed: "Terminada"
+          in_progress: "En producción"
+        total_weight: "Peso total"
+        updated_at: "Actualizado"
+        weight_per_round: "Peso por mezcla"
+      making_order_items:
+        quantity: "Cantidad de producto"
+      manufactured_product:
+        formula: "Fórmula"
+        formula_id: "Fórmula"
+        pressure: "Presión"
+        product_detail: "Detalle"
+        shape: "Forma"
+        size: "Dimensiones"
+        weight: "Peso"
+      product:
+        comments: "Observaciones"
+        comments_plain_text: "Observaciones"
+        cover: "Portada"
+        cover_filename: "Archivo de la portada"
+        created_at: "Ingresado"
+        current_stock: "Stock actual"
+        id: "ID"
+        main_supplier: "Proveedor principal"
+        max_stock: "Stock máximo"
+        min_stock: "Stock mínimo"
+        name: "Nombre"
+        price: "Precio"
+        productable: "Producto"
+        stock: "Stock (min/max)"
+        stock_level: "Nivel de stock"
+        supplied_by: "Proveedores"
+        supplier: "Proveedor principal"
+        suppliers: "Proveedores"
+        updated_at: "Actualizado"
+      product/supplied_by:
+        price: "Precio del proveedor"
+      productable/product/supplied_by:
+        price: "Precio del proveedor"
+      sales/order:
+        canceled_at: "Cancelado"
+        cash_discount_percentage: "Descuento por pago al contado"
+        cash_discount_value: "Descuento por pago al contado"
+        client: "Cliente"
+        client_discount_percentage: "Descuento del cliente"
+        client_discount_value: "Descuento del cliente"
+        client_name: "Cliente"
+        comments: "Observaciones"
+        comments_plain_text: "Observaciones"
+        confirmed_at: "Confirmado"
+        created_at: "Ingresado"
+        fulfilled_at: "Completado"
+        id: "ID"
+        items: "Productos"
+        items_count: "Cantidad de productos"
+        number: "Número de pedido"
+        status: "Estado"
+        status_changed_at: "Fecha"
+        status_values:
+          canceled: "Cancelado"
+          confirmed: "Confirmado"
+          fulfilled: "Completado"
+          quote: "Cotización"
+        subtotal_after_cash_discount: "Total contado"
+        subtotal_after_order_discount: "Subtotal después del descuento"
+        subtotal_before_order_discount: "Subtotal"
+        total_price: "Precio total"
+        updated_at: "Actualizado"
+      sales/order/item:
+        product: "Producto"
+        quantity: "Cantidad"
+        status: "Estado"
+        status_values:
+          canceled: "Cancelado"
+          confirmed: "Confirmado"
+          delivered: "Entregado"
+          in_progress: "Preparando"
+          quote: "Cotización"
+          ready: "Preparado"
+        unit_price: "Precio"
+      sales/order/items:
+        quantity: "Cantidad de producto"
+      supplier:
+        address: "Dirección"
+        bank_account_number: "Cuenta"
+        bank_name: "Banco"
+        comments: "Observaciones"
+        comments_plain_text: "Observaciones"
+        country: "País"
+        created_at: "Ingresado"
+        email: "Email"
+        id: "ID"
+        maps_url: "Enlace Mapa"
+        name: "Nombre"
+        phone: "Teléfono"
+        province: "Provincia"
+        routing_number: "CBU"
+        tax_identification: "CUIT"
+        tax_type: "Inscripción Tributaria"
+        tax_type_values:
+          exempt: "Exento"
+          general_regime: "Responsable Inscripto"
+          simplified_regime: "Monotributista"
+        updated_at: "Actualizado"
+        zipcode: "Código Postal"
+      supplier_product:
+        code: "Código"
+        price: "Precio"
+        product: "Producto"
+        supplier: "Proveedor"
+      user:
+        cover: "Portada"
+        cover_filename: "Archivo de la portada"
+        created_at: "Ingresado"
+        email_address: "Email"
+        id: "ID"
+        name: "Nombre"
+        password: "Contraseña"
+        updated_at: "Actualizado"

@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "item_line_#{@item.id}" do %>
+  <%= render "sales/orders/item_line", order: @order, item: @item %>
+  <%= render "sales/orders/item_line", order: @order, item: @new_item %>
+<% end %>

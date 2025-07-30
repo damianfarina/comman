@@ -4,6 +4,10 @@ class Discount < ApplicationRecord
 
   validates :discount_type, presence: true
   validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+
+  def self.cash_discount
+    find_by(discount_type: :cash)
+  end
 end
 
 # == Schema Information

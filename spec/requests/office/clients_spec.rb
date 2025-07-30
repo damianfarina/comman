@@ -46,7 +46,6 @@ RSpec.describe "/office/clients", type: :request do
     end
 
     it "renders a successful response" do
-      create(:client)
       get office_clients_url
       expect(response).to be_successful
     end

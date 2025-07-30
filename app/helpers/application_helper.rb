@@ -49,6 +49,8 @@ module ApplicationHelper
     when /^\/sales/
       [
         { name: t("navigation.dashboard"), path: sales_root_path, icon: "home", exact: true },
+        { name: t("sales.clients.index.title"), path: sales_clients_path, icon: "user-group" },
+        { name: t("sales.orders.index.title"), path: sales_orders_path, icon: "shopping-bag" },
       ]
     when /^\/factory/
       [
@@ -68,5 +70,20 @@ module ApplicationHelper
     uri.scheme.in?(%w[http https]) ? url : "#"
   rescue URI::InvalidURIError
     "#"
+  end
+
+  def status_container_for(status, opts = {})
+    color_classes = {
+      "quote"       => "text-gray-300 outline-gray-100",
+      "confirmed"   => "text-light-blue-900 outline-light-blue",
+      "in_progress" => "text-yellow outline-yellow",
+      "ready"       => "text-blue outline-blue",
+      "delivered"   => "text-light-green-900 outline-light-green",
+      "fulfilled"   => "text-green outline-green",
+      "canceled"   => "text-light-red-900 outline-light-red",
+    }
+    content_tag(:span, class: "inline-block px-1.5 py-1 rounded-md shadow-sm outline-1 -outline-offset-1 bg-white-100 #{color_classes[status.to_s]} #{opts[:class]}") do
+      block_given? ? yield : status.to_s.humanize
+    end
   end
 end

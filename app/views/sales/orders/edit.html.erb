@@ -1,0 +1,14 @@
+<%= render(
+  "common/headings/page",
+  breadcrumbs: [
+    { title: t("navigation.dashboard"), path: sales_root_path },
+    { title: t("sales.orders.index.title"), path: sales_orders_path },
+    { title: @order.name, path: sales_order_path(@order) },
+    { title: t("navigation.edit"), path: new_sales_order_path },
+  ],
+  title: t(".title", client_name: @order.client_name, status: t("activerecord.attributes.sales/order.status_values.#{@order.status}")),
+) %>
+
+<div class="w-full">
+  <%= render "form", order: @order %>
+</div>

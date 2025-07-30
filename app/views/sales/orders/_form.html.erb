@@ -1,0 +1,84 @@
+<%# locals: (order:)  %>
+
+<%= form_with(
+  model: order,
+  class: "contents",
+  data: {
+    "controller": "sales--orders--form",
+    "sales--orders--form-animation-class": "animate-change rounded shadow-xl/30 shadow-light-yellow-100 bg-light-yellow-100",
+  },
+) do |form| %>
+  <%= render "common/error_messages", model: order %>
+  <%= render "common/forms/simple" do %>
+    <div class="col-span-6">
+      <div>
+        <%= status_container_for order.status do %>
+          <%= t("activerecord.attributes.sales/order.status_values.#{order.status}") %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-span-6 lg:col-span-3 grid grid-cols-1 gap-x-6 gap-y-8">
+      <div
+        data-controller="common--nested-form"
+        data-common--nested-form-deleted-class="text-red line-through italic"
+        class="grid grid-cols-1 gap-y-8 p-4 sm:px-6 rounded-lg bg-white-100 shadow-sm"
+      >
+        <div class="grid grid-cols-1 gap-y-8" data-common--nested-form-target="container">
+          <h3 class="text-base font-semibold text-gray-900"><%= Product.model_name.human(count: 2) %></h3>
+          <!-- Template for new sales order item -->
+          <template data-common--nested-form-target="template">
+            <%= render(
+              "item_fields",
+              form: form,
+              item: Sales::Order::Item.new,
+              child_index: "NEW_RECORD",
+            ) %>
+          </template>
+
+          <% order.items.each do |item| %>
+            <%= render(
+              "item_fields",
+              form: form,
+              item: item,
+            ) %>
+          <% end %>
+        </div>
+
+        <div class="flex">
+          <button type="button" data-action="common--nested-form#addItem" class="cursor-pointer"><%= heroicon("plus-circle", options: { class: "size-8 text-blue" }) %></button>
+        </div>
+      </div>
+    </div>
+
+    <%= render "order_fields", form: form, order: order %>
+
+    <div data-sales--orders--form-target="totals" class="col-span-6">
+      <%= render "order_totals", order: order %>
+    </div>
+  <% end %>
+
+  <div class="flex gap-4 mt-6">
+    <%= form.button t("actions.save"), type: :submit, class: "btn-default" %>
+    <%= form.button t("actions.confirm"),
+      type: :submit,
+      value: "confirm",
+      name: "commit",
+      class: "btn-primary" %>
+    <%= form.button t("actions.update_totals"),
+      type: :submit,
+      formmethod: :post,
+      formaction: preview_totals_sales_orders_path,
+      class: "btn-default",
+      hidden: true,
+      data: { "sales--orders--form-target": "previewButton" } %>
+    <% if order.can_cancel? %>
+      <%= form.button t(".cancel"),
+        type: :submit,
+        formmethod: :delete,
+        formaction: sales_order_path(order),
+        class: "btn-danger",
+        data: { turbo_confirm: t("messages.are_you_sure") } %>
+    <% end %>
+  </div>
+<% end %>

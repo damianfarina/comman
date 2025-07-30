@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_22_003333) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_28_151647) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -205,7 +205,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_22_003333) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
-    t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "productable_type"
@@ -215,6 +214,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_22_003333) do
     t.integer "max_stock", default: 0, null: false
     t.bigint "supplier_id"
     t.text "comments_plain_text"
+    t.decimal "price", precision: 10, scale: 2, default: "0.0", null: false
     t.index ["productable_type", "productable_id"], name: "index_products_on_productable_type_and_productable_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
@@ -222,6 +222,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_22_003333) do
   create_table "purchased_products", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sales_order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.decimal "unit_price", precision: 10, scale: 2
+    t.string "status", default: "quote", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_sales_order_items_on_order_id"
+    t.index ["product_id"], name: "index_sales_order_items_on_product_id"
+    t.index ["status"], name: "index_sales_order_items_on_status"
+  end
+
+  create_table "sales_orders", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.string "status", default: "quote", null: false
+    t.datetime "confirmed_at"
+    t.datetime "fulfilled_at"
+    t.datetime "canceled_at"
+    t.decimal "total_price", precision: 12, scale: 2
+    t.text "comments_plain_text"
+    t.decimal "cash_discount_percentage", precision: 5, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "client_discount_percentage", precision: 5, scale: 2, null: false
+    t.index ["client_id"], name: "index_sales_orders_on_client_id"
+    t.index ["status"], name: "index_sales_orders_on_status"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -279,6 +308,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_22_003333) do
   add_foreign_key "audit_logs", "users"
   add_foreign_key "manufactured_products", "formulas"
   add_foreign_key "products", "suppliers"
+  add_foreign_key "sales_order_items", "products"
+  add_foreign_key "sales_order_items", "sales_orders", column: "order_id"
+  add_foreign_key "sales_orders", "clients"
   add_foreign_key "sessions", "users"
   add_foreign_key "supplier_products", "products"
   add_foreign_key "supplier_products", "suppliers"
