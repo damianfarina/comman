@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Sales::Order::Item, type: :model do
   let(:client) { create(:client) }
   let(:sales_order) { create(:sales_order, products_count: 1, client: client) }
-  let(:product_with_price) { create(:purchased_productable, price: BigDecimal("100.50")) }
+  let(:product_with_price) { create(:purchased_productable, price: BigDecimal("100.50"), current_stock: 100) }
 
   describe "scopes" do
     let!(:item_quote) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "quote", quantity: 1) }
@@ -368,11 +368,11 @@ RSpec.describe Sales::Order::Item, type: :model do
   end
 
   describe "#deliver!" do
-    let(:item) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "ready") }
+    let(:item) { create(:sales_order_item, order: sales_order, product: product_with_price, status: "ready", quantity: 5) }
 
     context "when item can be delivered" do
-      it "changes status to 'delivered'" do
-        item.deliver!
+      it "changes status to 'delivered' and decrements product stock" do
+        expect { item.deliver! }.to change { product_with_price.reload.current_stock }.from(100).to(95)
         expect(item.status).to eq("delivered")
       end
 
@@ -387,8 +387,8 @@ RSpec.describe Sales::Order::Item, type: :model do
         item.update(status: "canceled")
       end
 
-      it "sets an error on the model" do
-        item.deliver!
+      it "does not decrement stock and sets an error on the model" do
+        expect { item.deliver! }.not_to change { product_with_price.reload.current_stock }
         expect(item.errors.added?(:base, :delivery_invalid)).to be true
         expect(item.status).to eq("canceled")
       end

@@ -4,7 +4,7 @@ module Sales
 
     include Auditable
 
-    auditable_attributes only: [ :quantity, :unit_price ]
+    auditable only: [ :quantity, :unit_price, :status ]
 
     belongs_to :order
     belongs_to :product
@@ -153,6 +153,7 @@ module Sales
 
     def deliver!
       if can_deliver?
+        self.product.decrement_stock!(quantity)
         self.status = Sales::Order::Item.statuses[:delivered]
         save!
       else

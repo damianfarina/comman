@@ -40,6 +40,19 @@ RSpec.describe Product, type: :model do
     end
   end
 
+  describe "#decrement_stock!" do
+    let(:product) { create(:purchased_productable, current_stock: 100) }
+
+    it "decreases current_stock by the specified quantity" do
+      expect { product.decrement_stock!(10) }.to change { product.current_stock }.from(100).to(90)
+    end
+
+    it "can result in negative stock" do
+      product.decrement_stock!(150)
+      expect(product.current_stock).to eq(-50)
+    end
+  end
+
   describe "validations" do
     it "is valid with valid attributes" do
       product = build(:product, name: "ValidName", productable: build(:purchased_product))

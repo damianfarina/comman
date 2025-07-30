@@ -23,7 +23,7 @@ class Product < ApplicationRecord
 
   validates :name, presence: true
   validate :name_is_unique, unless: -> { name.blank? }
-  validates :current_stock, :max_stock, :min_stock, numericality: { greater_than_or_equal_to: 0 }
+  validates :current_stock, :max_stock, :min_stock, numericality: true
   validates :price, presence: true, on: [ :office ]
   validates :price, numericality: { greater_than_or_equal_to: 0 }, if: -> { price.present? }
   validate :supplier_must_be_valid
@@ -49,6 +49,11 @@ class Product < ApplicationRecord
         ELSE ROUND(((current_stock - min_stock) / NULLIF((max_stock - min_stock), 0.0)) * 100, 2)
       END"
     )
+  end
+
+  def decrement_stock!(quantity)
+    self.current_stock -= quantity
+    save!
   end
 
   def stock_level
