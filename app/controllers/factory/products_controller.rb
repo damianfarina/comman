@@ -71,30 +71,31 @@ module Factory
     end
 
     private
-      def set_product
-        @product = Product.find(params.expect(:id))
-      end
 
-      def product_params
-        params.require(:product).permit(
-          :comments,
-          :cover,
-          :current_stock,
-          :max_stock,
-          :min_stock,
-          productable_attributes: [
-            :formula_id,
-            :id,
-            :pressure,
-            :shape,
-            :size,
-            :weight,
-          ],
-        )
-      end
+    def set_product
+      @product = Product.find(params.expect(:id))
+    end
 
-      def default_sort
-        [ "id desc" ]
-      end
+    def product_params
+      params.require(:product).permit(
+        :comments,
+        :cover,
+        :current_stock,
+        :max_stock,
+        :min_stock,
+        productable_attributes: [
+          :formula_id,
+          :id,
+          :pressure,
+          :shape,
+          :size,
+          :weight,
+        ],
+      )
+    end
+
+    def default_sort
+      [ "id desc" ]
+    end
   end
 end
