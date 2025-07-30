@@ -72,5 +72,13 @@
       class: "btn-default",
       hidden: true,
       data: { "sales--orders--form-target": "previewButton" } %>
+    <% if order.can_cancel? %>
+      <%= form.button t(".cancel"),
+        type: :submit,
+        formmethod: :delete,
+        formaction: sales_order_path(order),
+        class: "btn-danger",
+        data: { turbo_confirm: t("messages.are_you_sure") } %>
+    <% end %>
   </div>
 <% end %>

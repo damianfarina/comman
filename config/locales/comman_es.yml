@@ -107,6 +107,8 @@ es:
         success: "Pedido cancelado."
       edit:
         title: "Editar pedido de %{client_name} (%{status})"
+      form:
+        cancel: "Cancelar"
       fulfill:
         create:
           success: "Pedido completado."

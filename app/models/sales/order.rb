@@ -172,7 +172,7 @@ module Sales
     end
 
     def can_cancel?
-      quote? || confirmed?
+      persisted? && (quote? || confirmed?)
     end
 
     def cancel!
