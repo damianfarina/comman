@@ -58,17 +58,23 @@ RSpec.describe "/orders", type: :request do
     let(:sales_order) { create(:sales_order, products_count: 1) }
     let(:valid_attributes) do
       {
-        cash_discount_percentage: 50,
-        client_discount_percentage: 60,
         comments: "Updated order",
+        items_attributes: [
+          {
+            id: sales_order.items.first.id,
+            product_id: sales_order.items.first.product_id,
+            quantity: 3,
+            _destroy: false,
+          },
+        ],
       }
     end
 
     it "updates the Order" do
       patch sales_order_url(sales_order), params: { sales_order: valid_attributes }
       sales_order.reload
-      expect(sales_order.cash_discount_percentage).to eq(50)
-      expect(sales_order.client_discount_percentage).to eq(60)
+      expect(sales_order.comments_plain_text).to eq("Updated order")
+      expect(sales_order.items.first.quantity).to eq(3)
       expect(response).to redirect_to(edit_sales_order_url(sales_order))
     end
 

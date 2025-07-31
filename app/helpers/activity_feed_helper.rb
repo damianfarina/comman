@@ -48,7 +48,10 @@ module ActivityFeedHelper
   end
 
   def link_to_auditable(auditable, options = {})
-    if path = polymorphic_path([ Current.department, auditable ]) rescue nil
+    path = polymorphic_path([ Current.department, auditable ]) rescue nil
+    path ||= polymorphic_path(auditable) rescue nil
+
+    if path
       link_to(
         auditable.audit_name,
         path,
