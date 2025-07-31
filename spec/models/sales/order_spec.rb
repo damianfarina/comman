@@ -258,6 +258,61 @@ RSpec.describe Sales::Order, type: :model do
     end
   end
 
+  describe "#can_cancel?" do
+    let!(:order) { create(:sales_order, client: client, status: "quote", items: [
+      build(:sales_order_item, product: product1, quantity: 1, status: "quote"),
+      build(:sales_order_item, product: product2, quantity: 1, status: "quote"),
+    ]) }
+    let!(:item1) { order.items.first }
+    let!(:item2) { order.items.second }
+
+    context "when order is persisted and in valid status" do
+      it "returns true for quote status with no delivered items" do
+        order.reload
+        expect(order.can_cancel?).to be true
+      end
+
+      it "returns true for confirmed status with no delivered items" do
+        order.confirm!
+        expect(order.can_cancel?).to be true
+      end
+    end
+
+    context "when order has delivered items" do
+      before do
+        order.confirm!
+        item1.reload.deliver!
+      end
+
+      it "returns false for confirmed status with delivered items" do
+        expect(order.can_cancel?).to be false
+      end
+    end
+
+    context "when order is in invalid status" do
+      before do
+        order.confirm!
+      end
+
+      it "returns false for fulfilled status" do
+        order.fulfill!
+        expect(order.can_cancel?).to be false
+      end
+
+      it "returns false for canceled status" do
+        order.cancel!
+        expect(order.can_cancel?).to be false
+      end
+    end
+
+    context "when order is not persisted" do
+      it "returns false for new records" do
+        new_order = build(:sales_order, client: client, status: "quote")
+        expect(new_order.can_cancel?).to be false
+      end
+    end
+  end
+
   describe "#fulfill!" do
     let!(:order) { create(:sales_order, client: client, status: "confirmed", items: [
       build(:sales_order_item, product: product1, status: "in_progress"),

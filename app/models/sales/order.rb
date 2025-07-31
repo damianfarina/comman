@@ -172,7 +172,11 @@ module Sales
     end
 
     def can_cancel?
-      persisted? && (quote? || confirmed?)
+      !any_item_delivered? && persisted? && (quote? || confirmed?)
+    end
+
+    def any_item_delivered?
+      items.any? { |item| item.delivered? }
     end
 
     def cancel!
