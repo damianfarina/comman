@@ -113,17 +113,13 @@ module Sales
 
     def order_params
       params.require(:sales_order).permit(
-        :cash_discount_percentage,
-        :client_discount_percentage,
         :client_id,
         :comments,
-        :id,
         items_attributes: [
           :_destroy,
           :id,
           :product_id,
           :quantity,
-          :unit_price,
         ]
       )
     end
