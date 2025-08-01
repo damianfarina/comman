@@ -70,8 +70,8 @@ es:
         one: "Pedido"
         other: "Pedidos"
       sales/order/item:
-        one: "Producto"
-        other: "Productos"
+        one: "Producto pedido"
+        other: "Productos pedidos"
       supplier:
         one: "Proveedor"
         other: "Proveedores"
