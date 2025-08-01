@@ -21,8 +21,8 @@ module Sales
             else
               flash[:alert] = @item.errors.full_messages.join(", ")
               format.turbo_stream
-              format.html { render :new, status: :unprocessable_entity }
-              format.json { render json: @item.errors, status: :unprocessable_entity }
+              format.html { render :new, status: :unprocessable_content }
+              format.json { render json: @item.errors, status: :unprocessable_content }
             end
           end
         end

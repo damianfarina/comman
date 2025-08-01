@@ -85,7 +85,7 @@ RSpec.describe "/factory/making_orders", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post factory_making_orders_url, params: { making_order: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -117,7 +117,7 @@ RSpec.describe "/factory/making_orders", type: :request do
         patch factory_making_order_url(making_order), params: { making_order: invalid_attributes.merge({
           making_order_items_attributes: making_order.making_order_items.map { |item| item.attributes.merge(_destroy: true) },
         }) }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

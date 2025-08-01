@@ -85,7 +85,7 @@ RSpec.describe "/users", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post office_users_url, params: { user: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -121,7 +121,7 @@ RSpec.describe "/users", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         user = User.create! valid_attributes
         patch office_user_url(user), params: { user: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "prevents changing the password" do

@@ -54,7 +54,7 @@ RSpec.describe "/office/discounts", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         patch office_discount_url(discount), params: { discount: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

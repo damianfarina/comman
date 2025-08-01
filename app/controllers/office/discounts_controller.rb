@@ -12,7 +12,7 @@ module Office
       if @discount.update(discount_params)
         redirect_to [ :office, @discount ]
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

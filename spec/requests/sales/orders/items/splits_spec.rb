@@ -95,13 +95,13 @@ RSpec.describe "Sales::Orders::Items::Splits", type: :request do
           post split_sales_order_item_path(sales_order, sales_order_item), params: invalid_split_params
         }.not_to change { sales_order.items.count }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "renders the new template with errors" do
         post split_sales_order_item_path(sales_order, sales_order_item), params: invalid_split_params
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("split")
       end
 
@@ -122,7 +122,7 @@ RSpec.describe "Sales::Orders::Items::Splits", type: :request do
                params: invalid_split_params,
                headers: { 'Accept' => 'application/json' }
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response.content_type).to include('application/json')
         end
       end
@@ -136,7 +136,7 @@ RSpec.describe "Sales::Orders::Items::Splits", type: :request do
           post split_sales_order_item_path(sales_order, sales_order_item), params: invalid_split_params
         }.not_to change { sales_order.items.count }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 

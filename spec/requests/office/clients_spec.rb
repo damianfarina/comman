@@ -135,7 +135,7 @@ RSpec.describe "/office/clients", type: :request do
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         patch office_client_url(client), params: { client: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -185,7 +185,7 @@ RSpec.describe "/office/clients", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post office_clients_url, params: { client: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
