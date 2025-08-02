@@ -61,13 +61,17 @@ class Product < ApplicationRecord
     save!
   end
 
-  def stock_level
+  def relative_stock_level(stock_difference)
     return 100 if max_stock == min_stock
-    return 0 if current_stock <= min_stock
-    return 100 if current_stock >= max_stock
+    return 0 if current_stock + stock_difference <= min_stock
+    return 100 if current_stock + stock_difference >= max_stock
 
-    ratio = (current_stock - min_stock).to_f / (max_stock - min_stock)
+    ratio = (current_stock + stock_difference - min_stock).to_f / (max_stock - min_stock)
     (ratio * 100).round(2)
+  end
+
+  def stock_level
+    relative_stock_level(0)
   end
 
   def main_supplier

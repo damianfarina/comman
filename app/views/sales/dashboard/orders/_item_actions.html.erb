@@ -1,0 +1,48 @@
+<%# locals: (item:) %>
+
+<div class="flex items-center gap-2">
+  <% if item.confirmed? %>
+    <%= button_to(work_on_sales_order_item_path(item.order, item, back_to: request.fullpath),
+      class: "cursor-pointer text-yellow hover:text-yellow-900 transition",
+      method: :post,
+      form_class: "contents",
+      title: t("sales.orders.item_actions.work_on"),
+    ) do %>
+      <%= heroicon("hand-raised", variant: "outline", options: { class: "size-6", "aria-label": "hand-raised" }) %>
+    <% end %>
+  <% end %>
+
+  <% if item.in_progress? %>
+    <%= button_to(complete_sales_order_item_path(item.order, item, back_to: request.fullpath),
+      class: "cursor-pointer text-blue hover:text-blue-900 transition",
+      method: :post,
+      form_class: "contents",
+      title: t("sales.orders.item_actions.complete"),
+    ) do %>
+      <%= heroicon("cube", variant: "outline", options: { class: "size-6", "aria-label": "cube" }) %>
+    <% end %>
+  <% end %>
+
+  <% if item.ready? %>
+    <%= button_to(deliver_sales_order_item_path(item.order, item, back_to: request.fullpath),
+      class: "cursor-pointer text-green hover:text-green-900 transition",
+      method: :post,
+      form_class: "contents",
+      title: t("sales.orders.item_actions.deliver"),
+    ) do %>
+      <%= heroicon("truck", variant: "outline", options: { class: "size-6", "aria-label": "truck" }) %>
+    <% end %>
+  <% end %>
+
+  <% if item.can_undo_status? %>
+    <%= button_to(undo_status_sales_order_item_path(item.order, item, back_to: request.fullpath),
+      class: "cursor-pointer text-gray-100 hover:text-gray transition",
+      method: :post,
+      form_class: "contents",
+      title: t("sales.orders.item_actions.undo_status"),
+      data: { turbo_confirm: t("sales.orders.item_actions.undo_status_confirmation") }
+    ) do %>
+      <%= heroicon("arrow-uturn-left", variant: "outline", options: { class: "size-6", "aria-label": "truck" }) %>
+    <% end %>
+  <% end %>
+</div>

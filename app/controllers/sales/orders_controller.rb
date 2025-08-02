@@ -96,7 +96,7 @@ module Sales
     end
 
     def check_workable_status
-      unless @order.workable?
+      if @order.editable?
         redirect_to edit_sales_order_path(@order)
       end
     end

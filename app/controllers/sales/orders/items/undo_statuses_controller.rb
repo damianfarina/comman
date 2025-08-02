@@ -1,13 +1,13 @@
 module Sales
   module Orders
     module Items
-      class CompletesController < ApplicationController
+      class UndoStatusesController < ApplicationController
         before_action :set_order
         before_action :set_item
 
         def create
           respond_to do |format|
-            if @item.complete!
+            if @item.undo_status!
               format.turbo_stream do
                 flash.now[:notice] = t(".success")
                 redirect_to_back_if_requested

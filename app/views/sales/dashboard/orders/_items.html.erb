@@ -1,0 +1,31 @@
+<%# locals: (items:, title:, no_items:, status:) %>
+
+<div class="mb-2 divide-y divide-light-gray-300 overflow-hidden sm:rounded-lg bg-white-100 shadow-sm">
+  <%= status_container_for status, class: "flex w-full justify-between items-center px-4 py-4" do %>
+    <h3 class="text-base/6 font-semibold"><%= title %></h3>
+  <% end %>
+</div>
+
+<% if items.any? %>
+  <% items.group_by { |item| item.order.client }.each do |client, items| %>
+    <div class="mb-2 overflow-hidden bg-white-100 shadow-sm sm:rounded-md">
+      <ul role="list" class="divide-y divide-light-gray-300">
+        <li class="px-4 py-4 sm:px-4">
+          <%= link_to [items.first.order], class: "flex justify-between items-center", data: { turbo_frame: "_top" } do %>
+            <span><%= items.first.order.client_name %></span>
+            <span><%= l(items.first.order.confirmed_at.to_date, format: :short) %></span>
+          <% end %>
+        </li>
+        <% items.each do |item| %>
+          <li class="px-4 py-4">
+            <%= render "sales/dashboard/orders/item", item: item %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% else %>
+  <div class="mb-2 overflow-hidden bg-white-100 shadow-sm sm:rounded-md">
+    <p class="px-4 py-4 sm:px-6 text-sm text-gray-500 italic"><%= no_items %></p>
+  </div>
+<% end %>

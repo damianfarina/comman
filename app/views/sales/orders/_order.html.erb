@@ -95,7 +95,7 @@
         </thead>
         <tbody class="divide-y divide-light-gray-300 bg-white-100">
           <% order.items.ordered_by_product.each do |item| %>
-            <%= render "sales/orders/item_line", order: order, item: item %>
+            <%= render "sales/orders/item_line", item: item %>
           <% end %>
         </tbody>
       </table>

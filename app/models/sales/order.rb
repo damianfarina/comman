@@ -87,7 +87,7 @@ module Sales
     end
 
     def workable?
-      !editable?
+      confirmed?
     end
 
     def name

@@ -1,6 +1,6 @@
 <%= turbo_stream.replace "item_line_#{@item.id}" do %>
-  <%= render "sales/orders/item_line", order: @order, item: @item %>
-  <%= render "sales/orders/item_line", order: @order, item: @new_item if @new_item.persisted? %>
+  <%= render "sales/orders/item_line", item: @item %>
+  <%= render "sales/orders/item_line", item: @new_item if @new_item.persisted? %>
 <% end %>
 
 <%= turbo_stream.replace "flash", partial: "common/flash" %>

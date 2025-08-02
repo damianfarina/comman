@@ -74,15 +74,15 @@ module ApplicationHelper
 
   def status_container_for(status, opts = {})
     color_classes = {
-      "quote"       => "text-gray-300 outline-gray-100",
-      "confirmed"   => "text-light-blue-900 outline-light-blue",
-      "in_progress" => "text-yellow outline-yellow",
-      "ready"       => "text-blue outline-blue",
-      "delivered"   => "text-light-green-900 outline-light-green",
-      "fulfilled"   => "text-green outline-green",
-      "canceled"   => "text-light-red-900 outline-light-red",
+      "quote"       => "text-white text-shadow-gray bg-gray-100",
+      "confirmed"   => "text-blue-700 text-shadow-white-700 bg-light-blue",
+      "in_progress" => "text-white text-gray bg-yellow",
+      "ready"       => "text-white text-shadow-blue-900 bg-blue-100",
+      "delivered"   => "text-green-900 text-shadow-white bg-light-green-300",
+      "fulfilled"   => "text-white text-shadow-green-900 bg-green",
+      "canceled"   => "text-white text-shadow-red bg-light-red",
     }
-    content_tag(:span, class: "inline-block px-1.5 py-1 rounded-md shadow-sm outline-1 -outline-offset-1 bg-white-100 #{color_classes[status.to_s]} #{opts[:class]}") do
+    content_tag(:span, class: "inline-block px-1.5 py-1 rounded-md text-shadow-xs shadow-sm #{color_classes[status.to_s]} #{opts[:class]}") do
       block_given? ? yield : status.to_s.humanize
     end
   end

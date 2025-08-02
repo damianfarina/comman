@@ -1,0 +1,18 @@
+<%# locals: (item:) %>
+
+<div class="flex justify-between items-center gap-4">
+  <%= link_to [:office, item.product], class: "flex flex-col gap-2", data: { turbo_frame: "_top" } do %>
+    <%= image_tag(item.product.cover_thumbnail, class: "p-1 size-12 rounded-full", style: "background-color: #{stock_level_color(item.product.relative_stock_level(-item.quantity))};") %>
+  <% end %>
+  <div class="flex flex-1 items-center gap-2 text-sm">
+    <%= item.product_name %>
+  </div>
+  <div class="tabular-nums text-lg whitespace-nowrap">
+    <%= item.quantity %>
+  </div>
+  <div>
+    <div class="flex justify-end">
+      <%= render "sales/dashboard/orders/item_actions", item: item %>
+    </div>
+  </div>
+</div>

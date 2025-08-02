@@ -36,6 +36,7 @@ es:
               in_progress_invalid: "El pedido no puede ser preparado en su estado actual"
               ready_invalid: "El pedido no puede ser completado en su estado actual"
               split_quantity_invalid: "Cantidad a dividir debe ser mayor que 0 y menor que la cantidad total"
+              undo_status_invalid: "No se puede deshacer el estado del producto"
             quantity:
               blank: "es requerida"
         supplier:

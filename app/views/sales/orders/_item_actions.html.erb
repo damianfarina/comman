@@ -1,9 +1,9 @@
-<%# locals: (order:, item:) %>
+<%# locals: (item:) %>
 
 <div class="flex items-center gap-1">
   <%= turbo_frame_tag "item_split_actions_#{item.id}", class: "contents" do %>
     <% if item.can_split? %>
-      <%= link_to(split_sales_order_item_path(order, item),
+      <%= link_to(split_sales_order_item_path(item.order, item),
         class: "text-gray-300 hover:text-gray-700 transition",
         title: t(".split"),
       ) do %>
@@ -13,7 +13,7 @@
     <% end %>
 
     <% if item.confirmed? %>
-      <%= button_to(work_on_sales_order_item_path(order, item),
+      <%= button_to(work_on_sales_order_item_path(item.order, item),
         class: "cursor-pointer text-yellow hover:text-yellow-900 transition",
         method: :post,
         form_class: "contents",
@@ -24,7 +24,7 @@
     <% end %>
 
     <% if item.in_progress? %>
-      <%= button_to(complete_sales_order_item_path(order, item),
+      <%= button_to(complete_sales_order_item_path(item.order, item),
         class: "cursor-pointer text-blue hover:text-blue-900 transition",
         method: :post,
         form_class: "contents",
@@ -35,7 +35,7 @@
     <% end %>
 
     <% if item.ready? %>
-      <%= button_to(deliver_sales_order_item_path(order, item),
+      <%= button_to(deliver_sales_order_item_path(item.order, item),
         class: "cursor-pointer text-green hover:text-green-900 transition",
         method: :post,
         form_class: "contents",
@@ -45,11 +45,23 @@
       <% end %>
     <% end %>
 
+    <% if item.can_undo_status? %>
+      <%= button_to(undo_status_sales_order_item_path(item.order, item),
+        class: "cursor-pointer text-gray-100 hover:text-gray transition",
+        method: :post,
+        form_class: "contents",
+        title: t(".undo_status"),
+        data: { turbo_confirm: t(".undo_status_confirmation") }
+      ) do %>
+        <%= heroicon("arrow-uturn-left", variant: "outline", options: { class: "size-6", "aria-label": "truck" }) %>
+      <% end %>
+    <% end %>
+
     <% items = [
         (->(classes, index:) do
           button_to(
             t(".cancel"),
-            cancel_sales_order_item_path(order, item),
+            cancel_sales_order_item_path(item.order, item),
             method: :post,
             data: { turbo_confirm: t("messages.are_you_sure") },
             class: "#{classes} text-red-500",

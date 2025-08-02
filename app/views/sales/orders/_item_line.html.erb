@@ -1,4 +1,4 @@
-<%# locals: (order:, item:) %>
+<%# locals: (item:) %>
 
 <tr id="item_line_<%= item.id %>">
   <td class="pl-0 pr-2 py-3 sm:pr-3 text-sm">
@@ -33,7 +33,7 @@
             <% end %>
           </div>
           <div class="flex">
-            <%= render "sales/orders/item_actions", order: order, item: item %>
+            <%= render "sales/orders/item_actions", item: item %>
           </div>
         </div>
       </div>
@@ -53,13 +53,17 @@
     <% end %>
   </td>
   <td class="hidden md:table-cell px-3 py-5 text-center">
-    <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-gray-500" style="background-color: <%= stock_level_color(item.product.stock_level) %>;">
-      <%= item.product.current_stock %>
-    </span>
+    <% unless item.delivered? %>
+      <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-gray-500" style="background-color: <%= stock_level_color(item.product.relative_stock_level(-item.quantity)) %>;">
+        <%= item.product.current_stock %>
+      </span>
+    <% end %>
   </td>
   <td class="hidden md:table-cell py-5 pr-4 pl-3 sm:pr-0">
-    <div class="flex justify-end">
-      <%= render "sales/orders/item_actions", order: order, item: item %>
-    </div>
+    <% unless item.delivered? %>
+      <div class="flex justify-end">
+        <%= render "sales/orders/item_actions", item: item %>
+      </div>
+    <% end %>
   </td>
 </tr>

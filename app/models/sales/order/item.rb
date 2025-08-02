@@ -103,7 +103,8 @@ module Sales
     end
 
     def confirm!
-      raise StandardError, "#{self.class.name} not in a confirmable state." unless can_confirm?
+      raise StandardError, "#{self.class.name} not in a confirmable state." \
+        unless can_confirm?
 
       price_to_freeze = effective_unit_price
       self.unit_price = price_to_freeze || BigDecimal("0")
@@ -121,7 +122,8 @@ module Sales
     end
 
     def work_on!
-      raise StandardError, "#{self.class.name} not in a workable state." unless can_progress?
+      raise StandardError, "#{self.class.name} not in a workable state." \
+        unless can_progress?
 
       self.status = Sales::Order::Item.statuses[:in_progress]
 
@@ -161,6 +163,31 @@ module Sales
         errors.add(:base, :delivery_invalid)
         false
       end
+    end
+
+    def can_undo_status?
+      !confirmed? && order.workable?
+    end
+
+    def undo_status!
+      unless can_undo_status?
+        errors.add(:base, :undo_status_invalid)
+        return false
+      end
+
+      case status
+      when Sales::Order::Item.statuses[:delivered]
+        product.increment_stock!(quantity)
+        self.status = Sales::Order::Item.statuses[:ready]
+      when Sales::Order::Item.statuses[:ready]
+        self.status = Sales::Order::Item.statuses[:in_progress]
+      when Sales::Order::Item.statuses[:in_progress]
+        self.status = Sales::Order::Item.statuses[:confirmed]
+      when Sales::Order::Item.statuses[:canceled]
+        self.status = Sales::Order::Item.statuses[:confirmed]
+      end
+
+      save!
     end
 
     def resolved?
