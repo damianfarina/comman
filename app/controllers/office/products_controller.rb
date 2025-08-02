@@ -41,8 +41,8 @@ module Office
           format.html { redirect_to office_product_path(@product), notice: t(".success") }
           format.json { render :show, status: :created, location: @product }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @product.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @product.errors, status: :unprocessable_content }
         end
       end
     end
@@ -56,8 +56,8 @@ module Office
           format.html { redirect_to office_product_path(@product), notice: t(".success") }
           format.json { render :show, status: :ok, location: @product }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @product.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @product.errors, status: :unprocessable_content }
         end
       end
     end

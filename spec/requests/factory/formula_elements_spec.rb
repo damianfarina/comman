@@ -75,7 +75,7 @@ RSpec.describe "/factory/formula_elements", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post factory_formula_elements_url, params: { formula_element: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -110,14 +110,14 @@ RSpec.describe "/factory/formula_elements", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         formula_element = create(:formula_element, valid_attributes)
         patch factory_formula_element_url(formula_element), params: { formula_element: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "prevents duplicated names" do
         create(:formula_element, name: 'Dup1')
         formula_element2 = create(:formula_element, name: 'Dup2')
         patch factory_formula_element_url(formula_element2), params: { formula_element: { name: 'Dup1' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

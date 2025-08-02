@@ -40,8 +40,8 @@ module Factory
           format.json { render :show, status: :created, location: factory_making_order_url(@making_order) }
         else
           @making_order.making_order_items.build
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @making_order.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @making_order.errors, status: :unprocessable_content }
         end
       end
     end
@@ -53,8 +53,8 @@ module Factory
           format.html { redirect_to factory_making_order_path(@making_order), notice: "Making order was successfully updated." }
           format.json { render :show, status: :ok, location: factory_making_order_url(@making_order) }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @making_order.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @making_order.errors, status: :unprocessable_content }
         end
       end
     end

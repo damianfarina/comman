@@ -103,7 +103,7 @@ RSpec.describe "/factory/formulas", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post factory_formulas_url, params: { formula: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -139,7 +139,7 @@ RSpec.describe "/factory/formulas", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         formula = Formula.create! valid_attributes
         patch factory_formula_url(formula), params: { formula: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

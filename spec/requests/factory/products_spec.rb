@@ -198,7 +198,7 @@ RSpec.describe "/factory/products", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post factory_products_url, params: { product: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -237,7 +237,7 @@ RSpec.describe "/factory/products", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         product = create(:manufactured_productable)
         patch factory_product_url(product), params: { product: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

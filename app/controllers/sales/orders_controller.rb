@@ -38,8 +38,8 @@ module Sales
           format.html { redirect_to @order, notice: t(".success") }
           format.json { render :show, status: :created, location: @order }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @order.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @order.errors, status: :unprocessable_content }
         end
       end
     end
@@ -67,8 +67,8 @@ module Sales
           format.html { redirect_to [ :edit, @order ], notice: t(".success") }
           format.json { render :show, status: :ok, location: @order }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @order.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @order.errors, status: :unprocessable_content }
         end
       end
     end
@@ -82,7 +82,7 @@ module Sales
         else
           flash[:alert] = @order.errors.full_messages.join(", ")
           format.html { redirect_to @order }
-          format.json { render json: @order.errors, status: :unprocessable_entity }
+          format.json { render json: @order.errors, status: :unprocessable_content }
         end
       end
     end
@@ -96,7 +96,7 @@ module Sales
     end
 
     def check_workable_status
-      unless @order.workable?
+      if @order.editable?
         redirect_to edit_sales_order_path(@order)
       end
     end

@@ -100,6 +100,22 @@ es:
         create_sales_order: "Crear pedido"
         no_clients: "No hay clientes"
         title: "Clientes"
+    dashboard:
+      index:
+        orders:
+          items:
+            confirmed:
+              no_items: "No hay productos confirmados"
+              title: "Productos confirmados"
+            delivered:
+              no_items: "No hay productos entregados"
+              title: "Productos entregados hoy"
+            in_progress:
+              no_items: "No hay productos en preparación"
+              title: "Productos en preparación"
+            ready:
+              no_items: "No hay productos listos para entregar"
+              title: "Productos listos para entregar"
     orders:
       create:
         success: "Pedido creado."
@@ -121,6 +137,8 @@ es:
         deliver: "Entregar producto"
         split: "Dividir cantidad"
         work_on: "Preparar productos"
+        undo_status: "Recuperar estado anterior"
+        undo_status_confirmation: "¿Estás seguro de que quieres volver atrás el estado?"
       items:
         cancels:
           create:
@@ -137,6 +155,9 @@ es:
           form:
             cancel: "Cancelar división"
             split: "Dividir pedido"
+        undo_statuses:
+          create:
+            success: "Estado recuperado."
         works:
           create:
             success: "Preparando productos."

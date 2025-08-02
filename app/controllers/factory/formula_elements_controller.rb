@@ -33,8 +33,8 @@ module Factory
           format.html { redirect_to factory_formula_element_path(@formula_element), notice: "La materia prima fue creada." }
           format.json { render :show, status: :created, location: @formula_element }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @formula_element.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @formula_element.errors, status: :unprocessable_content }
         end
       end
     end
@@ -46,8 +46,8 @@ module Factory
           format.html { redirect_to factory_formula_element_path(@formula_element), notice: "La materia prima fue actualizada." }
           format.json { render :show, status: :ok, location: @formula_element }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @formula_element.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @formula_element.errors, status: :unprocessable_content }
         end
       end
     end

@@ -45,8 +45,8 @@ module Factory
           format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue creada." }
           format.json { render :show, status: :created, location: factory_formula_url(@formula) }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @formula.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @formula.errors, status: :unprocessable_content }
         end
       end
     end
@@ -58,8 +58,8 @@ module Factory
           format.html { redirect_to factory_formula_path(@formula), notice: "La fórmula fue actualizada." }
           format.json { render :show, status: :ok, location: factory_formula_url(@formula) }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @formula.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @formula.errors, status: :unprocessable_content }
         end
       end
     end

@@ -9,12 +9,14 @@ module Sales
           respond_to do |format|
             if @item.work_on!
               format.turbo_stream do
-                flash[:notice] = t(".success")
+                flash.now[:notice] = t(".success")
+                redirect_to_back_if_requested
               end
               format.html { redirect_to sales_order_path(@order), notice: t(".success") }
             else
-              flash[:alert] = @item.errors.full_messages.join(", ")
-              format.turbo_stream
+              format.turbo_stream do
+                flash.now[:alert] = @item.errors.full_messages.join(", ")
+              end
               format.html do
                 redirect_to sales_order_path(@order),
                   alert: @item.errors.full_messages.join(", ")

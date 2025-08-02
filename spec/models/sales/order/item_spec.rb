@@ -434,6 +434,85 @@ RSpec.describe Sales::Order::Item, type: :model do
     end
   end
 
+  describe "#can_undo_status?" do
+    let(:workable_order) { create(:sales_order, products_count: 1, client: client, status: "confirmed") }
+    let(:non_workable_order) { create(:sales_order, products_count: 1, client: client, status: "quote") }
+
+    it "returns true when item is not confirmed and order is workable" do
+      item = build(:sales_order_item, order: workable_order, product: product_with_price, status: "in_progress")
+      expect(item.can_undo_status?).to be true
+    end
+
+    it "returns false when item is confirmed" do
+      item = build(:sales_order_item, order: workable_order, product: product_with_price, status: "confirmed")
+      expect(item.can_undo_status?).to be false
+    end
+
+    it "returns false when order is not workable" do
+      item = build(:sales_order_item, order: non_workable_order, product: product_with_price, status: "in_progress")
+      expect(item.can_undo_status?).to be false
+    end
+  end
+
+  describe "#undo_status!" do
+    let(:workable_order) { create(:sales_order, products_count: 1, client: client, status: "confirmed") }
+
+    context "when item can undo status" do
+      it "changes delivered item to ready and increments product stock" do
+        item = create(:sales_order_item, order: workable_order, product: product_with_price, status: "delivered", quantity: 5)
+
+        expect { item.undo_status! }.to change { product_with_price.reload.current_stock }.from(100).to(105)
+        expect(item.status).to eq("ready")
+      end
+
+      it "changes ready item to in_progress" do
+        item = create(:sales_order_item, order: workable_order, product: product_with_price, status: "ready", quantity: 2)
+
+        item.undo_status!
+        expect(item.status).to eq("in_progress")
+      end
+
+      it "changes in_progress item to confirmed" do
+        item = create(:sales_order_item, order: workable_order, product: product_with_price, status: "in_progress", quantity: 2)
+
+        item.undo_status!
+        expect(item.status).to eq("confirmed")
+      end
+
+      it "changes canceled item to confirmed" do
+        item = create(:sales_order_item, order: workable_order, product: product_with_price, status: "canceled", quantity: 2)
+
+        item.undo_status!
+        expect(item.status).to eq("confirmed")
+      end
+    end
+
+    context "when item cannot undo status" do
+      it "returns false and adds error when item is confirmed" do
+        item = create(:sales_order_item, order: workable_order, product: product_with_price, status: "confirmed", quantity: 2)
+
+        result = item.undo_status!
+        expect(result).to be false
+        expect(item.errors.added?(:base, :undo_status_invalid)).to be true
+      end
+
+      it "returns false and adds error when order is not workable" do
+        non_workable_order = create(:sales_order, products_count: 1, client: client, status: "quote")
+        item = create(:sales_order_item, order: non_workable_order, product: product_with_price, status: "in_progress", quantity: 2)
+
+        result = item.undo_status!
+        expect(result).to be false
+        expect(item.errors.added?(:base, :undo_status_invalid)).to be true
+      end
+
+      it "does not change product stock when undo fails" do
+        item = create(:sales_order_item, order: workable_order, product: product_with_price, status: "confirmed", quantity: 5)
+
+        expect { item.undo_status! }.not_to change { product_with_price.reload.current_stock }
+      end
+    end
+  end
+
   describe "#resolved?" do
     it "returns true if status is 'delivered'" do
       item = build(:sales_order_item, status: "delivered", product: product_with_price)

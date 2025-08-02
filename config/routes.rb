@@ -35,6 +35,7 @@ Rails.application.routes.draw do
           post :cancel, to: "orders/items/cancels#create"
           get :split, to: "orders/items/splits#new"
           post :split, to: "orders/items/splits#create"
+          post :undo_status, to: "orders/items/undo_statuses#create"
         end
       end
     end
