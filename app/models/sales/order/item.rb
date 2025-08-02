@@ -175,16 +175,18 @@ module Sales
         return false
       end
 
+      statuses = Sales::Order::Item.statuses
+
       case status
-      when Sales::Order::Item.statuses[:delivered]
+      when statuses[:delivered]
         product.increment_stock!(quantity)
-        self.status = Sales::Order::Item.statuses[:ready]
-      when Sales::Order::Item.statuses[:ready]
-        self.status = Sales::Order::Item.statuses[:in_progress]
-      when Sales::Order::Item.statuses[:in_progress]
-        self.status = Sales::Order::Item.statuses[:confirmed]
-      when Sales::Order::Item.statuses[:canceled]
-        self.status = Sales::Order::Item.statuses[:confirmed]
+        self.status = statuses[:ready]
+      when statuses[:ready]
+        self.status = statuses[:in_progress]
+      when statuses[:in_progress]
+        self.status = statuses[:confirmed]
+      when statuses[:canceled]
+        self.status = statuses[:confirmed]
       end
 
       save!
