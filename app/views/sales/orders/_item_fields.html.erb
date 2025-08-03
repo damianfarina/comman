@@ -48,6 +48,7 @@
           "sales--orders--form-product-target": "quantity",
           "action": "sales--orders--form#updateTotals",
         },
+        style: "background-color: #{stock_level_color(item.product.stock_level) if item.product.present?};",
       ) %>
       <%= ff.hidden_field(
         :_destroy,
