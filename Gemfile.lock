@@ -139,7 +139,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    heroicons (2.1.1)
+    heroicons (2.2.0)
       nokogiri
       railties (>= 5.2)
     hotwire-spark (0.1.13)
@@ -471,7 +471,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  heroicons (~> 2.1)
+  heroicons (~> 2.2)
   hotwire-spark
   image_processing (~> 1.2)
   importmap-rails
