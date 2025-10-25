@@ -37,8 +37,8 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
   config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
 
-  # Change to "debug" to log everything (including potentially personally-identifiable information!)
-  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "debug")
+  # Change to "debug" to log everything (including potentially personally-identifiable information!).
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
   # Prevent health checks from clogging up the logs.
   config.silence_healthcheck_path = "/up"
@@ -61,7 +61,6 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: ENV.fetch("EMAIL_DOMAIN", "EMAIL_DOMAIN") }
 
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   config.action_mailer.smtp_settings = {
     address:              ENV.fetch("EMAIL_SMTP_ADDRESS", "EMAIL_SMTP_ADDRESS"),
     authentication:       :plain,
@@ -71,6 +70,7 @@ Rails.application.configure do
     port:                 587,
     user_name:            ENV.fetch("EMAIL_USER_NAME", "EMAIL_USER_NAME"),
   }
+  # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -84,7 +84,6 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
-  #   IPAddr.new("0.0.0.0/0") # Allow requests from any IP address
   #   "example.com",     # Allow requests from example.com
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
   # ]
