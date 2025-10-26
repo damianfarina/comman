@@ -8,7 +8,7 @@ image: damianfarina/comman
 servers:
   web:
     hosts:
-      - commanapp.dev
+      - ssh.commanapp.dev
     # options:
       # publish: "4001:4001"
   # job:
@@ -124,7 +124,7 @@ ssh:
 accessories:
   db:
     image: postgres:17
-    host: commanapp.dev
+    host: ssh.commanapp.dev
     # Change to 5432 to expose port to the world instead of just local network.
     env:
       clear:
@@ -140,7 +140,7 @@ accessories:
   # Uncomment to enable a backup service for the database.
   # postgres_backup:
   #   image: kartoza/pg-backup:17-3.5
-  #   host: commanapp.dev
+  #   host: ssh.commanapp.dev
   #   env:
   #     clear:
   #       POSTGRES_USER: <%= ENV["POSTGRES_USER"] %>
