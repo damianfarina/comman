@@ -25,7 +25,7 @@ module Sales
 
     ransacker :status_order do
       Arel.sql(
-        "CASE status " \
+        "CASE sales_orders.status " \
         "WHEN 'confirmed' THEN 1 " \
         "WHEN 'quote' THEN 2 " \
         "WHEN 'fulfilled' THEN 3 " \
@@ -36,11 +36,11 @@ module Sales
 
     ransacker :status_changed_at_order do
       Arel.sql(
-        "CASE status " \
-        "WHEN 'confirmed' THEN confirmed_at " \
-        "WHEN 'fulfilled' THEN fulfilled_at " \
-        "WHEN 'canceled' THEN canceled_at " \
-        "ELSE created_at END"
+        "CASE sales_orders.status " \
+        "WHEN 'confirmed' THEN sales_orders.confirmed_at " \
+        "WHEN 'fulfilled' THEN sales_orders.fulfilled_at " \
+        "WHEN 'canceled' THEN sales_orders.canceled_at " \
+        "ELSE sales_orders.created_at END"
       )
     end
 
