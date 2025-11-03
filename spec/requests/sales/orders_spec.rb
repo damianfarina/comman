@@ -9,6 +9,21 @@ RSpec.describe "/orders", type: :request do
       get sales_orders_url
       expect(response).to be_successful
     end
+
+    context "with ransack search parameters" do
+      let!(:confirmed_order) { create(:sales_order, products_count: 1, status: "confirmed") }
+      let!(:quote_order) { create(:sales_order, products_count: 1, status: "quote") }
+
+      it "handles ransack queries with includes without ambiguous column errors" do
+        # This test ensures the ransackers work correctly with includes
+        # Previously would fail with "ambiguous column name: created_at" error
+        get sales_orders_url, params: {
+          q: { id_or_comments_plain_text_or_client_name_cont: confirmed_order.client.name },
+        }
+        expect(response).to be_successful
+        expect(response.body).to include(confirmed_order.client.name)
+      end
+    end
   end
 
   describe "GET /new" do
