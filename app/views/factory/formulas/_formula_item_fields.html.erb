@@ -20,6 +20,7 @@
     <div>
       <%= ff.number_field(
         :proportion,
+        value: formula_item.proportion&.round(3),
         placeholder: "Porcentage %",
         min: 0,
         step: 0.001,
