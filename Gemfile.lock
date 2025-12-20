@@ -318,7 +318,7 @@ GEM
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
-    requestjs-rails (0.0.13)
+    requestjs-rails (0.0.14)
       railties (>= 7.1.0)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
