@@ -5,8 +5,10 @@ import { plugin } from "@appsignal/plugin-window-events";
 
 const application = Application.start();
 
-appsignal.use(plugin());
-installErrorHandler(appsignal, application);
+if (appsignal) {
+  appsignal.use(plugin());
+  installErrorHandler(appsignal, application);
+}
 
 // Configure Stimulus development experience
 application.debug = true;

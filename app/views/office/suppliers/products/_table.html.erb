@@ -1,0 +1,77 @@
+<div class="col-span-1 md:col-span-2 2xl:col-span-3">
+  <div class="flex flex-1">
+    <%= search_form_for(
+      @q,
+      url: office_supplier_products_path(@supplier),
+      method: :get,
+      data: {
+        turbo_frame: "products_table",
+        turbo_action: "advance",
+        controller: "common--submit-debounce",
+        action: "input->common--submit-debounce#submit",
+      },
+      class: "w-full max-w-lg lg:max-w-xs",
+    ) do |f| %>
+      <%= f.label :id_or_name_cont, t("placeholders.search_by.attributes"), class: "sr-only" %>
+      <div class="relative text-gray-300 focus-within:text-gray">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <%= f.search_field(
+          :id_or_name_cont,
+          autofocus: true,
+          autocomplete: "off",
+          class: "block w-full rounded-md border-0 ring-0 ring-offset-1 ring-offset-gray bg-white py-1.5 pl-10 pr-3 text-gray-900 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue sm:text-sm/6",
+          placeholder: t("placeholders.search_by.attributes"),
+        ) %>
+      </div>
+    <% end %>
+  </div>
+  <%= turbo_frame_tag "products_table" do %>
+    <% if @supplied_products.any? %>
+      <div class="inline-block min-w-full py-2 align-middle">
+        <table class="min-w-full divide-y divide-light-gray-900">
+          <thead>
+            <tr>
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :id, Product.human_attribute_name(:id), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :name, Product.human_attribute_name(:name), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-light-gray">
+            <% @supplied_products.each do |product| %>
+              <tr id="<%= dom_id product %>">
+                <td class="whitespace-nowrap px-1 md:px-4 py-3 text-center text-sm text-gray-900">
+                  <%= link_to product.id, office_product_path(product), data: { turbo_frame: "_top" } %>
+                </td>
+                <td class="whitespace-nowrap py-3 px-1 md:px-4 pr-3 text-sm font-medium text-gray-900">
+                  <%= link_to office_product_path(product), data: { turbo_frame: "_top" } do %>
+                    <span class="sr-only">Ver producto </span><%= product.name %>
+                  <% end %>
+                </td>
+                <td class="whitespace-nowrap py-3 px-1 md:px-4 pr-3 text-sm font-medium text-gray-900">
+                  <span class="sr-only">Stock </span><%= product.current_stock %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="flex items-center justify-center h-96">
+        <p class="px-4 py-6 sm:px-6 text-sm/6 text-light-gray-700 italic">
+          <%= t("messages.no_products") %>
+        </p>
+      </div>
+    <% end %>
+    <%= paginate @supplied_products, total_count: @supplied_products.total_count %>
+  <% end %>
+</div>
