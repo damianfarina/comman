@@ -12,7 +12,9 @@ Rails.application.routes.draw do
     get :settings, to: "settings#index"
     resources :discounts, only: %i[ show edit update ]
     resources :products
-    resources :suppliers
+    resources :suppliers do
+      resources :products, only: %i[ index ], controller: "suppliers/products"
+    end
     resources :users, only: %i[ index show new create edit update destroy ]
   end
 

@@ -14,6 +14,9 @@ module Office
     # GET /office/suppliers/1 or /office/suppliers/1.json
     def show
       @audit_logs = @supplier.audit_logs.recent.includes(:user)
+      @q = @supplier.supplied_products.ransack(params[:q])
+      @q.sorts = default_sort if @q.sorts.empty?
+      @supplied_products = @q.result.page(params[:page])
     end
 
     # GET /office/suppliers/new
