@@ -34,6 +34,11 @@
 - Dependency bumps typically use “Bump <gem> from <old> to <new>”.
 - PRs should describe the change, link related issues, and include screenshots for UI changes.
 
+## PR Creation (CLI)
+- Draft the PR title and summary from `git diff --stat main...HEAD` and `.github/PULL_REQUEST_TEMPLATE.md`.
+- Push first: `git push -u origin HEAD`, then create: `gh pr create --base main --title "…" --body "…"`.
+- If the body includes backticks or shell-sensitive characters, prefer `--body-file` to avoid expansion.
+
 ## Configuration & Secrets
 - Copy `.env.sample` to `.env` and adjust as needed; use environment-specific variants.
 - Production deploys use `dotenv -f .env.<env> kamal deploy -d <env>`.
