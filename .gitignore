@@ -46,3 +46,4 @@ spec/examples.txt
 !/config/deploy.yml
 /.kamal/secrets.*
 
+/config/certificates
