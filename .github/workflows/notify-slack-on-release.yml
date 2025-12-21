@@ -1,0 +1,35 @@
+name: Notify Slack on release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post release to Slack
+        if: ${{ vars.NOTIFY_NEW_RELEASE == 'true' }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_NAME: ${{ github.event.release.name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          if [ -z "$SLACK_BOT_TOKEN" ] || [ -z "$SLACK_CHANNEL_ID" ]; then
+            echo "Slack secrets missing; skipping notification."
+            exit 0
+          fi
+
+          body="$(printf "%s" "$RELEASE_BODY" | head -c 2800)"
+          text="*Release:* ${RELEASE_NAME:-$RELEASE_TAG}\n${RELEASE_URL}\n\n${body}"
+
+          payload=$(jq -n --arg channel "$SLACK_CHANNEL_ID" --arg text "$text" \
+            '{channel: $channel, text: $text, mrkdwn: true}')
+
+          curl -sS -X POST "https://slack.com/api/chat.postMessage" \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-type: application/json; charset=utf-8" \
+            --data "$payload" | jq
