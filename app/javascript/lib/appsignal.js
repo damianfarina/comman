@@ -1,6 +1,9 @@
 import Appsignal from "@appsignal/javascript";
 
-const key = document.querySelector("meta[name='appsignal-api-key']").content;
-const revision = document.querySelector("meta[name='appsignal-revision']").content;
+const apiKeyMeta = document.querySelector("meta[name='appsignal-api-key']");
+const revisionMeta = document.querySelector("meta[name='appsignal-revision']");
 
-export const appsignal = new Appsignal({ key, revision });
+const key = apiKeyMeta?.content;
+const revision = revisionMeta?.content;
+
+export const appsignal = key ? new Appsignal({ key, revision }) : null;
