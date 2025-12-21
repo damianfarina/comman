@@ -40,7 +40,7 @@ jobs:
                 s/\bby\s+\@([A-Za-z0-9-]+)/by <https:\/\/github.com\/$1|\@$1>/g;
 
                 # Convert "in https://.../pull/123" -> "(<...|PR #123>)"  (NO EXTRA QUOTES)
-                s/\s+in\s+(https:\/\/github\.com\/[^\/\s]+\/[^\/\s]+\/pull\/(\d+))/ (<$1|PR #$2>)/g;
+                s/\s+in\s+(https:\/\/github\.com\/[^\/\s]+\/[^\/\s]+\/pull\/(\d+))/ (PR <$1|#$2>)/g;
 
                 # Full changelog line -> link label only
                 s/^\*\*Full Changelog\*\*:\s*(https?:\/\/\S+)$/<$1|Full changelog>/i;
