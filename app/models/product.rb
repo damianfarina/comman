@@ -33,7 +33,7 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :supplied_by, allow_destroy: true, reject_if: :all_blank
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id name current_stock price created_at productable_type stock_level]
+    %w[id name current_stock price created_at productable_type stock_level current_stock]
   end
 
   def self.ransackable_associations(auth_object = nil)
