@@ -33,25 +33,26 @@ jobs:
                 # Bullets: "* " -> "• "
                 s/^\*\s+/• /;
 
-                # Convert markdown links [label](url) -> <url|label>
+                # Convert markdown links [label](https://url) -> <https://url|label>
                 s/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/<$2|$1>/g;
 
-                # Convert "in https://.../pull/123" -> "(<...|PR #123>)"
-                s/\s+in\s+(https:\/\/github\.com\/[^\/\s]+\/[^\/\s]+\/pull\/(\d+))/" (<$1|PR #$2>)"/g;
+                # Convert "by @user" -> "by <https://github.com/user|@user>"
+                s/\bby\s+\@([A-Za-z0-9-]+)/by <https:\/\/github.com\/$1|\@$1>/g;
 
-                # Optional: drop "by @someone" to keep it concise
-                s/\s+by\s+@\S+//g;
+                # Convert "in https://.../pull/123" -> "(<...|PR #123>)"  (NO EXTRA QUOTES)
+                s/\s+in\s+(https:\/\/github\.com\/[^\/\s]+\/[^\/\s]+\/pull\/(\d+))/ (<$1|PR #$2>)/g;
 
-                # Full changelog line: "**Full Changelog**: url" -> "*Full changelog:* <url|Compare>"
-                s/^\*\*Full Changelog\*\*:\s*(https?:\/\/\S+)$/*Full changelog:* <$1|Compare>/i;
+                # Full changelog line -> link label only
+                s/^\*\*Full Changelog\*\*:\s*(https?:\/\/\S+)$/<$1|Full changelog>/i;
               ' \
             | head -c 2800
           )"
 
           title="${RELEASE_NAME:-$RELEASE_TAG}"
 
-          text="$(printf "*Release:* %s\n<%s|View release>\n\n%s" \
-            "$title" "$RELEASE_URL" "$body"
+          # Release title as a link; remove "View release" line
+          text="$(printf "*Release:* <%s|%s>\n\n%s" \
+            "$RELEASE_URL" "$title" "$body"
           )"
 
           payload="$(jq -n \
