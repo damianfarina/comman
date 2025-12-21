@@ -23,11 +23,48 @@ jobs:
             exit 0
           fi
 
-          body="$(printf "%s" "$RELEASE_BODY" | head -c 2800)"
-          text="*Release:* ${RELEASE_NAME:-$RELEASE_TAG}\n${RELEASE_URL}\n\n${body}"
+          body="$(
+            printf "%s" "$RELEASE_BODY" \
+            | tr -d '\r' \
+            | perl -pe '
+                # Headings: "## Title" -> "*Title*"
+                s/^##\s+(.*)$/*$1*/;
 
-          payload=$(jq -n --arg channel "$SLACK_CHANNEL_ID" --arg text "$text" \
-            '{channel: $channel, text: $text, mrkdwn: true}')
+                # Bullets: "* " -> "• "
+                s/^\*\s+/• /;
+
+                # Convert markdown links [label](url) -> <url|label>
+                s/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/<$2|$1>/g;
+
+                # Convert "in https://.../pull/123" -> "(<...|PR #123>)"
+                s/\s+in\s+(https:\/\/github\.com\/[^\/\s]+\/[^\/\s]+\/pull\/(\d+))/" (<$1|PR #$2>)"/g;
+
+                # Optional: drop "by @someone" to keep it concise
+                s/\s+by\s+@\S+//g;
+
+                # Full changelog line: "**Full Changelog**: url" -> "*Full changelog:* <url|Compare>"
+                s/^\*\*Full Changelog\*\*:\s*(https?:\/\/\S+)$/*Full changelog:* <$1|Compare>/i;
+              ' \
+            | head -c 2800
+          )"
+
+          title="${RELEASE_NAME:-$RELEASE_TAG}"
+
+          text="$(printf "*Release:* %s\n<%s|View release>\n\n%s" \
+            "$title" "$RELEASE_URL" "$body"
+          )"
+
+          payload="$(jq -n \
+            --arg channel "$SLACK_CHANNEL_ID" \
+            --arg text "$text" \
+            '{
+              channel: $channel,
+              text: $text,
+              mrkdwn: true,
+              unfurl_links: false,
+              unfurl_media: false
+            }'
+          )"
 
           curl -sS -X POST "https://slack.com/api/chat.postMessage" \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
