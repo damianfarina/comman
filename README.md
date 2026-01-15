@@ -64,6 +64,24 @@ bin/rspec
 dotenv -f .env.production kamal deploy
 ```
 
+#### Proxy SSL with Cloudflare Origin Certificates
+If the app sits behind Cloudflare, you can use a Cloudflare Origin Certificate for Kamal proxy SSL.
+
+```yaml
+proxy:
+  ssl:
+    certificate_pem: CERTIFICATE_PEM
+    private_key_pem: PRIVATE_KEY_PEM
+  host: example.com
+```
+
+In your `.kamal/secrets*` file, load the origin cert and key from disk:
+
+```bash
+CERTIFICATE_PEM=$(cat config/certificates/cert.pem)
+PRIVATE_KEY_PEM=$(cat config/certificates/private.key)
+```
+
 ### Deploying to a New Instance
 Each deployment environment (e.g. a specific client or demo instance) uses its own config/deploy.[newserver].yml file.
 
@@ -105,3 +123,4 @@ For more details, see the [AppSignal documentation](https://docs.appsignal.com/)
 - Quick access to resources using mobile camera + QR codes
 - Dashboard with production charts
 - Role-based access for administrators, salespeople, and operators
+- Public facing online store
