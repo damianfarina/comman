@@ -81,6 +81,17 @@ es:
         success: "Producto eliminado"
       update:
         success: "Producto actualizado"
+    suppliers:
+      products:
+        stock_adjustments:
+          title: "Ajuste de stock"
+          increase: "Agregar"
+          decrease: "Quitar"
+          delta_placeholder: "Cantidad"
+          create:
+            success: "Stock aumentado."
+          destroy:
+            success: "Stock reducido."
     users:
       create:
         success: "Usuario creado."

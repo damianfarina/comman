@@ -44,23 +44,18 @@
               <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
                 <%= sort_link(@q, :current_stock, Product.human_attribute_name(:current_stock), class: "flex justify-center", data: { turbo_action: "advance"}) %>
               </th>
+              <th scope="col" class="py-3 text-sm font-semibold text-gray-900 group">
+                <div class="flex justify-center">
+                  <%= t("office.suppliers.products.stock_adjustments.title") %>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-light-gray">
             <% @supplied_products.each do |product| %>
-              <tr id="<%= dom_id product %>">
-                <td class="whitespace-nowrap px-1 md:px-4 py-3 text-center text-sm text-gray-900">
-                  <%= link_to product.id, office_product_path(product), data: { turbo_frame: "_top" } %>
-                </td>
-                <td class="whitespace-nowrap py-3 px-1 md:px-4 pr-3 text-sm font-medium text-gray-900">
-                  <%= link_to office_product_path(product), data: { turbo_frame: "_top" } do %>
-                    <span class="sr-only">Ver producto </span><%= product.name %>
-                  <% end %>
-                </td>
-                <td class="whitespace-nowrap py-3 px-1 md:px-4 pr-3 text-sm font-medium text-gray-900">
-                  <span class="sr-only">Stock </span><%= product.current_stock %>
-                </td>
-              </tr>
+              <%= render "office/suppliers/products/row",
+                product: product,
+                supplier: @supplier %>
             <% end %>
           </tbody>
         </table>

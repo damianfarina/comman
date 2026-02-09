@@ -14,7 +14,7 @@
 - `bin/rspec`: run RSpec suites under `spec/`.
 - `bin/rails test` and `bin/rails test:system`: run Minitest and system tests.
 - `bin/ci`: full CI flow (setup, RuboCop, security scans, tests, seeds).
-- `bin/rubocop`: Ruby style linting.
+- `bin/rubocop -f github`: RuboCop linting with GitHub formatting.
 - `bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error`: security scan.
 - `bin/importmap audit`: JS dependency audit for importmap.
 
@@ -23,10 +23,10 @@
 - JavaScript/CSS: Prettier, 2 spaces, trailing commas where supported.
 - File naming: Rails conventions (`*_controller.rb`, `*_spec.rb`, `test_*`).
 - Factories live in `spec/factories/`; use explicit, domain-oriented names.
+- For new behaviors, prefer a dedicated controller with standard REST actions over custom member/collection routes.
 
 ## Testing Guidelines
 - RSpec is the primary test framework (`spec/`); name specs `*_spec.rb`.
-- Minitest is used for Rails and system tests (`test/`), run via `bin/rails test`.
 - Keep new features covered in both request/model specs and relevant system flows when UI is affected.
 
 ## Commit & Pull Request Guidelines
@@ -38,6 +38,7 @@
 - Draft the PR title and summary from `git diff --stat main...HEAD` and `.github/PULL_REQUEST_TEMPLATE.md`.
 - Push first: `git push -u origin HEAD`, then create: `gh pr create --base main --title "…" --body "…"`.
 - If the body includes backticks or shell-sensitive characters, prefer `--body-file` to avoid expansion.
+- If the changes include a new ENV variable, use the `## Deployment Notes` section in the PR body to mention this new addition.
 
 ## Configuration & Secrets
 - Copy `.env.sample` to `.env` and adjust as needed; use environment-specific variants.

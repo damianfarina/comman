@@ -1,0 +1,59 @@
+<%# locals: (product:, supplier:) %>
+
+<tr id="<%= dom_id product %>">
+  <td class="whitespace-nowrap px-1 md:px-4 py-3 text-center text-sm text-gray-900">
+    <%= link_to product.id, office_product_path(product), data: { turbo_frame: "_top" } %>
+  </td>
+  <td class="whitespace-nowrap py-3 px-1 md:px-4 pr-3 text-sm font-medium text-gray-900">
+    <%= link_to office_product_path(product), data: { turbo_frame: "_top" } do %>
+      <span class="sr-only">Ver producto </span><%= product.name %>
+    <% end %>
+  </td>
+  <td class="whitespace-nowrap py-3 px-1 md:px-4 pr-3 text-sm font-medium text-gray-900">
+    <span class="sr-only">Stock </span><%= product.current_stock %>
+  </td>
+  <td class="whitespace-nowrap py-3 px-1 md:px-4 pr-3 text-sm font-medium text-gray-900">
+    <%= form_with(
+      url: office_supplier_product_stock_adjustment_path(supplier, product),
+      scope: :product,
+      method: :post,
+      class: "mx-auto inline-flex items-stretch overflow-hidden rounded-md bg-white border border-light-gray-300 divide-x divide-light-gray-300 focus-within:ring-2 focus-within:ring-blue-300 [&:has(input:user-invalid)]:border-red-500",
+    ) do |form| %>
+      <%= form.button(
+        "",
+        class: "sr-only",
+        tabindex: "-1",
+        "aria-hidden": "true",
+      ) %>
+      <%= form.button(
+        t("office.suppliers.products.stock_adjustments.decrease"),
+        name: "_method",
+        value: "delete",
+        formaction: office_supplier_product_stock_adjustment_path(supplier, product),
+        class: "rounded-none bg-white px-2 py-1 text-xs font-semibold text-red-700 hover:bg-light-gray-100",
+        title: t("office.suppliers.products.stock_adjustments.decrease"),
+        "aria-label": t("office.suppliers.products.stock_adjustments.decrease"),
+      ) do %>
+        <%= heroicon("minus-circle", variant: "outline", options: { class: "h-4 w-4", "aria-hidden": "true" }) %>
+      <% end %>
+      <%= form.label :stock_delta, t("office.suppliers.products.stock_adjustments.delta_placeholder"), class: "sr-only" %>
+      <%= form.number_field(
+        :stock_delta,
+        min: 1,
+        step: 1,
+        inputmode: "numeric",
+        required: true,
+        class: "w-24 border-0 bg-white px-3 py-1 text-center text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-0 [&:user-invalid]:z-10 [&:user-invalid]:ring-1 [&:user-invalid]:ring-inset [&:user-invalid]:ring-red-500",
+        placeholder: t("office.suppliers.products.stock_adjustments.delta_placeholder"),
+      ) %>
+      <%= form.button(
+        t("office.suppliers.products.stock_adjustments.increase"),
+        class: "rounded-none bg-white px-2 py-1 text-xs font-semibold text-green-800 hover:bg-light-gray-100",
+        title: t("office.suppliers.products.stock_adjustments.increase"),
+        "aria-label": t("office.suppliers.products.stock_adjustments.increase"),
+      ) do %>
+        <%= heroicon("plus-circle", variant: "outline", options: { class: "h-4 w-4", "aria-hidden": "true" }) %>
+      <% end %>
+    <% end %>
+  </td>
+</tr>

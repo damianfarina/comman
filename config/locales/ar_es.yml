@@ -15,6 +15,7 @@ es:
           manufactured_in_house: "No se puede quitar el proveedor de un producto interno"
           must_be_supplier: "%{supplier_name} debe ser un proveedor"
           name_must_be_unique: "Ya existe un producto con la misma descripcion, es el <a href=\"/factory/products/%{other_product_id}\" target=\"_blank\">%{other_product_name}</a>"
+          only_one_stock_adjustment: "Solo se puede ajustar el stock en un sentido a la vez"
         sales/order:
           attributes:
             base:
@@ -169,7 +170,9 @@ es:
         cover_filename: "Archivo de la portada"
         created_at: "Ingresado"
         current_stock: "Stock actual"
+        decrease_stock: "Stock reducido"
         id: "ID"
+        increase_stock: "Stock aumentado"
         main_supplier: "Proveedor principal"
         max_stock: "Stock máximo"
         min_stock: "Stock mínimo"

@@ -13,7 +13,11 @@ Rails.application.routes.draw do
     resources :discounts, only: %i[ show edit update ]
     resources :products
     resources :suppliers do
-      resources :products, only: %i[ index ], controller: "suppliers/products"
+      resources :products, only: %i[ index ], controller: "suppliers/products" do
+        resource :stock_adjustment,
+          only: %i[ create destroy ],
+          module: "suppliers/products"
+      end
     end
     resources :users, only: %i[ index show new create edit update destroy ]
   end
