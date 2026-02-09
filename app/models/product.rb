@@ -4,6 +4,8 @@ class Product < ApplicationRecord
   auditable only: %i[
     name
     current_stock
+    increase_stock
+    decrease_stock
     max_stock
     min_stock
     price
@@ -18,17 +20,24 @@ class Product < ApplicationRecord
   has_many :supplied_by, class_name: "SupplierProduct", dependent: :destroy
   has_many :suppliers, through: :supplied_by
 
+  attribute :increase_stock, :integer
+  attribute :decrease_stock, :integer
+
   before_validation :set_name
   before_validation :set_supplier
 
   validates :name, presence: true
   validate :name_is_unique, unless: -> { name.blank? }
   validates :current_stock, :max_stock, :min_stock, numericality: true
+  validates :increase_stock, :decrease_stock,
+    numericality: { only_integer: true, greater_than: 0 },
+    allow_nil: true
   validates :price, presence: true, on: [ :office ]
   validates :price, numericality: { greater_than_or_equal_to: 0 }, if: -> { price.present? }
   validate :supplier_must_be_valid
   validate :no_duplicated_supplied_by
   validate :prevent_removal_of_in_house_supplier_product_for_manufactured
+  validate :only_one_stock_adjustment
 
   accepts_nested_attributes_for :supplied_by, allow_destroy: true, reject_if: :all_blank
 
@@ -61,6 +70,30 @@ class Product < ApplicationRecord
     save!
   end
 
+  def increase_stock=(value)
+    previous_value = self[:increase_stock].to_i
+    value = value.presence
+    value = value.to_i if value
+    super(value)
+
+    return if value.blank?
+
+    delta = value - previous_value
+    apply_stock_delta(delta) if delta != 0
+  end
+
+  def decrease_stock=(value)
+    previous_value = self[:decrease_stock].to_i
+    value = value.presence
+    value = value.to_i if value
+    super(value)
+
+    return if value.blank?
+
+    delta = value - previous_value
+    apply_stock_delta(-delta) if delta != 0
+  end
+
   def relative_stock_level(stock_difference)
     return 100 if max_stock == min_stock
     return 0 if current_stock + stock_difference <= min_stock
@@ -79,6 +112,10 @@ class Product < ApplicationRecord
   end
 
   private
+
+  def apply_stock_delta(delta)
+    self.current_stock = (current_stock || 0) + delta
+  end
 
   def set_name
     self.name = productable.name unless productable&.name.nil?
@@ -141,6 +178,12 @@ class Product < ApplicationRecord
         errors.add(:base, I18n.t(:manufactured_in_house, scope: [ :activerecord, :errors, :models, :product ]))
       end
     end
+  end
+
+  def only_one_stock_adjustment
+    return unless increase_stock.present? && decrease_stock.present?
+
+    errors.add(:base, I18n.t(:only_one_stock_adjustment, scope: [ :activerecord, :errors, :models, :product ]))
   end
 end
 
