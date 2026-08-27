@@ -13,7 +13,7 @@ FactoryBot.define do
   end
 
   factory :purchased_productable, parent: :product do
-    name { Faker::Commerce.product_name }
+    sequence(:name) { |n| "#{Faker::Commerce.product_name} #{n}" }
     productable { association :purchased_product }
   end
 end
