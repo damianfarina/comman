@@ -27,6 +27,9 @@ gem "heroicons", "~> 2.2"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
+# Override Ruby's vulnerable bundled version [CVE-2026-80212, CVE-2026-80213]
+gem "resolv", "0.7.2"
+
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"
 gem "solid_queue"
