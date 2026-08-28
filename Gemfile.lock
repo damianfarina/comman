@@ -320,6 +320,7 @@ GEM
       io-console (~> 0.5)
     requestjs-rails (0.0.14)
       railties (>= 7.1.0)
+    resolv (0.7.2)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -464,6 +465,7 @@ DEPENDENCIES
   rails (~> 8.1.3, >= 8.1.3.1)
   ransack
   requestjs-rails
+  resolv (= 0.7.2)
   rspec-rails (~> 8.0)
   rubocop
   rubocop-rails
