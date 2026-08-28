@@ -51,6 +51,9 @@ env:
     - APPSIGNAL_PUSH_API_KEY
     - APPSIGNAL_FRONTEND_API_KEY
   clear:
+    # Block untrusted VIPS operations to enhance security.
+    VIPS_BLOCK_UNTRUSTED: "true"
+
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
